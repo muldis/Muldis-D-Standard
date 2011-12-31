@@ -1,0 +1,20 @@
+Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+
+package Muldis_D ::= Muldis_D:"http://muldis.com":0;
+
+searching [Muldis_D];
+
+has_segment Integer;
+has_segment Low_Level;
+has_segment Universal;
+
+/*************************************************************************/
+/* These explicit schema declarations are more for documentation purposes;
+   a schema is implicitly declared when an entity inside it is declared.
+*/
+
+Muldis_D.Integer        ::= schema;
+Muldis_D.Low_Level      ::= schema;
+Muldis_D.Type           ::= schema;
+Muldis_D.Type.Low_Level ::= schema;
+Muldis_D.Universal      ::= schema;

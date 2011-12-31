@@ -1,0 +1,20 @@
+Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+
+package_segment Muldis_D:"http://muldis.com":0:Universal;
+
+/*************************************************************************/
+
+Muldis_D.Universal."="|same ::= function
+    (Boolean <-- 0 : Universal, 1 : Universal) is_symmetric
+: (
+    "" ::= (.0 isa $$Integer) and (.1 isa $$Integer) ?? same_Integer(.0,.1)
+        !! (.0 isa $$List) and (.1 isa $$List)       ?? same_List(.0,.1)
+        !!                                              False
+        ;
+);
+
+Muldis_D.Universal.isa|value_of ::= function
+    (Boolean <-- 0 : Universal, 1|type : APTypeNC) : (...);
+
+Muldis_D.Universal.default ::= function (Universal <-- 0|of : APTypeNC)
+    : (...);

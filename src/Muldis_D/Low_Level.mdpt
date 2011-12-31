@@ -1,0 +1,40 @@
+Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+
+package_segment Muldis_D:"http://muldis.com":0:Low_Level;
+
+/*************************************************************************/
+
+Muldis_D.Type.Low_Level.List ::= special_type;
+
+/*************************************************************************/
+
+Muldis_D.Type.Low_Level.String ::= subset_type of List
+    where
+    (
+        list ::= .0;
+        elements ::= List_elem(list,1);
+        "" ::= List_elem_count(list) != 2 ?? False
+            !! List_elem(list,0) != 1     ?? False
+            !! elements !isa $$List       ?? False
+            !! every_List_elem_isa(elements,$$Integer)
+            ;
+    )
+    composes Stringy
+;
+
+/*************************************************************************/
+
+Muldis_D.Low_Level.same_Integer ::= function
+    (Boolean <-- 0 : Integer, 1 : Integer) is_symmetric : (...);
+
+Muldis_D.Low_Level.same_List ::= function
+    (Boolean <-- 0 : List, 1 : List) is_symmetric : (...);
+
+Muldis_D.Low_Level.List_elem_count ::= function
+    (Integer.NN <-- 0|list : List) : (...);
+
+Muldis_D.Low_Level.List_elem ::= function
+    (Universal <-- 0|list : List, 1|index : Integer.NN) : (...);
+
+Muldis_D.Low_Level.every_List_elem_isa ::= function
+    (Boolean <-- 0|list : List, 1|type : APTypeNC) : (...);
