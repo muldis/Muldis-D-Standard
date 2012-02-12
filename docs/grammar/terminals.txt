@@ -1,13 +1,16 @@
-<Muldis_D_PT_STD_char> ::=
-      <bare_letter>
+<Muldis D PT STD char> ::=
+      <bareword letter>
     | <digit>
-    | <string_escape_char>
-    | <string_delim_char>
-    | <bare_symbol_char>
-    | <whitespace_char>
-    | <enclosed_char>
+    | <string escape char>
+    | <string delim char>
+    | <bareword symbol char>
+    | <whitespace char>
+    | <enclosed char>
 
-<bare_letter__ASCII> ::=
+<bareword letter> ::=
+    <bareword letter  ASCII>
+
+<bareword letter  ASCII> ::=
       A | B | C | D | E | F | G | H | I | J | K | L | M
     | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
     | a | b | c | d | e | f | g | h | i | j | k | l | m
@@ -16,64 +19,67 @@
 <digit> ::=
     0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
-<string_escape_char> ::=
+<string escape char> ::=
     <backslash>
 
 <backslash> ::=
     \
 
-<string_delim_char> ::=
-    <single_quote> | <double_quote> | <backtick>
+<string delim char> ::=
+    <single quote> | <double quote> | <backtick>
 
-<single_quote> ::=
+<single quote> ::=
     '
 
-<double_quote> ::=
+<double quote> ::=
     "
 
 <backtick> ::=
     `
 
-<bare_symbol_char__ASCII> ::=
-      <excl_mark> | <number_sign> | <dollar_sign> | <percent_sign>
-    | <ampersand> | <left_paren> | <right_paren> | <asterisk>
-    | <plus_sign> | <comma> | <minus_sign> | <period> | <solidus>
-    | <colon> | <semicolon> | <less_than_sign> | <equals_sign>
-    | <greater_than_sign> | <question_mark> | <at_sign>
-    | <left_bracket> | <right_bracket> | <circumflex> | <underscore>
-    | <left_brace> | <vertical_bar> | <right_brace>
+<bareword symbol char> ::=
+    <bareword symbol char  ASCII>
 
-<excl_mark> ::=
+<bareword symbol char  ASCII> ::=
+      <exclamation mark> | <number sign> | <dollar sign> | <percent sign>
+    | <ampersand> | <left paren> | <right paren> | <asterisk>
+    | <plus sign> | <comma> | <minus sign> | <period> | <solidus>
+    | <colon> | <semicolon> | <less than sign> | <equals sign>
+    | <greater than sign> | <question mark> | <at sign>
+    | <left bracket> | <right bracket> | <circumflex> | <underscore>
+    | <left brace> | <vertical bar> | <right brace>
+
+<exclamation mark> ::=
     !
 
-<number_sign> ::=
+<number sign> ::=
     #
 
-<dollar_sign> ::=
+<dollar sign> ::=
     $
 
-<percent_sign> ::=
+<percent sign> ::=
     %
 
 <ampersand> ::=
     &
 
-<left_paren> ::=
+<left paren> ::=
     (
 
-<right_paren> ::=
+<right paren> ::=
     )
 
 <asterisk> ::=
     *
 
-<plus_sign> ::=
+<plus sign> ::=
     +
 
 <comma> ::=
     ,
 
-<minus_sign> ::=
+<minus sign> ::=
     -
 
 <period> ::=
@@ -88,25 +94,25 @@
 <semicolon> ::=
     ;
 
-<less_than_sign> ::=
+<less than sign> ::=
     <
 
-<equals_sign> ::=
+<equals sign> ::=
     =
 
-<greater_than_sign> ::=
+<greater than sign> ::=
     >
 
-<question_mark> ::=
+<question mark> ::=
     ?
 
-<at_sign> ::=
+<at sign> ::=
     @
 
-<left_bracket> ::=
+<left bracket> ::=
     [
 
-<right_bracket> ::=
+<right bracket> ::=
     ]
 
 <circumflex> ::=
@@ -115,22 +121,25 @@
 <underscore> ::=
     _
 
-<left_brace> ::=
+<left brace> ::=
     {
 
-<vertical_bar> ::=
+<vertical bar> ::=
     |
 
-<right_brace> ::=
+<right brace> ::=
     }
 
-<whitespace_char> ::=
-    <space> | <nonspace_whitespace_char>
+<whitespace char> ::=
+    <space> | <nonspace whitespace char>
 
 <space> ::=
     !! Unicode codepoint 0x20 (SPACE)
 
-<nonspace_whitespace_char__ASCII> ::=
+<nonspace whitespace char> ::=
+    <nonspace whitespace char  ASCII>
+
+<nonspace whitespace char  ASCII> ::=
     <tab> | <newline> | <formfeed> | <return>
 
 <tab> ::=
@@ -145,5 +154,8 @@
 <return> ::=
     !! Unicode codepoint 0xD (CARRIAGE RETURN (CR))
 
-<enclosed_char__ASCII> ::=
+<enclosed char> ::=
+    <enclosed char  ASCII>
+
+<enclosed char  ASCII> ::=
     !! any Unicode codepoint in {0x0..0x8,0xB,0xE..0x1F,0x7F}
