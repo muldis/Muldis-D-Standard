@@ -1,11 +1,33 @@
 grammar Muldis_D_PT_STD;
 
+tokens
+{
+    Bind_Op = '::=';
+    Assign_Op = ':=';
+    Pair_Op = '=>';
+    Ivl_Op_CC = '..';
+    Ivl_Op_CO = '..^';
+    Ivl_Op_OC = '^..';
+    Ivl_Op_OO = '^..^';
+    Bin_Pfx = '0b';
+    Oct_Pfx = '0o';
+    Dec_Pfx = '0d';
+    Hex_Pfx = '0x';
+}
+
+
+
+
 Muldis_D :
     WS?
         language_name WS
         (value | package)
     WS?
     ;
+
+
+seek out how many non-dotty alphabarewords there are in a sequence that aren't
+specially recognized keywords and that aren't immediately followed by ().
 
 stmt :
       stmt_name
@@ -23,6 +45,10 @@ stmt :
 
 stmt_name :
     bldq_fmt_name
+    ;
+
+named_stmt :
+    bldq_fmt_name WS? '::=' WS? stmt
     ;
 
 pcfix_proc_invo :
@@ -53,7 +79,7 @@ infix_proc_invo :
     ;
 
 expr :
-      delim_expr
+      delim_expr    /* (...) */
     | expr_name
     | named_expr
     | blob_lit      /* 0x'...' */
@@ -63,15 +89,16 @@ expr :
     | integer_lit   /* 42 or 0x3F */
     | name_lit      /* $foo */
     | name_chain_lit    /* $$foo.bar */
-    | scalar_sel    /* $:foo or $:foo:{x:y,...} or $:True */
-    | tuple_sel     /* %:{x:y,...} or %:{} */
-    | relation_sel  /* @:{...} or @:[...]:{...} or @:{} or @:{{}} */
+    | scalar_sel    /* :$foo or :$foo:{x:y,...} or :$True */
+    | tuple_sel     /* :%{x:y,...} or :%{} */
+    | relation_sel  /* :@{...} or :@[...]:{...} or :@{} or :@{{}} */
     | set_sel       /* {x,...} or {} */
-    | dict_sel      /* &:{x=>y,...} or &:{} */
+    | dict_sel      /* :&{x=>y,...} or :&{} */
     | array_sel     /* [x,...] or [] */
-    | bag_sel       /* +:{x,x,...} or +:{x=>y,...} or +:{} */
-    | interval_sel  /* x..y or x^..^y or $:∞..$:∞ */
-    | list_sel      /* ^:[...] or ^:[] */
+    | bag_sel       /* :+{x,x,...} or :+{x=>y,...} or :+{} */
+    | interval_sel  /* x..y or x^..^y or :$∞..:$∞ */
+    | list_sel      /* :^[...] or :^[] */
+    | function_sel  /* :(...) */
     | accessor
     | if_else_expr
     | given_when_def_expr
@@ -86,6 +113,10 @@ delim_expr :
 
 expr_name :
     bldq_fmt_name
+    ;
+
+named_expr :
+    bldq_fmt_name WS? '::=' WS? expr
     ;
 
 integer_lit :
@@ -161,19 +192,21 @@ bsbt_fmt_name :
     ;
 
 bareletter_fmt_name :
-    (bareword_letter | '_') (bareword_letter | '_' | '0'..'9')*
+    (BAREWORD_LETTER | '_') (BAREWORD_LETTER | '_' | '0'..'9')*
     ;
 
-bareword_letter :
+fragment
+BAREWORD_LETTER :
       'a'..'z'|'A'..'Z'
     | 'Α'..'Ρ'|'Σ'..'Ω'|'α'..'ω'
     ;
 
 baresymbol_fmt_name :
-    bareword_symbol_char+
+    BAREWORD_SYMBOL_CHAR+
     ;
 
-bareword_symbol_char :
+fragment
+BAREWORD_SYMBOL_CHAR :
       '!'|'#'|'$'|'%'|'&'|'*'|'+'|'-'|'/'|':'|'<'|'='|'>'|'?'|'@'|'^'|'|'
     | '¬'|'±'|'×'|'÷'|'←'|'↑'|'→'|'↓'|'↔'|'↚'|'↛'|'↮'|'∀'|'∃'|'∄'|'∅'
     | '∆'|'∈'|'∉'|'∋'|'∌'|'∖'|'∞'|'∧'|'∨'|'∩'|'∪'|'≠'|'≤'|'≥'|'⊂'|'⊃'
