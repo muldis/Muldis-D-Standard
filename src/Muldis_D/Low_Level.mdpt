@@ -4,9 +4,24 @@ package_segment Muldis_D:"http://muldis.com":0:Low_Level;
 
 /*************************************************************************/
 
+Muldis_D.Integer ::= special_type;
+
+Muldis_D.Integer.Int ::= synonym of Integer;
+
+Muldis_D.Integer.NN ::= subset_type of Integer
+    where (Integers_in_order(0,.0));
+
+Muldis_D.Integer.P ::= subset_type of Integer.NN
+    where (!same_Integer(.0,0));
+
+/*************************************************************************/
+
 Muldis_D.Low_Level.List ::= special_type;
 
 Muldis_D.Low_Level.List.NE ::= subset_type of List where (!List_empty(.0));
+
+Muldis_D.Low_Level.List_of_Lists ::= subset_type of List
+    where (every_List_elem_isa(.0,$List));
 
 /*************************************************************************/
 
@@ -23,6 +38,113 @@ Muldis_D.Low_Level.String ::= subset_type of Structure_Base
 
 Muldis_D.Low_Level.String._Payload ::= subset_type of List
     where (every_List_elem_isa(.0,$Integer));
+
+/*************************************************************************/
+
+Muldis_D.Array ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 2 and List_elem(.0,1) isa $List);
+
+/*************************************************************************/
+
+Muldis_D.Boolean ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 3 and List_elem(.0,1) isa $Boolean._Payload);
+
+Muldis_D.Boolean._Payload ::= subset_type of Integer.NN
+    where (.0 <= 1);
+
+/*************************************************************************/
+
+Muldis_D.Low_Level.Heading ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 4 and List_elem(.0,1) isa $Heading._Payload);
+
+Muldis_D.Low_Level.Heading._Payload ::= subset_type of List
+    where (every_List_elem_isa(.0,$String._Payload)
+        and List_elems_in_order(.0));
+
+/*************************************************************************/
+
+Muldis_D.Tuple ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 5 and List_elem(.0,1) isa $Tuple._Payload);
+
+Muldis_D.Tuple._Payload ::= subset_type of List where
+(
+    if List_elem_count(.0) = 2 then
+      (
+        heading ::= List_elem(.0,0);
+        body ::= List_elem(.0,1);
+        if heading isa $Heading._Payload and body isa $List then
+            List_elem_count(heading) = List_elem_count(body)
+        else
+            false;
+      )
+    else
+        false;
+);
+
+/*************************************************************************/
+
+Muldis_D.Relation ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 6 and List_elem(.0,1) isa $Relation._Payload);
+
+Muldis_D.Relation._Payload ::= subset_type of List where
+(
+    if List_elem_count(.0) = 2 then
+      (
+        heading ::= List_elem(.0,0);
+        body ::= List_elem(.0,1);
+        if heading isa $Heading._Payload and body isa $List_of_Lists then
+            if List_empty(body) then
+                true
+            else
+                every_List_elem_same_count(body)
+                    and List_elem_count(heading)
+                        = List_elem_count(List_first_elem(body))
+                    and List_elems_in_order(body)
+        else
+            false;
+      )
+    else
+        false;
+);
+
+/*************************************************************************/
+
+Muldis_D.Identifier ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 7
+        and List_elem(.0,1) isa $Identifier._Payload);
+
+Muldis_D.Identifier._Payload ::= subset_type of List where
+    (...);
+
+Muldis_D.Global_Identifier ::= subset_type of Identifier
+    where (List_elem(.0,1) isa $Global_Identifier._Payload);
+
+Muldis_D.Global_Identifier._Payload ::= subset_type of Identifier._Payload
+    where (...);
+
+/*************************************************************************/
+
+Muldis_D.Capsule ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 8 and List_elem(.0,1) isa $Capsule._Payload);
+
+Muldis_D.Capsule._Payload ::= subset_type of List where
+(
+    if List_elem_count(.0) = 2 then
+        List_elem(.0,0) isa $Global_Identifier._Payload
+            and List_elem(.0,1) isa $Tuple._Payload
+    else
+        false;
+);
+
+/*************************************************************************/
+
+Muldis_D.Stream ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 9 and List_elem(.0,1) isa $Integer);
+
+/*************************************************************************/
+
+Muldis_D.External ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 10);
 
 /*************************************************************************/
 
@@ -53,6 +175,9 @@ Muldis_D.Low_Level.List_pairwise_forall ::= function
     (Boolean <-- 0|lhs : List, 1|rhs: List, 2|function : Identifier)
     : (...);
 
+Muldis_D.Low_Level.every_List_elem_same_count ::= function
+    (Boolean <-- 0 : List_of_Lists) : (...);
+
 Muldis_D.Low_Level.every_List_elem_isa ::= function
     (Boolean <-- 0|list : List, 1|type : Identifier) : (...);
 
@@ -73,6 +198,13 @@ Muldis_D.Low_Level.Lists_in_order ::= function
     !! List_first_elem(.0) != List_first_elem(.1)
         ?? Universals_in_order(List_first_elem(.0),List_first_elem(.1))
     !! Lists_in_order(List_nonfirst_elems(.0),List_nonfirst_elems(.1))
+);
+
+Muldis_D.Low_Level.List_elems_in_order ::= function (Boolean <-- 0 : List)
+: (
+       Integers_in_order(List_elem_count(.0),1) ?? true
+    !! Universals_in_order(List_elem(.0,0),List_elem(.0,1))
+        and List_elems_in_order(List_nonfirst_elems(.0))
 );
 
 /*************************************************************************/
