@@ -4,19 +4,26 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 
 /*************************************************************************/
 
-Muldis_D.Type.Integer ::= special_type;
+Muldis_D.Integer ::= special_type;
 
+Muldis_D.Integer.Int ::= synonym of Integer;
 
-Muldis_D.Type.Int     ::= synonym of Integer;
+Muldis_D.Integer.NN ::= subset_type of Integer
+    where (Integers_in_order(0,.0));
 
-Muldis_D.Type.Integer.NN ::= subset_type of Integer where (.0 >= 0);
-Muldis_D.Type.Integer.P ::= subset_type of Integer.NN where (.0 != 0);
+Muldis_D.Integer.P ::= subset_type of Integer.NN
+    where (!same_Integer(.0,0));
 
 /*************************************************************************/
 
 Muldis_D.Integer."<=>"|order ::= function
     (Order <-- 0 : Integer, 1 : Integer)
-    implements Ordered."<=>" : (...);
+    implements Ordered."<=>"
+: (
+       same_Integer(.0,.1)      ?? :$Order.Same
+    !! Integers_in_order(.0,.1) ?? :$Order.Increase
+    !!                             :$Order.Decrease
+);
 
 /*************************************************************************/
 
@@ -33,7 +40,7 @@ Muldis_D.Integer.abs ::= function () : (...);
 Muldis_D.Integer."+"|plus|sum ::= function
     (Integer <-- 0 : Integer, 1 : Integer)
     implements Numeric."+"
-    is_commutative is_associative is_symmetric identity 0
+    is_commutative is_associative identity 0
     : (...);
 
 Muldis_D.Integer."-"|minus|diff ::= function () : (...);

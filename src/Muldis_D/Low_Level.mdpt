@@ -4,31 +4,38 @@ package_segment Muldis_D:"http://muldis.com":0:Low_Level;
 
 /*************************************************************************/
 
-Muldis_D.Type.Low_Level.List ::= special_type;
+Muldis_D.Low_Level.List ::= special_type;
+
+Muldis_D.Low_Level.List.NE ::= subset_type of List where (!List_empty(.0));
 
 /*************************************************************************/
 
-Muldis_D.Type.Low_Level.String ::= subset_type of List
-    where
-    (
-        list ::= .0;
-        elements ::= List_elem(list,1);
-        "" ::= List_elem_count(list) != 2 ?? False
-            !! List_elem(list,0) != 1     ?? False
-            !! elements !isa $$List       ?? False
-            !! every_List_elem_isa(elements,$$Integer)
-            ;
-    )
+Muldis_D.Low_Level.Structure_Base ::= subset_type of List
+    where (List_elem_count(.0) != 2 ?? false
+        !! List_elem(.0,0) isa $Integer.P);
+
+/*************************************************************************/
+
+Muldis_D.Low_Level.String ::= subset_type of Structure_Base
+    where (List_elem(.0,0) = 1 and List_elem(.0,1) isa $String._Payload)
     composes Stringy
 ;
+
+Muldis_D.Low_Level.String._Payload ::= subset_type of List
+    where (every_List_elem_isa(.0,$Integer));
 
 /*************************************************************************/
 
 Muldis_D.Low_Level.same_Integer ::= function
-    (Boolean <-- 0 : Integer, 1 : Integer) is_symmetric : (...);
+    (Boolean <-- 0 : Integer, 1 : Integer) is_commutative : (...);
 
-Muldis_D.Low_Level.same_List ::= function
-    (Boolean <-- 0 : List, 1 : List) is_symmetric : (...);
+Muldis_D.Low_Level.Integers_in_order ::= function
+    (Boolean <-- 0|lhs : Integer, 1|rhs : Integer) : (...);
+
+/*************************************************************************/
+
+Muldis_D.Low_Level.List_empty ::= function
+    (Boolean <-- 0|list : List) : (List_elem_count(.0) = 0);
 
 Muldis_D.Low_Level.List_elem_count ::= function
     (Integer.NN <-- 0|list : List) : (...);
@@ -36,5 +43,47 @@ Muldis_D.Low_Level.List_elem_count ::= function
 Muldis_D.Low_Level.List_elem ::= function
     (Universal <-- 0|list : List, 1|index : Integer.NN) : (...);
 
+Muldis_D.Low_Level.List_first_elem ::= function
+    (Universal <-- 0|list : List.NE) : (List_elem(.0,0));
+
+Muldis_D.Low_Level.List_nonfirst_elems ::= function
+    (List <-- 0|list : List.NE) : (...);
+
+Muldis_D.Low_Level.List_pairwise_forall ::= function
+    (Boolean <-- 0|lhs : List, 1|rhs: List, 2|function : Identifier)
+    : (...);
+
 Muldis_D.Low_Level.every_List_elem_isa ::= function
-    (Boolean <-- 0|list : List, 1|type : APTypeNC) : (...);
+    (Boolean <-- 0|list : List, 1|type : Identifier) : (...);
+
+/*************************************************************************/
+
+Muldis_D.Low_Level.same_List ::= function
+    (Boolean <-- 0 : List, 1 : List) is_commutative
+: (
+       List_elem_count(.0) != List_elem_count(.1) ?? false
+    !! List_pairwise_forall(.0,.1,$"=")
+);
+
+Muldis_D.Low_Level.Lists_in_order ::= function
+    (Boolean <-- 0|lhs : List, 1|rhs : List)
+: (
+       List_empty(.0) ?? true
+    !! List_empty(.1) ?? false
+    !! List_first_elem(.0) != List_first_elem(.1)
+        ?? Universals_in_order(List_first_elem(.0),List_first_elem(.1))
+    !! Lists_in_order(List_nonfirst_elems(.0),List_nonfirst_elems(.1))
+);
+
+/*************************************************************************/
+
+Muldis_D.Low_Level.Universals_in_order ::= function
+    (Boolean <-- 0|lhs : Universal, 1|rhs : Universal)
+: (
+       .0 isa $Integer and .1 isa $Integer ?? Integers_in_order(.0,.1)
+    !! .0 isa $List    and .1 isa $List    ?? Lists_in_order(.0,.1)
+    !! .0 isa $Integer                     ?? true
+    !!                                        false
+);
+
+/*************************************************************************/

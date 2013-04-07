@@ -13,8 +13,6 @@ has_segment Universal;
    a schema is implicitly declared when an entity inside it is declared.
 */
 
-Muldis_D.Integer        ::= schema;
-Muldis_D.Low_Level      ::= schema;
-Muldis_D.Type           ::= schema;
-Muldis_D.Type.Low_Level ::= schema;
-Muldis_D.Universal      ::= schema;
+Muldis_D.Integer   ::= schema;
+Muldis_D.Low_Level ::= schema;
+Muldis_D.Universal ::= schema;
