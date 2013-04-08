@@ -4,26 +4,26 @@ package_segment Muldis_D:"http://muldis.com":0:Universal;
 
 /*************************************************************************/
 
-Muldis_D.Universal."="|same ::= function
-    (Boolean <-- 0 : Universal, 1 : Universal) is_commutative
-: (
-       .0 isa $Integer and .1 isa $Integer ?? same_Integer(.0,.1)
-    !! .0 isa $List    and .1 isa $List    ?? same_List(.0,.1)
-    !!                                        false
-);
+Muldis_D.Universal ::= synonym of LL_Universal;  /* aka Integer|LL_List */
+
+Muldis_D.Empty ::= Integer&LL_List;
+
+/*************************************************************************/
+
+Muldis_D.Universal."="|same ::= synonym of LL_same_Universal;
 
 /*************************************************************************/
 
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
 Muldis_D.Universal.isa|value_of ::= function
-    (Boolean <-- 0 : Universal, 1|type : Identifier) : (.0 isa .1);
+    (Boolean <-- 0 : Universal, 1|type : Global_Identifier) : (.0 isa .1);
 
 /*************************************************************************/
 
 /* Note that "default_of" is a keyword; this function is a shim over it. */
 
-Muldis_D.Universal.default_of ::= function (Universal <-- 0 : Identifier)
-    : (default_of .0);
+Muldis_D.Universal.default_of ::= function
+    (Universal <-- 0 : Global_Identifier) : (default_of .0);
 
 /*************************************************************************/
