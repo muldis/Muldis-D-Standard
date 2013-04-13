@@ -4,8 +4,10 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 
 /*************************************************************************/
 
+Muldis_D.Integral ::= mixin_type composes Numeric;
+
 Muldis_D.Integer ::= synonym of LL_Integer
-    composes Ordinal composes Numeric;
+    composes Ordinal composes Integral;
 
 Muldis_D.Integer.Int ::= synonym of Integer;
 
@@ -62,6 +64,3 @@ Muldis_D.Integer.power ::= function () : (...);
 
 Muldis_D.Integer.factorial ::= function (Integer.P <-- 0 : Integer.P) :
     ([*] enumerated(1 .. .0));
-
-/*************************************************************************/
-

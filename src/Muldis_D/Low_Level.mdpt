@@ -278,5 +278,3 @@ Muldis_D.Low_Level.LL_Universals_in_order ::= function
     !! .0 isa $LL_Integer ?? true
     !! false
 );
-
-/*************************************************************************/

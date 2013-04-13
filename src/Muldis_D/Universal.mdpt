@@ -14,6 +14,13 @@ Muldis_D.Universal."="|same ::= synonym of LL_same_Universal;
 
 /*************************************************************************/
 
+/* Note that "!" is a meta-keyword; this function is a shim over it. */
+
+Muldis_D.Universal."!="|not_same ::= function
+    (Boolean <-- 0 : Universal, 1 : Universal) is_commutative : (.0 != .1);
+
+/*************************************************************************/
+
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
 Muldis_D.Universal.isa|value_of ::= function
@@ -27,3 +34,8 @@ Muldis_D.Universal.default_of ::= function
     (Universal <-- 0 : Global_Identifier) : (default_of .0);
 
 /*************************************************************************/
+
+/* Note that ":=" is a keyword; this updater is a shim over it. */
+
+Muldis_D.Universal.":="|assign ::= updater
+    (&0|target : Universal, 1|value : Universal) : {.0 := .1};

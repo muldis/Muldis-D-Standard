@@ -4,15 +4,25 @@ package Muldis_D ::= Muldis_D:"http://muldis.com":0;
 
 searching [Muldis_D];
 
+has_segment Array;
+has_segment Attributive;
+has_segment Bag;
+has_segment Blob;
+has_segment Boolean;
+has_segment Capsule;
+has_segment Cast;
+has_segment Collective;
 has_segment Integer;
+has_segment Interval;
 has_segment Low_Level;
+has_segment Numeric;
+has_segment Ordered;
+has_segment Rational;
+has_segment Relation;
+has_segment Set;
+has_segment Source_Code;
+has_segment STDIO;
+has_segment Stringy;
+has_segment Text;
+has_segment Tuple;
 has_segment Universal;
-
-/*************************************************************************/
-/* These explicit schema declarations are more for documentation purposes;
-   a schema is implicitly declared when an entity inside it is declared.
-*/
-
-Muldis_D.Integer   ::= schema;
-Muldis_D.Low_Level ::= schema;
-Muldis_D.Universal ::= schema;

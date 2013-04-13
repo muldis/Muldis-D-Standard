@@ -1,0 +1,11 @@
+Muldis_D:PT_STD:Unicode({1..6.2},UTF-8,canon):"http://muldis.com":0;
+
+package Muldis_D::Unicode ::= Muldis_D::Unicode:"http://muldis.com":0;
+
+using Muldis_D ::= Muldis_D:"http://muldis.com":0;
+
+searching [Muldis_D,Muldis_D::Unicode];
+
+/*************************************************************************/
+
+Muldis_D.Universal."≠" ::= synonym of "!=";
