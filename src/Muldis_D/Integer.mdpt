@@ -7,7 +7,7 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 Muldis_D.Integral ::= mixin_type composes Numeric;
 
 Muldis_D.Integer ::= synonym of LL_Integer
-    composes Ordinal composes Integral;
+    composes Integral composes Ordinal;
 
 Muldis_D.Integer.Int ::= synonym of Integer;
 
@@ -36,7 +36,10 @@ Muldis_D.Integer."++"|succ|inc ::= function (Integer <-- 0 : Integer)
 
 /*************************************************************************/
 
-Muldis_D.Integer.abs ::= function () : (...);
+Muldis_D.Integer.monadic."-"|opposite|additive_inverse ::= function
+    (Integer <-- 0 : Integer) implements Numeric.monadic."-" : (0 - .0);
+
+Muldis_D.Integer.abs ::= function (Integer <-- 0 : Integer) : (...);
 
 Muldis_D.Integer."+"|plus|sum ::= function
     (Integer <-- 0 : Integer, 1 : Integer)

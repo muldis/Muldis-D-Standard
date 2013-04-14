@@ -2,3 +2,21 @@ Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
 package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
+/*************************************************************************/
+
+Muldis_D.Stringy ::= mixin_type composes Ordered;
+
+Muldis_D.String ::= synonym of LL_String composes Stringy;
+
+Muldis_D.Str ::= synonym of String;
+
+/*************************************************************************/
+
+Muldis_D.String."<=>"|order ::= function
+    (Order <-- 0|lhs : String, 1|rhs : String)
+    implements Ordered."<=>"
+: (
+       LL_same_List(LL_payload(.0),LL_payload(.1))      ?? :$Order.Same
+    !! LL_Lists_in_order(LL_payload(.0),LL_payload(.1)) ?? :$Order.Increase
+    !!                                                     :$Order.Decrease
+);

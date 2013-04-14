@@ -2,3 +2,8 @@ Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
 package_segment Muldis_D:"http://muldis.com":0:Cast;
 
+/*************************************************************************/
+
+Muldis_D.Cast.Integer."?"|to_Boolean (Boolean <-- 0 : Integer) : (.0 != 0);
+
+Muldis_D.Cast.Ratio."?"|to_Boolean (Boolean <-- 0 : Ratio) : (.0 != 0.0);

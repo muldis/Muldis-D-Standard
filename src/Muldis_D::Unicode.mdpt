@@ -9,3 +9,31 @@ searching [Muldis_D,Muldis_D::Unicode];
 /*************************************************************************/
 
 Muldis_D.Universal."≠" ::= synonym of "!=";
+
+/*************************************************************************/
+
+Muldis_D.Boolean."⊥" ::= synonym of false;
+
+Muldis_D.Boolean."⊤" ::= synonym of true;
+
+Muldis_D.Boolean."¬" ::= synonym of not;
+
+Muldis_D.Boolean."∧" ::= synonym of and;
+
+Muldis_D.Boolean."⊼"|"↑" ::= synonym of nand;
+
+Muldis_D.Boolean."∨" ::= synonym of or;
+
+Muldis_D.Boolean."⊽"|"↓" ::= synonym of nor;
+
+Muldis_D.Boolean."↔" ::= synonym of xnor;
+
+Muldis_D.Boolean."⊻"|"↮" ::= synonym of xor;
+
+Muldis_D.Boolean."→" ::= synonym of imp;
+
+Muldis_D.Boolean."↛" ::= synonym of nimp;
+
+Muldis_D.Boolean."←" ::= synonym of if;
+
+Muldis_D.Boolean."↚" ::= synonym of nif;
