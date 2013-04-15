@@ -254,7 +254,7 @@ Muldis_D.Low_Level.LL_List_elems_in_order ::= function
        LL_Integers_in_order(LL_List_elem_count(.0),1)
         ?? true
     !! LL_Universals_in_order(LL_List_elem(.0,0),LL_List_elem(.0,1))
-        ?? LL_List_elems_in_order(LL_List_nonfirst_elems(.0))
+        ?? self(LL_List_nonfirst_elems(.0))
     !! false
 );
 
@@ -264,8 +264,8 @@ Muldis_D.Low_Level.LL_same_List_first_elems_count ::= function
        LL_List_empty(.0) ?? 0
     !! LL_List_empty(.1) ?? 0
     !! LL_same_Universal(LL_List_first_elem(.0), LL_List_first_elem(.1))
-        ?? LL_succ_Integer( LL_same_List_first_elems_count(
-            LL_List_nonfirst_elems(.0), LL_List_nonfirst_elems(.1) ) )
+        ?? LL_succ_Integer( 
+            self(LL_List_nonfirst_elems(.0),LL_List_nonfirst_elems(.1)) )
     !! 0
 );
 
@@ -295,4 +295,4 @@ Muldis_D.Low_Level.LL_Universals_in_order ::= function
 /*************************************************************************/
 
 Muldis_D.Low_Level.LL_payload ::= function
-    (LL_Universal <-- 0|struct : LL_Structure_Base) : (LL_payload(.0));
+    (LL_Universal <-- 0|struct : LL_Structure_Base) : (LL_List_elem(.0,1));
