@@ -1,0 +1,25 @@
+Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+
+package_segment Muldis_D:"http://muldis.com":0:Nominal;
+
+/*************************************************************************/
+
+Muldis_D.Nominal ::= abstract_type;
+
+Muldis_D.Identifier ::= synonym of LL_Identifier
+    composes Nominal composes Ordered;
+
+
+/* Cardinal, Ordinal, and Nominal (numbers). */
+/* quantity/count vs rank/position vs identifying */
+
+Nominal includes zipcodes, SINs, product ids, jersey #s, etc.
+Nominal does *not* imply any quantity or rank/order.
+All Nominal types should be Capsule types as best practice.
+All Nominal types should *not* compose Numeric/etc or its subtypes,
+should largely be black boxes; they may compose Ordered/Ordinal also just
+for the purpose of being sortable or generatable easily.
+Identifier should compose Nominal mixin.
+
+DO NOT LET NUMERIC/ETC ROLES COMPOSE ORDERED/CARDINAL/NOMINAL ETC BUT ONLY
+LET CONCRETE TYPES DO THAT AS APPLICABLE, AS THESE THINGS ARE ORTHOGONAL.

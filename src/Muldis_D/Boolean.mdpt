@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Boolean;
 
 /*************************************************************************/
 
-Muldis_D.Boolish ::= mixin_type composes Ordinal;
+Muldis_D.Boolish ::= abstract_type composes Ordinal;
 
 Muldis_D.Boolean ::= synonym of LL_Boolean composes Boolish;
 

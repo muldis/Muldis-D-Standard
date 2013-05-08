@@ -1,0 +1,18 @@
+Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+
+package Muldis_D::Temporal ::= Muldis_D::Temporal:"http://muldis.com":0;
+
+using Muldis_D ::= Muldis_D:"http://muldis.com":0;
+
+searching [Muldis_D,Muldis_D::Temporal];
+
+/*************************************************************************/
+
+THESE TYPES SEEM TO CROSS THE GAMUT BETWEEN BEING UNITS AND ORDINALS AND
+CARDINALS AND NOMINALS ETC.
+
+- Duration (how many) is Cardinal but not Nominal (also not natively ordered but can be for convenience)
+    - Seconds/Minutes/Days/Years/etc are special cases of Duration, and are Units
+- Date (when) is Nominal and Ordinal but not Cardinal
+    - Temporal-Interval is Nominal and Ordinal but not Cardinal
+    - An Interval in general is like a fat point we should say

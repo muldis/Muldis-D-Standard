@@ -2,3 +2,41 @@ Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
 package_segment Muldis_D:"http://muldis.com":0:Ordered;
 
+/*************************************************************************/
+
+Muldis_D.Orderable ::= abstract_type;
+
+Muldis_D.Ordered ::= abstract_type composes Orderable;
+
+Muldis_D.Ordinal ::= abstract_type composes Ordered;
+
+/* TODO - SEPARATE ROLES FOR ORDERED THINGS WITH BUCKET VS POINT SEMANTICS,
+DIFFERENCE BEING ... stuff */
+
+
+/* Cardinal, Ordinal, and Nominal (numbers). */
+/* quantity/count vs rank/position vs identifying */
+
+DO NOT LET NUMERIC/ETC ROLES COMPOSE ORDERED/CARDINAL/NOMINAL ETC BUT ONLY
+LET CONCRETE TYPES DO THAT AS APPLICABLE, AS THESE THINGS ARE ORTHOGONAL.
+
+I SUPPOSE THE DIFFABLE THING IS SATISFIED BY THE ORDERED/CARDINAL RELATIONSHIP,
+THAT IS ANY 2 ORDERED CAN BE DIFFED TO PRODUCE A CARDINAL, AND THAT CARDINAL
+CAN BE ADDED TO AN ORDERED TO MAKE AN ORDERED.  SEEMS TO MAKE SENSE.
+
+
+WE NEED DISTINCT MIXINS TO SEMANTICALLY TELL APART TYPES THAT ARE NATURALLY
+ORDERED OR ORDINAL VS THOSE THAT ARE NOT BUT THAT WE JUST DEFINE AN ORDERING
+FOR ON THE BASIS OF CONVENIENCE EG FOR NICE DISPLAY.
+
+SO FOR EXAMPLE A DURATION SHOULD BE CARDINAL BUT NOT ORDINAL NOR NOMINAL,
+SO WE NEED SOME OTHER TERM TO REFER TO THE FACT WE CAN SORT DURATION VALUES.
+
+MAYBE SORTABLE OR SEQUENTIAL OR SOMETHING.
+
+THIS SORTING NOT TO BE CONFUSED WITH GROUPING SO MAYBE SEQUENTIAL BETTER.
+
+
+SO, RATHER THAN mixin_type, we probably want classify_type or something
+when its really just about semantics, save mixin where it actually declares
+components, I think. --> abstract_type

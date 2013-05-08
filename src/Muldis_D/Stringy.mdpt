@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
 /*************************************************************************/
 
-Muldis_D.Stringy ::= mixin_type composes Ordered;
+Muldis_D.Stringy ::= abstract_type composes Ordered;
 
 Muldis_D.String ::= synonym of LL_String composes Stringy;
 

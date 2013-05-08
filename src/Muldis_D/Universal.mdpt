@@ -24,14 +24,14 @@ Muldis_D.Universal."!="|not_same ::= function
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
 Muldis_D.Universal.isa|value_of ::= function
-    (Boolean <-- 0 : Universal, 1|type : Global_Identifier) : (.0 isa .1);
+    (Boolean <-- 0 : Universal, 1|type : Reference) : (.0 isa .1);
 
 /*************************************************************************/
 
 /* Note that "default_of" is a keyword; this function is a shim over it. */
 
 Muldis_D.Universal.default_of ::= function
-    (Universal <-- 0 : Global_Identifier) : (default_of .0);
+    (Universal <-- 0 : Reference) : (default_of .0);
 
 /*************************************************************************/
 
