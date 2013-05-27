@@ -158,14 +158,88 @@ Muldis_D.Low_Level.LL_Identifier ::= subset_type of LL_Structure_Base
     where (LL_same_Integer(LL_List_elem(.0,0),8)
         ?? LL_payload(.0) isa $LL_Identifier_Payload !! false);
 
-Muldis_D.Low_Level.LL_Identifier_Payload ::= subset_type of LL_List where
-    (...);
+Muldis_D.Low_Level.LL_Identifier_Payload_Base ::=
+    subset_type of LL_List where
+(
+    if LL_same_Integer(LL_List_elem_count(.0),5) then
+      (
+        kind                ::= LL_List_elem(.0,0);
+        pkg_name_base       ::= LL_List_elem(.0,1);
+        pkg_name_ext        ::= LL_List_elem(.0,2); /* [authority, vnum] */
+        path_beneath_pkg    ::= LL_List_elem(.0,3);
+        rel_starts_n_lev_up ::= LL_List_elem(.0,4);
+        if kind isa $LL_Integer_P then
+            if pkg_name_base isa $LL_List_of_String_Payloads then
+                if pkg_name_ext isa $LL_List_of_String_Payloads then
+                    if path_beneath_pkg isa $LL_List_of_String_Payloads then
+                        rel_starts_n_lev_up isa $LL_Integer_NN
+                    else false
+                else false
+            else false
+        else false;
+      )
+    else false;
+);
+
+Muldis_D.Low_Level.LL_Identifier_Payload ::=
+      LL_Identifier_Payload_Absolute
+    | LL_Identifier_Payload_Relative
+    | LL_Identifier_Payload_Search
+    ;
+
+Muldis_D.Low_Level.LL_Identifier_Payload_Absolute ::=
+    subset_type of LL_Identifier_Payload_Base where
+(
+    kind                ::= LL_List_elem(.0,0);
+    pkg_name_ext        ::= LL_List_elem(.0,2);
+    rel_starts_n_lev_up ::= LL_List_elem(.0,4);
+    if LL_same_Integer(kind,1) then
+        if LL_Integers_in_order(LL_List_elem_count(pkg_name_ext),2) then
+            LL_same_Integer(rel_starts_n_lev_up,0)
+        else false
+    else false;
+);
+
+Muldis_D.Low_Level.LL_Identifier_Payload_Relative ::=
+    subset_type of LL_Identifier_Payload_Base where
+(
+    kind          ::= LL_List_elem(.0,0);
+    pkg_name_base ::= LL_List_elem(.0,1);
+    pkg_name_ext  ::= LL_List_elem(.0,2);
+    if LL_same_Integer(kind,2) then
+        if LL_List_empty(pkg_name_base) then
+            LL_List_empty(pkg_name_ext)
+        else false
+    else false;
+);
+
+Muldis_D.Low_Level.LL_Identifier_Payload_Search ::=
+    subset_type of LL_Identifier_Payload_Base where
+(
+    kind                ::= LL_List_elem(.0,0);
+    pkg_name_base       ::= LL_List_elem(.0,1);
+    pkg_name_ext        ::= LL_List_elem(.0,2);
+    rel_starts_n_lev_up ::= LL_List_elem(.0,4);
+    if LL_same_Integer(kind,3) then
+        if LL_List_empty(pkg_name_base) then
+            if LL_List_empty(pkg_name_ext) then
+                LL_same_Integer(rel_starts_n_lev_up,0)
+            else false
+        else false
+    else false;
+);
 
 Muldis_D.Low_Level.LL_Reference ::= subset_type of LL_Identifier
     where (LL_payload(.0) isa $LL_Reference_Payload);
 
 Muldis_D.Low_Level.LL_Reference_Payload ::=
-    subset_type of LL_Identifier_Payload where (...);
+    subset_type of LL_Identifier_Payload_Absolute where
+(
+    pkg_name_base ::= LL_List_elem(.0,1);
+    pkg_name_ext  ::= LL_List_elem(.0,2);
+    LL_List_empty(pkg_name_base) ?? false
+        !! LL_same_Integer(LL_List_elem_count(pkg_name_base),2);
+);
 
 /*************************************************************************/
 
