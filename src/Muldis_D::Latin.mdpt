@@ -1,0 +1,38 @@
+Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+
+package Muldis_D::Latin ::= Muldis_D::Latin:"http://muldis.com":0;
+
+using Muldis_D ::= Muldis_D:"http://muldis.com":0;
+
+searching [Muldis_D,Muldis_D::Latin];
+
+/* Note: This package is meant to cover all Latin1/2/etc and similar legacy
+8-bit fixed-width text encodings, including EBCDIC.  It does not cover
+7-bit ASCII, which is in the Muldis D core, and it doesn't cover Unicode,
+which has its own module, except that because the core Text is intended to
+be identical to Unicode where they overlap, this Latin package will need to
+know just enough Unicode to map between Unicode codepoints for the same
+characters as the 8-bit Latin/etc repertoires it handles.  Also remember
+that core is non-normalized Unicode, so multiple distinct core Text values
+may map to the same Latin value. */
+
+/*************************************************************************/
+
+/* TODO: Check if Latin1 octets and Latin codepoints match exactly for
+all same 256 characters, or not. */
+
+Muldis_D::Latin.Text.Latin1_Char ::= subset_type of Integer where (...);
+
+Muldis_D::Latin.Text.Latin1_Chars ::= subset_type of String
+    where (.0->every_elem_isa(:*$Latin1_Char));
+
+Muldis_D::Latin.Text.Latin1 ::= subset_type of Text
+    where (.0->maximal_chars() isa $Latin1_Chars);
+
+/*************************************************************************/
+
+Muldis_D::Latin.Text.latin1_chars ::= function
+    (Latin1_Chars <-- 0 : Text.Latin1) : (...);
+
+Muldis_D::Latin.Text.from_latin1_chars ::= function
+    (Text.Latin1 <-- 0 : Latin1_Chars) : (...);

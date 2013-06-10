@@ -47,3 +47,9 @@ Muldis_D.Array.elem ::= function
 Muldis_D.Array.common_first_elems_count ::= function
     (Integer.NN <-- 0 : Array, 1 : Array) is_commutative
     : (LL_same_List_first_elems_count(LL_payload(.0),LL_payload(.1)));
+
+/*************************************************************************/
+
+Muldis_D.Array.every_elem_isa ::= function
+    (Boolean <-- 0|array : Array, 1|type : SC_Reference)
+    : (LL_every_List_elem_isa(LL_payload(.0),.1);

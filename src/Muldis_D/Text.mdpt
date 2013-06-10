@@ -2,3 +2,30 @@ Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
 package_segment Muldis_D:"http://muldis.com":0:Text;
 
+/*************************************************************************/
+
+Muldis_D.Textual ::= abstract_type composes Ordered;
+
+Muldis_D.Text ::= capsule_type composes Textual { maximal_chars : String };
+
+Muldis_D.Text.ASCII_Char ::= subset_type of Integer where (.0 in 0..127);
+
+Muldis_D.Text.ASCII_Chars ::= subset_type of String
+    where (.0->every_elem_isa(:*$ASCII_Char));
+
+Muldis_D.Text.ASCII ::= subset_type of Text
+    where (.0->maximal_chars() isa $ASCII_Chars);
+
+/*************************************************************************/
+
+Muldis_D.Text.maximal_chars ::= function (String <-- 0 : Text)
+    : (.0->attr(:~{maximal_chars}));
+
+Muldis_D.Text.from_maximal_chars ::= function (Text <-- 0 : String)
+    : (select_Capsule( :*$Text, :%{ maximal_chars : .0 } ));
+
+Muldis_D.Text.ascii_chars ::= function (ASCII_Chars <-- 0 : Text.ASCII)
+    : (.0->maximal_chars());
+
+Muldis_D.Text.from_ascii_chars ::= function
+    (Text.ASCII <-- 0 : ASCII_Chars) : (.0->from_maximal_chars());

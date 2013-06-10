@@ -10,6 +10,12 @@ Muldis_D.String ::= synonym of LL_String composes Stringy;
 
 Muldis_D.Str ::= synonym of String;
 
+Muldis_D.String.NN ::= subset_type of String
+    where (.0->every_elem_isa(:*$Integer.NN));
+
+Muldis_D.String.P ::= subset_type of String.NN
+    where (.0->every_elem_isa(:*$Integer.P));
+
 /*************************************************************************/
 
 Muldis_D.String."<=>"|order ::= function
@@ -20,3 +26,31 @@ Muldis_D.String."<=>"|order ::= function
     !! LL_Lists_in_order(LL_payload(.0),LL_payload(.1)) ?? :$Order.Increase
     !!                                                     :$Order.Decrease
 );
+
+/*************************************************************************/
+
+Muldis_D.String."#"|count|cardinality ::= function
+    (Integer.NN <-- 0 : String)
+    : (LL_List_elem_count(LL_payload(.0)));
+
+Muldis_D.String.is_empty ::= function (Boolean <-- 0 : String) : (!?#.0);
+
+Muldis_D.String.is_not_empty ::= function (Boolean <-- 0 : String)
+    : (?#.0);
+
+/*************************************************************************/
+
+Muldis_D.String.elem ::= function
+    (Universal <-- 0|String : String, 1|index : Integer.NN) : (...);
+
+/*************************************************************************/
+
+Muldis_D.String.common_first_elems_count ::= function
+    (Integer.NN <-- 0 : String, 1 : String) is_commutative
+    : (LL_same_List_first_elems_count(LL_payload(.0),LL_payload(.1)));
+
+/*************************************************************************/
+
+Muldis_D.String.every_elem_isa ::= function
+    (Boolean <-- 0|String : String, 1|type : SC_Reference)
+    : (LL_every_List_elem_isa(LL_payload(.0),.1);

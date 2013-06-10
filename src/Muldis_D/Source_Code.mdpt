@@ -2,3 +2,90 @@ Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
 package_segment Muldis_D:"http://muldis.com":0:Source_Code;
 
+/*************************************************************************/
+
+Muldis_D.Source_Code ::= abstract_type;
+
+Muldis_D.Source_Code.Source_Code_Meta ::= abstract_type;
+
+/*************************************************************************/
+
+Muldis_D.Source_Code.SC_Heading ::= synonym of LL_Heading
+    composes Source_Code;
+
+Muldis_D.Source_Code.SC_Renaming ::= synonym of LL_Renaming
+    composes Source_Code;
+
+Muldis_D.Source_Code.SC_Identifier ::= synonym of LL_Identifier
+    composes Source_Code;
+
+Muldis_D.Source_Code.SC_Reference ::= synonym of LL_Reference
+    composes Source_Code composes Ordered;
+
+/*************************************************************************/
+
+Muldis_D.Source_Code.SC_Name ::= subset_type of SC_Heading where
+    (LL_List_elem_count(LL_payload(.0)) = 1);
+
+/*************************************************************************/
+
+/* SC_Pkg_Full_Name example: Muldis_D:"http://muldis.com":0 */
+
+Muldis_D.Source_Code.SC_Pkg_Full_Name ::= subset_type of SC_Reference where
+    (LL_List_empty(path_beneath_pkg ::= LL_List_elem(LL_payload(.0),3)));
+
+/* SC_Pkg_Local_Alias example: Muldis_D */
+
+Muldis_D.Source_Code.SC_Pkg_Local_Alias ::= subset_type of SC_Identifier
+    where (LL_payload(.0) isa $SC_Pkg_Local_Alias_Payload);
+
+Muldis_D.Source_Code.SC_Pkg_Local_Alias_Payload ::=
+    subset_type of LL_Identifier_Payload_Absolute where
+(
+    pkg_name_base    ::= LL_List_elem(.0,1);
+    pkg_name_ext     ::= LL_List_elem(.0,2);
+    path_beneath_pkg ::= LL_List_elem(.0,3);
+    !LL_List_empty(pkg_name_base) and LL_List_empty(pkg_name_ext)
+        and LL_List_empty(path_beneath_pkg);
+);
+
+Muldis_D.Source_Code.SC_Pkg_Local_Aliases ::= subset_type of Array
+    where (every_elem_isa(.0,$SC_Pkg_Local_Alias));
+
+/*************************************************************************/
+
+Muldis_D.Source_Code.SC_Pkg_Decl_Map ::= capsule_type composes Source_Code
+{
+    local_alias : SC_Pkg_Local_Alias;
+    full_name   : SC_Pkg_Full_Name;
+};
+
+Muldis_D.Source_Code.SC_Pkg_Decl_Maps ::= subset_type of Array
+    where (.0->every_elem_isa(:*$SC_Pkg_Decl_Map));
+
+/*************************************************************************/
+
+Muldis_D.Source_Code.SC_Package ::= capsule_type composes Source_Code
+{
+    package   : SC_Pkg_Decl_Map;
+    using     : SC_Pkg_Decl_Maps;
+    searching : SC_Pkg_Local_Aliases;
+    segments  : SC_Package_Segments;
+    materials : SC_Materials;
+};
+
+Muldis_D.Source_Code.SC_Package_Segments ::=
+    subset_type of Array where (.0->every_elem_isa($SC_Pkg_Local_Alias));
+
+Muldis_D.Source_Code.SC_Package_Segment ::= capsule_type
+    composes Source_Code
+{
+    materials : SC_Materials;
+};
+
+Muldis_D.Source_Code.SC_Schema ::= capsule_type
+    composes Source_Code
+{
+    materials : SC_Materials;
+};
+
