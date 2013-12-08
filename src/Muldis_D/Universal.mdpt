@@ -4,13 +4,13 @@ package_segment Muldis_D:"http://muldis.com":0:Universal;
 
 /*************************************************************************/
 
-Muldis_D.Universal ::= synonym of LL_Universal;  /* aka Integer|LL_List */
+Muldis_D.Universal ::= synonym of LL_List;
 
-Muldis_D.Empty ::= Integer&LL_List;
+Muldis_D.Empty ::= subset_type of Universal where (false);
 
 /*************************************************************************/
 
-Muldis_D.Universal."="|same ::= synonym of LL_same_Universal;
+Muldis_D.Universal."="|same ::= synonym of LL_same;
 
 /*************************************************************************/
 

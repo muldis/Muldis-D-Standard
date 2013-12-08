@@ -10,9 +10,9 @@ Muldis_D.Boolean ::= synonym of LL_Boolean composes Boolish;
 
 Muldis_D.Bool ::= synonym of Boolean;
 
-Muldis_D.Boolean.False ::= subset_type of Boolean where (!.0);
+Muldis_D.Boolean.False ::= synonym of LL_False;
 
-Muldis_D.Boolean.True ::= subset_type of Boolean where (.0);
+Muldis_D.Boolean.True ::= synonym of LL_True;
 
 /*************************************************************************/
 
@@ -20,9 +20,9 @@ Muldis_D.Boolean."<=>"|order ::= function
     (Order <-- 0|lhs : Boolean, 1|rhs : Boolean)
     implements Ordered."<=>"
 : (
-       .0 xnor .1 ?? :$Order.Same
-    !! .1         ?? :$Order.Increase
-    !!               :$Order.Decrease
+       .0 = .1 ?? :$Order.Same
+    !! .1      ?? :$Order.Less
+    !!            :$Order.More
 );
 
 /*************************************************************************/
@@ -41,15 +41,15 @@ Muldis_D.Boolean.True."++"|succ|inc ::= function ("+Inf" <-- 0 : True)
 
 /*************************************************************************/
 
-/* Note that "false" is a keyword; this function is a shim over it. */
+/* Note that "false" is a keyword; this function implements it. */
 
-Muldis_D.Boolean.false|contradiction ::= function (False <--)
-    implements Boolish."false" : (false);
+Muldis_D.Boolean.false|contradiction ::= synonym of LL_FALSE
+    implements Boolish."false";
 
-/* Note that "true" is a keyword; this function is a shim over it. */
+/* Note that "true" is a keyword; this function implements it. */
 
-Muldis_D.Boolean.true|tautology ::= function (True <--)
-    implements Boolish."true" : (true);
+Muldis_D.Boolean.true|tautology ::= synonym of LL_TRUE
+    implements Boolish."true";
 
 /*************************************************************************/
 

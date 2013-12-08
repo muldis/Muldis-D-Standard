@@ -13,10 +13,10 @@ Muldis_D.Capsule."=>"|select_Capsule ::= function
     : (:|[LL_ST_CAPSULE(),:|[LL_payload(.0),LL_payload(.1)]]);
 
 Muldis_D.Capsule.Capsule_type ::= function (SC_Reference <-- 0 : Capsule)
-    : (:|[LL_ST_IDENTIFIER(),LL_List_elem(LL_payload(.0),0)]);
+    : (:|[LL_ST_IDENTIFIER(),LL_elem(LL_payload(.0),0)]);
 
 Muldis_D.Capsule."%"|attrs ::= function (Tuple <-- 0 : Capsule)
-    : (:|[LL_ST_TUPLE(),LL_List_elem(LL_payload(.0),1)]);
+    : (:|[LL_ST_TUPLE(),LL_elem(LL_payload(.0),1)]);
 
 /*************************************************************************/
 

@@ -4,6 +4,8 @@ package_segment Muldis_D:"http://muldis.com":0:Array;
 
 /*************************************************************************/
 
+/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW CAPSULES NOT OPAQUE. */
+
 Muldis_D.Arrayish ::= abstract_type composes Ordered;
 
 Muldis_D.Array ::= synonym of LL_Array composes Arrayish;
@@ -17,39 +19,36 @@ Muldis_D.Array."<=>"|order ::= function
     (Order <-- 0|lhs : Array, 1|rhs : Array)
     implements Ordered."<=>"
 : (
-    common_count ::= common_first_elems_count(.0,.1);
-    "" ::= .0 = .1            ?? :$Order.Same
-        !! #.0 = common_count ?? :$Order.Increase
-        !! #.1 = common_count ?? :$Order.Decrease
-        !!                       .0.[common_count] <=> .1.[common_count]
-        ;
+       .0->is_empty() ?? (.1->is_empty() ?? :$Order.Same !! :$Order.Less)
+    !! .1->is_empty() ?? :$Order.More
+    !! .0->first_elem() = .1->first_elem()
+        ?? self(.0->nonfirst_elems(),.1->nonfirst_elems())
+    !! .0->first_elem() <=> .1->first_elem()
 );
 
 /*************************************************************************/
 
+Muldis_D.Array.is_empty ::= function (Boolean <-- 0 : Array)
+    : (LL_empty(LL_payload(.0)));
+
+Muldis_D.Array.is_not_empty ::= function (Boolean <-- 0 : Array)
+    : (!.0->is_empty());
+
+Muldis_D.Array.first_elem ::= function (Universal <-- 0 : Array)
+    requires (.0->is_not_empty()) : (LL_first(LL_payload(.0)));
+
+Muldis_D.Array.nonfirst_elems ::= function (Array <-- 0 : Array)
+    requires (.0->is_not_empty()) : (...);
+
 Muldis_D.Array."#"|count|cardinality ::= function
-    (Integer.NN <-- 0 : Array)
-    : (LL_List_elem_count(LL_payload(.0)));
-
-Muldis_D.Array.is_empty ::= function (Boolean <-- 0 : Array) : (!?#.0);
-
-Muldis_D.Array.is_not_empty ::= function (Boolean <-- 0 : Array) : (?#.0);
-
-/*************************************************************************/
+    (Integer.NN <-- 0 : Array) : (...);
 
 /* Note that the ".[]" syntax is implemented using this function. */
 
 Muldis_D.Array.elem ::= function
-    (Universal <-- 0|array : Array, 1|index : Integer.NN) : (...);
-
-/*************************************************************************/
-
-Muldis_D.Array.common_first_elems_count ::= function
-    (Integer.NN <-- 0 : Array, 1 : Array) is_commutative
-    : (LL_same_List_first_elems_count(LL_payload(.0),LL_payload(.1)));
-
-/*************************************************************************/
+    (Universal <-- 0|array : Array, 1|index : Integer.NN)
+    requires (...) : (...);
 
 Muldis_D.Array.every_elem_isa ::= function
     (Boolean <-- 0|array : Array, 1|type : SC_Reference)
-    : (LL_every_List_elem_isa(LL_payload(.0),.1);
+    : (LL_every_elem_isa(LL_payload(.0),.1);

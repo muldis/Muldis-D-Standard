@@ -4,6 +4,9 @@ package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
 /*************************************************************************/
 
+/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW CAPSULES NOT OPAQUE
+   AND STRING ELEMENTS MAY ONLY BE NON-NEGATIVE INTEGERS. */
+
 Muldis_D.Stringy ::= abstract_type composes Ordered;
 
 Muldis_D.String ::= synonym of LL_String composes Stringy;
@@ -22,35 +25,32 @@ Muldis_D.String."<=>"|order ::= function
     (Order <-- 0|lhs : String, 1|rhs : String)
     implements Ordered."<=>"
 : (
-       LL_same_List(LL_payload(.0),LL_payload(.1))      ?? :$Order.Same
-    !! LL_Lists_in_order(LL_payload(.0),LL_payload(.1)) ?? :$Order.Increase
-    !!                                                     :$Order.Decrease
+       .0 = .1            ?? :$Order.Same
+    !! LL_in_order(.0,.1) ?? :$Order.Less
+    !!                       :$Order.More
 );
 
 /*************************************************************************/
 
-Muldis_D.String."#"|count|cardinality ::= function
-    (Integer.NN <-- 0 : String)
-    : (LL_List_elem_count(LL_payload(.0)));
-
-Muldis_D.String.is_empty ::= function (Boolean <-- 0 : String) : (!?#.0);
+Muldis_D.String.is_empty ::= function (Boolean <-- 0 : String)
+    : (LL_empty(LL_payload(.0)));
 
 Muldis_D.String.is_not_empty ::= function (Boolean <-- 0 : String)
-    : (?#.0);
+    : (!.0->is_empty());
 
-/*************************************************************************/
+Muldis_D.String.first_elem ::= function (Universal <-- 0 : String)
+    requires (.0->is_not_empty()) : (LL_first(LL_payload(.0)));
+
+Muldis_D.String.nonfirst_elems ::= function (String <-- 0 : String)
+    requires (.0->is_not_empty()) : (...);
+
+Muldis_D.String."#"|count|cardinality ::= function
+    (Integer.NN <-- 0 : String) : (...);
 
 Muldis_D.String.elem ::= function
-    (Universal <-- 0|String : String, 1|index : Integer.NN) : (...);
-
-/*************************************************************************/
-
-Muldis_D.String.common_first_elems_count ::= function
-    (Integer.NN <-- 0 : String, 1 : String) is_commutative
-    : (LL_same_List_first_elems_count(LL_payload(.0),LL_payload(.1)));
-
-/*************************************************************************/
+    (Universal <-- 0|string : String, 1|index : Integer.NN)
+    requires (...) : (...);
 
 Muldis_D.String.every_elem_isa ::= function
-    (Boolean <-- 0|String : String, 1|type : SC_Reference)
-    : (LL_every_List_elem_isa(LL_payload(.0),.1);
+    (Boolean <-- 0|string : String, 1|type : SC_Reference)
+    : (LL_every_elem_isa(LL_payload(.0),.1);
