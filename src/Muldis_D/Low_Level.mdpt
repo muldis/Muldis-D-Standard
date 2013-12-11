@@ -145,7 +145,7 @@ Muldis_D.Low_Level.LL_Structure_Base ::= subset_type of LL_Pair
     where (LL_first(.0) isa $LL_Natural);
 
 Muldis_D.Low_Level.LL_Structure ::=
-    LL_String|LL_Array|LL_Heading|LL_Renaming|LL_Tuple
+    LL_Integer|LL_String|LL_Array|LL_Heading|LL_Renaming|LL_Tuple
     |LL_Relation|LL_Identifier|LL_Capsule|LL_Stream|LL_External;
 
 Muldis_D.Low_Level.LL_Non_Structure ::= LL_List-LL_Structure;
