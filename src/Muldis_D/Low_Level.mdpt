@@ -114,6 +114,7 @@ Muldis_D.Low_Level.LL_6 ::= constant (LL_succ(LL_5()));
 Muldis_D.Low_Level.LL_7 ::= constant (LL_succ(LL_6()));
 Muldis_D.Low_Level.LL_8 ::= constant (LL_succ(LL_7()));
 Muldis_D.Low_Level.LL_9 ::= constant (LL_succ(LL_8()));
+Muldis_D.Low_Level.LL_10 ::= constant (LL_succ(LL_9()));
 
 /*************************************************************************/
 
@@ -154,16 +155,40 @@ Muldis_D.Low_Level.LL_payload ::= function
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_ST_STRING     ::= synonym of LL_ZERO;
-Muldis_D.Low_Level.LL_ST_ARRAY      ::= synonym of LL_1;
-Muldis_D.Low_Level.LL_ST_HEADING    ::= synonym of LL_2;
-Muldis_D.Low_Level.LL_ST_RENAMING   ::= synonym of LL_3;
-Muldis_D.Low_Level.LL_ST_TUPLE      ::= synonym of LL_4;
-Muldis_D.Low_Level.LL_ST_RELATION   ::= synonym of LL_5;
-Muldis_D.Low_Level.LL_ST_IDENTIFIER ::= synonym of LL_6;
-Muldis_D.Low_Level.LL_ST_CAPSULE    ::= synonym of LL_7;
-Muldis_D.Low_Level.LL_ST_STREAM     ::= synonym of LL_8;
-Muldis_D.Low_Level.LL_ST_EXTERNAL   ::= synonym of LL_9;
+Muldis_D.Low_Level.LL_ST_INTEGER    ::= synonym of LL_ZERO;
+Muldis_D.Low_Level.LL_ST_STRING     ::= synonym of LL_1;
+Muldis_D.Low_Level.LL_ST_ARRAY      ::= synonym of LL_2;
+Muldis_D.Low_Level.LL_ST_HEADING    ::= synonym of LL_3;
+Muldis_D.Low_Level.LL_ST_RENAMING   ::= synonym of LL_4;
+Muldis_D.Low_Level.LL_ST_TUPLE      ::= synonym of LL_5;
+Muldis_D.Low_Level.LL_ST_RELATION   ::= synonym of LL_6;
+Muldis_D.Low_Level.LL_ST_IDENTIFIER ::= synonym of LL_7;
+Muldis_D.Low_Level.LL_ST_CAPSULE    ::= synonym of LL_8;
+Muldis_D.Low_Level.LL_ST_STREAM     ::= synonym of LL_9;
+Muldis_D.Low_Level.LL_ST_EXTERNAL   ::= synonym of LL_10;
+
+/*************************************************************************/
+
+/* A LL_Integer is a list of exactly 2 elements where the first element is
+   LL_FALSE if the numeric value is >= 0 and LL_TRUE if the numeric value
+   is < 0.  The second element is a LL_Natural whose numeric value is
+   equal to the numeric value of the integer when the latter is >= 0, and
+   the natural's numeric value is exactly 1 less than the absolute value of
+   the integer when the latter is < 0.  For example, the natural value of
+   0 means the integer 0 with LL_FALSE and the integer -1 with LL_TRUE.
+   As such, the structure of an LL_Integer corresponds directly to the
+   common binary "two's complement" representation of a signed integer,
+   except that the magnitude bits for negative numbers are not flipped,
+   because an LL_Integer is logically limitless in possible magnitude.
+   This is exposed in the high level type system as Integer. */
+
+Muldis_D.Low_Level.LL_Integer ::= subset_type of LL_Structure_Base
+    where (LL_same(LL_first(.0),LL_ST_INTEGER())
+        ?? LL_payload(.0) isa $LL_Integer_Payload !! LL_FALSE());
+
+Muldis_D.Low_Level.LL_Integer_Payload ::= subset_type of LL_Pair
+    where (LL_first(.0) isa $LL_Boolean
+        ?? LL_second(.0) isa $LL_Natural !! LL_FALSE());
 
 /*************************************************************************/
 
@@ -172,7 +197,8 @@ Muldis_D.Low_Level.LL_String ::= subset_type of LL_Structure_Base
         ?? LL_payload(.0) isa $LL_String_Payload !! LL_FALSE());
 
 Muldis_D.Low_Level.LL_String_Payload ::= subset_type of LL_List
-    where (LL_empty(.0) ?? LL_TRUE() !! LL_first(.0) isa $LL_Natural
+    where (LL_empty(.0) ?? LL_TRUE()
+        !! LL_first(.0) isa $LL_Integer_Payload
         ?? self(LL_nonfirst(.0)) !! LL_FALSE());
 
 Muldis_D.Low_Level.LL_List_of_String_Payloads ::= subset_type of LL_List

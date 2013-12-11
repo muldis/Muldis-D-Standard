@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 
 /*************************************************************************/
 
-/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW CAPSULES NOT OPAQUE. */
+/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW STRUCTURES NOT OPAQUE. */
 
 Muldis_D.Integral ::= abstract_type composes Numeric;
 

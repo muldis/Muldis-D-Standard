@@ -4,8 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
 /*************************************************************************/
 
-/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW CAPSULES NOT OPAQUE
-   AND STRING ELEMENTS MAY ONLY BE NON-NEGATIVE INTEGERS. */
+/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW STRUCTURES NOT OPAQUE. */
 
 Muldis_D.Stringy ::= abstract_type composes Ordered;
 
