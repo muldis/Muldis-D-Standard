@@ -171,11 +171,12 @@ Muldis_D.Low_Level.LL_ST_EXTERNAL   ::= synonym of LL_10;
 
 /* A LL_Integer is a list of exactly 2 elements where the first element is
    LL_FALSE if the numeric value is >= 0 and LL_TRUE if the numeric value
-   is < 0.  The second element is a LL_Natural whose numeric value is
-   equal to the numeric value of the integer when the latter is >= 0, and
-   the natural's numeric value is exactly 1 less than the absolute value of
-   the integer when the latter is < 0.  For example, the natural value of
-   0 means the integer 0 with LL_FALSE and the integer -1 with LL_TRUE.
+   is < 0.  The second element is a LL_Natural such that the numeric value
+   of the integer is equal to the numeric value of the natural when the
+   former is >= 0, and the integer's numeric value is exactly 1 less than
+   the opposite value of the natural when the former is < 0.  For example,
+   the natural value of 0 means the integer 0 with LL_FALSE and the integer
+   -1 with LL_TRUE; and the natural 1 means integer 1 or -2 respectively.
    As such, the structure of an LL_Integer corresponds directly to the
    common binary "two's complement" representation of a signed integer,
    except that the magnitude bits for negative numbers are not flipped,
