@@ -6,6 +6,9 @@ package_segment Muldis_D:"http://muldis.com":0:Low_Level;
 
 /* A LL_List is a generic ordered list of 0..N elements; but you don't
    access elements using numeric indexes but rather without any indexes.
+   One can conceive of implementing the general case of an LL_List either
+   with an array or singly-linked list, where either is copy-on-write;
+   all of the fundamental operators are abstract enough to work either way.
    This is exposed in the high level type system as Universal. */
 
 Muldis_D.Low_Level.LL_List ::= special_type default LL_EMPTY();
