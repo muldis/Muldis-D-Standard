@@ -144,6 +144,12 @@ Muldis_D.Low_Level.LL_every_elem_same_count ::= function
 Muldis_D.Low_Level.LL_Pair ::= subset_type of LL_Non_Empty where
     (LL_same(LL_count(.0),LL_2()));
 
+Muldis_D.Low_Level.LL_pair ::= function
+    (LL_Pair <-- 0|first : LL_List, 1|second : LL_List)
+    : (LL_prepend( elem : .0, to : LL_prepend(.1,LL_EMPTY()) ));
+
+/*************************************************************************/
+
 Muldis_D.Low_Level.LL_Structure_Base ::= subset_type of LL_Pair
     where (LL_first(.0) isa $LL_Natural);
 
@@ -172,27 +178,41 @@ Muldis_D.Low_Level.LL_ST_EXTERNAL   ::= synonym of LL_10;
 
 /*************************************************************************/
 
-/* A LL_Integer is a list of exactly 2 elements where the first element is
+/* An LL_Integer is a list of exactly 2 elements where the first element is
    LL_FALSE if the numeric value is >= 0 and LL_TRUE if the numeric value
-   is < 0.  The second element is a LL_Natural such that the numeric value
-   of the integer is equal to the numeric value of the natural when the
-   former is >= 0, and the integer's numeric value is exactly 1 less than
-   the opposite value of the natural when the former is < 0.  For example,
-   the natural value of 0 means the integer 0 with LL_FALSE and the integer
-   -1 with LL_TRUE; and the natural 1 means integer 1 or -2 respectively.
-   As such, the structure of an LL_Integer corresponds directly to the
-   common binary "two's complement" representation of a signed integer,
-   except that the magnitude bits for negative numbers are not flipped,
-   because an LL_Integer is logically limitless in possible magnitude.
+   is < 0; that first element can be read as "is negative (false/true)".
+   The second element is a LL_Natural that defines the magnitude of the
+   integer's numeric value.  Every combination of first/second elements is
+   valid with the sole exception of [true,0] as we don't want 2 zero ints.
    This is exposed in the high level type system as Integer. */
 
 Muldis_D.Low_Level.LL_Integer ::= subset_type of LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_INTEGER())
         ?? LL_payload(.0) isa $LL_Integer_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Integer_Payload ::= subset_type of LL_Pair
-    where (LL_first(.0) isa $LL_Boolean
-        ?? LL_second(.0) isa $LL_Natural !! LL_FALSE());
+Muldis_D.Low_Level.LL_Integer_Payload ::= subset_type of LL_Pair where
+(
+    is_neg    ::= LL_first(.0);
+    magnitude ::= LL_second(.0);
+    if is_neg isa $LL_Boolean then
+        if magnitude isa $LL_Natural then
+            if LL_same(magnitude,LL_ZERO()) then
+                LL_same(is_neg,LL_FALSE())
+            else LL_TRUE()
+        else LL_FALSE()
+    else LL_FALSE();
+);
+
+Muldis_D.Low_Level.LL_integer ::= function
+    (LL_Integer <-- 0|is_neg : LL_Boolean, 1|magnitude : LL_Natural)
+    requires (LL_same(.1,LL_ZERO()) ?? LL_same(.0,LL_FALSE()) !! LL_TRUE())
+    : (LL_pair(LL_ST_INTEGER(),LL_pair(.0,.1)));
+
+Muldis_D.Integer.LL_is_neg ::= function (LL_Boolean <-- 0 : LL_Integer)
+    : (LL_first(LL_payload(.0)));
+
+Muldis_D.Integer.LL_magnitude ::= function (LL_Natural <-- 0 : LL_Integer)
+    : (LL_second(LL_payload(.0)));
 
 /*************************************************************************/
 

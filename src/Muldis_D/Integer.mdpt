@@ -4,8 +4,6 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 
 /*************************************************************************/
 
-/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW STRUCTURES NOT OPAQUE. */
-
 Muldis_D.Integral ::= abstract_type composes Numeric;
 
 Muldis_D.Integer ::= synonym of LL_Integer
@@ -13,9 +11,9 @@ Muldis_D.Integer ::= synonym of LL_Integer
 
 Muldis_D.Integer.Int ::= synonym of Integer;
 
-Muldis_D.Integer.NN ::= subset_type of Integer where (.0 >= 0);
+Muldis_D.Integer.NN ::= subset_type of Integer where (!.0->is_neg());
 
-Muldis_D.Integer.P ::= subset_type of Integer.NN where (.0 != 0);
+Muldis_D.Integer.P ::= subset_type of Integer.NN where (!.0->is_zero());
 
 /*************************************************************************/
 
@@ -23,25 +21,50 @@ Muldis_D.Integer."<=>"|order ::= function
     (Order <-- 0|lhs : Integer, 1|rhs : Integer)
     implements Ordered."<=>"
 : (
-       .0 = .1            ?? :$Order.Same
-    !! LL_in_order(.0,.1) ?? :$Order.Less
-    !!                       :$Order.More
+       .0 = .1                        ?? :$Order.Same
+    !! .0->is_neg() and !.1->is_neg() ?? :$Order.Less
+    !! !.0->is_neg() and .1->is_neg() ?? :$Order.More
+    !! .0->is_neg() and .1->is_neg()
+        ?? (LL_in_order(LL_magnitude(.0),LL_magnitude(.1))
+            ?? :$Order.More !! :$Order.Less)
+    !! (LL_in_order(LL_magnitude(.0),LL_magnitude(.1))
+            ?? :$Order.Less !! :$Order.More)
 );
 
 /*************************************************************************/
 
 Muldis_D.Integer."--"|pred|dec ::= function (Integer <-- 0 : Integer)
-    implements Ordinal."--" : (.0 - 1);
+    implements Ordinal."--"
+: (
+       .0->is_neg()  ?? LL_integer(true,LL_succ(LL_magnitude(.0)))
+    !! .0->is_zero() ?? LL_integer(true,LL_1())
+    !!                  LL_integer(false,LL_pred(LL_magnitude(.0)))
+);
 
 Muldis_D.Integer."++"|succ|inc ::= function (Integer <-- 0 : Integer)
-    implements Ordinal."++" : (.0 + 1);
+    implements Ordinal."++"
+: (
+    m ::= LL_magnitude(.0);
+    "" ::= !.0->is_neg() ?? LL_integer(false,LL_succ(m))
+        !! m = LL_1()    ?? LL_integer(false,LL_ZERO())
+        !!                  LL_integer(true,LL_pred(m))
+        ;
+);
 
 /*************************************************************************/
 
-Muldis_D.Integer.monadic."-"|opposite|additive_inverse ::= function
-    (Integer <-- 0 : Integer) implements Numeric.monadic."-" : (0 - .0);
+Muldis_D.Integer.is_zero ::= function (Boolean <-- 0 : Integer)
+    : (LL_magnitude(.0) = LL_ZERO());
 
-Muldis_D.Integer.abs ::= function (Integer <-- 0 : Integer) : (...);
+Muldis_D.Integer.is_neg ::= function (Boolean <-- 0 : Integer)
+    : (LL_is_neg(.0));
+
+Muldis_D.Integer.monadic."-"|opposite|additive_inverse ::= function
+    (Integer <-- 0 : Integer) implements Numeric.monadic."-"
+    : (.0->is_zero() ?? .0 !! LL_integer(!.0->is_neg(),LL_magnitude(.0)));
+
+Muldis_D.Integer.abs ::= function (Integer <-- 0 : Integer)
+    : (.0->is_neg() ?? LL_integer(true,LL_magnitude(.0)) !! .0);
 
 Muldis_D.Integer."+"|plus|sum ::= function
     (Integer <-- 0 : Integer, 1 : Integer)
