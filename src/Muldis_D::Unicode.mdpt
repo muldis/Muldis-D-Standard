@@ -8,19 +8,19 @@ searching [Muldis_D,Muldis_D::Unicode];
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Text.Unicode_Codepoint ::= subset_type of Integer
+Muldis_D::Unicode.Text.Unicode_Codepoint ::= Integer
     where (.0 in 0..0x10FFFF);
 
-Muldis_D::Unicode.Text.Unicode_Codepoints ::= subset_type of String
+Muldis_D::Unicode.Text.Unicode_Codepoints ::= String
     where (.0->every_elem_isa(:*$Unicode_Codepoint));
 
-Muldis_D::Unicode.Text.Unicode ::= subset_type of Text
+Muldis_D::Unicode.Text.Unicode ::= Text
     where (.0->maximal_chars() isa $Unicode_Codepoints);
 
-Muldis_D::Unicode.Text.Unicode.Canon ::= subset_type of Text.Unicode
+Muldis_D::Unicode.Text.Unicode.Canon ::= Text.Unicode
     where (...);
 
-Muldis_D::Unicode.Text.Unicode.Compat ::= subset_type of Text.Unicode.Canon
+Muldis_D::Unicode.Text.Unicode.Compat ::= Text.Unicode.Canon
     where (...);
 
 /*************************************************************************/
@@ -39,32 +39,32 @@ Muldis_D::Unicode.Text.from_unicode_utf8_octets ::= function
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Universal."≠" ::= synonym of "!=";
+Muldis_D::Unicode.Universal."≠" ::= "!=";
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Boolean."⊥" ::= synonym of false;
+Muldis_D::Unicode.Boolean."⊥" ::= false;
 
-Muldis_D::Unicode.Boolean."⊤" ::= synonym of true;
+Muldis_D::Unicode.Boolean."⊤" ::= true;
 
-Muldis_D::Unicode.Boolean."¬" ::= synonym of not;
+Muldis_D::Unicode.Boolean."¬" ::= not;
 
-Muldis_D::Unicode.Boolean."∧" ::= synonym of and;
+Muldis_D::Unicode.Boolean."∧" ::= and;
 
-Muldis_D::Unicode.Boolean."⊼"|"↑" ::= synonym of nand;
+Muldis_D::Unicode.Boolean."⊼"|"↑" ::= nand;
 
-Muldis_D::Unicode.Boolean."∨" ::= synonym of or;
+Muldis_D::Unicode.Boolean."∨" ::= or;
 
-Muldis_D::Unicode.Boolean."⊽"|"↓" ::= synonym of nor;
+Muldis_D::Unicode.Boolean."⊽"|"↓" ::= nor;
 
-Muldis_D::Unicode.Boolean."↔" ::= synonym of xnor;
+Muldis_D::Unicode.Boolean."↔" ::= xnor;
 
-Muldis_D::Unicode.Boolean."⊻"|"↮" ::= synonym of xor;
+Muldis_D::Unicode.Boolean."⊻"|"↮" ::= xor;
 
-Muldis_D::Unicode.Boolean."→" ::= synonym of imp;
+Muldis_D::Unicode.Boolean."→" ::= imp;
 
-Muldis_D::Unicode.Boolean."↛" ::= synonym of nimp;
+Muldis_D::Unicode.Boolean."↛" ::= nimp;
 
-Muldis_D::Unicode.Boolean."←" ::= synonym of if;
+Muldis_D::Unicode.Boolean."←" ::= if;
 
-Muldis_D::Unicode.Boolean."↚" ::= synonym of nif;
+Muldis_D::Unicode.Boolean."↚" ::= nif;
