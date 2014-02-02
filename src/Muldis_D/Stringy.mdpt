@@ -8,15 +8,13 @@ package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
 Muldis_D.Stringy ::= abstract_type composes Ordered;
 
-Muldis_D.String ::= synonym of LL_String composes Stringy;
+Muldis_D.String ::= LL_String composes Stringy;
 
-Muldis_D.Str ::= synonym of String;
+Muldis_D.Str ::= String;
 
-Muldis_D.String.NN ::= subset_type of String
-    where (.0->every_elem_isa(:*$Integer.NN));
+Muldis_D.String.NN ::= String where (.0->every_elem_isa(:*$Integer.NN));
 
-Muldis_D.String.P ::= subset_type of String.NN
-    where (.0->every_elem_isa(:*$Integer.P));
+Muldis_D.String.P ::= String.NN where (.0->every_elem_isa(:*$Integer.P));
 
 /*************************************************************************/
 

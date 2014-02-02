@@ -15,8 +15,7 @@ Muldis_D.Low_Level.LL_List ::= special_type default LL_EMPTY();
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Empty ::= subset_type of LL_List
-    where (LL_empty(.0));
+Muldis_D.Low_Level.LL_Empty ::= LL_List where (LL_empty(.0));
 
 Muldis_D.Low_Level.LL_Non_Empty ::= LL_List-LL_Empty default LL_TRUE();
 
@@ -40,14 +39,14 @@ Muldis_D.Low_Level.LL_nonfirst ::= function (LL_List <-- 0|list : LL_List)
    latter case whose sole element is the empty list.
    This is exposed in the high level type system as Boolean. */
 
-Muldis_D.Low_Level.LL_False ::= synonym of LL_Empty;
+Muldis_D.Low_Level.LL_False ::= LL_Empty;
 
-Muldis_D.Low_Level.LL_True ::= subset_type of LL_Non_Empty where
+Muldis_D.Low_Level.LL_True ::= LL_Non_Empty where
     (LL_empty(LL_nonfirst(.0)) ?? LL_empty(LL_first(.0)) !! LL_FALSE());
 
 Muldis_D.Low_Level.LL_Boolean ::= LL_False|LL_True default LL_FALSE();
 
-Muldis_D.Low_Level.LL_FALSE ::= synonym of LL_EMPTY;
+Muldis_D.Low_Level.LL_FALSE ::= LL_EMPTY;
 
 Muldis_D.Low_Level.LL_TRUE ::= function (True <--)
     : (LL_prepend( elem : LL_EMPTY(), to : LL_EMPTY()));
@@ -92,15 +91,15 @@ Muldis_D.Low_Level.LL_second ::= function (LL_List <-- 0|list : LL_List)
    list; the numeric value (0..N) is equal to the count of elements.
    This is not exposed in the high-level type system at all. */
 
-Muldis_D.Low_Level.LL_Natural ::= subset_type of LL_List
+Muldis_D.Low_Level.LL_Natural ::= LL_List
     where (LL_empty(.0) ?? LL_TRUE()
         !! LL_empty(LL_first(.0)) ?? self(LL_nonfirst(.0)) !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Zero ::= synonym of LL_Empty;
+Muldis_D.Low_Level.LL_Zero ::= LL_Empty;
 
-Muldis_D.Low_Level.LL_ZERO ::= synonym of LL_EMPTY;
+Muldis_D.Low_Level.LL_ZERO ::= LL_EMPTY;
 
-Muldis_D.Low_Level.LL_zero ::= synonym of LL_empty;
+Muldis_D.Low_Level.LL_zero ::= LL_empty;
 
 Muldis_D.Low_Level.LL_pred ::= function (LL_Natural <-- 0 : LL_Natural)
     requires (LL_zero(.0) ?? LL_FALSE() !! LL_TRUE()) : (LL_nonfirst(.0));
@@ -141,7 +140,7 @@ Muldis_D.Low_Level.LL_every_elem_same_count ::= function
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Pair ::= subset_type of LL_Non_Empty where
+Muldis_D.Low_Level.LL_Pair ::= LL_Non_Empty where
     (LL_same(LL_count(.0),LL_2()));
 
 Muldis_D.Low_Level.LL_pair ::= function
@@ -150,7 +149,7 @@ Muldis_D.Low_Level.LL_pair ::= function
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Structure_Base ::= subset_type of LL_Pair
+Muldis_D.Low_Level.LL_Structure_Base ::= LL_Pair
     where (LL_first(.0) isa $LL_Natural);
 
 Muldis_D.Low_Level.LL_Structure ::=
@@ -164,17 +163,17 @@ Muldis_D.Low_Level.LL_payload ::= function
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_ST_INTEGER    ::= synonym of LL_ZERO;
-Muldis_D.Low_Level.LL_ST_STRING     ::= synonym of LL_1;
-Muldis_D.Low_Level.LL_ST_ARRAY      ::= synonym of LL_2;
-Muldis_D.Low_Level.LL_ST_HEADING    ::= synonym of LL_3;
-Muldis_D.Low_Level.LL_ST_RENAMING   ::= synonym of LL_4;
-Muldis_D.Low_Level.LL_ST_TUPLE      ::= synonym of LL_5;
-Muldis_D.Low_Level.LL_ST_RELATION   ::= synonym of LL_6;
-Muldis_D.Low_Level.LL_ST_IDENTIFIER ::= synonym of LL_7;
-Muldis_D.Low_Level.LL_ST_CAPSULE    ::= synonym of LL_8;
-Muldis_D.Low_Level.LL_ST_STREAM     ::= synonym of LL_9;
-Muldis_D.Low_Level.LL_ST_EXTERNAL   ::= synonym of LL_10;
+Muldis_D.Low_Level.LL_ST_INTEGER    ::= LL_ZERO;
+Muldis_D.Low_Level.LL_ST_STRING     ::= LL_1;
+Muldis_D.Low_Level.LL_ST_ARRAY      ::= LL_2;
+Muldis_D.Low_Level.LL_ST_HEADING    ::= LL_3;
+Muldis_D.Low_Level.LL_ST_RENAMING   ::= LL_4;
+Muldis_D.Low_Level.LL_ST_TUPLE      ::= LL_5;
+Muldis_D.Low_Level.LL_ST_RELATION   ::= LL_6;
+Muldis_D.Low_Level.LL_ST_IDENTIFIER ::= LL_7;
+Muldis_D.Low_Level.LL_ST_CAPSULE    ::= LL_8;
+Muldis_D.Low_Level.LL_ST_STREAM     ::= LL_9;
+Muldis_D.Low_Level.LL_ST_EXTERNAL   ::= LL_10;
 
 /*************************************************************************/
 
@@ -186,11 +185,11 @@ Muldis_D.Low_Level.LL_ST_EXTERNAL   ::= synonym of LL_10;
    valid with the sole exception of [true,0] as we don't want 2 zero ints.
    This is exposed in the high level type system as Integer. */
 
-Muldis_D.Low_Level.LL_Integer ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Integer ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_INTEGER())
         ?? LL_payload(.0) isa $LL_Integer_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Integer_Payload ::= subset_type of LL_Pair where
+Muldis_D.Low_Level.LL_Integer_Payload ::= LL_Pair where
 (
     is_neg    ::= LL_first(.0);
     magnitude ::= LL_second(.0);
@@ -216,41 +215,40 @@ Muldis_D.Integer.LL_magnitude ::= function (LL_Natural <-- 0 : LL_Integer)
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_String ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_String ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_STRING())
         ?? LL_payload(.0) isa $LL_String_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_String_Payload ::= subset_type of LL_List
+Muldis_D.Low_Level.LL_String_Payload ::= LL_List
     where (LL_empty(.0) ?? LL_TRUE()
         !! LL_first(.0) isa $LL_Integer_Payload
         ?? self(LL_nonfirst(.0)) !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_List_of_String_Payloads ::= subset_type of LL_List
+Muldis_D.Low_Level.LL_List_of_String_Payloads ::= LL_List
     where (LL_empty(.0) ?? LL_TRUE() !! LL_first(.0) isa $LL_String_Payload
         ?? self(LL_nonfirst(.0)) !! LL_FALSE());
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Array ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Array ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_ARRAY()));
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Heading ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Heading ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_HEADING())
         ?? LL_payload(.0) isa $LL_Heading_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Heading_Payload ::=
-    subset_type of LL_List_of_String_Payloads
+Muldis_D.Low_Level.LL_Heading_Payload ::= LL_List_of_String_Payloads
     where (LL_elems_in_order(.0));
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Renaming ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Renaming ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_RENAMING())
         ?? LL_payload(.0) isa $LL_Renaming_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Renaming_Payload ::= subset_type of LL_Pair where
+Muldis_D.Low_Level.LL_Renaming_Payload ::= LL_Pair where
 (
     after  ::= LL_first(.0);
     before ::= LL_second(.0);
@@ -263,11 +261,11 @@ Muldis_D.Low_Level.LL_Renaming_Payload ::= subset_type of LL_Pair where
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Tuple ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Tuple ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_TUPLE())
         ?? LL_payload(.0) isa $LL_Tuple_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Tuple_Payload ::= subset_type of LL_Pair where
+Muldis_D.Low_Level.LL_Tuple_Payload ::= LL_Pair where
 (
     heading ::= LL_first(.0);
     body    ::= LL_second(.0);
@@ -278,11 +276,11 @@ Muldis_D.Low_Level.LL_Tuple_Payload ::= subset_type of LL_Pair where
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Relation ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Relation ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_RELATION())
         ?? LL_payload(.0) isa $LL_Relation_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Relation_Payload ::= subset_type of LL_Pair where
+Muldis_D.Low_Level.LL_Relation_Payload ::= LL_Pair where
 (
     heading ::= LL_first(.0);
     body    ::= LL_second(.0);
@@ -299,12 +297,11 @@ Muldis_D.Low_Level.LL_Relation_Payload ::= subset_type of LL_Pair where
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Identifier ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Identifier ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_IDENTIFIER())
         ?? LL_payload(.0) isa $LL_Identifier_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Identifier_Payload_Base ::=
-    subset_type of LL_List where
+Muldis_D.Low_Level.LL_Identifier_Payload_Base ::= LL_List where
 (
     if LL_same(LL_count(.0),LL_5()) then
       (
@@ -333,7 +330,7 @@ Muldis_D.Low_Level.LL_Identifier_Payload ::=
     ;
 
 Muldis_D.Low_Level.LL_Identifier_Payload_Absolute ::=
-    subset_type of LL_Identifier_Payload_Base where
+    LL_Identifier_Payload_Base where
 (
     kind                ::= LL_elem(.0,LL_ZERO());
     pkg_name_ext        ::= LL_elem(.0,LL_2());
@@ -346,7 +343,7 @@ Muldis_D.Low_Level.LL_Identifier_Payload_Absolute ::=
 );
 
 Muldis_D.Low_Level.LL_Identifier_Payload_Relative ::=
-    subset_type of LL_Identifier_Payload_Base where
+    LL_Identifier_Payload_Base where
 (
     kind          ::= LL_elem(.0,LL_ZERO());
     pkg_name_base ::= LL_elem(.0,LL_1());
@@ -359,7 +356,7 @@ Muldis_D.Low_Level.LL_Identifier_Payload_Relative ::=
 );
 
 Muldis_D.Low_Level.LL_Identifier_Payload_Search ::=
-    subset_type of LL_Identifier_Payload_Base where
+    LL_Identifier_Payload_Base where
 (
     kind                ::= LL_elem(.0,LL_ZERO());
     pkg_name_base       ::= LL_elem(.0,LL_1());
@@ -374,11 +371,11 @@ Muldis_D.Low_Level.LL_Identifier_Payload_Search ::=
     else LL_FALSE();
 );
 
-Muldis_D.Low_Level.LL_Reference ::= subset_type of LL_Identifier
+Muldis_D.Low_Level.LL_Reference ::= LL_Identifier
     where (LL_payload(.0) isa $LL_Reference_Payload);
 
 Muldis_D.Low_Level.LL_Reference_Payload ::=
-    subset_type of LL_Identifier_Payload_Absolute where
+    LL_Identifier_Payload_Absolute where
 (
     pkg_name_base ::= LL_elem(.0,LL_1());
     pkg_name_ext  ::= LL_elem(.0,LL_2());
@@ -393,23 +390,23 @@ Muldis_D.Low_Level.LL_every_elem_isa ::= function
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Capsule ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Capsule ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_CAPSULE())
         ?? LL_payload(.0) isa $LL_Capsule_Payload !! LL_FALSE());
 
-Muldis_D.Low_Level.LL_Capsule_Payload ::= subset_type of LL_Pair
+Muldis_D.Low_Level.LL_Capsule_Payload ::= LL_Pair
     where (LL_first(.0) isa $LL_Reference_Payload
         ?? LL_second(.0) isa $LL_Tuple_Payload !! LL_FALSE());
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Stream ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_Stream ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_STREAM())
         ?? LL_payload(.0) isa $LL_Natural !! LL_FALSE());
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_External ::= subset_type of LL_Structure_Base
+Muldis_D.Low_Level.LL_External ::= LL_Structure_Base
     where (LL_same(LL_first(.0),LL_ST_EXTERNAL()));
 
 /*************************************************************************/

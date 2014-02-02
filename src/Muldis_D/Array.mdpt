@@ -8,7 +8,7 @@ package_segment Muldis_D:"http://muldis.com":0:Array;
 
 Muldis_D.Arrayish ::= abstract_type composes Ordered;
 
-Muldis_D.Array ::= synonym of LL_Array composes Arrayish;
+Muldis_D.Array ::= LL_Array composes Arrayish;
 
 /*************************************************************************/
 

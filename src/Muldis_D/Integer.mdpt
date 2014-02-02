@@ -6,14 +6,14 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 
 Muldis_D.Integral ::= abstract_type composes Numeric;
 
-Muldis_D.Integer ::= synonym of LL_Integer
+Muldis_D.Integer ::= LL_Integer
     composes Integral composes Cardinal composes Ordinal;
 
-Muldis_D.Integer.Int ::= synonym of Integer;
+Muldis_D.Integer.Int ::= Integer;
 
-Muldis_D.Integer.NN ::= subset_type of Integer where (!.0->is_neg());
+Muldis_D.Integer.NN ::= Integer where (!.0->is_neg());
 
-Muldis_D.Integer.P ::= subset_type of Integer.NN where (!.0->is_zero());
+Muldis_D.Integer.P ::= Integer.NN where (!.0->is_zero());
 
 /*************************************************************************/
 

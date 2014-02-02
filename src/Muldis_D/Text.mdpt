@@ -8,12 +8,12 @@ Muldis_D.Textual ::= abstract_type composes Ordered;
 
 Muldis_D.Text ::= capsule_type composes Textual { maximal_chars : String };
 
-Muldis_D.Text.ASCII_Char ::= subset_type of Integer where (.0 in 0..127);
+Muldis_D.Text.ASCII_Char ::= Integer where (.0 in 0..127);
 
-Muldis_D.Text.ASCII_Chars ::= subset_type of String
+Muldis_D.Text.ASCII_Chars ::= String
     where (.0->every_elem_isa(:*$ASCII_Char));
 
-Muldis_D.Text.ASCII ::= subset_type of Text
+Muldis_D.Text.ASCII ::= Text
     where (.0->maximal_chars() isa $ASCII_Chars);
 
 /*************************************************************************/
