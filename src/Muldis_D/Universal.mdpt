@@ -43,11 +43,11 @@ Muldis_D.Universal.default_of ::= function
 Muldis_D.Universal.same_base_type ::= function
     (Boolean <-- 0 : Universal, 1 : Universal) is_commutative
 : (
-	if LL_same_low_level_type(.0,.1) then
-		if .0 isa $Capsule then
-			Capsule_type(.0) = Capsule_type(.1)
-		else true
-	else false
+    if LL_same_low_level_type(.0,.1) then
+        if .0 isa $Capsule then
+            Capsule_type(.0) = Capsule_type(.1)
+        else true
+    else false
 );
 
 /*************************************************************************/

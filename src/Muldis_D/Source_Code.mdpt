@@ -9,7 +9,7 @@ package_segment Muldis_D:"http://muldis.com":0:Source_Code;
    subject that each of those types must be a Capsule subtype. */
 
 Muldis_D.Source_Code ::=
-	SC_Heading|SC_Renaming|SC_Identifier|...|SC_Package|... default ...;
+    SC_Heading|SC_Renaming|SC_Identifier|...|SC_Package|... default ...;
 
 Muldis_D.Source_Code.Source_Code_Meta.AT ::= abstract_type;
 
@@ -46,10 +46,10 @@ Muldis_D.Source_Code.SC_Pkg_Full_Name ::= SC_Reference where
 /* SC_Pkg_Local_Alias example: Muldis_D */
 
 Muldis_D.Source_Code.SC_Pkg_Local_Alias ::= SC_Identifier
-	where (LL_identifier_kind(.0) = LL_IK_ABSOLUTE()
-		and !LL_empty(LL_pkg_name_base(.0))
-		and LL_empty(LL_pkg_name_ext(.0))
-		and LL_empty(LL_path_beneath_pkg(.0)));
+    where (LL_identifier_kind(.0) = LL_IK_ABSOLUTE()
+        and !LL_empty(LL_pkg_name_base(.0))
+        and LL_empty(LL_pkg_name_ext(.0))
+        and LL_empty(LL_path_beneath_pkg(.0)));
 
 Muldis_D.Source_Code.SC_Pkg_Local_Aliases ::= Array
     where (.0->every_elem_isa($SC_Pkg_Local_Alias));
@@ -85,8 +85,8 @@ Muldis_D.Source_Code.SC_Package_Segments ::=
 
 Muldis_D.Source_Code.SC_Package_Segment ::= Capsule where
 (
-	Capsule_type(.0) = :*$SC_Package_Segment
-	and
+    Capsule_type(.0) = :*$SC_Package_Segment
+    and
     has_attrs(%.0,:%{
         materials : :*$SC_Materials,
     })

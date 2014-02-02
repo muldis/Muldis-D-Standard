@@ -9,34 +9,34 @@ Muldis_D.Numeric ::= abstract_type;
 /*************************************************************************/
 
 Muldis_D.Numeric.Round_Meth ::=
-	Down|Up|To_Zero|To_Inf
-	|Half_Down|Half_Up|Half_To_Zero|Half_To_Inf
-	|Half_Even
-	default :$To_Zero;
+    Down|Up|To_Zero|To_Inf
+    |Half_Down|Half_Up|Half_To_Zero|Half_To_Inf
+    |Half_Even
+    default :$To_Zero;
 
 Muldis_D.Numeric.Round_Meth.Down ::= Singleton
-	where (Capsule_type(.0) = :*$Down);
+    where (Capsule_type(.0) = :*$Down);
 
 Muldis_D.Numeric.Round_Meth.Up ::= Singleton
-	where (Capsule_type(.0) = :*$Up);
+    where (Capsule_type(.0) = :*$Up);
 
 Muldis_D.Numeric.Round_Meth.To_Zero ::= Singleton
-	where (Capsule_type(.0) = :*$To_Zero);
+    where (Capsule_type(.0) = :*$To_Zero);
 
 Muldis_D.Numeric.Round_Meth.To_Inf ::= Singleton
-	where (Capsule_type(.0) = :*$To_Inf);
+    where (Capsule_type(.0) = :*$To_Inf);
 
 Muldis_D.Numeric.Round_Meth.Half_Down ::= Singleton
-	where (Capsule_type(.0) = :*$Half_Down);
+    where (Capsule_type(.0) = :*$Half_Down);
 
 Muldis_D.Numeric.Round_Meth.Half_Up ::= Singleton
-	where (Capsule_type(.0) = :*$Half_Up);
+    where (Capsule_type(.0) = :*$Half_Up);
 
 Muldis_D.Numeric.Round_Meth.Half_To_Zero ::= Singleton
-	where (Capsule_type(.0) = :*$Half_To_Zero);
+    where (Capsule_type(.0) = :*$Half_To_Zero);
 
 Muldis_D.Numeric.Round_Meth.Half_To_Inf ::= Singleton
-	where (Capsule_type(.0) = :*$Half_To_Inf);
+    where (Capsule_type(.0) = :*$Half_To_Inf);
 
 Muldis_D.Numeric.Round_Meth.Half_Even ::= Singleton
-	where (Capsule_type(.0) = :*$Half_Even);
+    where (Capsule_type(.0) = :*$Half_Even);

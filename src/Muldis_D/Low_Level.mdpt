@@ -268,7 +268,7 @@ Muldis_D.Low_Level.LL_is_neg ::= function (LL_Boolean <-- 0 : LL_Integer)
     : (LL_first(LL_payload(.0)));
 
 Muldis_D.Low_Level.LL_magnitude ::= function
-	(LL_Natural <-- 0 : LL_Integer)
+    (LL_Natural <-- 0 : LL_Integer)
     : (LL_second(LL_payload(.0)));
 
 /*************************************************************************/
@@ -334,11 +334,11 @@ Muldis_D.Low_Level.LL_renaming ::= function (LL_Renaming <--
     : (LL_pair(LL_SK_RENAMING(),LL_pair(.0,.1)));
 
 Muldis_D.Low_Level.LL_renaming_after ::= function
-	(LL_Heading_Payload <-- 0 : LL_Renaming) : (LL_first(LL_payload(.0)));
+    (LL_Heading_Payload <-- 0 : LL_Renaming) : (LL_first(LL_payload(.0)));
 
 Muldis_D.Low_Level.LL_renaming_before ::= function
-	(LL_List_of_String_Payloads <-- 0 : LL_Renaming)
-	: (LL_second(LL_payload(.0)));
+    (LL_List_of_String_Payloads <-- 0 : LL_Renaming)
+    : (LL_second(LL_payload(.0)));
 
 /*************************************************************************/
 
@@ -356,15 +356,15 @@ Muldis_D.Low_Level.LL_Tuple_Payload ::= LL_Pair where
 );
 
 Muldis_D.Low_Level.LL_tuple ::= function
-	(LL_Tuple <-- 0|heading : LL_Heading_Payload, 1|body : LL_List)
+    (LL_Tuple <-- 0|heading : LL_Heading_Payload, 1|body : LL_List)
     requires (LL_same(LL_count(.0),LL_count(.1)))
     : (LL_pair(LL_SK_TUPLE(),LL_pair(.0,.1)));
 
 Muldis_D.Low_Level.LL_tuple_heading ::= function
-	(LL_Heading_Payload <-- 0 : LL_Tuple) : (LL_first(LL_payload(.0)));
+    (LL_Heading_Payload <-- 0 : LL_Tuple) : (LL_first(LL_payload(.0)));
 
 Muldis_D.Low_Level.LL_tuple_body ::= function (LL_List <-- 0 : LL_Tuple)
-	: (LL_second(LL_payload(.0)));
+    : (LL_second(LL_payload(.0)));
 
 /*************************************************************************/
 
@@ -373,10 +373,10 @@ Muldis_D.Low_Level.LL_Relation ::= LL_Structure_Base
         ?? LL_payload(.0) isa $LL_Relation_Payload !! LL_FALSE());
 
 Muldis_D.Low_Level.LL_Relation_Payload ::= LL_Pair
-	where (LL_is_relation_payload(.0));
+    where (LL_is_relation_payload(.0));
 
 Muldis_D.Low_Level.LL_is_relation_payload ::= function
-	(LL_Boolean <-- 0|payload : LL_Pair)
+    (LL_Boolean <-- 0|payload : LL_Pair)
 : (
     heading ::= LL_first(.0);
     body    ::= LL_second(.0);
@@ -392,15 +392,15 @@ Muldis_D.Low_Level.LL_is_relation_payload ::= function
 );
 
 Muldis_D.Low_Level.LL_relation ::= function
-	(LL_Relation <-- 0|heading : LL_Heading_Payload, 1|body : LL_List)
-	requires (LL_is_relation_payload(LL_pair(.0,.1)))
+    (LL_Relation <-- 0|heading : LL_Heading_Payload, 1|body : LL_List)
+    requires (LL_is_relation_payload(LL_pair(.0,.1)))
     : (LL_pair(LL_SK_RELATION(),LL_pair(.0,.1)));
 
 Muldis_D.Low_Level.LL_relation_heading ::= function
-	(LL_Heading_Payload <-- 0 : LL_Relation) : (LL_first(LL_payload(.0)));
+    (LL_Heading_Payload <-- 0 : LL_Relation) : (LL_first(LL_payload(.0)));
 
 Muldis_D.Low_Level.LL_relation_body ::= function
-	(LL_List <-- 0 : LL_Relation) : (LL_second(LL_payload(.0)));
+    (LL_List <-- 0 : LL_Relation) : (LL_second(LL_payload(.0)));
 
 /*************************************************************************/
 
@@ -413,31 +413,31 @@ Muldis_D.Low_Level.LL_Identifier ::= LL_Structure_Base
         ?? LL_payload(.0) isa $LL_Identifier_Payload !! LL_FALSE());
 
 Muldis_D.Low_Level.LL_Identifier_Payload ::= LL_List
-	where (LL_is_identifier_payload(.0));
+    where (LL_is_identifier_payload(.0));
 
 Muldis_D.Low_Level.LL_is_identifier_payload ::= function
-	(LL_Boolean <-- 0|payload : LL_List)
+    (LL_Boolean <-- 0|payload : LL_List)
 : (
-	<-- if is_quint_payload then
-			if is_identifier_base then
-				given identifier_kind
-				when LL_IK_ABSOLUTE() then is_absolute
-				when LL_IK_RELATIVE() then is_relative
-				when LL_IK_SEARCH()   then is_search
-				default LL_FALSE()
-			else LL_FALSE()
-		else LL_FALSE()
-		;
+    <-- if is_quint_payload then
+            if is_identifier_base then
+                given identifier_kind
+                when LL_IK_ABSOLUTE() then is_absolute
+                when LL_IK_RELATIVE() then is_relative
+                when LL_IK_SEARCH()   then is_search
+                default LL_FALSE()
+            else LL_FALSE()
+        else LL_FALSE()
+        ;
 
-	is_quint_payload ::= LL_same(LL_count(.0),LL_5());
+    is_quint_payload ::= LL_same(LL_count(.0),LL_5());
 
-	identifier_kind     ::= LL_elem(.0,LL_ZERO());
-	pkg_name_base       ::= LL_elem(.0,LL_1());
-	pkg_name_ext        ::= LL_elem(.0,LL_2()); /* [authority, vnum] */
-	path_beneath_pkg    ::= LL_elem(.0,LL_3());
-	rel_starts_n_lev_up ::= LL_elem(.0,LL_4());
+    identifier_kind     ::= LL_elem(.0,LL_ZERO());
+    pkg_name_base       ::= LL_elem(.0,LL_1());
+    pkg_name_ext        ::= LL_elem(.0,LL_2()); /* [authority, vnum] */
+    path_beneath_pkg    ::= LL_elem(.0,LL_3());
+    rel_starts_n_lev_up ::= LL_elem(.0,LL_4());
 
-	is_identifier_base ::=
+    is_identifier_base ::=
         if identifier_kind isa $LL_Natural then
             if pkg_name_base isa $LL_List_of_String_Payloads then
                 if pkg_name_ext isa $LL_List_of_String_Payloads then
@@ -449,25 +449,25 @@ Muldis_D.Low_Level.LL_is_identifier_payload ::= function
         else LL_FALSE()
         ;
 
-	is_absolute ::=
+    is_absolute ::=
         if LL_in_order(LL_count(pkg_name_ext),LL_2()) then
             LL_zero(rel_starts_n_lev_up)
         else LL_FALSE()
-		;
+        ;
 
-	is_relative ::=
+    is_relative ::=
         if LL_empty(pkg_name_base) then
             LL_empty(pkg_name_ext)
         else LL_FALSE()
-		;
+        ;
 
-	is_search ::=
+    is_search ::=
         if LL_empty(pkg_name_base) then
             if LL_empty(pkg_name_ext) then
                 LL_zero(rel_starts_n_lev_up)
             else LL_FALSE()
         else LL_FALSE()
-		;
+        ;
 );
 
 Muldis_D.Low_Level.LL_quint ::= function (LL_List <--
@@ -475,40 +475,40 @@ Muldis_D.Low_Level.LL_quint ::= function (LL_List <--
     : (LL_prepend(.0,LL_prepend(.1,LL_prepend(.2,LL_pair(.3,.4)))));
 
 Muldis_D.Low_Level.LL_identifier ::= function
-	(LL_Identifier <-- 0|identifier_kind : LL_Natural,
-		1|pkg_name_base : LL_List_of_String_Payloads,
-		2|pkg_name_ext : LL_List_of_String_Payloads,
-		3|path_beneath_pkg : LL_List_of_String_Payloads,
-		4|rel_starts_n_lev_up : LL_Natural)
-	requires (LL_is_identifier_payload(LL_quint(.0,.1,.2,.3,.4)))
+    (LL_Identifier <-- 0|identifier_kind : LL_Natural,
+        1|pkg_name_base : LL_List_of_String_Payloads,
+        2|pkg_name_ext : LL_List_of_String_Payloads,
+        3|path_beneath_pkg : LL_List_of_String_Payloads,
+        4|rel_starts_n_lev_up : LL_Natural)
+    requires (LL_is_identifier_payload(LL_quint(.0,.1,.2,.3,.4)))
     : (LL_pair(LL_SK_IDENTIFIER(),LL_quint(.0,.1,.2,.3,.4)));
 
 Muldis_D.Low_Level.LL_identifier_kind ::= function
-	(LL_Natural <-- 0 : LL_Identifier)
-	: (LL_elem(LL_payload(.0),LL_ZERO()));
+    (LL_Natural <-- 0 : LL_Identifier)
+    : (LL_elem(LL_payload(.0),LL_ZERO()));
 
 Muldis_D.Low_Level.LL_pkg_name_base ::= function
-	(LL_List_of_String_Payloads <-- 0 : LL_Identifier)
-	: (LL_elem(LL_payload(.0),LL_1()));
+    (LL_List_of_String_Payloads <-- 0 : LL_Identifier)
+    : (LL_elem(LL_payload(.0),LL_1()));
 
 Muldis_D.Low_Level.LL_pkg_name_ext ::= function
-	(LL_List_of_String_Payloads <-- 0 : LL_Identifier)
-	: (LL_elem(LL_payload(.0),LL_2()));
+    (LL_List_of_String_Payloads <-- 0 : LL_Identifier)
+    : (LL_elem(LL_payload(.0),LL_2()));
 
 Muldis_D.Low_Level.LL_path_beneath_pkg ::= function
-	(LL_List_of_String_Payloads <-- 0 : LL_Identifier)
-	: (LL_elem(LL_payload(.0),LL_3()));
+    (LL_List_of_String_Payloads <-- 0 : LL_Identifier)
+    : (LL_elem(LL_payload(.0),LL_3()));
 
 Muldis_D.Low_Level.LL_rel_starts_n_lev_up ::= function
-	(LL_Natural <-- 0 : LL_Identifier) : (LL_elem(LL_payload(.0),LL_4()));
+    (LL_Natural <-- 0 : LL_Identifier) : (LL_elem(LL_payload(.0),LL_4()));
 
 Muldis_D.Low_Level.LL_Reference ::= LL_Identifier where
 (
-	if LL_same(LL_identifier_kind(.0),LL_IK_ABSOLUTE()) then
-		if LL_empty(LL_pkg_name_base(.0)) then
-			LL_FALSE()
-		else LL_same(LL_count(LL_pkg_name_ext(.0)),LL_2())
-	else LL_FALSE()
+    if LL_same(LL_identifier_kind(.0),LL_IK_ABSOLUTE()) then
+        if LL_empty(LL_pkg_name_base(.0)) then
+            LL_FALSE()
+        else LL_same(LL_count(LL_pkg_name_ext(.0)),LL_2())
+    else LL_FALSE()
 );
 
 Muldis_D.Low_Level.LL_every_elem_isa ::= function
@@ -531,10 +531,10 @@ Muldis_D.Low_Level.LL_capsule ::= function (LL_Capsule <--
     : (LL_pair(LL_SK_CAPSULE(),LL_pair(.0,.1)));
 
 Muldis_D.Low_Level.LL_capsule_type ::= function
-	(LL_Reference_Payload <-- 0 : LL_Capsule) : (LL_first(LL_payload(.0)));
+    (LL_Reference_Payload <-- 0 : LL_Capsule) : (LL_first(LL_payload(.0)));
 
 Muldis_D.Low_Level.LL_capsule_attrs ::= function
-	(LL_Tuple_Payload <-- 0 : LL_Capsule) : (LL_second(LL_payload(.0)));
+    (LL_Tuple_Payload <-- 0 : LL_Capsule) : (LL_second(LL_payload(.0)));
 
 /*************************************************************************/
 
@@ -566,11 +566,11 @@ Muldis_D.Low_Level.LL_external ::= function
 Muldis_D.Low_Level.LL_same_low_level_type ::= function
     (LL_Boolean <-- 0 : LL_List, 1 : LL_List) is_commutative
 : (
-	if .0 isa $LL_Boolean then
-		.1 isa $LL_Boolean
-	else if .0 isa $LL_Structure then
-		if .1 isa $LL_Structure then
-			LL_same(LL_structure_kind(.0),LL_structure_kind(.1))
-		else LL_FALSE()
-	else LL_same(.0,.1)
+    if .0 isa $LL_Boolean then
+        .1 isa $LL_Boolean
+    else if .0 isa $LL_Structure then
+        if .1 isa $LL_Structure then
+            LL_same(LL_structure_kind(.0),LL_structure_kind(.1))
+        else LL_FALSE()
+    else LL_same(.0,.1)
 );

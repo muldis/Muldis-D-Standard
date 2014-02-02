@@ -57,13 +57,13 @@ Muldis_D.Integer."+"|plus|add|sum ::= function
     m0 ::= LL_magnitude(.0);
     s1 ::= LL_is_neg(.1);
     m1 ::= LL_magnitude(.1);
-	<-- .0 = 0             ?? .1
-	 !! .1 = 0             ?? .0
-	 !! s0 = s1            ?? LL_integer(s0,LL_plus(m0,m1))
-	 !! m0 = m1            ?? 0
-	 !! LL_in_order(m0,m1) ?? LL_integer(s1,LL_minus(m1,m0))
-	 !!                       LL_integer(s0,LL_minus(m0,m1))
-	 ;
+    <-- .0 = 0             ?? .1
+     !! .1 = 0             ?? .0
+     !! s0 = s1            ?? LL_integer(s0,LL_plus(m0,m1))
+     !! m0 = m1            ?? 0
+     !! LL_in_order(m0,m1) ?? LL_integer(s1,LL_minus(m1,m0))
+     !!                       LL_integer(s0,LL_minus(m0,m1))
+     ;
 );
 
 Muldis_D.Integer."-"|minus|subtract|diff|difference ::= function
@@ -91,22 +91,22 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
         round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.div
 : (
-	if .1 = 1 then
-		.0
-	else if .0 = .1 then
-		1
-	else if .0 = 0 then
-		0
-	else
-	  (
-	  	rtz_quotient ::= LL_integer( LL_is_neg(.0) xor LL_is_neg(.1),
-        	LL_divide(LL_magnitude(.0),LL_magnitude(.1)) );
+    if .1 = 1 then
+        .0
+    else if .0 = .1 then
+        1
+    else if .0 = 0 then
+        0
+    else
+      (
+        rtz_quotient ::= LL_integer( LL_is_neg(.0) xor LL_is_neg(.1),
+            LL_divide(LL_magnitude(.0),LL_magnitude(.1)) );
         rtz_remainder ::= .0 - .1 * rtz_quotient;
 
-		if rtz_remainder = 0 then
-			rtz_quotient
-		else
-		  (
+        if rtz_remainder = 0 then
+            rtz_quotient
+        else
+          (
             dbl_azq ::= 2 * abs(rtz_quotient);
             adsr ::= abs(.1);
             azq_eq_half_adsr ::= dbl_azq = adsr;
@@ -115,25 +115,25 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
 
 /* TODO: FINISH THIS ROUTINE DEFINITION! */
 
-			<-- given round_meth
-				when :$Down then
-					rtz_quotient + (rtz_quotient <= 0) ?? -1 !! 0
-				when :$Up then
-					rtz_quotient + (rtz_quotient > 0) ?? 1 !! 0
-				when :$To_Zero then
-					rtz_quotient
-				when :$To_Inf then
-					rtz_quotient + 1
-				when :$Half_Down
-				when :$Half_Up
-				when :$Half_To_Zero
-				when :$Half_To_Inf
-				when :$Half_Even
-				default fail  /* oops, an unhandled case */
-			;
-		  )
-		;
-	  )
+            <-- given round_meth
+                when :$Down then
+                    rtz_quotient + (rtz_quotient <= 0) ?? -1 !! 0
+                when :$Up then
+                    rtz_quotient + (rtz_quotient > 0) ?? 1 !! 0
+                when :$To_Zero then
+                    rtz_quotient
+                when :$To_Inf then
+                    rtz_quotient + 1
+                when :$Half_Down
+                when :$Half_Up
+                when :$Half_To_Zero
+                when :$Half_To_Inf
+                when :$Half_Even
+                default fail  /* oops, an unhandled case */
+            ;
+          )
+        ;
+      )
 );
 
 Muldis_D.Integer.mod|remainder|modulo ::= function
@@ -146,7 +146,7 @@ Muldis_D.Integer.quot_and_rem ::= function
         remainder : :*$Integer })) <--
         0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.quot_and_rem
-	: (:%{ quotient : div(*_), remainder : mod(*_) });
+    : (:%{ quotient : div(*_), remainder : mod(*_) });
 
 /*************************************************************************/
 
