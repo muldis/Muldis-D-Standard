@@ -1,0 +1,29 @@
+Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+
+package_segment Muldis_D:"http://muldis.com":0:Voidlike;
+
+/*************************************************************************/
+
+Muldis_D.Voidlike ::= abstract_type;
+
+Muldis_D.Voidlike.Void ::= Singleton composes Voidlike
+	where (Capsule_type(.0) = :*$Void);
+
+Muldis_D.Voidlike.Unknown ::= Singleton composes Voidlike
+	where (Capsule_type(.0) = :*$Unknown);
+
+Muldis_D.Voidlike.Not_Applicable ::= Singleton composes Voidlike
+	where (Capsule_type(.0) = :*$Not_Applicable);
+
+/*************************************************************************/
+
+/* Note: We have not given "//" an identity value, eg Void, because in the
+   contexts where the op may be used, other Voidlike identities might be
+   desired instead, and better let the contexts just decide explicitly. */
+
+Muldis_D.Voidlike."//" ::= function
+    (Universal <-- 0 : Universal, 1 : Universal)
+    is_associative is_idempotent : (.0 !isa $Voidlike ?? .0 !! .1);
+
+Muldis_D.Voidlike.coalesce ::= function (Universal <-- 0 : Array)
+	requires (?#.0) : ([//] .0);

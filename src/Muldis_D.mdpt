@@ -26,3 +26,4 @@ has_segment Stringy;
 has_segment Text;
 has_segment Tuple;
 has_segment Universal;
+has_segment Voidlike;

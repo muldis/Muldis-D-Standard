@@ -6,7 +6,8 @@ package_segment Muldis_D:"http://muldis.com":0:Text;
 
 Muldis_D.Textual ::= abstract_type composes Ordered;
 
-Muldis_D.Text ::= capsule_type composes Textual { maximal_chars : String };
+Muldis_D.Text ::= Capsule composes Textual
+    where (has_attrs(.0,:%{ maximal_chars : :*$String }));
 
 Muldis_D.Text.ASCII_Char ::= Integer where (.0 in 0..127);
 

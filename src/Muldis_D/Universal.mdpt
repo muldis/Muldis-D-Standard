@@ -35,6 +35,23 @@ Muldis_D.Universal.default_of ::= function
 
 /*************************************************************************/
 
+/* Note that "same_base_type" is designed to give the answer that would be
+   the most useful to normal users, which is also simple and deterministic,
+   and that is to treat Capsule as a multiplicity of base types while
+   treating all non-Capsule low-level types as just one base-type each. */
+
+Muldis_D.Universal.same_base_type ::= function
+    (Boolean <-- 0 : Universal, 1 : Universal) is_commutative
+: (
+	if LL_same_low_level_type(.0,.1) then
+		if .0 isa $Capsule then
+			Capsule_type(.0) = Capsule_type(.1)
+		else true
+	else false
+);
+
+/*************************************************************************/
+
 /* Note that ":=" is a keyword; this updater is a shim over it. */
 
 Muldis_D.Universal.":="|assign ::= updater
