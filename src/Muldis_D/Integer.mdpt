@@ -91,6 +91,8 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
         round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.div
 : (
+    /* We know we are dividing by a non-zero value. */
+
     if .1 = 1 then
         .0
     else if .0 = .1 then
@@ -99,7 +101,11 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
         0
     else
       (
-        rtz_quotient ::= LL_integer( LL_is_neg(.0) xor LL_is_neg(.1),
+        /* We know the divisor and dividend do not equal each other and
+           that neither of them is a zero or a one. */
+
+        real_q_is_neg ::= LL_is_neg(.0) xor LL_is_neg(.1);
+        rtz_quotient ::= LL_integer( real_q_is_neg,
             LL_divide(LL_magnitude(.0),LL_magnitude(.1)) );
         rtz_remainder ::= .0 - .1 * rtz_quotient;
 
@@ -107,29 +113,55 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
             rtz_quotient
         else
           (
-            dbl_azq ::= 2 * abs(rtz_quotient);
-            adsr ::= abs(.1);
-            azq_eq_half_adsr ::= dbl_azq = adsr;
-            azq_lt_half_adsr ::= dbl_azq < adsr;
-            azq_gt_half_adsr ::= dbl_azq > adsr;
+            /* We know the divisor does not divide the dividend evently
+               and the real number division result would have a fractional
+               part, so now we decide how to round that. */
 
-/* TODO: FINISH THIS ROUTINE DEFINITION! */
+            rti_quotient ::= rtz_quotient + (real_q_is_neg ?? -1 !! 1);
+            rdn_quotient ::= rtz_quotient + (real_q_is_neg ?? -1 !! 0);
+            rup_quotient ::= rtz_quotient + (real_q_is_neg ??  0 !! 1);
 
-            <-- given round_meth
+            <-- given .round_meth
                 when :$Down then
-                    rtz_quotient + (rtz_quotient <= 0) ?? -1 !! 0
+                    rdn_quotient
                 when :$Up then
-                    rtz_quotient + (rtz_quotient > 0) ?? 1 !! 0
+                    rup_quotient
                 when :$To_Zero then
                     rtz_quotient
                 when :$To_Inf then
-                    rtz_quotient + 1
-                when :$Half_Down
-                when :$Half_Up
-                when :$Half_To_Zero
-                when :$Half_To_Inf
-                when :$Half_Even
-                default fail  /* oops, an unhandled case */
+                    rti_quotient
+                default
+                    if (2 * abs(rtz_remainder)) < abs(.1) then
+                        rtz_quotient
+                    else if (2 * abs(rtz_remainder)) > abs(.1) then
+                        rti_quotient
+                    else
+                      (
+                        /* The real division remainder is exactly one-half
+                           so now we decide how to round that. */
+
+                        given .round_meth
+                            when :$Half_Down then
+                                rdn_quotient
+                            when :$Half_Up then
+                                rup_quotient
+                            when :$Half_To_Zero then
+                                rtz_quotient
+                            when :$Half_To_Inf then
+                                rti_quotient
+                            when :$Half_Even
+                              (
+                                q ::= LL_integer( false,
+                                    LL_divide(LL_magnitude(rtz_quotient),
+                                    LL_magnitude(2)) );
+                                r ::= q - 2 * q;
+                                rtz_quotient_is_even ::= r = 0;
+                                <-- rtz_quotient_is_even
+                                    ?? rtz_quotient !! rti_quotient;
+                              )
+                            default fail  /* oops, an unhandled case */
+                        ;
+                      )
             ;
           )
         ;
