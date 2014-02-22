@@ -154,7 +154,7 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
                                 q ::= LL_integer( false,
                                     LL_divide(LL_magnitude(rtz_quotient),
                                     LL_magnitude(2)) );
-                                r ::= q - 2 * q;
+                                r ::= abs(rtz_quotient) - 2 * q;
                                 rtz_quotient_is_even ::= r = 0;
                                 <-- rtz_quotient_is_even
                                     ?? rtz_quotient !! rti_quotient;
