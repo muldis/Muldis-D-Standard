@@ -17,11 +17,11 @@ Muldis_D.Source_Code.Source_Code_Meta ::= Source_Code_Meta.AT&Capsule;
 
 /*************************************************************************/
 
-/* SC_Heading example: :~{name,age,phone} */
+/* SC_Heading example: \~{name,age,phone} */
 
 Muldis_D.Source_Code.SC_Heading ::= LL_Heading;
 
-/* SC_Renaming example: :<{newname<-oldname} or :<{a<-b,b<-a,x<-y} */
+/* SC_Renaming example: \<-{newname:oldname} or \<-{a:b,b:a,x:y} */
 
 Muldis_D.Source_Code.SC_Renaming ::= LL_Renaming;
 
@@ -31,7 +31,7 @@ Muldis_D.Source_Code.SC_Reference ::= LL_Reference composes Ordered;
 
 /*************************************************************************/
 
-/* SC_Name example: :~{age} */
+/* SC_Name example: \~{age} */
 
 Muldis_D.Source_Code.SC_Name ::= SC_Heading
     where (LL_count(LL_payload(.0)) = 1);
@@ -58,7 +58,7 @@ Muldis_D.Source_Code.SC_Pkg_Local_Aliases ::= Array
 
 Muldis_D.Source_Code.SC_Pkg_Decl_Map ::= Capsule where
 (
-    has_attrs(.0,:%{
+    has_attrs(.0,\%{
         local_alias : $SC_Pkg_Local_Alias,
         full_name   : $SC_Pkg_Full_Name,
     })
@@ -71,7 +71,7 @@ Muldis_D.Source_Code.SC_Pkg_Decl_Maps ::= Array
 
 Muldis_D.Source_Code.SC_Package ::= Capsule where
 (
-    has_attrs(.0,:%{
+    has_attrs(.0,\%{
         package   : $SC_Pkg_Decl_Map,
         using     : $SC_Pkg_Decl_Maps,
         searching : $SC_Pkg_Local_Aliases,
@@ -87,14 +87,14 @@ Muldis_D.Source_Code.SC_Package_Segment ::= Capsule where
 (
     Capsule_type(.0) = $SC_Package_Segment
     and
-    has_attrs(%.0,:%{
+    has_attrs(%.0,\%{
         materials : $SC_Materials,
     })
 );
 
 Muldis_D.Source_Code.SC_Schema ::= Capsule where
 (
-    has_attrs(.0,:%{
+    has_attrs(.0,\%{
         materials : $SC_Materials,
     })
 );

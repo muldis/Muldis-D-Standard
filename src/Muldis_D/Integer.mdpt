@@ -174,11 +174,11 @@ Muldis_D.Integer.mod|remainder|modulo ::= function
     requires (.1 != 0) implements Numeric.mod : (.0 - .1 * div(*_));
 
 Muldis_D.Integer.quot_and_rem ::= function
-    (Tuple where (has_attrs(.0,:%{ quotient : $Integer,
+    (Tuple where (has_attrs(.0,\%{ quotient : $Integer,
         remainder : $Integer })) <--
         0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.quot_and_rem
-    : (:%{ quotient : div(*_), remainder : mod(*_) });
+    : (\%{ quotient : div(*_), remainder : mod(*_) });
 
 /*************************************************************************/
 
@@ -187,5 +187,5 @@ Muldis_D.Integer.power|exp|exponentiate ::= function
     requires (!LL_is_neg(.1))
     implements Numeric.power : (...);
 
-Muldis_D.Integer.factorial ::= function (Integer.P <-- 0 : Integer.P) :
-    ([*] enumerated(1 .. .0));
+Muldis_D.Integer.factorial ::= function (Integer.P <-- 0 : Integer.P)
+    : ([*] enumerated(1 .. .0));
