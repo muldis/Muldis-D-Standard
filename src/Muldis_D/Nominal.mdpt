@@ -6,8 +6,6 @@ package_segment Muldis_D:"http://muldis.com":0:Nominal;
 
 Muldis_D.Nominal ::= abstract_type;
 
-Muldis_D.Identifier ::= LL_Identifier composes Nominal composes Ordered;
-
 
 /* Cardinal, Ordinal, and Nominal (numbers). */
 /* quantity/count vs rank/position vs identifying */

@@ -20,15 +20,15 @@ Muldis_D.Boolean."<=>"|order ::= function
     (Order <-- 0|lhs : Boolean, 1|rhs : Boolean)
     implements Ordered."<=>"
 : (
-       .0 = .1 ?? :$Order.Same
-    !! .1      ?? :$Order.Less
-    !!            :$Order.More
+       .0 = .1 ?? $=>Same
+    !! .1      ?? $=>Less
+    !!            $=>More
 );
 
 /*************************************************************************/
 
 Muldis_D.Boolean.False."--"|pred|dec ::= function ("-Inf" <-- 0 : False)
-    implements Ordinal."--" : (:$"-Inf");
+    implements Ordinal."--" : ($=>"-Inf");
 
 Muldis_D.Boolean.True."--"|pred|dec ::= function (False <-- 0 : True)
     implements Ordinal."--" : (false);
@@ -37,7 +37,7 @@ Muldis_D.Boolean.False."++"|succ|inc ::= function (True <-- 0 : False)
     implements Ordinal."++" : (true);
 
 Muldis_D.Boolean.True."++"|succ|inc ::= function ("+Inf" <-- 0 : True)
-    implements Ordinal."++" : (:$"+Inf");
+    implements Ordinal."++" : ($=>"+Inf");
 
 /*************************************************************************/
 

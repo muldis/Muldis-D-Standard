@@ -12,11 +12,11 @@ Muldis_D.Ordinal ::= abstract_type composes Ordered;
 
 /*************************************************************************/
 
-Muldis_D.Order ::= Less|Same|More default :$Same;
+Muldis_D.Order ::= Less|Same|More default $=>Same;
 
-Muldis_D.Order.Less ::= Singleton where (Capsule_type(.0) = :*$Less);
-Muldis_D.Order.Same ::= Singleton where (Capsule_type(.0) = :*$Same);
-Muldis_D.Order.More ::= Singleton where (Capsule_type(.0) = :*$More);
+Muldis_D.Order.Less ::= Singleton where (Capsule_type(.0) = $Less);
+Muldis_D.Order.Same ::= Singleton where (Capsule_type(.0) = $Same);
+Muldis_D.Order.More ::= Singleton where (Capsule_type(.0) = $More);
 
 /*************************************************************************/
 

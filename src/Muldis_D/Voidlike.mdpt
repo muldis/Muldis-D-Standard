@@ -7,13 +7,13 @@ package_segment Muldis_D:"http://muldis.com":0:Voidlike;
 Muldis_D.Voidlike ::= abstract_type;
 
 Muldis_D.Voidlike.Void ::= Singleton composes Voidlike
-    where (Capsule_type(.0) = :*$Void);
+    where (Capsule_type(.0) = $Void);
 
 Muldis_D.Voidlike.Unknown ::= Singleton composes Voidlike
-    where (Capsule_type(.0) = :*$Unknown);
+    where (Capsule_type(.0) = $Unknown);
 
 Muldis_D.Voidlike.Not_Applicable ::= Singleton composes Voidlike
-    where (Capsule_type(.0) = :*$Not_Applicable);
+    where (Capsule_type(.0) = $Not_Applicable);
 
 /*************************************************************************/
 

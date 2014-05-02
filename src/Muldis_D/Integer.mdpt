@@ -21,14 +21,14 @@ Muldis_D.Integer."<=>"|order ::= function
     (Order <-- 0|lhs : Integer, 1|rhs : Integer)
     implements Ordered."<=>"
 : (
-       .0 = .1                           ?? :$Order.Same
-    !! LL_is_neg(.0)  and !LL_is_neg(.1) ?? :$Order.Less
-    !! !LL_is_neg(.0) and LL_is_neg(.1)  ?? :$Order.More
+       .0 = .1                           ?? $=>Same
+    !! LL_is_neg(.0)  and !LL_is_neg(.1) ?? $=>Less
+    !! !LL_is_neg(.0) and LL_is_neg(.1)  ?? $=>More
     !! LL_is_neg(.0)  and LL_is_neg(.1)
         ?? (LL_in_order(LL_magnitude(.0),LL_magnitude(.1))
-            ?? :$Order.More !! :$Order.Less)
+            ?? $=>More !! $=>Less)
     !! (LL_in_order(LL_magnitude(.0),LL_magnitude(.1))
-            ?? :$Order.Less !! :$Order.More)
+            ?? $=>Less !! $=>More)
 );
 
 /*************************************************************************/
@@ -122,13 +122,13 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
             rup_quotient ::= rtz_quotient + (real_q_is_neg ??  0 !! 1);
 
             <-- given .round_meth
-                when :$Down then
+                when $=>Down then
                     rdn_quotient
-                when :$Up then
+                when $=>Up then
                     rup_quotient
-                when :$To_Zero then
+                when $=>To_Zero then
                     rtz_quotient
-                when :$To_Inf then
+                when $=>To_Inf then
                     rti_quotient
                 default
                     if (2 * abs(rtz_remainder)) < abs(.1) then
@@ -141,15 +141,15 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
                            so now we decide how to round that. */
 
                         given .round_meth
-                            when :$Half_Down then
+                            when $=>Half_Down then
                                 rdn_quotient
-                            when :$Half_Up then
+                            when $=>Half_Up then
                                 rup_quotient
-                            when :$Half_To_Zero then
+                            when $=>Half_To_Zero then
                                 rtz_quotient
-                            when :$Half_To_Inf then
+                            when $=>Half_To_Inf then
                                 rti_quotient
-                            when :$Half_Even
+                            when $=>Half_Even
                               (
                                 q ::= LL_integer( false,
                                     LL_divide(LL_magnitude(rtz_quotient),
@@ -174,8 +174,8 @@ Muldis_D.Integer.mod|remainder|modulo ::= function
     requires (.1 != 0) implements Numeric.mod : (.0 - .1 * div(*_));
 
 Muldis_D.Integer.quot_and_rem ::= function
-    (Tuple where (has_attrs(.0,:%{ quotient : :*$Integer,
-        remainder : :*$Integer })) <--
+    (Tuple where (has_attrs(.0,:%{ quotient : $Integer,
+        remainder : $Integer })) <--
         0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.quot_and_rem
     : (:%{ quotient : div(*_), remainder : mod(*_) });

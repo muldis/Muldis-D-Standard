@@ -59,24 +59,24 @@ Muldis_D.Source_Code.SC_Pkg_Local_Aliases ::= Array
 Muldis_D.Source_Code.SC_Pkg_Decl_Map ::= Capsule where
 (
     has_attrs(.0,:%{
-        local_alias : :*$SC_Pkg_Local_Alias,
-        full_name   : :*$SC_Pkg_Full_Name,
+        local_alias : $SC_Pkg_Local_Alias,
+        full_name   : $SC_Pkg_Full_Name,
     })
 );
 
 Muldis_D.Source_Code.SC_Pkg_Decl_Maps ::= Array
-    where (.0->every_elem_isa(:*$SC_Pkg_Decl_Map));
+    where (.0->every_elem_isa($SC_Pkg_Decl_Map));
 
 /*************************************************************************/
 
 Muldis_D.Source_Code.SC_Package ::= Capsule where
 (
     has_attrs(.0,:%{
-        package   : :*$SC_Pkg_Decl_Map,
-        using     : :*$SC_Pkg_Decl_Maps,
-        searching : :*$SC_Pkg_Local_Aliases,
-        segments  : :*$SC_Package_Segments,
-        materials : :*$SC_Materials,
+        package   : $SC_Pkg_Decl_Map,
+        using     : $SC_Pkg_Decl_Maps,
+        searching : $SC_Pkg_Local_Aliases,
+        segments  : $SC_Package_Segments,
+        materials : $SC_Materials,
     })
 );
 
@@ -85,16 +85,16 @@ Muldis_D.Source_Code.SC_Package_Segments ::=
 
 Muldis_D.Source_Code.SC_Package_Segment ::= Capsule where
 (
-    Capsule_type(.0) = :*$SC_Package_Segment
+    Capsule_type(.0) = $SC_Package_Segment
     and
     has_attrs(%.0,:%{
-        materials : :*$SC_Materials,
+        materials : $SC_Materials,
     })
 );
 
 Muldis_D.Source_Code.SC_Schema ::= Capsule where
 (
     has_attrs(.0,:%{
-        materials : :*$SC_Materials,
+        materials : $SC_Materials,
     })
 );

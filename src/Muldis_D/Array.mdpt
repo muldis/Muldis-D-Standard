@@ -19,8 +19,8 @@ Muldis_D.Array."<=>"|order ::= function
     (Order <-- 0|lhs : Array, 1|rhs : Array)
     implements Ordered."<=>"
 : (
-       .0->is_empty() ?? (.1->is_empty() ?? :$Order.Same !! :$Order.Less)
-    !! .1->is_empty() ?? :$Order.More
+       .0->is_empty() ?? (.1->is_empty() ?? $=>Same !! $=>Less)
+    !! .1->is_empty() ?? $=>More
     !! .0->first_elem() = .1->first_elem()
         ?? self(.0->nonfirst_elems(),.1->nonfirst_elems())
     !! .0->first_elem() <=> .1->first_elem()

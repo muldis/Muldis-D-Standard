@@ -24,7 +24,7 @@ all same 256 characters, or not. */
 Muldis_D::Latin.Text.Latin1_Char ::= Integer where (...);
 
 Muldis_D::Latin.Text.Latin1_Chars ::= String
-    where (.0->every_elem_isa(:*$Latin1_Char));
+    where (.0->every_elem_isa($Latin1_Char));
 
 Muldis_D::Latin.Text.Latin1 ::= Text
     where (.0->maximal_chars() isa $Latin1_Chars);
