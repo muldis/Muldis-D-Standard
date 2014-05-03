@@ -9,12 +9,12 @@ Muldis_D.Textual ::= abstract_type composes Ordered;
 Muldis_D.Text ::= Capsule composes Textual
     where (has_attrs(.0,\%{ maximal_chars : $String }));
 
-Muldis_D.Text.ASCII_Char ::= Integer where (.0 in 0..127);
+Muldis_D.Text.ASCII_Char ::= type of Integer where (.0 in 0..127);
 
-Muldis_D.Text.ASCII_Chars ::= String
+Muldis_D.Text.ASCII_Chars ::= type of String
     where (.0->every_elem_isa($ASCII_Char));
 
-Muldis_D.Text.ASCII ::= Text
+Muldis_D.Text.ASCII ::= type of Text
     where (.0->maximal_chars() isa $ASCII_Chars);
 
 /*************************************************************************/

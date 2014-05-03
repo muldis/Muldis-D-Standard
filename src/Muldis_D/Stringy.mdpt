@@ -12,9 +12,9 @@ Muldis_D.String ::= LL_String composes Stringy;
 
 Muldis_D.Str ::= String;
 
-Muldis_D.String.NN ::= String where (.0->every_elem_isa($Integer.NN));
+Muldis_D.String.NN ::= type of String where (.0->every_elem_isa($Integer.NN));
 
-Muldis_D.String.P ::= String.NN where (.0->every_elem_isa($Integer.P));
+Muldis_D.String.P ::= type of String.NN where (.0->every_elem_isa($Integer.P));
 
 /*************************************************************************/
 

@@ -8,19 +8,19 @@ searching [Muldis_D,Muldis_D::Unicode];
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Text.Unicode_Codepoint ::= Integer
+Muldis_D::Unicode.Text.Unicode_Codepoint ::= type of Integer
     where (.0 in 0..0x10FFFF);
 
-Muldis_D::Unicode.Text.Unicode_Codepoints ::= String
+Muldis_D::Unicode.Text.Unicode_Codepoints ::= type of String
     where (.0->every_elem_isa($Unicode_Codepoint));
 
-Muldis_D::Unicode.Text.Unicode ::= Text
+Muldis_D::Unicode.Text.Unicode ::= type of Text
     where (.0->maximal_chars() isa $Unicode_Codepoints);
 
-Muldis_D::Unicode.Text.Unicode.Canon ::= Text.Unicode
+Muldis_D::Unicode.Text.Unicode.Canon ::= type of Text.Unicode
     where (...);
 
-Muldis_D::Unicode.Text.Unicode.Compat ::= Text.Unicode.Canon
+Muldis_D::Unicode.Text.Unicode.Compat ::= type of Text.Unicode.Canon
     where (...);
 
 /*************************************************************************/

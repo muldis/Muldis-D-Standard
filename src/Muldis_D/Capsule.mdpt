@@ -25,5 +25,5 @@ Muldis_D.Capsule.attr ::= function
 
 /*************************************************************************/
 
-Muldis_D.Capsule.Singleton ::= Capsule where (is_nullary(%.0));
+Muldis_D.Capsule.Singleton ::= type of Capsule where (is_nullary(%.0));
 

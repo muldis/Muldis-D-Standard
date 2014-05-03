@@ -11,9 +11,9 @@ Muldis_D.Integer ::= LL_Integer
 
 Muldis_D.Integer.Int ::= Integer;
 
-Muldis_D.Integer.NN ::= Integer where (!LL_is_neg(.0));
+Muldis_D.Integer.NN ::= type of Integer where (!LL_is_neg(.0));
 
-Muldis_D.Integer.P ::= Integer.NN where (.0 != 0);
+Muldis_D.Integer.P ::= type of Integer.NN where (.0 != 0);
 
 /*************************************************************************/
 

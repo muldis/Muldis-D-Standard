@@ -6,7 +6,7 @@ package_segment Muldis_D:"http://muldis.com":0:Universal;
 
 Muldis_D.Universal ::= LL_List;
 
-Muldis_D.Empty ::= Universal where (false);
+Muldis_D.Empty ::= type of Universal where (false);
 
 /*************************************************************************/
 
