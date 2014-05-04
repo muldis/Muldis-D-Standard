@@ -43,11 +43,11 @@ Muldis_D.Integer."++"|succ|inc ::= function (Integer <-- Integer)
 
 Muldis_D.Integer.monadic."-"|opposite|additive_inverse ::= function
     (Integer <-- Integer) implements Numeric.monadic."-"
-    : (.0 = 0 ?? .0 !! LL_integer(!LL_is_neg(.0),LL_magnitude(.0)));
+    : (.0 = 0 ?? .0 !! LL_integer(\*:[!LL_is_neg(.0),LL_magnitude(.0)]));
 
 Muldis_D.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
     implements Numeric.abs
-    : (LL_is_neg(.0) ?? LL_integer(true,LL_magnitude(.0)) !! .0);
+    : (LL_is_neg(.0) ?? LL_integer(\*:[true,LL_magnitude(.0)]) !! .0);
 
 Muldis_D.Integer."+"|plus|add|sum ::= function
     (Integer <-- 0|augend : Integer, 1|addend : Integer)
@@ -59,10 +59,10 @@ Muldis_D.Integer."+"|plus|add|sum ::= function
     m1 ::= LL_magnitude(.1);
     <-- .0 = 0             ?? .1
      !! .1 = 0             ?? .0
-     !! s0 = s1            ?? LL_integer(s0,LL_plus(m0,m1))
+     !! s0 = s1            ?? LL_integer(\*:[s0,LL_plus(m0,m1)])
      !! m0 = m1            ?? 0
-     !! LL_in_order(m0,m1) ?? LL_integer(s1,LL_minus(m1,m0))
-     !!                       LL_integer(s0,LL_minus(m0,m1))
+     !! LL_in_order(m0,m1) ?? LL_integer(\*:[s1,LL_minus(m1,m0)])
+     !!                       LL_integer(\*:[s0,LL_minus(m0,m1)])
      ;
 );
 
@@ -78,8 +78,8 @@ Muldis_D.Integer."*"|times|multiply|product ::= function
     (Integer <-- 0|multiplicand : Integer, 1|multiplier : Integer)
     implements Numeric."*" is_commutative is_associative identity 1
     : (.0 = 1 ?? .1 !! .1 = 1 ?? .0 !! .0 = 0 or .1 = 0 ?? 0
-        !! LL_integer( LL_is_neg(.0) xor LL_is_neg(.1),
-        LL_times(LL_magnitude(.0),LL_magnitude(.1)) ));
+        !! LL_integer(\*:[ LL_is_neg(.0) xor LL_is_neg(.1),
+        LL_times(LL_magnitude(.0),LL_magnitude(.1)) ]));
 
 Muldis_D.Integer."/"|frac_divide|frac_quotient ::= function
     (Ratio <-- 0|dividend : Integer, 1|divisor : Integer)
@@ -105,8 +105,8 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
            that neither of them is a zero or a one. */
 
         real_q_is_neg ::= LL_is_neg(.0) xor LL_is_neg(.1);
-        rtz_quotient ::= LL_integer( real_q_is_neg,
-            LL_divide(LL_magnitude(.0),LL_magnitude(.1)) );
+        rtz_quotient ::= LL_integer(\*:[ real_q_is_neg,
+            LL_divide(LL_magnitude(.0),LL_magnitude(.1)) ]);
         rtz_remainder ::= .0 - .1 * rtz_quotient;
 
         if rtz_remainder = 0 then
@@ -151,9 +151,9 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
                                 rti_quotient
                             when $=>Half_Even
                               (
-                                q ::= LL_integer( false,
+                                q ::= LL_integer(\*:[ false,
                                     LL_divide(LL_magnitude(rtz_quotient),
-                                    LL_magnitude(2)) );
+                                    LL_magnitude(2)) ]);
                                 r ::= abs(rtz_quotient) - 2 * q;
                                 rtz_quotient_is_even ::= r = 0;
                                 <-- rtz_quotient_is_even
