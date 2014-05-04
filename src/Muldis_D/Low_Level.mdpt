@@ -15,9 +15,7 @@ Muldis_D.Low_Level.LL_List ::= special_type default LL_EMPTY();
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Empty ::= type of LL_List where (LL_empty(.0));
-
-Muldis_D.Low_Level.LL_EMPTY ::= function (LL_Empty <--) : (...);
+Muldis_D.Low_Level.LL_EMPTY ::= constant ...;
 
 Muldis_D.Low_Level.LL_prepend ::= function
     (LL_List <-- 0|elem : LL_List, 1|to : LL_List) : (...);
@@ -37,18 +35,18 @@ Muldis_D.Low_Level.LL_nonfirst ::= function (LL_List <-- 0|list : LL_List)
    latter case whose sole element is the empty list.
    This is exposed in the high level type system as Boolean. */
 
-Muldis_D.Low_Level.LL_False ::= LL_Empty;
-
-Muldis_D.Low_Level.LL_True ::= type of LL_List where
-    (LL_empty(.0) ?? LL_FALSE()
-    !! LL_empty(LL_nonfirst(.0)) ?? LL_empty(LL_first(.0)) !! LL_FALSE());
-
-Muldis_D.Low_Level.LL_Boolean ::= LL_False|LL_True default LL_FALSE();
+Muldis_D.Low_Level.LL_Boolean ::= type of LL_List
+    where (
+           LL_empty(.0)              ?? LL_TRUE()
+        !! LL_empty(LL_nonfirst(.0)) ?? LL_empty(LL_first(.0))
+        !! LL_FALSE()
+    )
+    default LL_FALSE();
 
 Muldis_D.Low_Level.LL_FALSE ::= LL_EMPTY;
 
-Muldis_D.Low_Level.LL_TRUE ::= function (True <--)
-    : (LL_prepend( elem : LL_EMPTY(), to : LL_EMPTY()));
+Muldis_D.Low_Level.LL_TRUE ::= constant
+    (LL_prepend( elem : LL_EMPTY(), to : LL_EMPTY()));
 
 /*************************************************************************/
 
@@ -108,8 +106,6 @@ Muldis_D.Low_Level.LL_catenate ::= function
 Muldis_D.Low_Level.LL_Natural ::= type of LL_List
     where (LL_empty(.0) ?? LL_TRUE()
         !! LL_empty(LL_first(.0)) ?? self(LL_nonfirst(.0)) !! LL_FALSE());
-
-Muldis_D.Low_Level.LL_Zero ::= LL_Empty;
 
 Muldis_D.Low_Level.LL_ZERO ::= LL_EMPTY;
 

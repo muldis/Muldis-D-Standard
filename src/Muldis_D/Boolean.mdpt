@@ -10,10 +10,6 @@ Muldis_D.Boolean ::= LL_Boolean composes Boolish;
 
 Muldis_D.Bool ::= Boolean;
 
-Muldis_D.Boolean.False ::= LL_False;
-
-Muldis_D.Boolean.True ::= LL_True;
-
 /*************************************************************************/
 
 Muldis_D.Boolean."<=>"|order ::= function
@@ -27,17 +23,11 @@ Muldis_D.Boolean."<=>"|order ::= function
 
 /*************************************************************************/
 
-Muldis_D.Boolean.False."--"|pred|dec ::= function ("-Inf" <-- 0 : False)
-    implements Ordinal."--" : ($=>"-Inf");
+Muldis_D.Boolean."--"|pred|dec ::= function (Boolean|"-Inf" <-- Boolean)
+    implements Ordinal."--" : (.0 ?? false !! $=>"-Inf");
 
-Muldis_D.Boolean.True."--"|pred|dec ::= function (False <-- 0 : True)
-    implements Ordinal."--" : (false);
-
-Muldis_D.Boolean.False."++"|succ|inc ::= function (True <-- 0 : False)
-    implements Ordinal."++" : (true);
-
-Muldis_D.Boolean.True."++"|succ|inc ::= function ("+Inf" <-- 0 : True)
-    implements Ordinal."++" : ($=>"+Inf");
+Muldis_D.Boolean."++"|succ|inc ::= function (Boolean|"+Inf" <-- Boolean)
+    implements Ordinal."++" : (!.0 ?? true !! $=>"+Inf");
 
 /*************************************************************************/
 
