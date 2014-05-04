@@ -12,16 +12,16 @@ Muldis_D.Capsule."=>"|select_Capsule ::= function
     (Capsule <-- 0|type : SC_Reference, 1|attrs : Tuple)
     : LL_capsule(LL_payload(.0),LL_payload(.1));
 
-Muldis_D.Capsule.Capsule_type ::= function (SC_Reference <-- 0 : Capsule)
+Muldis_D.Capsule.Capsule_type ::= function (SC_Reference <-- Capsule)
     : LL_reference(LL_capsule_type(.0));
 
-Muldis_D.Capsule."%"|attrs ::= function (Tuple <-- 0 : Capsule)
+Muldis_D.Capsule."%"|attrs ::= function (Tuple <-- Capsule)
     : LL_tuple(LL_capsule_attrs(.0));
 
 /*************************************************************************/
 
 Muldis_D.Capsule.attr ::= function
-    (Universal <-- 0 : Capsule, 1|name : SC_Name) : attr(%.0,.1);
+    (Universal <-- Capsule, 1|name : SC_Name) : attr(%.0,.1);
 
 /*************************************************************************/
 

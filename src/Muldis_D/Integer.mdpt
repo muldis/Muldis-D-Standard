@@ -33,19 +33,19 @@ Muldis_D.Integer."<=>"|order ::= function
 
 /*************************************************************************/
 
-Muldis_D.Integer."--"|pred|dec ::= function (Integer <-- 0 : Integer)
+Muldis_D.Integer."--"|pred|dec ::= function (Integer <-- Integer)
     implements Ordinal."--" : (.0 - 1);
 
-Muldis_D.Integer."++"|succ|inc ::= function (Integer <-- 0 : Integer)
+Muldis_D.Integer."++"|succ|inc ::= function (Integer <-- Integer)
     implements Ordinal."++" : (.0 + 1);
 
 /*************************************************************************/
 
 Muldis_D.Integer.monadic."-"|opposite|additive_inverse ::= function
-    (Integer <-- 0 : Integer) implements Numeric.monadic."-"
+    (Integer <-- Integer) implements Numeric.monadic."-"
     : (.0 = 0 ?? .0 !! LL_integer(!LL_is_neg(.0),LL_magnitude(.0)));
 
-Muldis_D.Integer.abs|modulus ::= function (Integer.NN <-- 0 : Integer)
+Muldis_D.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
     implements Numeric.abs
     : (LL_is_neg(.0) ?? LL_integer(true,LL_magnitude(.0)) !! .0);
 
@@ -187,5 +187,5 @@ Muldis_D.Integer.power|exp|exponentiate ::= function
     requires (!LL_is_neg(.1))
     implements Numeric.power : ...;
 
-Muldis_D.Integer.factorial ::= function (Integer.P <-- 0 : Integer.P)
+Muldis_D.Integer.factorial ::= function (Integer.P <-- Integer.P)
     : ([*] enumerated(1 .. .0));

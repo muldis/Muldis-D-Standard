@@ -43,24 +43,24 @@ Muldis_D.Boolean.true|tautology ::= LL_TRUE
 
 /*************************************************************************/
 
-Muldis_D.Boolean.so|"?"|proposition ::= function (Boolean <-- 0 : Boolean)
+Muldis_D.Boolean.so|"?"|proposition ::= function (Boolean <-- Boolean)
     implements Boolish.so : .0;
 
 /* Note that "not"|"!" is a meta-keyword; this function implements it. */
 
-Muldis_D.Boolean.not|"!"|negation ::= function (Boolean <-- 0 : Boolean)
+Muldis_D.Boolean.not|"!"|negation ::= function (Boolean <-- Boolean)
     implements Boolish.not : (.0 ?? false !! true);
 
 /*************************************************************************/
 
 Muldis_D.Boolean.and|all|every|conjunction ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.and
     is_commutative is_associative identity true is_idempotent
     : (.0 ?? .1 !! false);
 
 Muldis_D.Boolean.nand|not_and|not_both|alternative_denial ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.nand
     is_commutative
     : (.0 !and .1);
@@ -68,13 +68,13 @@ Muldis_D.Boolean.nand|not_and|not_both|alternative_denial ::= function
 /*************************************************************************/
 
 Muldis_D.Boolean.or|any|some|disjunction ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.or
     is_commutative is_associative identity false is_idempotent
     : (.0 ?? true !! .1);
 
 Muldis_D.Boolean.nor|not_or|joint_denial ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.nor
     is_commutative
     : (.0 !or .1);
@@ -82,13 +82,13 @@ Muldis_D.Boolean.nor|not_or|joint_denial ::= function
 /*************************************************************************/
 
 Muldis_D.Boolean.xnor|iff|biconditional|material_equivalence ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.xnor
     is_commutative is_associative identity true
     : (.0 = .1);
 
 Muldis_D.Boolean.xor|exclusive_disjunction ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.xor
     is_commutative is_associative identity false
     : (.0 != .1);
@@ -96,12 +96,12 @@ Muldis_D.Boolean.xor|exclusive_disjunction ::= function
 /*************************************************************************/
 
 Muldis_D.Boolean.imp|implies|material_implication ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.imp
     : (.0 ?? .1 !! true);
 
 Muldis_D.Boolean.nimp|not_implies|material_nonimplication ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.nimp
     : (.0 !imp .1);
 
@@ -110,12 +110,12 @@ Muldis_D.Boolean.nimp|not_implies|material_nonimplication ::= function
 /* Note that "if" is also a keyword, but its meaning differs. */
 
 Muldis_D.Boolean.if|converse_implication ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.if
     : (.1 imp .0);
 
 Muldis_D.Boolean.nif|not_if|converse_nonimplication ::= function
-    (Boolean <-- 0 : Boolean, 1 : Boolean)
+    (Boolean <-- Boolean, Boolean)
     implements Boolish.nif
     : (.1 nimp .0);
 

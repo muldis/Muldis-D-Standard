@@ -26,16 +26,16 @@ Muldis_D::Unicode.Text.Unicode.Compat ::= type of Text.Unicode.Canon
 /*************************************************************************/
 
 Muldis_D::Unicode.Text.unicode_codes ::= function
-    (Unicode_Codepoints <-- 0 : Text.Unicode) : .0->maximal_chars();
+    (Unicode_Codepoints <-- Text.Unicode) : .0->maximal_chars();
 
 Muldis_D::Unicode.Text.from_unicode_codes ::= function
-    (Text.Unicode <-- 0 : Unicode_Codepoints) : .0->from_maximal_chars();
+    (Text.Unicode <-- Unicode_Codepoints) : .0->from_maximal_chars();
 
 Muldis_D::Unicode.Text.unicode_utf8_octets ::= function
-    (... <-- 0 : Text.Unicode) : ...;
+    (... <-- Text.Unicode) : ...;
 
 Muldis_D::Unicode.Text.from_unicode_utf8_octets ::= function
-    (Text.Unicode <-- 0 : ...) : ...;
+    (Text.Unicode <-- ...) : ...;
 
 /*************************************************************************/
 

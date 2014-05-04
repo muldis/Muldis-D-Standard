@@ -22,8 +22,8 @@ Muldis_D.Voidlike.Not_Applicable ::= Singleton composes Voidlike
    desired instead, and better let the contexts just decide explicitly. */
 
 Muldis_D.Voidlike."//" ::= function
-    (Universal <-- 0 : Universal, 1 : Universal)
+    (Universal <-- Universal, Universal)
     is_associative is_idempotent : (.0 !isa $Voidlike ?? .0 !! .1);
 
-Muldis_D.Voidlike.coalesce ::= function (Universal <-- 0 : Array)
+Muldis_D.Voidlike.coalesce ::= function (Universal <-- Array)
     requires (?#.0) : ([//] .0);

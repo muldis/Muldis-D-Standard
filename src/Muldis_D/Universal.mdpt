@@ -17,21 +17,21 @@ Muldis_D.Universal."="|same ::= LL_same;
 /* Note that "!" is a meta-keyword; this function is a shim over it. */
 
 Muldis_D.Universal."!="|not_same ::= function
-    (Boolean <-- 0 : Universal, 1 : Universal) is_commutative : (.0 != .1);
+    (Boolean <-- Universal, Universal) is_commutative : (.0 != .1);
 
 /*************************************************************************/
 
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
 Muldis_D.Universal.isa|value_of ::= function
-    (Boolean <-- 0 : Universal, 1|type : SC_Reference) : (.0 isa .1);
+    (Boolean <-- Universal, 1|type : SC_Reference) : (.0 isa .1);
 
 /*************************************************************************/
 
 /* Note that "default_of" is a keyword; this function is a shim over it. */
 
 Muldis_D.Universal.default_of ::= function
-    (Universal <-- 0 : SC_Reference) : (default_of .0);
+    (Universal <-- SC_Reference) : (default_of .0);
 
 /*************************************************************************/
 
@@ -41,7 +41,7 @@ Muldis_D.Universal.default_of ::= function
    treating all non-Capsule low-level types as just one base-type each. */
 
 Muldis_D.Universal.same_base_type ::= function
-    (Boolean <-- 0 : Universal, 1 : Universal) is_commutative
+    (Boolean <-- Universal, Universal) is_commutative
 : (
     if LL_same_low_level_type(.0,.1) then
         if .0 isa $Capsule then
