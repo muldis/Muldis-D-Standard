@@ -44,7 +44,7 @@ Muldis_D.Boolean.true|tautology ::= LL_TRUE
 /*************************************************************************/
 
 Muldis_D.Boolean.so|"?"|proposition ::= function (Boolean <-- 0 : Boolean)
-    implements Boolish.so : (.0);
+    implements Boolish.so : .0;
 
 /* Note that "not"|"!" is a meta-keyword; this function implements it. */
 

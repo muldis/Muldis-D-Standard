@@ -20,13 +20,13 @@ Muldis_D.Text.ASCII ::= type of Text
 /*************************************************************************/
 
 Muldis_D.Text.maximal_chars ::= function (String <-- 0 : Text)
-    : (.0->attr(\~{maximal_chars}));
+    : .0->attr(\~{maximal_chars});
 
 Muldis_D.Text.from_maximal_chars ::= function (Text <-- 0 : String)
     : (select_Capsule( $Text, \%{ maximal_chars : .0 } ));
 
 Muldis_D.Text.ascii_chars ::= function (ASCII_Chars <-- 0 : Text.ASCII)
-    : (.0->maximal_chars());
+    : .0->maximal_chars();
 
 Muldis_D.Text.from_ascii_chars ::= function
-    (Text.ASCII <-- 0 : ASCII_Chars) : (.0->from_maximal_chars());
+    (Text.ASCII <-- 0 : ASCII_Chars) : .0->from_maximal_chars();

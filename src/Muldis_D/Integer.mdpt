@@ -84,7 +84,7 @@ Muldis_D.Integer."*"|times|multiply|product ::= function
 Muldis_D.Integer."/"|frac_divide|frac_quotient ::= function
     (Ratio <-- 0|dividend : Integer, 1|divisor : Integer)
     requires (.1 != 0)
-    implements Numeric."/" : (...);
+    implements Numeric."/" : ...;
 
 Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
     (Integer <-- 0|dividend : Integer, 1|divisor : Integer,
@@ -185,7 +185,7 @@ Muldis_D.Integer.quot_and_rem ::= function
 Muldis_D.Integer.power|exp|exponentiate ::= function
     (Integer <-- 0|base|radix : Integer, 1|exponent : Integer)
     requires (!LL_is_neg(.1))
-    implements Numeric.power : (...);
+    implements Numeric.power : ...;
 
 Muldis_D.Integer.factorial ::= function (Integer.P <-- 0 : Integer.P)
     : ([*] enumerated(1 .. .0));

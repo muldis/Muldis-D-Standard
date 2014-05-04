@@ -29,26 +29,26 @@ Muldis_D.Array."<=>"|order ::= function
 /*************************************************************************/
 
 Muldis_D.Array.is_empty ::= function (Boolean <-- 0 : Array)
-    : (LL_empty(LL_payload(.0)));
+    : LL_empty(LL_payload(.0));
 
 Muldis_D.Array.is_not_empty ::= function (Boolean <-- 0 : Array)
-    : (!.0->is_empty());
+    : !.0->is_empty();
 
 Muldis_D.Array.first_elem ::= function (Universal <-- 0 : Array)
-    requires (.0->is_not_empty()) : (LL_first(LL_payload(.0)));
+    requires (.0->is_not_empty()) : LL_first(LL_payload(.0));
 
 Muldis_D.Array.nonfirst_elems ::= function (Array <-- 0 : Array)
-    requires (.0->is_not_empty()) : (...);
+    requires (.0->is_not_empty()) : ...;
 
 Muldis_D.Array."#"|count|cardinality ::= function
-    (Integer.NN <-- 0 : Array) : (...);
+    (Integer.NN <-- 0 : Array) : ...;
 
 /* Note that the ".[]" syntax is implemented using this function. */
 
 Muldis_D.Array.elem ::= function
     (Universal <-- 0|array : Array, 1|index : Integer.NN)
-    requires (...) : (...);
+    requires ... : ...;
 
 Muldis_D.Array.every_elem_isa ::= function
     (Boolean <-- 0|array : Array, 1|type : SC_Reference)
-    : (LL_every_elem_isa(LL_payload(.0),.1);
+    : LL_every_elem_isa(LL_payload(.0),.1);

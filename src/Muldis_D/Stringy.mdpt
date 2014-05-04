@@ -30,24 +30,24 @@ Muldis_D.String."<=>"|order ::= function
 /*************************************************************************/
 
 Muldis_D.String.is_empty ::= function (Boolean <-- 0 : String)
-    : (LL_empty(LL_payload(.0)));
+    : LL_empty(LL_payload(.0));
 
 Muldis_D.String.is_not_empty ::= function (Boolean <-- 0 : String)
-    : (!.0->is_empty());
+    : !.0->is_empty();
 
 Muldis_D.String.first_elem ::= function (Universal <-- 0 : String)
-    requires (.0->is_not_empty()) : (LL_first(LL_payload(.0)));
+    requires (.0->is_not_empty()) : LL_first(LL_payload(.0));
 
 Muldis_D.String.nonfirst_elems ::= function (String <-- 0 : String)
-    requires (.0->is_not_empty()) : (...);
+    requires (.0->is_not_empty()) : ...;
 
 Muldis_D.String."#"|count|cardinality ::= function
-    (Integer.NN <-- 0 : String) : (...);
+    (Integer.NN <-- 0 : String) : ...;
 
 Muldis_D.String.elem ::= function
     (Universal <-- 0|string : String, 1|index : Integer.NN)
-    requires (...) : (...);
+    requires ... : ...;
 
 Muldis_D.String.every_elem_isa ::= function
     (Boolean <-- 0|string : String, 1|type : SC_Reference)
-    : (LL_every_elem_isa(LL_payload(.0),.1);
+    : LL_every_elem_isa(LL_payload(.0),.1;

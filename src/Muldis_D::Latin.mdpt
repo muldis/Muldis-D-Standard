@@ -21,7 +21,7 @@ may map to the same Latin value. */
 /* TODO: Check if Latin1 octets and Latin codepoints match exactly for
 all same 256 characters, or not. */
 
-Muldis_D::Latin.Text.Latin1_Char ::= type of Integer where (...);
+Muldis_D::Latin.Text.Latin1_Char ::= type of Integer where ...;
 
 Muldis_D::Latin.Text.Latin1_Chars ::= type of String
     where (.0->every_elem_isa($Latin1_Char));
@@ -32,7 +32,7 @@ Muldis_D::Latin.Text.Latin1 ::= type of Text
 /*************************************************************************/
 
 Muldis_D::Latin.Text.latin1_chars ::= function
-    (Latin1_Chars <-- 0 : Text.Latin1) : (...);
+    (Latin1_Chars <-- 0 : Text.Latin1) : ...;
 
 Muldis_D::Latin.Text.from_latin1_chars ::= function
-    (Text.Latin1 <-- 0 : Latin1_Chars) : (...);
+    (Text.Latin1 <-- 0 : Latin1_Chars) : ...;
