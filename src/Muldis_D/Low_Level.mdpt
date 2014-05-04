@@ -50,6 +50,18 @@ Muldis_D.Low_Level.LL_TRUE ::= constant
 
 /*************************************************************************/
 
+Muldis_D.Low_Level.LL_Pair ::= type of LL_List
+    where (
+           LL_empty(.0)                           ?? LL_FALSE()
+        !! LL_empty(LL_nonfirst(.0))              ?? LL_FALSE()
+        !! LL_empty(LL_nonfirst(LL_nonfirst(.0))) ?? LL_TRUE()
+        !! LL_FALSE()
+    )
+    default LL_prepend( elem : LL_EMPTY(),
+        to : LL_prepend( elem : LL_EMPTY(), to : LL_EMPTY()));
+
+/*************************************************************************/
+
 Muldis_D.Low_Level.LL_same ::= function
     (LL_Boolean <-- LL_List, LL_List) is_commutative
 : (
@@ -190,15 +202,6 @@ Muldis_D.Low_Level.LL_every_elem_same_count ::= function
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_Pair ::= type of LL_List
-    where (LL_same(LL_count(.0),LL_2()));
-
-Muldis_D.Low_Level.LL_pair ::= function
-    (LL_Pair <-- 0|first : LL_List, 1|second : LL_List)
-    : (LL_prepend( elem : .0, to : LL_prepend(.1,LL_EMPTY()) ));
-
-/*************************************************************************/
-
 Muldis_D.Low_Level.LL_Structure_Base ::= type of LL_Pair
     where (LL_first(.0) isa $LL_Natural);
 
@@ -257,7 +260,7 @@ Muldis_D.Low_Level.LL_Integer_Payload ::= type of LL_Pair where
 
 Muldis_D.Low_Level.LL_integer ::= function
     (LL_Integer <-- LL_Integer_Payload)
-    : LL_pair(LL_SK_INTEGER(),.0);
+    : \*:[LL_SK_INTEGER(),.0];
 
 Muldis_D.Low_Level.LL_is_neg ::= function (LL_Boolean <-- LL_Integer)
     : LL_first(LL_payload(.0));
@@ -279,7 +282,7 @@ Muldis_D.Low_Level.LL_String_Payload ::= type of LL_List
 
 Muldis_D.Low_Level.LL_string ::= function
     (LL_String <-- LL_String_Payload)
-    : LL_pair(LL_SK_STRING(),.0);
+    : \*:[LL_SK_STRING(),.0];
 
 Muldis_D.Low_Level.LL_List_of_String_Payloads ::= type of LL_List
     where (LL_empty(.0) ?? LL_TRUE() !! LL_first(.0) isa $LL_String_Payload
@@ -291,7 +294,7 @@ Muldis_D.Low_Level.LL_Array ::= type of LL_Structure_Base
     where (LL_same(LL_structure_kind(.0),LL_SK_ARRAY()));
 
 Muldis_D.Low_Level.LL_array ::= function (LL_Array <-- LL_List)
-    : LL_pair(LL_SK_ARRAY(),.0);
+    : \*:[LL_SK_ARRAY(),.0];
 
 /*************************************************************************/
 
@@ -304,7 +307,7 @@ Muldis_D.Low_Level.LL_Heading_Payload ::= type of LL_List_of_String_Payloads
 
 Muldis_D.Low_Level.LL_heading ::= function
     (LL_Heading <-- LL_Heading_Payload)
-    : LL_pair(LL_SK_HEADING(),.0);
+    : \*:[LL_SK_HEADING(),.0];
 
 /*************************************************************************/
 
@@ -325,7 +328,7 @@ Muldis_D.Low_Level.LL_Renaming_Payload ::= type of LL_Pair where
 
 Muldis_D.Low_Level.LL_renaming ::= function (LL_Renaming <--
     LL_Renaming_Payload)
-    : LL_pair(LL_SK_RENAMING(),.0);
+    : \*:[LL_SK_RENAMING(),.0];
 
 Muldis_D.Low_Level.LL_renaming_after ::= function
     (LL_Heading_Payload <-- LL_Renaming) : LL_first(LL_payload(.0));
@@ -351,7 +354,7 @@ Muldis_D.Low_Level.LL_Tuple_Payload ::= type of LL_Pair where
 
 Muldis_D.Low_Level.LL_tuple ::= function
     (LL_Tuple <-- LL_Tuple_Payload)
-    : LL_pair(LL_SK_TUPLE(),.0);
+    : \*:[LL_SK_TUPLE(),.0];
 
 Muldis_D.Low_Level.LL_tuple_heading ::= function
     (LL_Heading_Payload <-- LL_Tuple) : LL_first(LL_payload(.0));
@@ -382,7 +385,7 @@ Muldis_D.Low_Level.LL_Relation_Payload ::= type of LL_Pair where
 
 Muldis_D.Low_Level.LL_relation ::= function
     (LL_Relation <-- LL_Relation_Payload)
-    : LL_pair(LL_SK_RELATION(),.0);
+    : \*:[LL_SK_RELATION(),.0];
 
 Muldis_D.Low_Level.LL_relation_heading ::= function
     (LL_Heading_Payload <-- LL_Relation) : LL_first(LL_payload(.0));
@@ -456,7 +459,7 @@ Muldis_D.Low_Level.LL_Identifier_Payload ::= type of LL_List where
 
 Muldis_D.Low_Level.LL_identifier ::= function
     (LL_Identifier <-- LL_Identifier_Payload)
-    : LL_pair(LL_SK_IDENTIFIER(),.0);
+    : \*:[LL_SK_IDENTIFIER(),.0];
 
 Muldis_D.Low_Level.LL_identifier_kind ::= function
     (LL_Natural <-- LL_Identifier)
@@ -503,7 +506,7 @@ Muldis_D.Low_Level.LL_Capsule_Payload ::= type of LL_Pair
 
 Muldis_D.Low_Level.LL_capsule ::= function (LL_Capsule <--
     LL_Capsule_Payload)
-    : LL_pair(LL_SK_CAPSULE(),.0);
+    : \*:[LL_SK_CAPSULE(),.0];
 
 Muldis_D.Low_Level.LL_capsule_type ::= function
     (LL_Reference_Payload <-- LL_Capsule) : LL_first(LL_payload(.0));
@@ -519,7 +522,7 @@ Muldis_D.Low_Level.LL_Stream ::= type of LL_Structure_Base
 
 Muldis_D.Low_Level.LL_stream ::= function
     (LL_Stream <-- LL_Integer_Payload)
-    : LL_pair(LL_SK_STREAM(),.0);
+    : \*:[LL_SK_STREAM(),.0];
 
 /*************************************************************************/
 
@@ -527,7 +530,7 @@ Muldis_D.Low_Level.LL_External ::= type of LL_Structure_Base
     where (LL_same(LL_structure_kind(.0),LL_SK_EXTERNAL()));
 
 Muldis_D.Low_Level.LL_external ::= function
-    (LL_External <-- LL_List) : LL_pair(LL_SK_EXTERNAL(),.0);
+    (LL_External <-- LL_List) : \*:[LL_SK_EXTERNAL(),.0];
 
 /*************************************************************************/
 
