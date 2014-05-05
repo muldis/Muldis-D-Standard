@@ -11,23 +11,24 @@ package_segment Muldis_D:"http://muldis.com":0:Low_Level;
    all of the fundamental operators are abstract enough to work either way.
    This is exposed in the high level type system as Universal. */
 
-Muldis_D.Low_Level.LL_List ::= special_type default LL_EMPTY();
+Muldis_D.Low_Level.LL_List ::= type of (topic isa \*^1[maximal_type])
+    where LL_TRUE() default LL_EMPTY();
 
 /*************************************************************************/
 
-Muldis_D.Low_Level.LL_EMPTY ::= constant ...;
+Muldis_D.Low_Level.LL_EMPTY ::= constant \*^1[constant_EMPTY];
 
 Muldis_D.Low_Level.LL_prepend ::= function
-    (LL_List <-- 0|elem : LL_List, 1|to : LL_List) : ...;
+    (LL_List <-- 0|elem : LL_List, 1|to : LL_List) : \*^1[function_prepend,.0,.1];
 
 Muldis_D.Low_Level.LL_empty ::= function (LL_Boolean <-- 0|list : LL_List)
-    : ...;
+    : \*^1[function_empty,.0];
 
 Muldis_D.Low_Level.LL_first ::= function (LL_List <-- 0|list : LL_List)
-    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE()) : ...;
+    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE()) : \*^1[function_first,.0];
 
 Muldis_D.Low_Level.LL_nonfirst ::= function (LL_List <-- 0|list : LL_List)
-    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE()) : ...;
+    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE()) : \*^1[function_nonfirst,.0];
 
 /*************************************************************************/
 
