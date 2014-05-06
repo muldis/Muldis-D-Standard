@@ -11,15 +11,23 @@ package_segment Muldis_D:"http://muldis.com":0:Low_Level;
    all of the fundamental operators are abstract enough to work either way.
    This is exposed in the high level type system as Universal. */
 
-Muldis_D.Low_Level.LL_List ::= type of (topic isa \*^1[maximal_type])
+Muldis_D.Low_Level.LL_List ::= type of (isa \*^1[maximal_type])
     where LL_TRUE() default LL_EMPTY();
 
 /*************************************************************************/
 
 Muldis_D.Low_Level.LL_EMPTY ::= constant \*^1[constant_EMPTY];
 
-Muldis_D.Low_Level.LL_prepend ::= function
-    (LL_List <-- 0|elem : LL_List, 1|to : LL_List) : \*^1[function_prepend,.0,.1];
+/* Note, LL_prepend has 2 conceptual arguments, in order ["elem","to"]. */
+
+Muldis_D.Low_Level.LL_prepend ::= function (LL_List <-- LL_List)
+    requires (
+           LL_empty(.0)                           ?? LL_FALSE()
+        !! LL_empty(LL_nonfirst(.0))              ?? LL_FALSE()
+        !! LL_empty(LL_nonfirst(LL_nonfirst(.0))) ?? LL_TRUE()
+        !! LL_FALSE()
+    )
+    : \*^1[function_prepend,LL_first(.0),LL_first(LL_nonfirst(.0))];
 
 Muldis_D.Low_Level.LL_empty ::= function (LL_Boolean <-- 0|list : LL_List)
     : \*^1[function_empty,.0];
@@ -47,7 +55,7 @@ Muldis_D.Low_Level.LL_Boolean ::= type of LL_List
 Muldis_D.Low_Level.LL_FALSE ::= LL_EMPTY;
 
 Muldis_D.Low_Level.LL_TRUE ::= constant
-    (LL_prepend( elem : LL_EMPTY(), to : LL_EMPTY()));
+    LL_prepend(\*:[LL_EMPTY(),LL_EMPTY()]);
 
 /*************************************************************************/
 
@@ -58,8 +66,8 @@ Muldis_D.Low_Level.LL_Pair ::= type of LL_List
         !! LL_empty(LL_nonfirst(LL_nonfirst(.0))) ?? LL_TRUE()
         !! LL_FALSE()
     )
-    default LL_prepend( elem : LL_EMPTY(),
-        to : LL_prepend( elem : LL_EMPTY(), to : LL_EMPTY()));
+    default LL_prepend(\*:[LL_EMPTY(),
+        LL_prepend(\*:[LL_EMPTY(),LL_EMPTY()])]);
 
 /*************************************************************************/
 
@@ -103,12 +111,12 @@ Muldis_D.Low_Level.LL_last ::= function (LL_List <-- 0|list : LL_List)
 Muldis_D.Low_Level.LL_nonlast ::= function (LL_List <-- 0|list : LL_List)
     requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE())
     : (LL_empty(LL_nonfirst(.0)) ?? LL_EMPTY()
-        !! LL_prepend( elem : LL_first(.0), to : self(LL_nonfirst(.0))));
+        !! LL_prepend(\*:[LL_first(.0),self(LL_nonfirst(.0))]));
 
 Muldis_D.Low_Level.LL_catenate ::= function
     (LL_List <-- 0|lhs : LL_List, 1|rhs : LL_List)
     : (LL_empty(.0) ?? .1 !! LL_empty(.1) ?? .0
-        !! self(LL_nonlast(.0),LL_prepend( elem : LL_last(.0), to : .1)));
+        !! self(LL_nonlast(.0),LL_prepend(\*:[LL_last(.0),.1])));
 
 /*************************************************************************/
 
@@ -128,7 +136,7 @@ Muldis_D.Low_Level.LL_pred ::= function (LL_Natural <-- LL_Natural)
     requires (LL_zero(.0) ?? LL_FALSE() !! LL_TRUE()) : LL_nonfirst(.0);
 
 Muldis_D.Low_Level.LL_succ ::= function (LL_Natural <-- LL_Natural)
-    : (LL_prepend( elem : LL_EMPTY(), to : .0 ));
+    : LL_prepend(\*:[LL_EMPTY(),.0]);
 
 Muldis_D.Low_Level.LL_1 ::= constant LL_succ(LL_ZERO());
 Muldis_D.Low_Level.LL_2 ::= constant LL_succ(LL_1());
@@ -186,8 +194,8 @@ Muldis_D.Low_Level.LL_slice ::= function
         !! LL_FALSE())
 : (
        LL_empty(LL_nonfirst(.0)) ?? .0
-    !! LL_zero(.1) ?? LL_prepend( elem : LL_first(.0),
-        to : self(LL_nonfirst(.0),.1,LL_pred(.2)))
+    !! LL_zero(.1) ?? LL_prepend(\*:[LL_first(.0),
+        self(LL_nonfirst(.0),.1,LL_pred(.2))])
     !! self(LL_nonfirst(.0),LL_pred(.1),LL_pred(.2))
 );
 
