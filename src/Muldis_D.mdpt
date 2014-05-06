@@ -2,7 +2,9 @@ Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
 package Muldis_D ::= Muldis_D:"http://muldis.com":0;
 
-searching [Muldis_D];
+using MDLL ::= Muldis_D::Low_Level:"http://muldis.com":0;
+
+searching [MDLL,Muldis_D];
 
 has_segment Array;
 has_segment Attributive;
@@ -14,7 +16,6 @@ has_segment Cast;
 has_segment Collective;
 has_segment Integer;
 has_segment Interval;
-has_segment Low_Level;
 has_segment Numeric;
 has_segment Ordered;
 has_segment Rational;
