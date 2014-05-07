@@ -4,6 +4,6 @@ package_segment Muldis_D:"http://muldis.com":0:Cast;
 
 /*************************************************************************/
 
-Muldis_D.Cast.Integer."?"|to_Boolean (Boolean <-- Integer) : (.0 != 0);
+MD.Cast.Integer."?"|to_Boolean (Boolean <-- Integer) : (.0 != 0);
 
-Muldis_D.Cast.Ratio."?"|to_Boolean (Boolean <-- Ratio) : (.0 != 0.0);
+MD.Cast.Ratio."?"|to_Boolean (Boolean <-- Ratio) : (.0 != 0.0);

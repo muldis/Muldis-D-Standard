@@ -4,29 +4,29 @@ package_segment Muldis_D:"http://muldis.com":0:Text;
 
 /*************************************************************************/
 
-Muldis_D.Textual ::= abstract_type composes Ordered;
+MD.Textual ::= abstract_type composes Ordered;
 
-Muldis_D.Text ::= Capsule composes Textual
+MD.Text ::= Capsule composes Textual
     where (has_attrs(.0,\%{ maximal_chars : $String }));
 
-Muldis_D.Text.ASCII_Char ::= type of Integer where (.0 in 0..127);
+MD.Text.ASCII_Char ::= type of Integer where (.0 in 0..127);
 
-Muldis_D.Text.ASCII_Chars ::= type of String
+MD.Text.ASCII_Chars ::= type of String
     where (.0->every_elem_isa($ASCII_Char));
 
-Muldis_D.Text.ASCII ::= type of Text
+MD.Text.ASCII ::= type of Text
     where (.0->maximal_chars() isa $ASCII_Chars);
 
 /*************************************************************************/
 
-Muldis_D.Text.maximal_chars ::= function (String <-- Text)
+MD.Text.maximal_chars ::= function (String <-- Text)
     : .0->attr(\~{maximal_chars});
 
-Muldis_D.Text.from_maximal_chars ::= function (Text <-- String)
+MD.Text.from_maximal_chars ::= function (Text <-- String)
     : (select_Capsule( $Text, \%{ maximal_chars : .0 } ));
 
-Muldis_D.Text.ascii_chars ::= function (ASCII_Chars <-- Text.ASCII)
+MD.Text.ascii_chars ::= function (ASCII_Chars <-- Text.ASCII)
     : .0->maximal_chars();
 
-Muldis_D.Text.from_ascii_chars ::= function
+MD.Text.from_ascii_chars ::= function
     (Text.ASCII <-- ASCII_Chars) : .0->from_maximal_chars();

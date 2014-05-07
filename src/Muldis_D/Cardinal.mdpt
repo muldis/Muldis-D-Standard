@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Cardinal;
 
 /*************************************************************************/
 
-Muldis_D.Cardinal ::= abstract_type;
+MD.Cardinal ::= abstract_type;
 
 /* NOTE: THIS, CARDINAL, IS WHAT DECLARES COMMON NUMERIC OPS LIKE
 ADD, SUBTRACT, MULTIPLY, DIVIDE, EXPONENTIATION, ETC, *NOT* NUMERIC.

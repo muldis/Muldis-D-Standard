@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Nominal;
 
 /*************************************************************************/
 
-Muldis_D.Nominal ::= abstract_type;
+MD.Nominal ::= abstract_type;
 
 
 /* Cardinal, Ordinal, and Nominal (numbers). */

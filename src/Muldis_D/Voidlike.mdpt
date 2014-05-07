@@ -4,15 +4,15 @@ package_segment Muldis_D:"http://muldis.com":0:Voidlike;
 
 /*************************************************************************/
 
-Muldis_D.Voidlike ::= abstract_type;
+MD.Voidlike ::= abstract_type;
 
-Muldis_D.Voidlike.Void ::= Singleton composes Voidlike
+MD.Voidlike.Void ::= Singleton composes Voidlike
     where (Capsule_type(.0) = $Void);
 
-Muldis_D.Voidlike.Unknown ::= Singleton composes Voidlike
+MD.Voidlike.Unknown ::= Singleton composes Voidlike
     where (Capsule_type(.0) = $Unknown);
 
-Muldis_D.Voidlike.Not_Applicable ::= Singleton composes Voidlike
+MD.Voidlike.Not_Applicable ::= Singleton composes Voidlike
     where (Capsule_type(.0) = $Not_Applicable);
 
 /*************************************************************************/
@@ -21,9 +21,9 @@ Muldis_D.Voidlike.Not_Applicable ::= Singleton composes Voidlike
    contexts where the op may be used, other Voidlike identities might be
    desired instead, and better let the contexts just decide explicitly. */
 
-Muldis_D.Voidlike."//" ::= function
+MD.Voidlike."//" ::= function
     (Universal <-- Universal, Universal)
     is_associative is_idempotent : (.0 !isa $Voidlike ?? .0 !! .1);
 
-Muldis_D.Voidlike.coalesce ::= function (Universal <-- Array)
+MD.Voidlike.coalesce ::= function (Universal <-- Array)
     requires (?#.0) : ([//] .0);

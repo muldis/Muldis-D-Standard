@@ -1,70 +1,70 @@
 Muldis_D:PT_STD:Unicode({1..6.2},UTF-8,canon):"http://muldis.com":0;
 
-package Muldis_D::Unicode ::= Muldis_D::Unicode:"http://muldis.com":0;
+package UC ::= Muldis_D::Unicode:"http://muldis.com":0;
 
-using Muldis_D ::= Muldis_D:"http://muldis.com":0;
+using MD ::= Muldis_D:"http://muldis.com":0;
 
-searching [Muldis_D,Muldis_D::Unicode];
+searching [MD,UC];
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Text.Unicode_Codepoint ::= type of Integer
+UC.Text.Unicode_Codepoint ::= type of Integer
     where (.0 in 0..0x10FFFF);
 
-Muldis_D::Unicode.Text.Unicode_Codepoints ::= type of String
+UC.Text.Unicode_Codepoints ::= type of String
     where (.0->every_elem_isa($Unicode_Codepoint));
 
-Muldis_D::Unicode.Text.Unicode ::= type of Text
+UC.Text.Unicode ::= type of Text
     where (.0->maximal_chars() isa $Unicode_Codepoints);
 
-Muldis_D::Unicode.Text.Unicode.Canon ::= type of Text.Unicode
+UC.Text.Unicode.Canon ::= type of Text.Unicode
     where ...;
 
-Muldis_D::Unicode.Text.Unicode.Compat ::= type of Text.Unicode.Canon
+UC.Text.Unicode.Compat ::= type of Text.Unicode.Canon
     where ...;
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Text.unicode_codes ::= function
+UC.Text.unicode_codes ::= function
     (Unicode_Codepoints <-- Text.Unicode) : .0->maximal_chars();
 
-Muldis_D::Unicode.Text.from_unicode_codes ::= function
+UC.Text.from_unicode_codes ::= function
     (Text.Unicode <-- Unicode_Codepoints) : .0->from_maximal_chars();
 
-Muldis_D::Unicode.Text.unicode_utf8_octets ::= function
+UC.Text.unicode_utf8_octets ::= function
     (... <-- Text.Unicode) : ...;
 
-Muldis_D::Unicode.Text.from_unicode_utf8_octets ::= function
+UC.Text.from_unicode_utf8_octets ::= function
     (Text.Unicode <-- ...) : ...;
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Universal."≠" ::= "!=";
+UC.Universal."≠" ::= "!=";
 
 /*************************************************************************/
 
-Muldis_D::Unicode.Boolean."⊥" ::= false;
+UC.Boolean."⊥" ::= false;
 
-Muldis_D::Unicode.Boolean."⊤" ::= true;
+UC.Boolean."⊤" ::= true;
 
-Muldis_D::Unicode.Boolean."¬" ::= not;
+UC.Boolean."¬" ::= not;
 
-Muldis_D::Unicode.Boolean."∧" ::= and;
+UC.Boolean."∧" ::= and;
 
-Muldis_D::Unicode.Boolean."⊼"|"↑" ::= nand;
+UC.Boolean."⊼"|"↑" ::= nand;
 
-Muldis_D::Unicode.Boolean."∨" ::= or;
+UC.Boolean."∨" ::= or;
 
-Muldis_D::Unicode.Boolean."⊽"|"↓" ::= nor;
+UC.Boolean."⊽"|"↓" ::= nor;
 
-Muldis_D::Unicode.Boolean."↔" ::= xnor;
+UC.Boolean."↔" ::= xnor;
 
-Muldis_D::Unicode.Boolean."⊻"|"↮" ::= xor;
+UC.Boolean."⊻"|"↮" ::= xor;
 
-Muldis_D::Unicode.Boolean."→" ::= imp;
+UC.Boolean."→" ::= imp;
 
-Muldis_D::Unicode.Boolean."↛" ::= nimp;
+UC.Boolean."↛" ::= nimp;
 
-Muldis_D::Unicode.Boolean."←" ::= if;
+UC.Boolean."←" ::= if;
 
-Muldis_D::Unicode.Boolean."↚" ::= nif;
+UC.Boolean."↚" ::= nif;

@@ -4,20 +4,20 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 
 /*************************************************************************/
 
-Muldis_D.Integral ::= abstract_type composes Numeric;
+MD.Integral ::= abstract_type composes Numeric;
 
-Muldis_D.Integer ::= LL_Integer
+MD.Integer ::= LL_Integer
     composes Integral composes Cardinal composes Ordinal;
 
-Muldis_D.Integer.Int ::= Integer;
+MD.Integer.Int ::= Integer;
 
-Muldis_D.Integer.NN ::= type of Integer where (!LL_is_neg(.0));
+MD.Integer.NN ::= type of Integer where (!LL_is_neg(.0));
 
-Muldis_D.Integer.P ::= type of Integer.NN where (.0 != 0);
+MD.Integer.P ::= type of Integer.NN where (.0 != 0);
 
 /*************************************************************************/
 
-Muldis_D.Integer."<=>"|order ::= function
+MD.Integer."<=>"|order ::= function
     (Order <-- 0|lhs : Integer, 1|rhs : Integer)
     implements Ordered."<=>"
 : (
@@ -33,23 +33,23 @@ Muldis_D.Integer."<=>"|order ::= function
 
 /*************************************************************************/
 
-Muldis_D.Integer."--"|pred|dec ::= function (Integer <-- Integer)
+MD.Integer."--"|pred|dec ::= function (Integer <-- Integer)
     implements Ordinal."--" : (.0 - 1);
 
-Muldis_D.Integer."++"|succ|inc ::= function (Integer <-- Integer)
+MD.Integer."++"|succ|inc ::= function (Integer <-- Integer)
     implements Ordinal."++" : (.0 + 1);
 
 /*************************************************************************/
 
-Muldis_D.Integer.monadic."-"|opposite|additive_inverse ::= function
+MD.Integer.monadic."-"|opposite|additive_inverse ::= function
     (Integer <-- Integer) implements Numeric.monadic."-"
     : (.0 = 0 ?? .0 !! LL_integer(\*:[!LL_is_neg(.0),LL_magnitude(.0)]));
 
-Muldis_D.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
+MD.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
     implements Numeric.abs
     : (LL_is_neg(.0) ?? LL_integer(\*:[true,LL_magnitude(.0)]) !! .0);
 
-Muldis_D.Integer."+"|plus|add|sum ::= function
+MD.Integer."+"|plus|add|sum ::= function
     (Integer <-- 0|augend : Integer, 1|addend : Integer)
     implements Numeric."+" is_commutative is_associative identity 0
 : (
@@ -66,27 +66,27 @@ Muldis_D.Integer."+"|plus|add|sum ::= function
      ;
 );
 
-Muldis_D.Integer."-"|minus|subtract|diff|difference ::= function
+MD.Integer."-"|minus|subtract|diff|difference ::= function
     (Integer <-- 0|minuend : Integer, 1|subtrahend : Integer)
     implements Numeric."-" : (.0 + -.1);
 
-Muldis_D.Integer."|-|"|abs_minus|abs_diff ::= function
+MD.Integer."|-|"|abs_minus|abs_diff ::= function
     (Integer.NN <-- 0|minuend : Integer, 1|subtrahend : Integer)
     implements Numeric."|-|" : (abs(.0 + -.1));
 
-Muldis_D.Integer."*"|times|multiply|product ::= function
+MD.Integer."*"|times|multiply|product ::= function
     (Integer <-- 0|multiplicand : Integer, 1|multiplier : Integer)
     implements Numeric."*" is_commutative is_associative identity 1
     : (.0 = 1 ?? .1 !! .1 = 1 ?? .0 !! .0 = 0 or .1 = 0 ?? 0
         !! LL_integer(\*:[ LL_is_neg(.0) xor LL_is_neg(.1),
         LL_times(LL_magnitude(.0),LL_magnitude(.1)) ]));
 
-Muldis_D.Integer."/"|frac_divide|frac_quotient ::= function
+MD.Integer."/"|frac_divide|frac_quotient ::= function
     (Ratio <-- 0|dividend : Integer, 1|divisor : Integer)
     requires (.1 != 0)
     implements Numeric."/" : ...;
 
-Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
+MD.Integer.div|whole_divide|whole_quotient ::= function
     (Integer <-- 0|dividend : Integer, 1|divisor : Integer,
         round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.div
@@ -168,12 +168,12 @@ Muldis_D.Integer.div|whole_divide|whole_quotient ::= function
       )
 );
 
-Muldis_D.Integer.mod|remainder|modulo ::= function
+MD.Integer.mod|remainder|modulo ::= function
     (Integer <-- 0|dividend : Integer, 1|divisor : Integer,
         round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.mod : (.0 - .1 * div(*_));
 
-Muldis_D.Integer.quot_and_rem ::= function
+MD.Integer.quot_and_rem ::= function
     (Tuple where (has_attrs(.0,\%{ quotient : $Integer,
         remainder : $Integer })) <--
         0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
@@ -182,10 +182,10 @@ Muldis_D.Integer.quot_and_rem ::= function
 
 /*************************************************************************/
 
-Muldis_D.Integer.power|exp|exponentiate ::= function
+MD.Integer.power|exp|exponentiate ::= function
     (Integer <-- 0|base|radix : Integer, 1|exponent : Integer)
     requires (!LL_is_neg(.1))
     implements Numeric.power : ...;
 
-Muldis_D.Integer.factorial ::= function (Integer.P <-- Integer.P)
+MD.Integer.factorial ::= function (Integer.P <-- Integer.P)
     : ([*] enumerated(1 .. .0));

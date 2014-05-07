@@ -4,15 +4,15 @@ package_segment Muldis_D:"http://muldis.com":0:Boolean;
 
 /*************************************************************************/
 
-Muldis_D.Boolish ::= abstract_type composes Ordinal;
+MD.Boolish ::= abstract_type composes Ordinal;
 
-Muldis_D.Boolean ::= LL_Boolean composes Boolish;
+MD.Boolean ::= LL_Boolean composes Boolish;
 
-Muldis_D.Bool ::= Boolean;
+MD.Bool ::= Boolean;
 
 /*************************************************************************/
 
-Muldis_D.Boolean."<=>"|order ::= function
+MD.Boolean."<=>"|order ::= function
     (Order <-- 0|lhs : Boolean, 1|rhs : Boolean)
     implements Ordered."<=>"
 : (
@@ -23,43 +23,43 @@ Muldis_D.Boolean."<=>"|order ::= function
 
 /*************************************************************************/
 
-Muldis_D.Boolean."--"|pred|dec ::= function (Boolean|"-Inf" <-- Boolean)
+MD.Boolean."--"|pred|dec ::= function (Boolean|"-Inf" <-- Boolean)
     implements Ordinal."--" : (.0 ?? false !! $=>"-Inf");
 
-Muldis_D.Boolean."++"|succ|inc ::= function (Boolean|"+Inf" <-- Boolean)
+MD.Boolean."++"|succ|inc ::= function (Boolean|"+Inf" <-- Boolean)
     implements Ordinal."++" : (!.0 ?? true !! $=>"+Inf");
 
 /*************************************************************************/
 
 /* Note that "false" is a keyword; this function implements it. */
 
-Muldis_D.Boolean.false|contradiction ::= LL_FALSE
+MD.Boolean.false|contradiction ::= LL_FALSE
     implements Boolish."false";
 
 /* Note that "true" is a keyword; this function implements it. */
 
-Muldis_D.Boolean.true|tautology ::= LL_TRUE
+MD.Boolean.true|tautology ::= LL_TRUE
     implements Boolish."true";
 
 /*************************************************************************/
 
-Muldis_D.Boolean.so|"?"|proposition ::= function (Boolean <-- Boolean)
+MD.Boolean.so|"?"|proposition ::= function (Boolean <-- Boolean)
     implements Boolish.so : .0;
 
 /* Note that "not"|"!" is a meta-keyword; this function implements it. */
 
-Muldis_D.Boolean.not|"!"|negation ::= function (Boolean <-- Boolean)
+MD.Boolean.not|"!"|negation ::= function (Boolean <-- Boolean)
     implements Boolish.not : (.0 ?? false !! true);
 
 /*************************************************************************/
 
-Muldis_D.Boolean.and|all|every|conjunction ::= function
+MD.Boolean.and|all|every|conjunction ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.and
     is_commutative is_associative identity true is_idempotent
     : (.0 ?? .1 !! false);
 
-Muldis_D.Boolean.nand|not_and|not_both|alternative_denial ::= function
+MD.Boolean.nand|not_and|not_both|alternative_denial ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.nand
     is_commutative
@@ -67,13 +67,13 @@ Muldis_D.Boolean.nand|not_and|not_both|alternative_denial ::= function
 
 /*************************************************************************/
 
-Muldis_D.Boolean.or|any|some|disjunction ::= function
+MD.Boolean.or|any|some|disjunction ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.or
     is_commutative is_associative identity false is_idempotent
     : (.0 ?? true !! .1);
 
-Muldis_D.Boolean.nor|not_or|joint_denial ::= function
+MD.Boolean.nor|not_or|joint_denial ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.nor
     is_commutative
@@ -81,13 +81,13 @@ Muldis_D.Boolean.nor|not_or|joint_denial ::= function
 
 /*************************************************************************/
 
-Muldis_D.Boolean.xnor|iff|biconditional|material_equivalence ::= function
+MD.Boolean.xnor|iff|biconditional|material_equivalence ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.xnor
     is_commutative is_associative identity true
     : (.0 = .1);
 
-Muldis_D.Boolean.xor|exclusive_disjunction ::= function
+MD.Boolean.xor|exclusive_disjunction ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.xor
     is_commutative is_associative identity false
@@ -95,12 +95,12 @@ Muldis_D.Boolean.xor|exclusive_disjunction ::= function
 
 /*************************************************************************/
 
-Muldis_D.Boolean.imp|implies|material_implication ::= function
+MD.Boolean.imp|implies|material_implication ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.imp
     : (.0 ?? .1 !! true);
 
-Muldis_D.Boolean.nimp|not_implies|material_nonimplication ::= function
+MD.Boolean.nimp|not_implies|material_nonimplication ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.nimp
     : (.0 !imp .1);
@@ -109,12 +109,12 @@ Muldis_D.Boolean.nimp|not_implies|material_nonimplication ::= function
 
 /* Note that "if" is also a keyword, but its meaning differs. */
 
-Muldis_D.Boolean.if|converse_implication ::= function
+MD.Boolean.if|converse_implication ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.if
     : (.1 imp .0);
 
-Muldis_D.Boolean.nif|not_if|converse_nonimplication ::= function
+MD.Boolean.nif|not_if|converse_nonimplication ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.nif
     : (.1 nimp .0);

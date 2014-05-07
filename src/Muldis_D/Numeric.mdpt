@@ -4,39 +4,39 @@ package_segment Muldis_D:"http://muldis.com":0:Numeric;
 
 /*************************************************************************/
 
-Muldis_D.Numeric ::= abstract_type;
+MD.Numeric ::= abstract_type;
 
 /*************************************************************************/
 
-Muldis_D.Numeric.Round_Meth ::=
+MD.Numeric.Round_Meth ::=
     Down|Up|To_Zero|To_Inf
     |Half_Down|Half_Up|Half_To_Zero|Half_To_Inf
     |Half_Even
     default $=>To_Zero;
 
-Muldis_D.Numeric.Round_Meth.Down ::= type of Singleton
+MD.Numeric.Round_Meth.Down ::= type of Singleton
     where (Capsule_type(.0) = $Down);
 
-Muldis_D.Numeric.Round_Meth.Up ::= type of Singleton
+MD.Numeric.Round_Meth.Up ::= type of Singleton
     where (Capsule_type(.0) = $Up);
 
-Muldis_D.Numeric.Round_Meth.To_Zero ::= type of Singleton
+MD.Numeric.Round_Meth.To_Zero ::= type of Singleton
     where (Capsule_type(.0) = $To_Zero);
 
-Muldis_D.Numeric.Round_Meth.To_Inf ::= type of Singleton
+MD.Numeric.Round_Meth.To_Inf ::= type of Singleton
     where (Capsule_type(.0) = $To_Inf);
 
-Muldis_D.Numeric.Round_Meth.Half_Down ::= type of Singleton
+MD.Numeric.Round_Meth.Half_Down ::= type of Singleton
     where (Capsule_type(.0) = $Half_Down);
 
-Muldis_D.Numeric.Round_Meth.Half_Up ::= type of Singleton
+MD.Numeric.Round_Meth.Half_Up ::= type of Singleton
     where (Capsule_type(.0) = $Half_Up);
 
-Muldis_D.Numeric.Round_Meth.Half_To_Zero ::= type of Singleton
+MD.Numeric.Round_Meth.Half_To_Zero ::= type of Singleton
     where (Capsule_type(.0) = $Half_To_Zero);
 
-Muldis_D.Numeric.Round_Meth.Half_To_Inf ::= type of Singleton
+MD.Numeric.Round_Meth.Half_To_Inf ::= type of Singleton
     where (Capsule_type(.0) = $Half_To_Inf);
 
-Muldis_D.Numeric.Round_Meth.Half_Even ::= type of Singleton
+MD.Numeric.Round_Meth.Half_Even ::= type of Singleton
     where (Capsule_type(.0) = $Half_Even);

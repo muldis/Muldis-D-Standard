@@ -1,10 +1,10 @@
 Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
-package Muldis_D ::= Muldis_D:"http://muldis.com":0;
+package MD ::= Muldis_D:"http://muldis.com":0;
 
 using MDLL ::= Muldis_D::Low_Level:"http://muldis.com":0;
 
-searching [MDLL,Muldis_D];
+searching [MDLL,MD];
 
 has_segment Array;
 has_segment Attributive;

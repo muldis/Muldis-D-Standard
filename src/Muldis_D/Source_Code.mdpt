@@ -8,55 +8,55 @@ package_segment Muldis_D:"http://muldis.com":0:Source_Code;
    Source_Code_Meta is an open union that any users may add types to,
    subject that each of those types must be a Capsule subtype. */
 
-Muldis_D.Source_Code ::=
+MD.Source_Code ::=
     SC_Heading|SC_Renaming|SC_Identifier|...|SC_Package|... default ...;
 
-Muldis_D.Source_Code.Source_Code_Meta.AT ::= abstract_type;
+MD.Source_Code.Source_Code_Meta.AT ::= abstract_type;
 
-Muldis_D.Source_Code.Source_Code_Meta ::= Source_Code_Meta.AT&Capsule;
+MD.Source_Code.Source_Code_Meta ::= Source_Code_Meta.AT&Capsule;
 
 /*************************************************************************/
 
 /* SC_Heading example: \~{name,age,phone} */
 
-Muldis_D.Source_Code.SC_Heading ::= LL_Heading;
+MD.Source_Code.SC_Heading ::= LL_Heading;
 
 /* SC_Renaming example: \<-{newname:oldname} or \<-{a:b,b:a,x:y} */
 
-Muldis_D.Source_Code.SC_Renaming ::= LL_Renaming;
+MD.Source_Code.SC_Renaming ::= LL_Renaming;
 
-Muldis_D.Source_Code.SC_Identifier ::= LL_Identifier;
+MD.Source_Code.SC_Identifier ::= LL_Identifier;
 
-Muldis_D.Source_Code.SC_Reference ::= LL_Reference composes Ordered;
+MD.Source_Code.SC_Reference ::= LL_Reference composes Ordered;
 
 /*************************************************************************/
 
 /* SC_Name example: \~{age} */
 
-Muldis_D.Source_Code.SC_Name ::= type of SC_Heading
+MD.Source_Code.SC_Name ::= type of SC_Heading
     where (LL_count(LL_payload(.0)) = 1);
 
 /*************************************************************************/
 
 /* SC_Pkg_Full_Name example: Muldis_D:"http://muldis.com":0 */
 
-Muldis_D.Source_Code.SC_Pkg_Full_Name ::= type of SC_Reference where
+MD.Source_Code.SC_Pkg_Full_Name ::= type of SC_Reference where
     (LL_empty(LL_path_beneath_pkg(.0)));
 
 /* SC_Pkg_Local_Alias example: Muldis_D */
 
-Muldis_D.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
+MD.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
     where (LL_identifier_kind(.0) = LL_IK_ABSOLUTE()
         and !LL_empty(LL_pkg_name_base(.0))
         and LL_empty(LL_pkg_name_ext(.0))
         and LL_empty(LL_path_beneath_pkg(.0)));
 
-Muldis_D.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
+MD.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
     where (.0->every_elem_isa($SC_Pkg_Local_Alias));
 
 /*************************************************************************/
 
-Muldis_D.Source_Code.SC_Pkg_Decl_Map ::= type of Capsule where
+MD.Source_Code.SC_Pkg_Decl_Map ::= type of Capsule where
 (
     has_attrs(.0,\%{
         local_alias : $SC_Pkg_Local_Alias,
@@ -64,12 +64,12 @@ Muldis_D.Source_Code.SC_Pkg_Decl_Map ::= type of Capsule where
     })
 );
 
-Muldis_D.Source_Code.SC_Pkg_Decl_Maps ::= type of Array
+MD.Source_Code.SC_Pkg_Decl_Maps ::= type of Array
     where (.0->every_elem_isa($SC_Pkg_Decl_Map));
 
 /*************************************************************************/
 
-Muldis_D.Source_Code.SC_Package ::= type of Capsule where
+MD.Source_Code.SC_Package ::= type of Capsule where
 (
     has_attrs(.0,\%{
         package   : $SC_Pkg_Decl_Map,
@@ -80,10 +80,10 @@ Muldis_D.Source_Code.SC_Package ::= type of Capsule where
     })
 );
 
-Muldis_D.Source_Code.SC_Package_Segments ::=
+MD.Source_Code.SC_Package_Segments ::=
     Array where (.0->every_elem_isa($SC_Pkg_Local_Alias));
 
-Muldis_D.Source_Code.SC_Package_Segment ::= type of Capsule where
+MD.Source_Code.SC_Package_Segment ::= type of Capsule where
 (
     Capsule_type(.0) = $SC_Package_Segment
     and
@@ -92,7 +92,7 @@ Muldis_D.Source_Code.SC_Package_Segment ::= type of Capsule where
     })
 );
 
-Muldis_D.Source_Code.SC_Schema ::= type of Capsule where
+MD.Source_Code.SC_Schema ::= type of Capsule where
 (
     has_attrs(.0,\%{
         materials : $SC_Materials,

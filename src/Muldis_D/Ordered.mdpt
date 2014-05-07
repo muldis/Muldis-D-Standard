@@ -4,19 +4,19 @@ package_segment Muldis_D:"http://muldis.com":0:Ordered;
 
 /*************************************************************************/
 
-Muldis_D.Orderable ::= abstract_type;
+MD.Orderable ::= abstract_type;
 
-Muldis_D.Ordered ::= abstract_type composes Orderable;
+MD.Ordered ::= abstract_type composes Orderable;
 
-Muldis_D.Ordinal ::= abstract_type composes Ordered;
+MD.Ordinal ::= abstract_type composes Ordered;
 
 /*************************************************************************/
 
-Muldis_D.Order ::= Less|Same|More default $=>Same;
+MD.Order ::= Less|Same|More default $=>Same;
 
-Muldis_D.Order.Less ::= type of Singleton where (Capsule_type(.0) = $Less);
-Muldis_D.Order.Same ::= type of Singleton where (Capsule_type(.0) = $Same);
-Muldis_D.Order.More ::= type of Singleton where (Capsule_type(.0) = $More);
+MD.Order.Less ::= type of Singleton where (Capsule_type(.0) = $Less);
+MD.Order.Same ::= type of Singleton where (Capsule_type(.0) = $Same);
+MD.Order.More ::= type of Singleton where (Capsule_type(.0) = $More);
 
 /*************************************************************************/
 

@@ -4,33 +4,33 @@ package_segment Muldis_D:"http://muldis.com":0:Universal;
 
 /*************************************************************************/
 
-Muldis_D.Universal ::= LL_List;
+MD.Universal ::= LL_List;
 
-Muldis_D.Empty ::= type of Universal where (false);
+MD.Empty ::= type of Universal where (false);
 
 /*************************************************************************/
 
-Muldis_D.Universal."="|same ::= LL_same;
+MD.Universal."="|same ::= LL_same;
 
 /*************************************************************************/
 
 /* Note that "!" is a meta-keyword; this function is a shim over it. */
 
-Muldis_D.Universal."!="|not_same ::= function
+MD.Universal."!="|not_same ::= function
     (Boolean <-- Universal, Universal) is_commutative : (.0 != .1);
 
 /*************************************************************************/
 
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
-Muldis_D.Universal.isa|value_of ::= function
+MD.Universal.isa|value_of ::= function
     (Boolean <-- Universal, 1|type : SC_Reference) : (.0 isa .1);
 
 /*************************************************************************/
 
 /* Note that "default_of" is a keyword; this function is a shim over it. */
 
-Muldis_D.Universal.default_of ::= function
+MD.Universal.default_of ::= function
     (Universal <-- SC_Reference) : (default_of .0);
 
 /*************************************************************************/
@@ -40,7 +40,7 @@ Muldis_D.Universal.default_of ::= function
    and that is to treat Capsule as a multiplicity of base types while
    treating all non-Capsule low-level types as just one base-type each. */
 
-Muldis_D.Universal.same_base_type ::= function
+MD.Universal.same_base_type ::= function
     (Boolean <-- Universal, Universal) is_commutative
 : (
     if LL_same_low_level_type(.0,.1) then
@@ -54,5 +54,5 @@ Muldis_D.Universal.same_base_type ::= function
 
 /* Note that ":=" is a keyword; this updater is a shim over it. */
 
-Muldis_D.Universal.":="|assign ::= updater
+MD.Universal.":="|assign ::= updater
     (&0|target : Universal, 1|value : Universal) : {.0 := .1};

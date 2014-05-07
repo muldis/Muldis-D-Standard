@@ -6,16 +6,16 @@ package_segment Muldis_D:"http://muldis.com":0:Array;
 
 /* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW STRUCTURES NOT OPAQUE. */
 
-Muldis_D.Arrayish ::= abstract_type composes Ordered;
+MD.Arrayish ::= abstract_type composes Ordered;
 
-Muldis_D.Array ::= LL_Array composes Arrayish;
+MD.Array ::= LL_Array composes Arrayish;
 
 /*************************************************************************/
 
 /* Note that this will die if any array elements need to be compared other
    than for equality but there is no "<=>" defined for their type. */
 
-Muldis_D.Array."<=>"|order ::= function
+MD.Array."<=>"|order ::= function
     (Order <-- 0|lhs : Array, 1|rhs : Array)
     implements Ordered."<=>"
 : (
@@ -28,27 +28,27 @@ Muldis_D.Array."<=>"|order ::= function
 
 /*************************************************************************/
 
-Muldis_D.Array.is_empty ::= function (Boolean <-- Array)
+MD.Array.is_empty ::= function (Boolean <-- Array)
     : LL_empty(LL_payload(.0));
 
-Muldis_D.Array.is_not_empty ::= function (Boolean <-- Array)
+MD.Array.is_not_empty ::= function (Boolean <-- Array)
     : !.0->is_empty();
 
-Muldis_D.Array.first_elem ::= function (Universal <-- Array)
+MD.Array.first_elem ::= function (Universal <-- Array)
     requires (.0->is_not_empty()) : LL_first(LL_payload(.0));
 
-Muldis_D.Array.nonfirst_elems ::= function (Array <-- Array)
+MD.Array.nonfirst_elems ::= function (Array <-- Array)
     requires (.0->is_not_empty()) : ...;
 
-Muldis_D.Array."#"|count|cardinality ::= function
+MD.Array."#"|count|cardinality ::= function
     (Integer.NN <-- Array) : ...;
 
 /* Note that the ".[]" syntax is implemented using this function. */
 
-Muldis_D.Array.elem ::= function
+MD.Array.elem ::= function
     (Universal <-- 0|array : Array, 1|index : Integer.NN)
     requires ... : ...;
 
-Muldis_D.Array.every_elem_isa ::= function
+MD.Array.every_elem_isa ::= function
     (Boolean <-- 0|array : Array, 1|type : SC_Reference)
     : LL_every_elem_isa(LL_payload(.0),.1);

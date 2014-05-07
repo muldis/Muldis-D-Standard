@@ -1,10 +1,10 @@
 Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
-package Muldis_D::Temporal ::= Muldis_D::Temporal:"http://muldis.com":0;
+package Temporal ::= Muldis_D::Temporal:"http://muldis.com":0;
 
-using Muldis_D ::= Muldis_D:"http://muldis.com":0;
+using MD ::= Muldis_D:"http://muldis.com":0;
 
-searching [Muldis_D,Muldis_D::Temporal];
+searching [MD,Temporal];
 
 /*************************************************************************/
 

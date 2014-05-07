@@ -6,19 +6,19 @@ package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
 /* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW STRUCTURES NOT OPAQUE. */
 
-Muldis_D.Stringy ::= abstract_type composes Ordered;
+MD.Stringy ::= abstract_type composes Ordered;
 
-Muldis_D.String ::= LL_String composes Stringy;
+MD.String ::= LL_String composes Stringy;
 
-Muldis_D.Str ::= String;
+MD.Str ::= String;
 
-Muldis_D.String.NN ::= type of String where (.0->every_elem_isa($Integer.NN));
+MD.String.NN ::= type of String where (.0->every_elem_isa($Integer.NN));
 
-Muldis_D.String.P ::= type of String.NN where (.0->every_elem_isa($Integer.P));
+MD.String.P ::= type of String.NN where (.0->every_elem_isa($Integer.P));
 
 /*************************************************************************/
 
-Muldis_D.String."<=>"|order ::= function
+MD.String."<=>"|order ::= function
     (Order <-- 0|lhs : String, 1|rhs : String)
     implements Ordered."<=>"
 : (
@@ -29,25 +29,25 @@ Muldis_D.String."<=>"|order ::= function
 
 /*************************************************************************/
 
-Muldis_D.String.is_empty ::= function (Boolean <-- String)
+MD.String.is_empty ::= function (Boolean <-- String)
     : LL_empty(LL_payload(.0));
 
-Muldis_D.String.is_not_empty ::= function (Boolean <-- String)
+MD.String.is_not_empty ::= function (Boolean <-- String)
     : !.0->is_empty();
 
-Muldis_D.String.first_elem ::= function (Universal <-- String)
+MD.String.first_elem ::= function (Universal <-- String)
     requires (.0->is_not_empty()) : LL_first(LL_payload(.0));
 
-Muldis_D.String.nonfirst_elems ::= function (String <-- String)
+MD.String.nonfirst_elems ::= function (String <-- String)
     requires (.0->is_not_empty()) : ...;
 
-Muldis_D.String."#"|count|cardinality ::= function
+MD.String."#"|count|cardinality ::= function
     (Integer.NN <-- String) : ...;
 
-Muldis_D.String.elem ::= function
+MD.String.elem ::= function
     (Universal <-- 0|string : String, 1|index : Integer.NN)
     requires ... : ...;
 
-Muldis_D.String.every_elem_isa ::= function
+MD.String.every_elem_isa ::= function
     (Boolean <-- 0|string : String, 1|type : SC_Reference)
     : LL_every_elem_isa(LL_payload(.0),.1;

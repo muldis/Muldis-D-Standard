@@ -1,9 +1,9 @@
 Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
 
-package Muldis_D::Test_Suite ::= Muldis_D::Test_Suite:"http://muldis.com":0;
+package TS ::= Muldis_D::Test_Suite:"http://muldis.com":0;
 
-using Muldis_D ::= Muldis_D:"http://muldis.com":0;
+using MD ::= Muldis_D:"http://muldis.com":0;
 
-searching [Muldis_D,Muldis_D::Test_Suite];
+searching [MD,TS];
 
 has_segment Integer;
