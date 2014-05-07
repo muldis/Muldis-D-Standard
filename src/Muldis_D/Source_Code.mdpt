@@ -34,44 +34,44 @@ MD.Source_Code.SC_Reference ::= LL_Reference composes Ordered;
 /* SC_Name example: \~{age} */
 
 MD.Source_Code.SC_Name ::= type of SC_Heading
-    where (LL_count(*LL_payload(*.0)) = 1);
+    where (LL_count(*LL_payload(*topic)) = 1);
 
 /*************************************************************************/
 
 /* SC_Pkg_Full_Name example: Muldis_D:"http://muldis.com":0 */
 
 MD.Source_Code.SC_Pkg_Full_Name ::= type of SC_Reference where
-    (LL_empty(*LL_path_beneath_pkg(*.0)));
+    (LL_empty(*LL_path_beneath_pkg(*topic)));
 
 /* SC_Pkg_Local_Alias example: Muldis_D */
 
 MD.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
-    where (LL_identifier_kind(*.0) = LL_IK_ABSOLUTE()
-        and !LL_empty(*LL_pkg_name_base(*.0))
-        and LL_empty(*LL_pkg_name_ext(*.0))
-        and LL_empty(*LL_path_beneath_pkg(*.0)));
+    where (LL_identifier_kind(*topic) = LL_IK_ABSOLUTE()
+        and !LL_empty(*LL_pkg_name_base(*topic))
+        and LL_empty(*LL_pkg_name_ext(*topic))
+        and LL_empty(*LL_path_beneath_pkg(*topic)));
 
 MD.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
-    where (.0->every_elem_isa($SC_Pkg_Local_Alias));
+    where (topic->every_elem_isa($SC_Pkg_Local_Alias));
 
 /*************************************************************************/
 
 MD.Source_Code.SC_Pkg_Decl_Map ::= type of Capsule where
 (
-    has_attrs(.0,\%{
+    has_attrs(topic,\%{
         local_alias : $SC_Pkg_Local_Alias,
         full_name   : $SC_Pkg_Full_Name,
     })
 );
 
 MD.Source_Code.SC_Pkg_Decl_Maps ::= type of Array
-    where (.0->every_elem_isa($SC_Pkg_Decl_Map));
+    where (topic->every_elem_isa($SC_Pkg_Decl_Map));
 
 /*************************************************************************/
 
 MD.Source_Code.SC_Package ::= type of Capsule where
 (
-    has_attrs(.0,\%{
+    has_attrs(topic,\%{
         package   : $SC_Pkg_Decl_Map,
         using     : $SC_Pkg_Decl_Maps,
         searching : $SC_Pkg_Local_Aliases,
@@ -81,20 +81,20 @@ MD.Source_Code.SC_Package ::= type of Capsule where
 );
 
 MD.Source_Code.SC_Package_Segments ::=
-    Array where (.0->every_elem_isa($SC_Pkg_Local_Alias));
+    Array where (topic->every_elem_isa($SC_Pkg_Local_Alias));
 
 MD.Source_Code.SC_Package_Segment ::= type of Capsule where
 (
-    Capsule_type(.0) = $SC_Package_Segment
+    Capsule_type(topic) = $SC_Package_Segment
     and
-    has_attrs(%.0,\%{
+    has_attrs(%topic,\%{
         materials : $SC_Materials,
     })
 );
 
 MD.Source_Code.SC_Schema ::= type of Capsule where
 (
-    has_attrs(.0,\%{
+    has_attrs(topic,\%{
         materials : $SC_Materials,
     })
 );

@@ -12,9 +12,9 @@ MD.String ::= LL_String composes Stringy;
 
 MD.Str ::= String;
 
-MD.String.NN ::= type of String where (.0->every_elem_isa($Integer.NN));
+MD.String.NN ::= type of String where (topic->every_elem_isa($Integer.NN));
 
-MD.String.P ::= type of String.NN where (.0->every_elem_isa($Integer.P));
+MD.String.P ::= type of String.NN where (topic->every_elem_isa($Integer.P));
 
 /*************************************************************************/
 

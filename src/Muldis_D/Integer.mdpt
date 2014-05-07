@@ -11,9 +11,9 @@ MD.Integer ::= LL_Integer
 
 MD.Integer.Int ::= Integer;
 
-MD.Integer.NN ::= type of Integer where (!LL_is_neg(*.0));
+MD.Integer.NN ::= type of Integer where (!LL_is_neg(*topic));
 
-MD.Integer.P ::= type of Integer.NN where (.0 != 0);
+MD.Integer.P ::= type of Integer.NN where (topic != 0);
 
 /*************************************************************************/
 
@@ -174,7 +174,7 @@ MD.Integer.mod|remainder|modulo ::= function
     requires (.1 != 0) implements Numeric.mod : (.0 - .1 * div(*_));
 
 MD.Integer.quot_and_rem ::= function
-    (Tuple where (has_attrs(.0,\%{ quotient : $Integer,
+    (Tuple where (has_attrs(topic,\%{ quotient : $Integer,
         remainder : $Integer })) <--
         0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.quot_and_rem

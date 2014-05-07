@@ -7,15 +7,15 @@ package_segment Muldis_D:"http://muldis.com":0:Text;
 MD.Textual ::= abstract_type composes Ordered;
 
 MD.Text ::= Capsule composes Textual
-    where (has_attrs(.0,\%{ maximal_chars : $String }));
+    where (has_attrs(topic,\%{ maximal_chars : $String }));
 
-MD.Text.ASCII_Char ::= type of Integer where (.0 in 0..127);
+MD.Text.ASCII_Char ::= type of Integer where (topic in 0..127);
 
 MD.Text.ASCII_Chars ::= type of String
-    where (.0->every_elem_isa($ASCII_Char));
+    where (topic->every_elem_isa($ASCII_Char));
 
 MD.Text.ASCII ::= type of Text
-    where (.0->maximal_chars() isa $ASCII_Chars);
+    where (topic->maximal_chars() isa $ASCII_Chars);
 
 /*************************************************************************/
 

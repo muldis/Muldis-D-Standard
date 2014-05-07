@@ -9,13 +9,13 @@ searching [MD,UC];
 /*************************************************************************/
 
 UC.Text.Unicode_Codepoint ::= type of Integer
-    where (.0 in 0..0x10FFFF);
+    where (topic in 0..0x10FFFF);
 
 UC.Text.Unicode_Codepoints ::= type of String
-    where (.0->every_elem_isa($Unicode_Codepoint));
+    where (topic->every_elem_isa($Unicode_Codepoint));
 
 UC.Text.Unicode ::= type of Text
-    where (.0->maximal_chars() isa $Unicode_Codepoints);
+    where (topic->maximal_chars() isa $Unicode_Codepoints);
 
 UC.Text.Unicode.Canon ::= type of Text.Unicode
     where ...;

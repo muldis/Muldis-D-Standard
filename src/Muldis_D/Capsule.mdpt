@@ -25,5 +25,5 @@ MD.Capsule.attr ::= function
 
 /*************************************************************************/
 
-MD.Capsule.Singleton ::= type of Capsule where (is_nullary(%.0));
+MD.Capsule.Singleton ::= type of Capsule where (is_nullary(%topic));
 
