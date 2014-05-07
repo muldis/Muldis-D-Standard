@@ -10,7 +10,9 @@ MD.Empty ::= type of Universal where (false);
 
 /*************************************************************************/
 
-MD.Universal."="|same ::= LL_same;
+MD.Universal."="|same ::= function
+    (Boolean <-- Universal, Universal) is_commutative
+    : LL_same(\*:[.0,.1]);
 
 /*************************************************************************/
 
@@ -24,7 +26,7 @@ MD.Universal."!="|not_same ::= function
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
 MD.Universal.isa|value_of ::= function
-    (Boolean <-- Universal, 1|type : SC_Reference) : (.0 isa .1);
+    (Boolean <-- Universal, SC_Reference) : (.0 isa .1);
 
 /*************************************************************************/
 
@@ -43,7 +45,7 @@ MD.Universal.default_of ::= function
 MD.Universal.same_base_type ::= function
     (Boolean <-- Universal, Universal) is_commutative
 : (
-    if LL_same_low_level_type(.0,.1) then
+    if LL_same_low_level_type(\*:[.0,.1]) then
         if .0 isa $Capsule then
             Capsule_type(.0) = Capsule_type(.1)
         else true
@@ -54,5 +56,7 @@ MD.Universal.same_base_type ::= function
 
 /* Note that ":=" is a keyword; this updater is a shim over it. */
 
-MD.Universal.":="|assign ::= updater
-    (&0|target : Universal, 1|value : Universal) : {.0 := .1};
+MD.Universal.":=" ::= updater (&Universal, Universal) : {.0 := .1};
+
+MD.Universal.assign ::= updater
+    (&target : Universal, value : Universal) : {.target := .value};

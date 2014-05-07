@@ -25,9 +25,9 @@ MD.Integer."<=>"|order ::= function
     !! LL_is_neg(.0)  and !LL_is_neg(.1) ?? $=>Less
     !! !LL_is_neg(.0) and LL_is_neg(.1)  ?? $=>More
     !! LL_is_neg(.0)  and LL_is_neg(.1)
-        ?? (LL_in_order(LL_magnitude(.0),LL_magnitude(.1))
+        ?? (LL_in_order(\*:[LL_magnitude(.0),LL_magnitude(.1)])
             ?? $=>More !! $=>Less)
-    !! (LL_in_order(LL_magnitude(.0),LL_magnitude(.1))
+    !! (LL_in_order(\*:[LL_magnitude(.0),LL_magnitude(.1)])
             ?? $=>Less !! $=>More)
 );
 
@@ -61,8 +61,8 @@ MD.Integer."+"|plus|add|sum ::= function
      !! .1 = 0             ?? .0
      !! s0 = s1            ?? LL_integer(\*:[s0,LL_plus(m0,m1)])
      !! m0 = m1            ?? 0
-     !! LL_in_order(m0,m1) ?? LL_integer(\*:[s1,LL_minus(m1,m0)])
-     !!                       LL_integer(\*:[s0,LL_minus(m0,m1)])
+     !! LL_in_order(\*:[m0,m1]) ?? LL_integer(\*:[s1,LL_minus(\*:[m1,m0])])
+     !!                       LL_integer(\*:[s0,LL_minus(\*:[m0,m1])])
      ;
 );
 
@@ -79,7 +79,7 @@ MD.Integer."*"|times|multiply|product ::= function
     implements Numeric."*" is_commutative is_associative identity 1
     : (.0 = 1 ?? .1 !! .1 = 1 ?? .0 !! .0 = 0 or .1 = 0 ?? 0
         !! LL_integer(\*:[ LL_is_neg(.0) xor LL_is_neg(.1),
-        LL_times(LL_magnitude(.0),LL_magnitude(.1)) ]));
+        LL_times(\*:[LL_magnitude(.0),LL_magnitude(.1)]) ]));
 
 MD.Integer."/"|frac_divide|frac_quotient ::= function
     (Ratio <-- 0|dividend : Integer, 1|divisor : Integer)
@@ -106,7 +106,7 @@ MD.Integer.div|whole_divide|whole_quotient ::= function
 
         real_q_is_neg ::= LL_is_neg(.0) xor LL_is_neg(.1);
         rtz_quotient ::= LL_integer(\*:[ real_q_is_neg,
-            LL_divide(LL_magnitude(.0),LL_magnitude(.1)) ]);
+            LL_divide(\*:[LL_magnitude(.0),LL_magnitude(.1)]) ]);
         rtz_remainder ::= .0 - .1 * rtz_quotient;
 
         if rtz_remainder = 0 then
@@ -152,8 +152,8 @@ MD.Integer.div|whole_divide|whole_quotient ::= function
                             when $=>Half_Even
                               (
                                 q ::= LL_integer(\*:[ false,
-                                    LL_divide(LL_magnitude(rtz_quotient),
-                                    LL_magnitude(2)) ]);
+                                    LL_divide(\*:[LL_magnitude(rtz_quotient),
+                                    LL_magnitude(2)]) ]);
                                 r ::= abs(rtz_quotient) - 2 * q;
                                 rtz_quotient_is_even ::= r = 0;
                                 <-- rtz_quotient_is_even

@@ -51,4 +51,4 @@ MD.Array.elem ::= function
 
 MD.Array.every_elem_isa ::= function
     (Boolean <-- 0|array : Array, 1|type : SC_Reference)
-    : LL_every_elem_isa(LL_payload(.0),.1);
+    : LL_every_elem_isa(\*:[LL_payload(.0),.1]);

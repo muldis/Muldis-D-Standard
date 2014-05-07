@@ -23,7 +23,7 @@ MD.String."<=>"|order ::= function
     implements Ordered."<=>"
 : (
        .0 = .1            ?? $=>Same
-    !! LL_in_order(.0,.1) ?? $=>Less
+    !! LL_in_order(\*:[.0,.1]) ?? $=>Less
     !!                       $=>More
 );
 
@@ -50,4 +50,4 @@ MD.String.elem ::= function
 
 MD.String.every_elem_isa ::= function
     (Boolean <-- 0|string : String, 1|type : SC_Reference)
-    : LL_every_elem_isa(LL_payload(.0),.1;
+    : LL_every_elem_isa(\*:[LL_payload(.0),.1]);
