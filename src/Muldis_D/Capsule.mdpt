@@ -10,13 +10,13 @@ MD.Capsule ::= LL_Capsule;
 
 MD.Capsule."=>"|select_Capsule ::= function
     (Capsule <-- 0|type : SC_Reference, 1|attrs : Tuple)
-    : LL_capsule(\*:[LL_payload(.0),LL_payload(.1)]);
+    : LL_capsule(*\*:[LL_payload(*.0),LL_payload(*.1)]);
 
 MD.Capsule.Capsule_type ::= function (SC_Reference <-- Capsule)
-    : LL_reference(LL_capsule_type(.0));
+    : LL_reference(*LL_capsule_type(*.0));
 
 MD.Capsule."%"|attrs ::= function (Tuple <-- Capsule)
-    : LL_tuple(LL_capsule_attrs(.0));
+    : LL_tuple(*LL_capsule_attrs(*.0));
 
 /*************************************************************************/
 

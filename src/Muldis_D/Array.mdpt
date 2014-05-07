@@ -29,13 +29,13 @@ MD.Array."<=>"|order ::= function
 /*************************************************************************/
 
 MD.Array.is_empty ::= function (Boolean <-- Array)
-    : LL_empty(LL_payload(.0));
+    : LL_empty(*LL_payload(*.0));
 
 MD.Array.is_not_empty ::= function (Boolean <-- Array)
     : !.0->is_empty();
 
 MD.Array.first_elem ::= function (Universal <-- Array)
-    requires (.0->is_not_empty()) : LL_first(LL_payload(.0));
+    requires (.0->is_not_empty()) : LL_first(*LL_payload(*.0));
 
 MD.Array.nonfirst_elems ::= function (Array <-- Array)
     requires (.0->is_not_empty()) : ...;
@@ -51,4 +51,4 @@ MD.Array.elem ::= function
 
 MD.Array.every_elem_isa ::= function
     (Boolean <-- 0|array : Array, 1|type : SC_Reference)
-    : LL_every_elem_isa(\*:[LL_payload(.0),.1]);
+    : LL_every_elem_isa(*\*:[LL_payload(*.0),.1]);

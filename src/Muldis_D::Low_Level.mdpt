@@ -22,23 +22,23 @@ MDLL.LL_EMPTY ::= constant \*^1[constant_EMPTY];
 
 /* Note, LL_prepend has 2 conceptual arguments, in order ["elem","to"]. */
 
-MDLL.LL_prepend ::= function (LL_List <-- LL_List)
+MDLL.LL_prepend ::= function --> LL_List <-- LL_List
     requires (
-           LL_empty(.0)                           ?? LL_FALSE()
-        !! LL_empty(LL_nonfirst(.0))              ?? LL_FALSE()
-        !! LL_empty(LL_nonfirst(LL_nonfirst(.0))) ?? LL_TRUE()
+           LL_empty(*topic)                           ?? LL_FALSE()
+        !! LL_empty(*LL_nonfirst(*topic))              ?? LL_FALSE()
+        !! LL_empty(*LL_nonfirst(*LL_nonfirst(*topic))) ?? LL_TRUE()
         !! LL_FALSE()
     )
-    : \*^1[function_prepend,LL_first(.0),LL_first(LL_nonfirst(.0))];
+    : \*^1[function_prepend,LL_first(*topic),LL_first(*LL_nonfirst(*topic))];
 
-MDLL.LL_empty ::= function (LL_Boolean <-- LL_List)
-    : \*^1[function_empty,.0];
+MDLL.LL_empty ::= function --> LL_Boolean <-- LL_List
+    : \*^1[function_empty,topic];
 
-MDLL.LL_first ::= function (LL_List <-- LL_List)
-    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE()) : \*^1[function_first,.0];
+MDLL.LL_first ::= function --> LL_List <-- LL_List
+    requires (LL_empty(*topic) ?? LL_FALSE() !! LL_TRUE()) : \*^1[function_first,topic];
 
-MDLL.LL_nonfirst ::= function (LL_List <-- LL_List)
-    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE()) : \*^1[function_nonfirst,.0];
+MDLL.LL_nonfirst ::= function --> LL_List <-- LL_List
+    requires (LL_empty(*topic) ?? LL_FALSE() !! LL_TRUE()) : \*^1[function_nonfirst,topic];
 
 /*************************************************************************/
 
@@ -48,83 +48,83 @@ MDLL.LL_nonfirst ::= function (LL_List <-- LL_List)
 
 MDLL.LL_Boolean ::= type of LL_List
     where (
-           LL_empty(.0)              ?? LL_TRUE()
-        !! LL_empty(LL_nonfirst(.0)) ?? LL_empty(LL_first(.0))
+           LL_empty(*topic)              ?? LL_TRUE()
+        !! LL_empty(*LL_nonfirst(*topic)) ?? LL_empty(*LL_first(*topic))
         !! LL_FALSE()
     )
     default LL_FALSE();
 
 MDLL.LL_FALSE ::= LL_EMPTY;
 
-MDLL.LL_TRUE ::= constant LL_prepend(\*:[LL_EMPTY(),LL_EMPTY()]);
+MDLL.LL_TRUE ::= constant LL_prepend(*\*:[LL_EMPTY(),LL_EMPTY()]);
 
 /*************************************************************************/
 
 MDLL.LL_Pair ::= type of LL_List
     where (
-           LL_empty(.0)                           ?? LL_FALSE()
-        !! LL_empty(LL_nonfirst(.0))              ?? LL_FALSE()
-        !! LL_empty(LL_nonfirst(LL_nonfirst(.0))) ?? LL_TRUE()
+           LL_empty(*topic)                           ?? LL_FALSE()
+        !! LL_empty(*LL_nonfirst(*topic))              ?? LL_FALSE()
+        !! LL_empty(*LL_nonfirst(*LL_nonfirst(*topic))) ?? LL_TRUE()
         !! LL_FALSE()
     )
-    default LL_prepend(\*:[LL_EMPTY(),
-        LL_prepend(\*:[LL_EMPTY(),LL_EMPTY()])]);
+    default LL_prepend(*\*:[LL_EMPTY(),
+        LL_prepend(*\*:[LL_EMPTY(),LL_EMPTY()])]);
 
 /*************************************************************************/
 
 MDLL.LL_same ::= function
-    (LL_Boolean <-- LL_Pair) is_commutative
+    --> LL_Boolean <-- LL_Pair is_commutative
 : (
-    lhs ::= LL_first(.0);
-    rhs ::= LL_second(.0);
-    <-- LL_empty(lhs) ?? LL_empty(rhs)
-     !! LL_empty(rhs) ?? LL_FALSE()
-     !! self(\*:[LL_first(lhs),LL_first(rhs)])
-        ?? self(\*:[LL_nonfirst(lhs),LL_nonfirst(rhs)])
+    lhs ::= LL_first(*topic);
+    rhs ::= LL_second(*topic);
+    <-- LL_empty(*lhs) ?? LL_empty(*rhs)
+     !! LL_empty(*rhs) ?? LL_FALSE()
+     !! self(*\*:[LL_first(*lhs),LL_first(*rhs)])
+        ?? self(*\*:[LL_nonfirst(*lhs),LL_nonfirst(*rhs)])
      !! LL_FALSE()
 );
 
 MDLL.LL_in_order ::= function
-    (LL_Boolean <-- LL_Pair)
+    --> LL_Boolean <-- LL_Pair
 : (
-    lhs ::= LL_first(.0);
-    rhs ::= LL_second(.0);
-    <-- LL_empty(lhs) ?? LL_TRUE()
-     !! LL_empty(rhs) ?? LL_FALSE()
-     !! LL_same(\*:[LL_first(lhs),LL_first(rhs)])
-        ?? self(\*:[LL_nonfirst(lhs),LL_nonfirst(rhs)])
-     !! self(\*:[LL_first(lhs),LL_first(rhs)])
+    lhs ::= LL_first(*topic);
+    rhs ::= LL_second(*topic);
+    <-- LL_empty(*lhs) ?? LL_TRUE()
+     !! LL_empty(*rhs) ?? LL_FALSE()
+     !! LL_same(*\*:[LL_first(*lhs),LL_first(*rhs)])
+        ?? self(*\*:[LL_nonfirst(*lhs),LL_nonfirst(*rhs)])
+     !! self(*\*:[LL_first(*lhs),LL_first(*rhs)])
 );
 
 MDLL.LL_elems_in_order ::= function
-    (LL_Boolean <-- LL_List)
+    --> LL_Boolean <-- LL_List
 : (
-       LL_empty(.0)                            ?? LL_TRUE()
-    !! LL_empty(LL_nonfirst(.0))               ?? LL_TRUE()
-    !! LL_in_order(\*:[LL_first(.0),LL_second(.0)]) ?? self(LL_nonfirst(.0))
+       LL_empty(*topic)                            ?? LL_TRUE()
+    !! LL_empty(*LL_nonfirst(*topic))               ?? LL_TRUE()
+    !! LL_in_order(*\*:[LL_first(*topic),LL_second(*topic)]) ?? self(*LL_nonfirst(*topic))
     !! LL_FALSE()
 );
 
-MDLL.LL_second ::= function (LL_List <-- LL_List)
-    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE())
-    : LL_first(LL_nonfirst(.0));
+MDLL.LL_second ::= function --> LL_List <-- LL_List
+    requires (LL_empty(*topic) ?? LL_FALSE() !! LL_TRUE())
+    : LL_first(*LL_nonfirst(*topic));
 
-MDLL.LL_last ::= function (LL_List <-- LL_List)
-    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE())
-    : (LL_empty(LL_nonfirst(.0)) ?? LL_first(.0) !! self(LL_nonfirst(.0)));
+MDLL.LL_last ::= function --> LL_List <-- LL_List
+    requires (LL_empty(*topic) ?? LL_FALSE() !! LL_TRUE())
+    : (LL_empty(*LL_nonfirst(*topic)) ?? LL_first(*topic) !! self(*LL_nonfirst(*topic)));
 
-MDLL.LL_nonlast ::= function (LL_List <-- LL_List)
-    requires (LL_empty(.0) ?? LL_FALSE() !! LL_TRUE())
-    : (LL_empty(LL_nonfirst(.0)) ?? LL_EMPTY()
-        !! LL_prepend(\*:[LL_first(.0),self(LL_nonfirst(.0))]));
+MDLL.LL_nonlast ::= function --> LL_List <-- LL_List
+    requires (LL_empty(*topic) ?? LL_FALSE() !! LL_TRUE())
+    : (LL_empty(*LL_nonfirst(*topic)) ?? LL_EMPTY()
+        !! LL_prepend(*\*:[LL_first(*topic),self(*LL_nonfirst(*topic))]));
 
 MDLL.LL_catenate ::= function
-    (LL_List <-- LL_Pair)
+    --> LL_List <-- LL_Pair
 : (
-    lhs ::= LL_first(.0);
-    rhs ::= LL_second(.0);
-    <-- LL_empty(lhs) ?? rhs !! LL_empty(rhs) ?? lhs
-        !! self(\*:[LL_nonlast(lhs),LL_prepend(\*:[LL_last(lhs),rhs])]);
+    lhs ::= LL_first(*topic);
+    rhs ::= LL_second(*topic);
+    <-- LL_empty(*lhs) ?? rhs !! LL_empty(*rhs) ?? lhs
+        !! self(*\*:[LL_nonlast(*lhs),LL_prepend(*\*:[LL_last(*lhs),rhs])]);
 );
 
 /*************************************************************************/
@@ -134,136 +134,136 @@ MDLL.LL_catenate ::= function
    This is not exposed in the high-level type system at all. */
 
 MDLL.LL_Natural ::= type of LL_List
-    where (LL_empty(.0) ?? LL_TRUE()
-        !! LL_empty(LL_first(.0)) ?? self(LL_nonfirst(.0)) !! LL_FALSE());
+    where (LL_empty(*topic) ?? LL_TRUE()
+        !! LL_empty(*LL_first(*topic)) ?? self(*LL_nonfirst(*topic)) !! LL_FALSE());
 
 MDLL.LL_ZERO ::= LL_EMPTY;
 
 MDLL.LL_zero ::= LL_empty;
 
-MDLL.LL_pred ::= function (LL_Natural <-- LL_Natural)
-    requires (LL_zero(.0) ?? LL_FALSE() !! LL_TRUE()) : LL_nonfirst(.0);
+MDLL.LL_pred ::= function --> LL_Natural <-- LL_Natural
+    requires (LL_zero(*topic) ?? LL_FALSE() !! LL_TRUE()) : LL_nonfirst(*topic);
 
-MDLL.LL_succ ::= function (LL_Natural <-- LL_Natural)
-    : LL_prepend(\*:[LL_EMPTY(),.0]);
+MDLL.LL_succ ::= function --> LL_Natural <-- LL_Natural
+    : LL_prepend(*\*:[LL_EMPTY(),topic]);
 
-MDLL.LL_1 ::= constant LL_succ(LL_ZERO());
-MDLL.LL_2 ::= constant LL_succ(LL_1());
-MDLL.LL_3 ::= constant LL_succ(LL_2());
-MDLL.LL_4 ::= constant LL_succ(LL_3());
-MDLL.LL_5 ::= constant LL_succ(LL_4());
-MDLL.LL_6 ::= constant LL_succ(LL_5());
-MDLL.LL_7 ::= constant LL_succ(LL_6());
-MDLL.LL_8 ::= constant LL_succ(LL_7());
-MDLL.LL_9 ::= constant LL_succ(LL_8());
-MDLL.LL_10 ::= constant LL_succ(LL_9());
+MDLL.LL_1 ::= constant LL_succ(*LL_ZERO());
+MDLL.LL_2 ::= constant LL_succ(*LL_1());
+MDLL.LL_3 ::= constant LL_succ(*LL_2());
+MDLL.LL_4 ::= constant LL_succ(*LL_3());
+MDLL.LL_5 ::= constant LL_succ(*LL_4());
+MDLL.LL_6 ::= constant LL_succ(*LL_5());
+MDLL.LL_7 ::= constant LL_succ(*LL_6());
+MDLL.LL_8 ::= constant LL_succ(*LL_7());
+MDLL.LL_9 ::= constant LL_succ(*LL_8());
+MDLL.LL_10 ::= constant LL_succ(*LL_9());
 
 MDLL.LL_Pair_of_Natural ::= type of LL_Pair
-    where (LL_first(.0) isa $LL_Natural
-        ?? LL_second(.0) isa $LL_Natural !! LL_FALSE());
+    where (LL_first(*topic) isa $LL_Natural
+        ?? LL_second(*topic) isa $LL_Natural !! LL_FALSE());
 
 MDLL.LL_plus ::= function
-    (LL_Natural <-- LL_Pair_of_Natural)
+    --> LL_Natural <-- LL_Pair_of_Natural
     is_commutative is_associative identity LL_ZERO()
 : (
-    augend ::= LL_first(.0);
-    addend ::= LL_second(.0);
-    <-- LL_zero(augend) ?? addend !! LL_zero(addend) ?? augend
-        !! self(\*:[LL_succ(augend),LL_pred(addend)])
+    augend ::= LL_first(*topic);
+    addend ::= LL_second(*topic);
+    <-- LL_zero(*augend) ?? addend !! LL_zero(*addend) ?? augend
+        !! self(*\*:[LL_succ(*augend),LL_pred(*addend)])
 );
 
 MDLL.LL_minus ::= function
-    (LL_Natural <-- LL_Pair_of_Natural)
-    requires LL_in_order(\*:[LL_second(.0),LL_first(.0)])
+    --> LL_Natural <-- LL_Pair_of_Natural
+    requires LL_in_order(*\*:[LL_second(*topic),LL_first(*topic)])
 : (
-    minuend ::= LL_first(.0);
-    subtrahend ::= LL_second(.0);
-    <-- LL_zero(subtrahend) ?? minuend !! LL_same(\*:[minuend,subtrahend]) ?? LL_ZERO()
-        !! self(\*:[LL_pred(minuend),LL_pred(subtrahend)])
+    minuend ::= LL_first(*topic);
+    subtrahend ::= LL_second(*topic);
+    <-- LL_zero(*subtrahend) ?? minuend !! LL_same(*\*:[minuend,subtrahend]) ?? LL_ZERO()
+        !! self(*\*:[LL_pred(*minuend),LL_pred(*subtrahend)])
 );
 
 MDLL.LL_times ::= function
-    (LL_Natural <-- LL_Pair_of_Natural)
+    --> LL_Natural <-- LL_Pair_of_Natural
     is_commutative is_associative identity LL_1()
 : (
-    multiplicand ::= LL_first(.0);
-    multiplier ::= LL_second(.0);
-    <-- LL_same(\*:[multiplicand,LL_1()]) ?? multiplier !! LL_same(\*:[multiplier,LL_1()]) ?? multiplicand
-        !! LL_zero(multiplicand) ?? LL_ZERO() !! LL_zero(multiplier) ?? LL_ZERO()
-        !! LL_plus(\*:[multiplicand,self(\*:[multiplicand,LL_pred(multiplier)])])
+    multiplicand ::= LL_first(*topic);
+    multiplier ::= LL_second(*topic);
+    <-- LL_same(*\*:[multiplicand,LL_1()]) ?? multiplier !! LL_same(*\*:[multiplier,LL_1()]) ?? multiplicand
+        !! LL_zero(*multiplicand) ?? LL_ZERO() !! LL_zero(*multiplier) ?? LL_ZERO()
+        !! LL_plus(*\*:[multiplicand,self(*\*:[multiplicand,LL_pred(*multiplier)])])
 );
 
 MDLL.LL_divide ::= function
-    (LL_Natural <-- LL_Pair_of_Natural)
-    requires (LL_zero(LL_second(.0)) ?? LL_FALSE() !! LL_TRUE())
+    --> LL_Natural <-- LL_Pair_of_Natural
+    requires (LL_zero(*LL_second(*topic)) ?? LL_FALSE() !! LL_TRUE())
 : (
-    dividend ::= LL_first(.0);
-    divisor ::= LL_second(.0);
-    <-- LL_same(\*:[divisor,LL_1()]) ?? dividend !! LL_same(\*:[dividend,divisor]) ?? LL_1()
-        !! LL_in_order(\*:[dividend,divisor]) ?? LL_ZERO()
-        !! LL_succ(self(\*:[LL_minus(\*:[dividend,divisor]),divisor]))
+    dividend ::= LL_first(*topic);
+    divisor ::= LL_second(*topic);
+    <-- LL_same(*\*:[divisor,LL_1()]) ?? dividend !! LL_same(*\*:[dividend,divisor]) ?? LL_1()
+        !! LL_in_order(*\*:[dividend,divisor]) ?? LL_ZERO()
+        !! LL_succ(*self(*\*:[LL_minus(*\*:[dividend,divisor]),divisor]))
 );
 
 /*************************************************************************/
 
-MDLL.LL_count ::= function (LL_Natural <-- LL_List)
-    : (LL_empty(.0) ?? LL_ZERO() !! LL_succ(self(LL_nonfirst(.0))));
+MDLL.LL_count ::= function --> LL_Natural <-- LL_List
+    : (LL_empty(*topic) ?? LL_ZERO() !! LL_succ(*self(*LL_nonfirst(*topic))));
 
 MDLL.LL_elem ::= function
-    (LL_List <-- LL_Pair)
+    --> LL_List <-- LL_Pair
     requires (
-        list ::= LL_first(.0);
-        index ::= LL_second(.0);
-        <-- index isa $LL_Natural ?? LL_in_order(\*:[LL_succ(index),LL_count(list)]) !! LL_FALSE()
+        list ::= LL_first(*topic);
+        index ::= LL_second(*topic);
+        <-- index isa $LL_Natural ?? LL_in_order(*\*:[LL_succ(*index),LL_count(*list)]) !! LL_FALSE()
     )
 : (
-    list ::= LL_first(.0);
-    index ::= LL_second(.0);
-    <-- LL_zero(index) ?? LL_first(list) !! self(\*:[LL_nonfirst(list),LL_pred(index)])
+    list ::= LL_first(*topic);
+    index ::= LL_second(*topic);
+    <-- LL_zero(*index) ?? LL_first(*list) !! self(*\*:[LL_nonfirst(*list),LL_pred(*index)])
 );
 
 /* Note that LL_slice() can only return a non-empty list slice. */
 
 MDLL.LL_slice ::= function
-    (LL_List <-- LL_Pair)
+    --> LL_List <-- LL_Pair
     requires (
-        list ::= LL_first(.0);
-        range ::= LL_second(.0);
+        list ::= LL_first(*topic);
+        range ::= LL_second(*topic);
         if range isa $LL_Pair_of_Natural then
           (
-            first_index ::= LL_first(range);
-            last_index ::= LL_second(range);
-            <-- LL_in_order(\*:[first_index,last_index])
-                ?? LL_in_order(\*:[LL_succ(last_index),LL_count(list)])
+            first_index ::= LL_first(*range);
+            last_index ::= LL_second(*range);
+            <-- LL_in_order(*\*:[first_index,last_index])
+                ?? LL_in_order(*\*:[LL_succ(*last_index),LL_count(*list)])
                 !! LL_FALSE()
           )
         else LL_FALSE();
     )
 : (
-    list ::= LL_first(.0);
-    range ::= LL_second(.0);
-    first_index ::= LL_first(range);
-    last_index ::= LL_second(range);
-    <-- LL_empty(LL_nonfirst(list)) ?? list
-     !! LL_zero(first_index) ?? LL_prepend(\*:[LL_first(list), 
-        self(\*:[LL_nonfirst(list),\*:[first_index,LL_pred(last_index)]])])
-     !! self(\*:[LL_nonfirst(list),\*:[LL_pred(first_index),LL_pred(last_index)]]);
+    list ::= LL_first(*topic);
+    range ::= LL_second(*topic);
+    first_index ::= LL_first(*range);
+    last_index ::= LL_second(*range);
+    <-- LL_empty(*LL_nonfirst(*list)) ?? list
+     !! LL_zero(*first_index) ?? LL_prepend(*\*:[LL_first(*list), 
+        self(*\*:[LL_nonfirst(*list),\*:[first_index,LL_pred(*last_index)]])])
+     !! self(*\*:[LL_nonfirst(*list),\*:[LL_pred(*first_index),LL_pred(*last_index)]]);
 );
 
 MDLL.LL_every_elem_same_count ::= function
-    (LL_Boolean <-- LL_List)
+    --> LL_Boolean <-- LL_List
 : (
-       LL_empty(.0)              ?? LL_TRUE()
-    !! LL_empty(LL_nonfirst(.0)) ?? LL_TRUE()
-    !! LL_same(\*:[LL_count(LL_first(.0)),LL_count(LL_second(.0))])
-        ?? self(LL_nonfirst(.0))
+       LL_empty(*topic)              ?? LL_TRUE()
+    !! LL_empty(*LL_nonfirst(*topic)) ?? LL_TRUE()
+    !! LL_same(*\*:[LL_count(*LL_first(*topic)),LL_count(*LL_second(*topic))])
+        ?? self(*LL_nonfirst(*topic))
     !! LL_FALSE()
 );
 
 /*************************************************************************/
 
 MDLL.LL_Structure_Base ::= type of LL_Pair
-    where (LL_first(.0) isa $LL_Natural);
+    where (LL_first(*topic) isa $LL_Natural);
 
 MDLL.LL_Structure ::=
     LL_Integer|LL_String|LL_Array|LL_Heading|LL_Renaming|LL_Tuple
@@ -271,10 +271,10 @@ MDLL.LL_Structure ::=
     default LL_FALSE();
 
 MDLL.LL_structure_kind ::= function
-    (LL_List <-- LL_Structure_Base) : LL_first(.0);
+    --> LL_List <-- LL_Structure_Base : LL_first(*topic);
 
 MDLL.LL_payload ::= function
-    (LL_List <-- LL_Structure_Base) : LL_second(.0);
+    --> LL_List <-- LL_Structure_Base : LL_second(*topic);
 
 /*************************************************************************/
 
@@ -302,156 +302,156 @@ MDLL.LL_SK_EXTERNAL   ::= LL_10;
    This is exposed in the high level type system as Integer. */
 
 MDLL.LL_Integer ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_INTEGER()])
-        ?? LL_payload(.0) isa $LL_Integer_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_INTEGER()])
+        ?? LL_payload(*topic) isa $LL_Integer_Payload !! LL_FALSE());
 
 MDLL.LL_Integer_Payload ::= type of LL_Pair where
 (
-    is_neg    ::= LL_first(.0);
-    magnitude ::= LL_second(.0);
+    is_neg    ::= LL_first(*topic);
+    magnitude ::= LL_second(*topic);
     if is_neg isa $LL_Boolean then
         if magnitude isa $LL_Natural then
-            if LL_same(\*:[magnitude,LL_ZERO()]) then
-                LL_same(\*:[is_neg,LL_FALSE()])
+            if LL_same(*\*:[magnitude,LL_ZERO()]) then
+                LL_same(*\*:[is_neg,LL_FALSE()])
             else LL_TRUE()
         else LL_FALSE()
     else LL_FALSE();
 );
 
 MDLL.LL_integer ::= function
-    (LL_Integer <-- LL_Integer_Payload)
-    : \*:[LL_SK_INTEGER(),.0];
+    --> LL_Integer <-- LL_Integer_Payload
+    : \*:[LL_SK_INTEGER(),topic];
 
-MDLL.LL_is_neg ::= function (LL_Boolean <-- LL_Integer)
-    : LL_first(LL_payload(.0));
+MDLL.LL_is_neg ::= function --> LL_Boolean <-- LL_Integer
+    : LL_first(*LL_payload(*topic));
 
 MDLL.LL_magnitude ::= function
-    (LL_Natural <-- LL_Integer)
-    : LL_second(LL_payload(.0));
+    --> LL_Natural <-- LL_Integer
+    : LL_second(*LL_payload(*topic));
 
 /*************************************************************************/
 
 MDLL.LL_String ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_STRING()])
-        ?? LL_payload(.0) isa $LL_String_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_STRING()])
+        ?? LL_payload(*topic) isa $LL_String_Payload !! LL_FALSE());
 
 MDLL.LL_String_Payload ::= type of LL_List
-    where (LL_empty(.0) ?? LL_TRUE()
-        !! LL_first(.0) isa $LL_Integer_Payload
-        ?? self(LL_nonfirst(.0)) !! LL_FALSE());
+    where (LL_empty(*topic) ?? LL_TRUE()
+        !! LL_first(*topic) isa $LL_Integer_Payload
+        ?? self(*LL_nonfirst(*topic)) !! LL_FALSE());
 
 MDLL.LL_string ::= function
-    (LL_String <-- LL_String_Payload)
-    : \*:[LL_SK_STRING(),.0];
+    --> LL_String <-- LL_String_Payload
+    : \*:[LL_SK_STRING(),topic];
 
 MDLL.LL_List_of_String_Payloads ::= type of LL_List
-    where (LL_empty(.0) ?? LL_TRUE() !! LL_first(.0) isa $LL_String_Payload
-        ?? self(LL_nonfirst(.0)) !! LL_FALSE());
+    where (LL_empty(*topic) ?? LL_TRUE() !! LL_first(*topic) isa $LL_String_Payload
+        ?? self(*LL_nonfirst(*topic)) !! LL_FALSE());
 
 /*************************************************************************/
 
 MDLL.LL_Array ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_ARRAY()]));
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_ARRAY()]));
 
-MDLL.LL_array ::= function (LL_Array <-- LL_List)
-    : \*:[LL_SK_ARRAY(),.0];
+MDLL.LL_array ::= function --> LL_Array <-- LL_List
+    : \*:[LL_SK_ARRAY(),topic];
 
 /*************************************************************************/
 
 MDLL.LL_Heading ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_HEADING()])
-        ?? LL_payload(.0) isa $LL_Heading_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_HEADING()])
+        ?? LL_payload(*topic) isa $LL_Heading_Payload !! LL_FALSE());
 
 MDLL.LL_Heading_Payload ::= type of LL_List_of_String_Payloads
-    where (LL_elems_in_order(.0));
+    where (LL_elems_in_order(*topic));
 
 MDLL.LL_heading ::= function
-    (LL_Heading <-- LL_Heading_Payload)
-    : \*:[LL_SK_HEADING(),.0];
+    --> LL_Heading <-- LL_Heading_Payload
+    : \*:[LL_SK_HEADING(),topic];
 
 /*************************************************************************/
 
 MDLL.LL_Renaming ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_RENAMING()])
-        ?? LL_payload(.0) isa $LL_Renaming_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_RENAMING()])
+        ?? LL_payload(*topic) isa $LL_Renaming_Payload !! LL_FALSE());
 
 MDLL.LL_Renaming_Payload ::= type of LL_Pair where
 (
-    after  ::= LL_first(.0);
-    before ::= LL_second(.0);
+    after  ::= LL_first(*topic);
+    before ::= LL_second(*topic);
     if after isa $LL_Heading_Payload then
         if before isa $LL_List_of_String_Payloads then
-            LL_same(\*:[LL_count(after),LL_count(before)])
+            LL_same(*\*:[LL_count(*after),LL_count(*before)])
         else LL_FALSE()
     else LL_FALSE();
 );
 
 MDLL.LL_renaming ::= function
-    (LL_Renaming <-- LL_Renaming_Payload)
-    : \*:[LL_SK_RENAMING(),.0];
+    --> LL_Renaming <-- LL_Renaming_Payload
+    : \*:[LL_SK_RENAMING(),topic];
 
 MDLL.LL_renaming_after ::= function
-    (LL_Heading_Payload <-- LL_Renaming) : LL_first(LL_payload(.0));
+    --> LL_Heading_Payload <-- LL_Renaming : LL_first(*LL_payload(*topic));
 
 MDLL.LL_renaming_before ::= function
-    (LL_List_of_String_Payloads <-- LL_Renaming)
-    : LL_second(LL_payload(.0));
+    --> LL_List_of_String_Payloads <-- LL_Renaming
+    : LL_second(*LL_payload(*topic));
 
 /*************************************************************************/
 
 MDLL.LL_Tuple ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_TUPLE()])
-        ?? LL_payload(.0) isa $LL_Tuple_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_TUPLE()])
+        ?? LL_payload(*topic) isa $LL_Tuple_Payload !! LL_FALSE());
 
 MDLL.LL_Tuple_Payload ::= type of LL_Pair where
 (
-    heading ::= LL_first(.0);
-    body    ::= LL_second(.0);
+    heading ::= LL_first(*topic);
+    body    ::= LL_second(*topic);
     if heading isa $LL_Heading_Payload then
-        LL_same(\*:[LL_count(heading),LL_count(body)])
+        LL_same(*\*:[LL_count(*heading),LL_count(*body)])
     else LL_FALSE();
 );
 
 MDLL.LL_tuple ::= function
-    (LL_Tuple <-- LL_Tuple_Payload)
-    : \*:[LL_SK_TUPLE(),.0];
+    --> LL_Tuple <-- LL_Tuple_Payload
+    : \*:[LL_SK_TUPLE(),topic];
 
 MDLL.LL_tuple_heading ::= function
-    (LL_Heading_Payload <-- LL_Tuple) : LL_first(LL_payload(.0));
+    --> LL_Heading_Payload <-- LL_Tuple : LL_first(*LL_payload(*topic));
 
-MDLL.LL_tuple_body ::= function (LL_List <-- LL_Tuple)
-    : LL_second(LL_payload(.0));
+MDLL.LL_tuple_body ::= function --> LL_List <-- LL_Tuple
+    : LL_second(*LL_payload(*topic));
 
 /*************************************************************************/
 
 MDLL.LL_Relation ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_RELATION()])
-        ?? LL_payload(.0) isa $LL_Relation_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_RELATION()])
+        ?? LL_payload(*topic) isa $LL_Relation_Payload !! LL_FALSE());
 
 MDLL.LL_Relation_Payload ::= type of LL_Pair where
 (
-    heading ::= LL_first(.0);
-    body    ::= LL_second(.0);
+    heading ::= LL_first(*topic);
+    body    ::= LL_second(*topic);
     if heading isa $LL_Heading_Payload then
-        if LL_empty(body) then
+        if LL_empty(*body) then
             LL_TRUE()
-        else if LL_same(\*:[LL_count(heading),LL_count(LL_first(body))]) then
-            if LL_every_elem_same_count(body) then
-                LL_elems_in_order(body)
+        else if LL_same(*\*:[LL_count(*heading),LL_count(*LL_first(*body))]) then
+            if LL_every_elem_same_count(*body) then
+                LL_elems_in_order(*body)
             else LL_FALSE()
         else LL_FALSE()
     else LL_FALSE();
 );
 
 MDLL.LL_relation ::= function
-    (LL_Relation <-- LL_Relation_Payload)
-    : \*:[LL_SK_RELATION(),.0];
+    --> LL_Relation <-- LL_Relation_Payload
+    : \*:[LL_SK_RELATION(),topic];
 
 MDLL.LL_relation_heading ::= function
-    (LL_Heading_Payload <-- LL_Relation) : LL_first(LL_payload(.0));
+    --> LL_Heading_Payload <-- LL_Relation : LL_first(*LL_payload(*topic));
 
 MDLL.LL_relation_body ::= function
-    (LL_List <-- LL_Relation) : LL_second(LL_payload(.0));
+    --> LL_List <-- LL_Relation : LL_second(*LL_payload(*topic));
 
 /*************************************************************************/
 
@@ -460,8 +460,8 @@ MDLL.LL_IK_RELATIVE ::= LL_1;
 MDLL.LL_IK_SEARCH   ::= LL_2;
 
 MDLL.LL_Identifier ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_IDENTIFIER()])
-        ?? LL_payload(.0) isa $LL_Identifier_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_IDENTIFIER()])
+        ?? LL_payload(*topic) isa $LL_Identifier_Payload !! LL_FALSE());
 
 MDLL.LL_Identifier_Payload ::= type of LL_List where
 (
@@ -476,13 +476,13 @@ MDLL.LL_Identifier_Payload ::= type of LL_List where
         else LL_FALSE()
         ;
 
-    is_quint_payload ::= LL_same(\*:[LL_count(.0),LL_5()]);
+    is_quint_payload ::= LL_same(*\*:[LL_count(*topic),LL_5()]);
 
-    identifier_kind     ::= LL_elem(\*:[.0,LL_ZERO()]);
-    pkg_name_base       ::= LL_elem(\*:[.0,LL_1()]);
-    pkg_name_ext        ::= LL_elem(\*:[.0,LL_2()]); /* [authority, vnum] */
-    path_beneath_pkg    ::= LL_elem(\*:[.0,LL_3()]);
-    rel_starts_n_lev_up ::= LL_elem(\*:[.0,LL_4()]);
+    identifier_kind     ::= LL_elem(*\*:[topic,LL_ZERO()]);
+    pkg_name_base       ::= LL_elem(*\*:[topic,LL_1()]);
+    pkg_name_ext        ::= LL_elem(*\*:[topic,LL_2()]); /* [authority, vnum] */
+    path_beneath_pkg    ::= LL_elem(*\*:[topic,LL_3()]);
+    rel_starts_n_lev_up ::= LL_elem(*\*:[topic,LL_4()]);
 
     is_identifier_base ::=
         if identifier_kind isa $LL_Natural then
@@ -497,105 +497,105 @@ MDLL.LL_Identifier_Payload ::= type of LL_List where
         ;
 
     is_absolute ::=
-        if LL_in_order(\*:[LL_count(pkg_name_ext),LL_2()]) then
-            LL_zero(rel_starts_n_lev_up)
+        if LL_in_order(*\*:[LL_count(*pkg_name_ext),LL_2()]) then
+            LL_zero(*rel_starts_n_lev_up)
         else LL_FALSE()
         ;
 
     is_relative ::=
-        if LL_empty(pkg_name_base) then
-            LL_empty(pkg_name_ext)
+        if LL_empty(*pkg_name_base) then
+            LL_empty(*pkg_name_ext)
         else LL_FALSE()
         ;
 
     is_search ::=
-        if LL_empty(pkg_name_base) then
-            if LL_empty(pkg_name_ext) then
-                LL_zero(rel_starts_n_lev_up)
+        if LL_empty(*pkg_name_base) then
+            if LL_empty(*pkg_name_ext) then
+                LL_zero(*rel_starts_n_lev_up)
             else LL_FALSE()
         else LL_FALSE()
         ;
 );
 
 MDLL.LL_identifier ::= function
-    (LL_Identifier <-- LL_Identifier_Payload)
-    : \*:[LL_SK_IDENTIFIER(),.0];
+    --> LL_Identifier <-- LL_Identifier_Payload
+    : \*:[LL_SK_IDENTIFIER(),topic];
 
 MDLL.LL_identifier_kind ::= function
-    (LL_Natural <-- LL_Identifier)
-    : LL_elem(\*:[LL_payload(.0),LL_ZERO()]);
+    --> LL_Natural <-- LL_Identifier
+    : LL_elem(*\*:[LL_payload(*topic),LL_ZERO()]);
 
 MDLL.LL_pkg_name_base ::= function
-    (LL_List_of_String_Payloads <-- LL_Identifier)
-    : LL_elem(\*:[LL_payload(.0),LL_1()]);
+    --> LL_List_of_String_Payloads <-- LL_Identifier
+    : LL_elem(*\*:[LL_payload(*topic),LL_1()]);
 
 MDLL.LL_pkg_name_ext ::= function
-    (LL_List_of_String_Payloads <-- LL_Identifier)
-    : LL_elem(\*:[LL_payload(.0),LL_2()]);
+    --> LL_List_of_String_Payloads <-- LL_Identifier
+    : LL_elem(*\*:[LL_payload(*topic),LL_2()]);
 
 MDLL.LL_path_beneath_pkg ::= function
-    (LL_List_of_String_Payloads <-- LL_Identifier)
-    : LL_elem(\*:[LL_payload(.0),LL_3()]);
+    --> LL_List_of_String_Payloads <-- LL_Identifier
+    : LL_elem(*\*:[LL_payload(*topic),LL_3()]);
 
 MDLL.LL_rel_starts_n_lev_up ::= function
-    (LL_Natural <-- LL_Identifier) : LL_elem(\*:[LL_payload(.0),LL_4()]);
+    --> LL_Natural <-- LL_Identifier : LL_elem(*\*:[LL_payload(*topic),LL_4()]);
 
 MDLL.LL_Reference ::= type of LL_Identifier where
 (
-    if LL_same(\*:[LL_identifier_kind(.0),LL_IK_ABSOLUTE()]) then
-        if LL_empty(LL_pkg_name_base(.0)) then
+    if LL_same(*\*:[LL_identifier_kind(*topic),LL_IK_ABSOLUTE()]) then
+        if LL_empty(*LL_pkg_name_base(*topic)) then
             LL_FALSE()
-        else LL_same(\*:[LL_count(LL_pkg_name_ext(.0)),LL_2()])
+        else LL_same(*\*:[LL_count(*LL_pkg_name_ext(*topic)),LL_2()])
     else LL_FALSE()
 );
 
 MDLL.LL_every_elem_isa ::= function
-    (LL_Boolean <-- LL_Pair)
-    requires (LL_second(.0) isa $LL_Reference)
+    --> LL_Boolean <-- LL_Pair
+    requires (LL_second(*topic) isa $LL_Reference)
 : (
-    list ::= LL_first(.0);
-    type ::= LL_second(.0);
-    <-- LL_empty(list) ?? LL_TRUE()
-        !! LL_first(list) isa type ?? self(\*:[LL_nonfirst(list),type]) !! LL_FALSE()
+    list ::= LL_first(*topic);
+    type ::= LL_second(*topic);
+    <-- LL_empty(*list) ?? LL_TRUE()
+        !! LL_first(*list) isa type ?? self(*\*:[LL_nonfirst(*list),type]) !! LL_FALSE()
 );
 
 /*************************************************************************/
 
 MDLL.LL_Capsule ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_CAPSULE()])
-        ?? LL_payload(.0) isa $LL_Capsule_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_CAPSULE()])
+        ?? LL_payload(*topic) isa $LL_Capsule_Payload !! LL_FALSE());
 
 MDLL.LL_Capsule_Payload ::= type of LL_Pair
-    where (LL_first(.0) isa $LL_Reference_Payload
-        ?? LL_second(.0) isa $LL_Tuple_Payload !! LL_FALSE());
+    where (LL_first(*topic) isa $LL_Reference_Payload
+        ?? LL_second(*topic) isa $LL_Tuple_Payload !! LL_FALSE());
 
 MDLL.LL_capsule ::= function
-    (LL_Capsule <-- LL_Capsule_Payload)
-    : \*:[LL_SK_CAPSULE(),.0];
+    --> LL_Capsule <-- LL_Capsule_Payload
+    : \*:[LL_SK_CAPSULE(),topic];
 
 MDLL.LL_capsule_type ::= function
-    (LL_Reference_Payload <-- LL_Capsule) : LL_first(LL_payload(.0));
+    --> LL_Reference_Payload <-- LL_Capsule : LL_first(*LL_payload(*topic));
 
 MDLL.LL_capsule_attrs ::= function
-    (LL_Tuple_Payload <-- LL_Capsule) : LL_second(LL_payload(.0));
+    --> LL_Tuple_Payload <-- LL_Capsule : LL_second(*LL_payload(*topic));
 
 /*************************************************************************/
 
 MDLL.LL_Stream ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_STREAM()])
-        ?? LL_payload(.0) isa $LL_Integer_Payload !! LL_FALSE());
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_STREAM()])
+        ?? LL_payload(*topic) isa $LL_Integer_Payload !! LL_FALSE());
 
 MDLL.LL_stream ::= function
-    (LL_Stream <-- LL_Integer_Payload)
-    : \*:[LL_SK_STREAM(),.0];
+    --> LL_Stream <-- LL_Integer_Payload
+    : \*:[LL_SK_STREAM(),topic];
 
 /*************************************************************************/
 
 MDLL.LL_External ::= type of LL_Structure_Base
-    where (LL_same(\*:[LL_structure_kind(.0),LL_SK_EXTERNAL()]));
+    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_EXTERNAL()]));
 
 MDLL.LL_external ::= function
-    (LL_External <-- LL_List) : \*:[LL_SK_EXTERNAL(),.0];
+    --> LL_External <-- LL_List : \*:[LL_SK_EXTERNAL(),topic];
 
 /*************************************************************************/
 
@@ -607,15 +607,15 @@ MDLL.LL_external ::= function
    so every type system value has the same low-level type as itself. */
 
 MDLL.LL_same_low_level_type ::= function
-    (LL_Boolean <-- LL_Pair) is_commutative
+    --> LL_Boolean <-- LL_Pair is_commutative
 : (
-    lhs ::= LL_first(.0);
-    rhs ::= LL_second(.0);
+    lhs ::= LL_first(*topic);
+    rhs ::= LL_second(*topic);
     <-- if lhs isa $LL_Boolean then
             rhs isa $LL_Boolean
         else if lhs isa $LL_Structure then
             if rhs isa $LL_Structure then
-                LL_same(\*:[LL_structure_kind(lhs),LL_structure_kind(rhs)])
+                LL_same(*\*:[LL_structure_kind(*lhs),LL_structure_kind(*rhs)])
             else LL_FALSE()
-        else LL_same(\*:[lhs,rhs])
+        else LL_same(*\*:[lhs,rhs])
 );
