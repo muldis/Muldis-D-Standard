@@ -39,32 +39,32 @@ UC.Text.from_unicode_utf8_octets ::= function
 
 /*************************************************************************/
 
-UC.Universal."≠" ::= "!=";
+UC.Universal."≠" ::= synonym of "!=";
 
 /*************************************************************************/
 
-UC.Boolean."⊥" ::= false;
+UC.Boolean."⊥" ::= synonym of false;
 
-UC.Boolean."⊤" ::= true;
+UC.Boolean."⊤" ::= synonym of true;
 
-UC.Boolean."¬" ::= not;
+UC.Boolean."¬" ::= synonym of not;
 
-UC.Boolean."∧" ::= and;
+UC.Boolean."∧" ::= synonym of and;
 
-UC.Boolean."⊼"|"↑" ::= nand;
+UC.Boolean."⊼"|"↑" ::= synonym of nand;
 
-UC.Boolean."∨" ::= or;
+UC.Boolean."∨" ::= synonym of or;
 
-UC.Boolean."⊽"|"↓" ::= nor;
+UC.Boolean."⊽"|"↓" ::= synonym of nor;
 
-UC.Boolean."↔" ::= xnor;
+UC.Boolean."↔" ::= synonym of xnor;
 
-UC.Boolean."⊻"|"↮" ::= xor;
+UC.Boolean."⊻"|"↮" ::= synonym of xor;
 
-UC.Boolean."→" ::= imp;
+UC.Boolean."→" ::= synonym of imp;
 
-UC.Boolean."↛" ::= nimp;
+UC.Boolean."↛" ::= synonym of nimp;
 
-UC.Boolean."←" ::= if;
+UC.Boolean."←" ::= synonym of if;
 
-UC.Boolean."↚" ::= nif;
+UC.Boolean."↚" ::= synonym of nif;

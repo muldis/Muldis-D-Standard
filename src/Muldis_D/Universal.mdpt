@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Universal;
 
 /*************************************************************************/
 
-MD.Universal ::= LL_List;
+MD.Universal ::= synonym of LL_List;
 
 MD.Empty ::= type of Universal where (false);
 

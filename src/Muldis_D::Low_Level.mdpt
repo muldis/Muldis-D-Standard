@@ -54,7 +54,7 @@ MDLL.LL_Boolean ::= type of LL_List
     )
     default LL_FALSE();
 
-MDLL.LL_FALSE ::= LL_EMPTY;
+MDLL.LL_FALSE ::= synonym of LL_EMPTY;
 
 MDLL.LL_TRUE ::= constant LL_prepend(*\*:[LL_EMPTY(),LL_EMPTY()]);
 
@@ -137,9 +137,9 @@ MDLL.LL_Natural ::= type of LL_List
     where (LL_empty(*topic) ?? LL_TRUE()
         !! LL_empty(*LL_first(*topic)) ?? self(*LL_nonfirst(*topic)) !! LL_FALSE());
 
-MDLL.LL_ZERO ::= LL_EMPTY;
+MDLL.LL_ZERO ::= synonym of LL_EMPTY;
 
-MDLL.LL_zero ::= LL_empty;
+MDLL.LL_zero ::= synonym of LL_empty;
 
 MDLL.LL_pred ::= function --> LL_Natural <-- LL_Natural
     requires (LL_zero(*topic) ?? LL_FALSE() !! LL_TRUE()) : LL_nonfirst(*topic);
@@ -278,17 +278,17 @@ MDLL.LL_payload ::= function
 
 /*************************************************************************/
 
-MDLL.LL_SK_INTEGER    ::= LL_ZERO;
-MDLL.LL_SK_STRING     ::= LL_1;
-MDLL.LL_SK_ARRAY      ::= LL_2;
-MDLL.LL_SK_HEADING    ::= LL_3;
-MDLL.LL_SK_RENAMING   ::= LL_4;
-MDLL.LL_SK_TUPLE      ::= LL_5;
-MDLL.LL_SK_RELATION   ::= LL_6;
-MDLL.LL_SK_IDENTIFIER ::= LL_7;
-MDLL.LL_SK_CAPSULE    ::= LL_8;
-MDLL.LL_SK_STREAM     ::= LL_9;
-MDLL.LL_SK_EXTERNAL   ::= LL_10;
+MDLL.LL_SK_INTEGER    ::= synonym of LL_ZERO;
+MDLL.LL_SK_STRING     ::= synonym of LL_1;
+MDLL.LL_SK_ARRAY      ::= synonym of LL_2;
+MDLL.LL_SK_HEADING    ::= synonym of LL_3;
+MDLL.LL_SK_RENAMING   ::= synonym of LL_4;
+MDLL.LL_SK_TUPLE      ::= synonym of LL_5;
+MDLL.LL_SK_RELATION   ::= synonym of LL_6;
+MDLL.LL_SK_IDENTIFIER ::= synonym of LL_7;
+MDLL.LL_SK_CAPSULE    ::= synonym of LL_8;
+MDLL.LL_SK_STREAM     ::= synonym of LL_9;
+MDLL.LL_SK_EXTERNAL   ::= synonym of LL_10;
 
 /*************************************************************************/
 
@@ -455,10 +455,10 @@ MDLL.LL_relation_body ::= function
 
 /*************************************************************************/
 
-MDLL.LL_IK_CANON    ::= LL_ZERO;
-MDLL.LL_IK_LOCAL    ::= LL_1
-MDLL.LL_IK_RELATIVE ::= LL_2;
-MDLL.LL_IK_SEARCH   ::= LL_3;
+MDLL.LL_IK_CANON    ::= synonym of LL_ZERO;
+MDLL.LL_IK_LOCAL    ::= synonym of LL_1
+MDLL.LL_IK_RELATIVE ::= synonym of LL_2;
+MDLL.LL_IK_SEARCH   ::= synonym of LL_3;
 
 MDLL.LL_Identifier ::= type of LL_Structure_Base
     where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_IDENTIFIER()])

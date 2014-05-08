@@ -8,9 +8,9 @@ package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
 MD.Stringy ::= abstract_type composes Ordered;
 
-MD.String ::= LL_String composes Stringy;
+MD.String ::= synonym of LL_String composes Stringy;
 
-MD.Str ::= String;
+MD.Str ::= synonym of String;
 
 MD.String.NN ::= type of String where (topic->every_elem_isa($Integer.NN));
 
