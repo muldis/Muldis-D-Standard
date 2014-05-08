@@ -25,7 +25,21 @@ MD.Source_Code.SC_Heading ::= LL_Heading;
 
 MD.Source_Code.SC_Renaming ::= LL_Renaming;
 
+/* General forms of SC_Identifier:
+   - \$=Pkg::Name::Base:pkg:name:ext.path.beneath.pkg
+   - \$.Pkg::Name::Base.path.beneath.pkg
+   - \$<rel_starts_n_lev_up>path.beneath.pkg
+   - \$?path.beneath.pkg
+   - pkg_name_base is everything up to first ":" or ".", elems sep by "::"
+   - pkg_name_ext is everything from first ":" to first ".", sep by ":"
+   - path.beneath.pkg is everything from first ".", elems sep by "."
+   - Each element may be double-quoted if necessary to prevent parse issues
+        for example authority likely quoted as has ":", version if has ".".
+   */
+
 MD.Source_Code.SC_Identifier ::= LL_Identifier;
+
+/* SC_Reference example: \$=Muldis_D:"http://muldis.com":0.Integer.sum */
 
 MD.Source_Code.SC_Reference ::= LL_Reference composes Ordered;
 
@@ -38,21 +52,19 @@ MD.Source_Code.SC_Name ::= type of SC_Heading
 
 /*************************************************************************/
 
-/* SC_Pkg_Full_Name example: Muldis_D:"http://muldis.com":0 */
+/* SC_Pkg_Canon_Name example: Muldis_D:"http://muldis.com":0 */
 
-MD.Source_Code.SC_Pkg_Full_Name ::= type of SC_Reference where
-    (LL_empty(*LL_path_beneath_pkg(*topic)));
+MD.Source_Code.SC_Pkg_Canon_Name ::= type of SC_Reference
+    where LL_empty(*LL_path_beneath_pkg(*topic));
 
-/* SC_Pkg_Local_Alias example: Muldis_D */
+/* SC_Pkg_Local_Alias example: MD */
 
 MD.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
-    where (LL_identifier_kind(*topic) = LL_IK_ABSOLUTE()
-        and !LL_empty(*LL_pkg_name_base(*topic))
-        and LL_empty(*LL_pkg_name_ext(*topic))
+    where (LL_identifier_kind(*topic) = LL_IK_LOCAL()
         and LL_empty(*LL_path_beneath_pkg(*topic)));
 
 MD.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
-    where (topic->every_elem_isa($SC_Pkg_Local_Alias));
+    where topic->every_elem_isa($SC_Pkg_Local_Alias);
 
 /*************************************************************************/
 
@@ -60,12 +72,12 @@ MD.Source_Code.SC_Pkg_Decl_Map ::= type of Capsule where
 (
     has_attrs(topic,\%{
         local_alias : $SC_Pkg_Local_Alias,
-        full_name   : $SC_Pkg_Full_Name,
+        canon_name  : $SC_Pkg_Canon_Name,
     })
 );
 
 MD.Source_Code.SC_Pkg_Decl_Maps ::= type of Array
-    where (topic->every_elem_isa($SC_Pkg_Decl_Map));
+    where topic->every_elem_isa($SC_Pkg_Decl_Map);
 
 /*************************************************************************/
 

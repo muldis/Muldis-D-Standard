@@ -455,9 +455,10 @@ MDLL.LL_relation_body ::= function
 
 /*************************************************************************/
 
-MDLL.LL_IK_ABSOLUTE ::= LL_ZERO;
-MDLL.LL_IK_RELATIVE ::= LL_1;
-MDLL.LL_IK_SEARCH   ::= LL_2;
+MDLL.LL_IK_CANON    ::= LL_ZERO;
+MDLL.LL_IK_LOCAL    ::= LL_1
+MDLL.LL_IK_RELATIVE ::= LL_2;
+MDLL.LL_IK_SEARCH   ::= LL_3;
 
 MDLL.LL_Identifier ::= type of LL_Structure_Base
     where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_IDENTIFIER()])
@@ -468,7 +469,8 @@ MDLL.LL_Identifier_Payload ::= type of LL_List where
     <-- if is_quint_payload then
             if is_identifier_base then
                 given identifier_kind
-                when LL_IK_ABSOLUTE() then is_absolute
+                when LL_IK_CANON()    then is_canon
+                when LL_IK_LOCAL()    then is_local
                 when LL_IK_RELATIVE() then is_relative
                 when LL_IK_SEARCH()   then is_search
                 default LL_FALSE()
@@ -480,7 +482,7 @@ MDLL.LL_Identifier_Payload ::= type of LL_List where
 
     identifier_kind     ::= LL_elem(*\*:[topic,LL_ZERO()]);
     pkg_name_base       ::= LL_elem(*\*:[topic,LL_1()]);
-    pkg_name_ext        ::= LL_elem(*\*:[topic,LL_2()]); /* [authority, vnum] */
+    pkg_name_ext        ::= LL_elem(*\*:[topic,LL_2()]); /* [authority, vnum, ?] */
     path_beneath_pkg    ::= LL_elem(*\*:[topic,LL_3()]);
     rel_starts_n_lev_up ::= LL_elem(*\*:[topic,LL_4()]);
 
@@ -496,8 +498,16 @@ MDLL.LL_Identifier_Payload ::= type of LL_List where
         else LL_FALSE()
         ;
 
-    is_absolute ::=
-        if LL_in_order(*\*:[LL_count(*pkg_name_ext),LL_2()]) then
+    is_canon ::=
+        if LL_empty(*pkg_name_base) then
+            LL_FALSE()
+        else LL_zero(*rel_starts_n_lev_up)
+        ;
+
+    is_local ::=
+        if LL_empty(*pkg_name_base) then
+            LL_FALSE()
+        else if LL_empty(*pkg_name_ext) then
             LL_zero(*rel_starts_n_lev_up)
         else LL_FALSE()
         ;
@@ -540,14 +550,8 @@ MDLL.LL_path_beneath_pkg ::= function
 MDLL.LL_rel_starts_n_lev_up ::= function
     --> LL_Natural <-- LL_Identifier : LL_elem(*\*:[LL_payload(*topic),LL_4()]);
 
-MDLL.LL_Reference ::= type of LL_Identifier where
-(
-    if LL_same(*\*:[LL_identifier_kind(*topic),LL_IK_ABSOLUTE()]) then
-        if LL_empty(*LL_pkg_name_base(*topic)) then
-            LL_FALSE()
-        else LL_same(*\*:[LL_count(*LL_pkg_name_ext(*topic)),LL_2()])
-    else LL_FALSE()
-);
+MDLL.LL_Reference ::= type of LL_Identifier
+    where LL_same(*\*:[LL_identifier_kind(*topic),LL_IK_CANON()]);
 
 MDLL.LL_every_elem_isa ::= function
     --> LL_Boolean <-- LL_Pair
