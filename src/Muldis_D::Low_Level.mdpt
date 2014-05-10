@@ -457,71 +457,78 @@ MDLL.LL_relation_body ::= function
 
 /*************************************************************************/
 
-MDLL.LL_IK_ABSOLUTE ::= synonym of LL_ZERO;
-MDLL.LL_IK_RELATIVE ::= synonym of LL_1;
-MDLL.LL_IK_SEARCH   ::= synonym of LL_2;
-
 MDLL.LL_Identifier ::= type of LL_Structure_Base
     where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_IDENTIFIER()])
         ?? LL_payload(*topic) isa $LL_Identifier_Payload !! LL_FALSE());
 
 MDLL.LL_Identifier_Payload ::= type of LL_List where
 (
-    <-- if is_quad then
+    <-- if is_triple then
             if is_identifier_base then
-                given identifier_kind
-                when LL_IK_ABSOLUTE() then is_absolute
-                when LL_IK_RELATIVE() then is_relative
-                when LL_IK_SEARCH()   then is_search
-                default LL_FALSE()
-            else LL_FALSE()
-        else LL_FALSE()
-        ;
-
-    is_quad ::= LL_same(*\*:[LL_count(*topic),LL_4()]);
-
-    identifier_kind     ::= LL_elem(*\*:[topic,LL_ZERO()]);
-    pkg_local_alias     ::= LL_elem(*\*:[topic,LL_1()]);
-    path_beneath_pkg    ::= LL_elem(*\*:[topic,LL_2()]);
-    rel_starts_n_lev_up ::= LL_elem(*\*:[topic,LL_3()]);
-
-    is_identifier_base ::=
-        if identifier_kind isa $LL_Natural then
-            if pkg_local_alias isa $LL_List_of_String_Payloads then
-                if path_beneath_pkg isa $LL_List_of_String_Payloads then
-                    rel_starts_n_lev_up isa $LL_Natural
+                if is_absolute then
+                    LL_TRUE()
+                else if is_relative then
+                    LL_TRUE()
+                else if is_search then
+                    LL_TRUE()
                 else LL_FALSE()
             else LL_FALSE()
         else LL_FALSE()
         ;
 
-    is_absolute ::= LL_empty(*pkg_local_alias) ?? LL_FALSE()
-        !! LL_zero(*rel_starts_n_lev_up);
+    is_triple ::= LL_same(*\*:[LL_count(*topic),LL_3()]);
 
-    is_relative ::= LL_empty(*pkg_local_alias);
+    pkg_local_alias     ::= LL_elem(*\*:[topic,LL_ZERO()]);
+    rel_starts_n_lev_up ::= LL_elem(*\*:[topic,LL_1()]);
+    path_beneath_pkg    ::= LL_elem(*\*:[topic,LL_2()]);
 
-    is_search ::= LL_empty(*pkg_local_alias) ?? LL_zero(*rel_starts_n_lev_up)
-        !! LL_FALSE();
+    is_identifier_base ::=
+        if pkg_local_alias isa $LL_List_of_String_Payloads then
+            if rel_starts_n_lev_up isa $LL_Natural then
+                path_beneath_pkg isa $LL_List_of_String_Payloads
+            else LL_FALSE()
+        else LL_FALSE()
+        ;
+
+    is_absolute ::=
+        if LL_empty(*pkg_local_alias) then
+            LL_FALSE()
+        else LL_zero(*rel_starts_n_lev_up)
+        ;
+
+    is_relative ::=
+        if LL_empty(*pkg_local_alias) then
+            if LL_zero(*rel_starts_n_lev_up) then
+                LL_empty(*path_beneath_pkg)
+            else LL_TRUE
+        else LL_FALSE
+        ;
+
+    is_search ::=
+        if LL_empty(*pkg_local_alias) then
+            if LL_zero(*rel_starts_n_lev_up) then
+                if LL_empty(*path_beneath_pkg) then
+                    LL_FALSE()
+                else LL_TRUE()
+            else LL_FALSE()
+        else LL_FALSE()
+        ;
 );
 
 MDLL.LL_identifier ::= function
     --> LL_Identifier <-- LL_Identifier_Payload
     : \*:[LL_SK_IDENTIFIER(),topic];
 
-MDLL.LL_identifier_kind ::= function
-    --> LL_Natural <-- LL_Identifier
-    : LL_elem(*\*:[LL_payload(*topic),LL_ZERO()]);
-
 MDLL.LL_pkg_local_alias ::= function
     --> LL_List_of_String_Payloads <-- LL_Identifier
-    : LL_elem(*\*:[LL_payload(*topic),LL_1()]);
+    : LL_elem(*\*:[LL_payload(*topic),LL_ZERO()]);
+
+MDLL.LL_rel_starts_n_lev_up ::= function
+    --> LL_Natural <-- LL_Identifier : LL_elem(*\*:[LL_payload(*topic),LL_1()]);
 
 MDLL.LL_ident_path_beneath_pkg ::= function
     --> LL_List_of_String_Payloads <-- LL_Identifier
     : LL_elem(*\*:[LL_payload(*topic),LL_2()]);
-
-MDLL.LL_rel_starts_n_lev_up ::= function
-    --> LL_Natural <-- LL_Identifier : LL_elem(*\*:[LL_payload(*topic),LL_3()]);
 
 /*************************************************************************/
 
