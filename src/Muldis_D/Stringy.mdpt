@@ -8,7 +8,7 @@ package_segment Muldis_D:"http://muldis.com":0:Stringy;
 
 MD.Stringy ::= abstract_type composes Ordered;
 
-MD.String ::= synonym of ::MDLL.LL_String composes Stringy;
+MD.String ::= synonym of ::MDLL.String composes Stringy;
 
 MD.Str ::= synonym of String;
 
@@ -23,20 +23,20 @@ MD.String."<=>"|order ::= function
     implements Ordered."<=>"
 : (
        .0 = .1            ?? $=>Same
-    !! ::MDLL.LL_in_order(*\*:[.0,.1]) ?? $=>Less
+    !! ::MDLL.in_order(*\*:[.0,.1]) ?? $=>Less
     !!                       $=>More
 );
 
 /*************************************************************************/
 
 MD.String.is_empty ::= function (Boolean <-- String)
-    : ::MDLL.LL_empty(*::MDLL.LL_payload(*.0));
+    : ::MDLL.empty(*::MDLL.payload(*.0));
 
 MD.String.is_not_empty ::= function (Boolean <-- String)
     : !.0->is_empty();
 
 MD.String.first_elem ::= function (Universal <-- String)
-    requires (.0->is_not_empty()) : ::MDLL.LL_first(*::MDLL.LL_payload(*.0));
+    requires (.0->is_not_empty()) : ::MDLL.first(*::MDLL.payload(*.0));
 
 MD.String.nonfirst_elems ::= function (String <-- String)
     requires (.0->is_not_empty()) : ...;
@@ -50,4 +50,4 @@ MD.String.elem ::= function
 
 MD.String.every_elem_isa ::= function
     (Boolean <-- 0|string : String, 1|type : SC_Reference)
-    : ::MDLL.LL_every_elem_isa(*\*:[::MDLL.LL_payload(*.0),.1]);
+    : ::MDLL.every_elem_isa(*\*:[::MDLL.payload(*.0),.1]);

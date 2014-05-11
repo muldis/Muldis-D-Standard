@@ -4,19 +4,19 @@ package_segment Muldis_D:"http://muldis.com":0:Capsule;
 
 /*************************************************************************/
 
-MD.Capsule ::= synonym of ::MDLL.LL_Capsule;
+MD.Capsule ::= synonym of ::MDLL.Capsule;
 
 /*************************************************************************/
 
 MD.Capsule."=>"|select_Capsule ::= function
     (Capsule <-- 0|type : SC_Reference, 1|attrs : Tuple)
-    : ::MDLL.LL_capsule(*\*:[::MDLL.LL_payload(*.0),::MDLL.LL_payload(*.1)]);
+    : ::MDLL.capsule(*\*:[::MDLL.payload(*.0),::MDLL.payload(*.1)]);
 
 MD.Capsule.Capsule_type ::= function (SC_Reference <-- Capsule)
-    : ::MDLL.LL_reference(*::MDLL.LL_capsule_type(*.0));
+    : ::MDLL.reference(*::MDLL.capsule_type(*.0));
 
 MD.Capsule."%"|attrs ::= function (Tuple <-- Capsule)
-    : ::MDLL.LL_tuple(*::MDLL.LL_capsule_attrs(*.0));
+    : ::MDLL.tuple(*::MDLL.capsule_attrs(*.0));
 
 /*************************************************************************/
 

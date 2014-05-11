@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":0:Universal;
 
 /*************************************************************************/
 
-MD.Universal ::= synonym of ::MDLL.LL_List;
+MD.Universal ::= synonym of ::MDLL.List;
 
 MD.Empty ::= type of Universal where (false);
 
@@ -12,7 +12,7 @@ MD.Empty ::= type of Universal where (false);
 
 MD.Universal."="|same ::= function
     (Boolean <-- Universal, Universal) is_commutative
-    : ::MDLL.LL_same(*\*:[.0,.1]);
+    : ::MDLL.same(*\*:[.0,.1]);
 
 /*************************************************************************/
 
@@ -45,7 +45,7 @@ MD.Universal.default_of ::= function
 MD.Universal.same_base_type ::= function
     (Boolean <-- Universal, Universal) is_commutative
 : (
-    if ::MDLL.LL_same_low_level_type(*\*:[.0,.1]) then
+    if ::MDLL.same_low_level_type(*\*:[.0,.1]) then
         if .0 isa $Capsule then
             Capsule_type(.0) = Capsule_type(.1)
         else true
