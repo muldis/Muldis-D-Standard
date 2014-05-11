@@ -147,16 +147,16 @@ MDLL.pred ::= function --> Natural <-- Natural
 MDLL.succ ::= function --> Natural <-- Natural
     : prepend(*\*:[EMPTY(),topic]);
 
-MDLL.1 ::= constant succ(*ZERO());
-MDLL.2 ::= constant succ(*1());
-MDLL.3 ::= constant succ(*2());
-MDLL.4 ::= constant succ(*3());
-MDLL.5 ::= constant succ(*4());
-MDLL.6 ::= constant succ(*5());
-MDLL.7 ::= constant succ(*6());
-MDLL.8 ::= constant succ(*7());
-MDLL.9 ::= constant succ(*8());
-MDLL.10 ::= constant succ(*9());
+MDLL.N1 ::= constant succ(*ZERO());
+MDLL.N2 ::= constant succ(*N1());
+MDLL.N3 ::= constant succ(*N2());
+MDLL.N4 ::= constant succ(*N3());
+MDLL.N5 ::= constant succ(*N4());
+MDLL.N6 ::= constant succ(*N5());
+MDLL.N7 ::= constant succ(*N6());
+MDLL.N8 ::= constant succ(*N7());
+MDLL.N9 ::= constant succ(*N8());
+MDLL.N10 ::= constant succ(*N9());
 
 MDLL.Pair_of_Natural ::= type of Pair
     where (first(*topic) isa $Natural
@@ -184,11 +184,11 @@ MDLL.minus ::= function
 
 MDLL.times ::= function
     --> Natural <-- Pair_of_Natural
-    is_commutative is_associative identity 1()
+    is_commutative is_associative identity N1()
 : (
     multiplicand ::= first(*topic);
     multiplier ::= second(*topic);
-    <-- same(*\*:[multiplicand,1()]) ?? multiplier !! same(*\*:[multiplier,1()]) ?? multiplicand
+    <-- same(*\*:[multiplicand,N1()]) ?? multiplier !! same(*\*:[multiplier,N1()]) ?? multiplicand
         !! zero(*multiplicand) ?? ZERO() !! zero(*multiplier) ?? ZERO()
         !! plus(*\*:[multiplicand,self(*\*:[multiplicand,pred(*multiplier)])])
 );
@@ -199,7 +199,7 @@ MDLL.divide ::= function
 : (
     dividend ::= first(*topic);
     divisor ::= second(*topic);
-    <-- same(*\*:[divisor,1()]) ?? dividend !! same(*\*:[dividend,divisor]) ?? 1()
+    <-- same(*\*:[divisor,N1()]) ?? dividend !! same(*\*:[dividend,divisor]) ?? N1()
         !! in_order(*\*:[dividend,divisor]) ?? ZERO()
         !! succ(*self(*\*:[minus(*\*:[dividend,divisor]),divisor]))
 );
@@ -461,12 +461,12 @@ MDLL.Identifier ::= type of Structure_Base
 
 MDLL.Identifier_Payload ::= type of List where
 (
-    if same(*\*:[count(*topic),4()]) then
+    if same(*\*:[count(*topic),N4()]) then
       (
         pkg_name_base       ::= elem(*\*:[topic,ZERO()]);
-        pkg_name_ext        ::= elem(*\*:[topic,1()]);
-        rel_starts_n_lev_up ::= elem(*\*:[topic,2()]);
-        path_beneath_pkg    ::= elem(*\*:[topic,3()]);
+        pkg_name_ext        ::= elem(*\*:[topic,N1()]);
+        rel_starts_n_lev_up ::= elem(*\*:[topic,N2()]);
+        path_beneath_pkg    ::= elem(*\*:[topic,N3()]);
         <-- if pkg_name_base isa $List_of_String_Payloads then
                 if pkg_name_ext isa $List_of_String_Payloads then
                     if rel_starts_n_lev_up isa $Natural then
@@ -497,14 +497,14 @@ MDLL.pkg_name_base ::= function
 
 MDLL.pkg_name_ext ::= function
     --> List_of_String_Payloads <-- Identifier
-    : elem(*\*:[payload(*topic),1()]);
+    : elem(*\*:[payload(*topic),N1()]);
 
 MDLL.rel_starts_n_lev_up ::= function
-    --> Natural <-- Identifier : elem(*\*:[payload(*topic),2()]);
+    --> Natural <-- Identifier : elem(*\*:[payload(*topic),N2()]);
 
 MDLL.path_beneath_pkg ::= function
     --> List_of_String_Payloads <-- Identifier
-    : elem(*\*:[payload(*topic),3()]);
+    : elem(*\*:[payload(*topic),N3()]);
 
 /*************************************************************************/
 
