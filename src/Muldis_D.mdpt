@@ -4,7 +4,7 @@ package MD ::= Muldis_D:"http://muldis.com":0;
 
 using MDLL ::= Muldis_D::Low_Level:"http://muldis.com":0;
 
-searching [MDLL,MD];
+searching [MD];
 
 has_segment Array;
 has_segment Attributive;

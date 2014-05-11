@@ -6,7 +6,7 @@ package_segment Muldis_D:"http://muldis.com":0:Boolean;
 
 MD.Boolish ::= abstract_type composes Ordinal;
 
-MD.Boolean ::= synonym of LL_Boolean composes Boolish;
+MD.Boolean ::= synonym of ::MDLL.LL_Boolean composes Boolish;
 
 MD.Bool ::= synonym of Boolean;
 
@@ -33,12 +33,12 @@ MD.Boolean."++"|succ|inc ::= function (Boolean|"+Inf" <-- Boolean)
 
 /* Note that "false" is a keyword; this function implements it. */
 
-MD.Boolean.false|contradiction ::= synonym of LL_FALSE
+MD.Boolean.false|contradiction ::= synonym of ::MDLL.LL_FALSE
     implements Boolish."false";
 
 /* Note that "true" is a keyword; this function implements it. */
 
-MD.Boolean.true|tautology ::= synonym of LL_TRUE
+MD.Boolean.true|tautology ::= synonym of ::MDLL.LL_TRUE
     implements Boolish."true";
 
 /*************************************************************************/

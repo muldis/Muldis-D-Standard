@@ -6,12 +6,12 @@ package_segment Muldis_D:"http://muldis.com":0:Integer;
 
 MD.Integral ::= abstract_type composes Numeric;
 
-MD.Integer ::= synonym of LL_Integer
+MD.Integer ::= synonym of ::MDLL.LL_Integer
     composes Integral composes Cardinal composes Ordinal;
 
 MD.Integer.Int ::= synonym of Integer;
 
-MD.Integer.NN ::= type of Integer where (!LL_is_neg(*topic));
+MD.Integer.NN ::= type of Integer where (!::MDLL.LL_is_neg(*topic));
 
 MD.Integer.P ::= type of Integer.NN where (topic != 0);
 
@@ -22,12 +22,12 @@ MD.Integer."<=>"|order ::= function
     implements Ordered."<=>"
 : (
        .0 = .1                           ?? $=>Same
-    !! LL_is_neg(*.0)  and !LL_is_neg(*.1) ?? $=>Less
-    !! !LL_is_neg(*.0) and LL_is_neg(*.1)  ?? $=>More
-    !! LL_is_neg(*.0)  and LL_is_neg(*.1)
-        ?? (LL_in_order(*\*:[LL_magnitude(*.0),LL_magnitude(*.1)])
+    !! ::MDLL.LL_is_neg(*.0)  and !::MDLL.LL_is_neg(*.1) ?? $=>Less
+    !! !::MDLL.LL_is_neg(*.0) and ::MDLL.LL_is_neg(*.1)  ?? $=>More
+    !! ::MDLL.LL_is_neg(*.0)  and ::MDLL.LL_is_neg(*.1)
+        ?? (::MDLL.LL_in_order(*\*:[::MDLL.LL_magnitude(*.0),::MDLL.LL_magnitude(*.1)])
             ?? $=>More !! $=>Less)
-    !! (LL_in_order(*\*:[LL_magnitude(*.0),LL_magnitude(*.1)])
+    !! (::MDLL.LL_in_order(*\*:[::MDLL.LL_magnitude(*.0),::MDLL.LL_magnitude(*.1)])
             ?? $=>Less !! $=>More)
 );
 
@@ -43,26 +43,26 @@ MD.Integer."++"|succ|inc ::= function (Integer <-- Integer)
 
 MD.Integer.monadic."-"|opposite|additive_inverse ::= function
     (Integer <-- Integer) implements Numeric.monadic."-"
-    : (.0 = 0 ?? .0 !! LL_integer(*\*:[!LL_is_neg(*.0),LL_magnitude(*.0)]));
+    : (.0 = 0 ?? .0 !! ::MDLL.LL_integer(*\*:[!::MDLL.LL_is_neg(*.0),::MDLL.LL_magnitude(*.0)]));
 
 MD.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
     implements Numeric.abs
-    : (LL_is_neg(*.0) ?? LL_integer(*\*:[true,LL_magnitude(*.0)]) !! .0);
+    : (::MDLL.LL_is_neg(*.0) ?? ::MDLL.LL_integer(*\*:[true,::MDLL.LL_magnitude(*.0)]) !! .0);
 
 MD.Integer."+"|plus|add|sum ::= function
     (Integer <-- 0|augend : Integer, 1|addend : Integer)
     implements Numeric."+" is_commutative is_associative identity 0
 : (
-    s0 ::= LL_is_neg(*.0);
-    m0 ::= LL_magnitude(*.0);
-    s1 ::= LL_is_neg(*.1);
-    m1 ::= LL_magnitude(*.1);
+    s0 ::= ::MDLL.LL_is_neg(*.0);
+    m0 ::= ::MDLL.LL_magnitude(*.0);
+    s1 ::= ::MDLL.LL_is_neg(*.1);
+    m1 ::= ::MDLL.LL_magnitude(*.1);
     <-- .0 = 0             ?? .1
      !! .1 = 0             ?? .0
-     !! s0 = s1            ?? LL_integer(*\*:[s0,LL_plus(*m0,m1)])
+     !! s0 = s1            ?? ::MDLL.LL_integer(*\*:[s0,::MDLL.LL_plus(*m0,m1)])
      !! m0 = m1            ?? 0
-     !! LL_in_order(*\*:[m0,m1]) ?? LL_integer(*\*:[s1,LL_minus(*\*:[m1,m0])])
-     !!                       LL_integer(*\*:[s0,LL_minus(*\*:[m0,m1])])
+     !! ::MDLL.LL_in_order(*\*:[m0,m1]) ?? ::MDLL.LL_integer(*\*:[s1,::MDLL.LL_minus(*\*:[m1,m0])])
+     !!                       ::MDLL.LL_integer(*\*:[s0,::MDLL.LL_minus(*\*:[m0,m1])])
      ;
 );
 
@@ -78,8 +78,8 @@ MD.Integer."*"|times|multiply|product ::= function
     (Integer <-- 0|multiplicand : Integer, 1|multiplier : Integer)
     implements Numeric."*" is_commutative is_associative identity 1
     : (.0 = 1 ?? .1 !! .1 = 1 ?? .0 !! .0 = 0 or .1 = 0 ?? 0
-        !! LL_integer(*\*:[ LL_is_neg(*.0) xor LL_is_neg(*.1),
-        LL_times(*\*:[LL_magnitude(*.0),LL_magnitude(*.1)]) ]));
+        !! ::MDLL.LL_integer(*\*:[ ::MDLL.LL_is_neg(*.0) xor ::MDLL.LL_is_neg(*.1),
+        ::MDLL.LL_times(*\*:[::MDLL.LL_magnitude(*.0),::MDLL.LL_magnitude(*.1)]) ]));
 
 MD.Integer."/"|frac_divide|frac_quotient ::= function
     (Ratio <-- 0|dividend : Integer, 1|divisor : Integer)
@@ -104,9 +104,9 @@ MD.Integer.div|whole_divide|whole_quotient ::= function
         /* We know the divisor and dividend do not equal each other and
            that neither of them is a zero or a one. */
 
-        real_q_is_neg ::= LL_is_neg(*.0) xor LL_is_neg(*.1);
-        rtz_quotient ::= LL_integer(*\*:[ real_q_is_neg,
-            LL_divide(*\*:[LL_magnitude(*.0),LL_magnitude(*.1)]) ]);
+        real_q_is_neg ::= ::MDLL.LL_is_neg(*.0) xor ::MDLL.LL_is_neg(*.1);
+        rtz_quotient ::= ::MDLL.LL_integer(*\*:[ real_q_is_neg,
+            ::MDLL.LL_divide(*\*:[::MDLL.LL_magnitude(*.0),::MDLL.LL_magnitude(*.1)]) ]);
         rtz_remainder ::= .0 - .1 * rtz_quotient;
 
         if rtz_remainder = 0 then
@@ -151,9 +151,9 @@ MD.Integer.div|whole_divide|whole_quotient ::= function
                                 rti_quotient
                             when $=>Half_Even
                               (
-                                q ::= LL_integer(*\*:[ false,
-                                    LL_divide(*\*:[LL_magnitude(*rtz_quotient),
-                                    LL_magnitude(*2)]) ]);
+                                q ::= ::MDLL.LL_integer(*\*:[ false,
+                                    ::MDLL.LL_divide(*\*:[::MDLL.LL_magnitude(*rtz_quotient),
+                                    ::MDLL.LL_magnitude(*2)]) ]);
                                 r ::= abs(rtz_quotient) - 2 * q;
                                 rtz_quotient_is_even ::= r = 0;
                                 <-- rtz_quotient_is_even
@@ -184,7 +184,7 @@ MD.Integer.quot_and_rem ::= function
 
 MD.Integer.power|exp|exponentiate ::= function
     (Integer <-- 0|base|radix : Integer, 1|exponent : Integer)
-    requires (!LL_is_neg(*.1))
+    requires (!::MDLL.LL_is_neg(*.1))
     implements Numeric.power : ...;
 
 MD.Integer.factorial ::= function (Integer.P <-- Integer.P)
