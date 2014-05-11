@@ -26,30 +26,26 @@ MD.Source_Code.SC_Heading ::= synonym of ::MDLL.LL_Heading;
 MD.Source_Code.SC_Renaming ::= synonym of ::MDLL.LL_Renaming;
 
 /* General forms of SC_Identifier:
-   - absolute - \$::Pkg::Local::Alias.path.beneath.pkg
+   - identity - \$Pkg::Name::Base:pkg:name:ext.path.beneath.pkg
+   - absolute - \$::Pkg::Name::Base.path.beneath.pkg
    - relative - \$rel_starts_n_lev_up.path.beneath.pkg
-   - search   - \$path.beneath.pkg
-   - pkg_local_alias is everything up to first ".", elems sep by "::"
-        - only applies if at least 1 "::" exists; leading one can indicate
+   - floating - \$path.beneath.pkg
+   - pkg_name_base is everything up to first ":" or ".", elems sep by "::"
+        - only applies if at least 1 "::" exists; leading one can indicate;
+        or if at least 1 ":" exists
+   - pkg_name_ext is everything from first ":" to first ".", sep by ":"
    - rel_starts_n_lev_up is everything up to first "."
         - only applies if no "::" exists and leading char is bareword digit
    - path_beneath_pkg is everything from first ".", elems sep by "."
         - or its the whole thing if there is no "::", no leading bw digit
-   - Each element may be double-quot if necessary to prevent parse issues.
+   - Each element may be double-quot if necessary to prevent parse issues
+        for example authority likely quoted as has ":", version if has ".".
    - Remove "\$" for generalized routine-call syntax eg "foo()".
    */
 
 MD.Source_Code.SC_Identifier ::= synonym of ::MDLL.LL_Identifier;
 
-/* Regarding SC_Reference:
-   - general form : \$=Pkg::Name::Base:pkg:name:ext.path.beneath.pkg
-   - example      : \$=Muldis_D:"http://muldis.com":0.Integer.sum
-   - pkg_name_base is everything up to first ":" or ".", elems sep by "::"
-   - pkg_name_ext is everything from first ":" to first ".", sep by ":"
-   - path_beneath_pkg is everything from first ".", elems sep by "."
-   - Each element may be double-quoted if necessary to prevent parse issues
-        for example authority likely quoted as has ":", version if has ".".
-   */
+/* SC_Reference example: \$Muldis_D:"http://muldis.com":0.Integer.sum */
 
 MD.Source_Code.SC_Reference ::= synonym of ::MDLL.LL_Reference composes Ordered;
 
@@ -65,13 +61,15 @@ MD.Source_Code.SC_Name ::= type of SC_Heading
 /* SC_Pkg_Canon_Name example: Muldis_D:"http://muldis.com":0 */
 
 MD.Source_Code.SC_Pkg_Canon_Name ::= type of SC_Reference
-    where ::MDLL.LL_empty(*::MDLL.LL_ref_path_beneath_pkg(*topic));
+    where ::MDLL.LL_empty(*::MDLL.LL_path_beneath_pkg(*topic));
 
 /* SC_Pkg_Local_Alias example: MD */
 
 MD.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
-    where (!::MDLL.LL_empty(*::MDLL.LL_pkg_local_alias(*topic))
-        and ::MDLL.LL_empty(*::MDLL.LL_ident_path_beneath_pkg(*topic)));
+    where (!::MDLL.LL_empty(*::MDLL.LL_pkg_name_base(*topic))
+        and ::MDLL.LL_empty(*::MDLL.LL_pkg_name_ext(*topic))
+        and ::MDLL.LL_zero(*::MDLL.LL_rel_starts_n_lev_up(*topic))
+        and ::MDLL.LL_empty(*::MDLL.LL_path_beneath_pkg(*topic)));
 
 MD.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
     where topic->every_elem_isa($SC_Pkg_Local_Alias);

@@ -157,7 +157,6 @@ MDLL.LL_7 ::= constant LL_succ(*LL_6());
 MDLL.LL_8 ::= constant LL_succ(*LL_7());
 MDLL.LL_9 ::= constant LL_succ(*LL_8());
 MDLL.LL_10 ::= constant LL_succ(*LL_9());
-MDLL.LL_11 ::= constant LL_succ(*LL_10());
 
 MDLL.LL_Pair_of_Natural ::= type of LL_Pair
     where (LL_first(*topic) isa $LL_Natural
@@ -287,10 +286,9 @@ MDLL.LL_SK_RENAMING   ::= synonym of LL_4;
 MDLL.LL_SK_TUPLE      ::= synonym of LL_5;
 MDLL.LL_SK_RELATION   ::= synonym of LL_6;
 MDLL.LL_SK_IDENTIFIER ::= synonym of LL_7;
-MDLL.LL_SK_REFERENCE  ::= synonym of LL_8;
-MDLL.LL_SK_CAPSULE    ::= synonym of LL_9;
-MDLL.LL_SK_STREAM     ::= synonym of LL_10;
-MDLL.LL_SK_EXTERNAL   ::= synonym of LL_11;
+MDLL.LL_SK_CAPSULE    ::= synonym of LL_8;
+MDLL.LL_SK_STREAM     ::= synonym of LL_9;
+MDLL.LL_SK_EXTERNAL   ::= synonym of LL_10;
 
 /*************************************************************************/
 
@@ -463,92 +461,24 @@ MDLL.LL_Identifier ::= type of LL_Structure_Base
 
 MDLL.LL_Identifier_Payload ::= type of LL_List where
 (
-    <-- if is_triple then
-            if is_identifier_base then
-                if is_absolute then
-                    LL_TRUE()
-                else if is_relative then
-                    LL_TRUE()
-                else if is_search then
-                    LL_TRUE()
-                else LL_FALSE()
-            else LL_FALSE()
-        else LL_FALSE()
-        ;
-
-    is_triple ::= LL_same(*\*:[LL_count(*topic),LL_3()]);
-
-    pkg_local_alias     ::= LL_elem(*\*:[topic,LL_ZERO()]);
-    rel_starts_n_lev_up ::= LL_elem(*\*:[topic,LL_1()]);
-    path_beneath_pkg    ::= LL_elem(*\*:[topic,LL_2()]);
-
-    is_identifier_base ::=
-        if pkg_local_alias isa $LL_List_of_String_Payloads then
-            if rel_starts_n_lev_up isa $LL_Natural then
-                path_beneath_pkg isa $LL_List_of_String_Payloads
-            else LL_FALSE()
-        else LL_FALSE()
-        ;
-
-    is_absolute ::=
-        if LL_empty(*pkg_local_alias) then
-            LL_FALSE()
-        else LL_zero(*rel_starts_n_lev_up)
-        ;
-
-    is_relative ::=
-        if LL_empty(*pkg_local_alias) then
-            if LL_zero(*rel_starts_n_lev_up) then
-                LL_empty(*path_beneath_pkg)
-            else LL_TRUE
-        else LL_FALSE
-        ;
-
-    is_search ::=
-        if LL_empty(*pkg_local_alias) then
-            if LL_zero(*rel_starts_n_lev_up) then
-                if LL_empty(*path_beneath_pkg) then
-                    LL_FALSE()
-                else LL_TRUE()
-            else LL_FALSE()
-        else LL_FALSE()
-        ;
-);
-
-MDLL.LL_identifier ::= function
-    --> LL_Identifier <-- LL_Identifier_Payload
-    : \*:[LL_SK_IDENTIFIER(),topic];
-
-MDLL.LL_pkg_local_alias ::= function
-    --> LL_List_of_String_Payloads <-- LL_Identifier
-    : LL_elem(*\*:[LL_payload(*topic),LL_ZERO()]);
-
-MDLL.LL_rel_starts_n_lev_up ::= function
-    --> LL_Natural <-- LL_Identifier : LL_elem(*\*:[LL_payload(*topic),LL_1()]);
-
-MDLL.LL_ident_path_beneath_pkg ::= function
-    --> LL_List_of_String_Payloads <-- LL_Identifier
-    : LL_elem(*\*:[LL_payload(*topic),LL_2()]);
-
-/*************************************************************************/
-
-MDLL.LL_Reference ::= type of LL_Structure_Base
-    where (LL_same(*\*:[LL_structure_kind(*topic),LL_SK_REFERENCE()])
-        ?? LL_payload(*topic) isa $LL_Reference_Payload !! LL_FALSE());
-
-MDLL.LL_Reference_Payload ::= type of LL_List where
-(
-    if LL_same(*\*:[LL_count(*topic),LL_3()]) then
+    if LL_same(*\*:[LL_count(*topic),LL_4()]) then
       (
-        pkg_name_base    ::= LL_elem(*\*:[topic,LL_ZERO()]);
-        pkg_name_ext     ::= LL_elem(*\*:[topic,LL_1()]); /* [authority, vnum, ?] */
-        path_beneath_pkg ::= LL_elem(*\*:[topic,LL_2()]);
+        pkg_name_base       ::= LL_elem(*\*:[topic,LL_ZERO()]);
+        pkg_name_ext        ::= LL_elem(*\*:[topic,LL_1()]);
+        rel_starts_n_lev_up ::= LL_elem(*\*:[topic,LL_2()]);
+        path_beneath_pkg    ::= LL_elem(*\*:[topic,LL_3()]);
         <-- if pkg_name_base isa $LL_List_of_String_Payloads then
                 if pkg_name_ext isa $LL_List_of_String_Payloads then
-                    if path_beneath_pkg isa $LL_List_of_String_Payloads then
-                        if LL_empty(*pkg_name_base) then
-                            LL_FALSE()
-                        else LL_TRUE()
+                    if rel_starts_n_lev_up isa $LL_Natural then
+                        if path_beneath_pkg isa $LL_List_of_String_Payloads then
+                            if LL_empty(*pkg_name_base) then
+                                if LL_empty(*pkg_name_ext) then
+                                    if LL_empty(*path_beneath_pkg) then
+                                        LL_zero(*rel_starts_n_lev_up)
+                                    else LL_TRUE()
+                                else LL_FALSE()
+                            else LL_zero(*rel_starts_n_lev_up)
+                        else LL_FALSE()
                     else LL_FALSE()
                 else LL_FALSE()
             else LL_FALSE()
@@ -557,21 +487,37 @@ MDLL.LL_Reference_Payload ::= type of LL_List where
     else LL_FALSE()
 );
 
-MDLL.LL_reference ::= function
-    --> LL_Reference <-- LL_Reference_Payload
-    : \*:[LL_SK_REFERENCE(),topic];
+MDLL.LL_identifier ::= function
+    --> LL_Identifier <-- LL_Identifier_Payload
+    : \*:[LL_SK_IDENTIFIER(),topic];
 
 MDLL.LL_pkg_name_base ::= function
-    --> LL_List_of_String_Payloads <-- LL_Reference
+    --> LL_List_of_String_Payloads <-- LL_Identifier
     : LL_elem(*\*:[LL_payload(*topic),LL_ZERO()]);
 
 MDLL.LL_pkg_name_ext ::= function
-    --> LL_List_of_String_Payloads <-- LL_Reference
+    --> LL_List_of_String_Payloads <-- LL_Identifier
     : LL_elem(*\*:[LL_payload(*topic),LL_1()]);
 
-MDLL.LL_rel_path_beneath_pkg ::= function
-    --> LL_List_of_String_Payloads <-- LL_Reference
-    : LL_elem(*\*:[LL_payload(*topic),LL_2()]);
+MDLL.LL_rel_starts_n_lev_up ::= function
+    --> LL_Natural <-- LL_Identifier : LL_elem(*\*:[LL_payload(*topic),LL_2()]);
+
+MDLL.LL_path_beneath_pkg ::= function
+    --> LL_List_of_String_Payloads <-- LL_Identifier
+    : LL_elem(*\*:[LL_payload(*topic),LL_3()]);
+
+/*************************************************************************/
+
+MDLL.LL_Reference ::= type of LL_Identifier where
+(
+    if LL_empty(*LL_pkg_name_base(*topic)) then
+        LL_FALSE()
+    else if LL_empty(*LL_pkg_name_ext(*topic)) then
+        LL_FALSE()
+    else if LL_zero(*LL_rel_starts_n_lev_up(*topic)) then
+        LL_TRUE()
+    else LL_FALSE()
+);
 
 /*************************************************************************/
 
