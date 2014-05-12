@@ -279,16 +279,16 @@ MDLL.Structure.payload ::= function
 /*************************************************************************/
 
 MDLL.Structure.SK_INTEGER    ::= synonym of zero;
-MDLL.Structure.SK_STRING     ::= synonym of 1;
-MDLL.Structure.SK_ARRAY      ::= synonym of 2;
-MDLL.Structure.SK_HEADING    ::= synonym of 3;
-MDLL.Structure.SK_RENAMING   ::= synonym of 4;
-MDLL.Structure.SK_TUPLE      ::= synonym of 5;
-MDLL.Structure.SK_RELATION   ::= synonym of 6;
-MDLL.Structure.SK_IDENTIFIER ::= synonym of 7;
-MDLL.Structure.SK_CAPSULE    ::= synonym of 8;
-MDLL.Structure.SK_STREAM     ::= synonym of 9;
-MDLL.Structure.SK_EXTERNAL   ::= synonym of 10;
+MDLL.Structure.SK_STRING     ::= synonym of N1;
+MDLL.Structure.SK_ARRAY      ::= synonym of N2;
+MDLL.Structure.SK_HEADING    ::= synonym of N3;
+MDLL.Structure.SK_RENAMING   ::= synonym of N4;
+MDLL.Structure.SK_TUPLE      ::= synonym of N5;
+MDLL.Structure.SK_RELATION   ::= synonym of N6;
+MDLL.Structure.SK_IDENTIFIER ::= synonym of N7;
+MDLL.Structure.SK_CAPSULE    ::= synonym of N8;
+MDLL.Structure.SK_STREAM     ::= synonym of N9;
+MDLL.Structure.SK_EXTERNAL   ::= synonym of N10;
 
 /*************************************************************************/
 
