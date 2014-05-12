@@ -54,22 +54,22 @@ MD.Source_Code.SC_Reference ::= synonym of ::MDLL.Reference composes Ordered;
 /* SC_Name example: \~{age} */
 
 MD.Source_Code.SC_Name ::= type of SC_Heading
-    where (::MDLL.count(*::MDLL.payload(*topic)) = 1);
+    where (::MDLL.Universal.count(*::MDLL.Structure.payload(*topic)) = 1);
 
 /*************************************************************************/
 
 /* SC_Pkg_Canon_Name example: Muldis_D:"http://muldis.com":0 */
 
 MD.Source_Code.SC_Pkg_Canon_Name ::= type of SC_Reference
-    where ::MDLL.is_empty(*::MDLL.path_beneath_pkg(*topic));
+    where ::MDLL.Universal.is_empty(*::MDLL.Identifier.path_beneath_pkg(*topic));
 
 /* SC_Pkg_Local_Alias example: MD */
 
 MD.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
-    where (!::MDLL.is_empty(*::MDLL.pkg_name_base(*topic))
-        and ::MDLL.is_empty(*::MDLL.pkg_name_ext(*topic))
-        and ::MDLL.is_zero(*::MDLL.rel_starts_n_lev_up(*topic))
-        and ::MDLL.is_empty(*::MDLL.path_beneath_pkg(*topic)));
+    where (!::MDLL.Universal.is_empty(*::MDLL.Identifier.pkg_name_base(*topic))
+        and ::MDLL.Universal.is_empty(*::MDLL.Identifier.pkg_name_ext(*topic))
+        and ::MDLL.Natural.is_zero(*::MDLL.Identifier.rel_starts_n_lev_up(*topic))
+        and ::MDLL.Universal.is_empty(*::MDLL.Identifier.path_beneath_pkg(*topic)));
 
 MD.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
     where topic->every_elem_isa($SC_Pkg_Local_Alias);

@@ -18,11 +18,11 @@ MDLL.Universal ::= type of (isa \*^1[maximal_type])
 
 /*************************************************************************/
 
-MDLL.empty ::= constant \*^1[constant_empty];
+MDLL.Universal.empty ::= constant \*^1[constant_empty];
 
 /* Note, prepend has 2 conceptual arguments, in order ["elem","to"]. */
 
-MDLL.prepend ::= function --> Universal <-- Universal
+MDLL.Universal.prepend ::= function --> Universal <-- Universal
     requires (
            is_empty(*topic)                           ?? false()
         !! is_empty(*nonfirst(*topic))              ?? false()
@@ -31,13 +31,13 @@ MDLL.prepend ::= function --> Universal <-- Universal
     )
     : \*^1[function_prepend,first(*topic),first(*nonfirst(*topic))];
 
-MDLL.is_empty ::= function --> Boolean <-- Universal
+MDLL.Universal.is_empty ::= function --> Boolean <-- Universal
     : \*^1[function_is_empty,topic];
 
-MDLL.first ::= function --> Universal <-- Universal
+MDLL.Universal.first ::= function --> Universal <-- Universal
     requires (is_empty(*topic) ?? false() !! true()) : \*^1[function_first,topic];
 
-MDLL.nonfirst ::= function --> Universal <-- Universal
+MDLL.Universal.nonfirst ::= function --> Universal <-- Universal
     requires (is_empty(*topic) ?? false() !! true()) : \*^1[function_nonfirst,topic];
 
 /*************************************************************************/
@@ -54,13 +54,13 @@ MDLL.Boolean ::= type of Universal
     )
     default false();
 
-MDLL.false ::= synonym of empty;
+MDLL.Boolean.false ::= synonym of empty;
 
-MDLL.true ::= constant prepend(*\*:[empty(),empty()]);
+MDLL.Boolean.true ::= constant prepend(*\*:[empty(),empty()]);
 
 /*************************************************************************/
 
-MDLL.Pair ::= type of Universal
+MDLL.Universal.Pair_of_Universal ::= type of Universal
     where (
            is_empty(*topic)                           ?? false()
         !! is_empty(*nonfirst(*topic))              ?? false()
@@ -72,8 +72,8 @@ MDLL.Pair ::= type of Universal
 
 /*************************************************************************/
 
-MDLL.same ::= function
-    --> Boolean <-- Pair is_commutative
+MDLL.Universal.same ::= function
+    --> Boolean <-- Pair_of_Universal is_commutative
 : (
     lhs ::= first(*topic);
     rhs ::= second(*topic);
@@ -84,8 +84,8 @@ MDLL.same ::= function
      !! false()
 );
 
-MDLL.in_order ::= function
-    --> Boolean <-- Pair
+MDLL.Universal.in_order ::= function
+    --> Boolean <-- Pair_of_Universal
 : (
     lhs ::= first(*topic);
     rhs ::= second(*topic);
@@ -96,7 +96,7 @@ MDLL.in_order ::= function
      !! self(*\*:[first(*lhs),first(*rhs)])
 );
 
-MDLL.elems_in_order ::= function
+MDLL.Universal.elems_in_order ::= function
     --> Boolean <-- Universal
 : (
        is_empty(*topic)                            ?? true()
@@ -105,21 +105,21 @@ MDLL.elems_in_order ::= function
     !! false()
 );
 
-MDLL.second ::= function --> Universal <-- Universal
+MDLL.Universal.second ::= function --> Universal <-- Universal
     requires (is_empty(*topic) ?? false() !! true())
     : first(*nonfirst(*topic));
 
-MDLL.last ::= function --> Universal <-- Universal
+MDLL.Universal.last ::= function --> Universal <-- Universal
     requires (is_empty(*topic) ?? false() !! true())
     : (is_empty(*nonfirst(*topic)) ?? first(*topic) !! self(*nonfirst(*topic)));
 
-MDLL.nonlast ::= function --> Universal <-- Universal
+MDLL.Universal.nonlast ::= function --> Universal <-- Universal
     requires (is_empty(*topic) ?? false() !! true())
     : (is_empty(*nonfirst(*topic)) ?? empty()
         !! prepend(*\*:[first(*topic),self(*nonfirst(*topic))]));
 
-MDLL.catenate ::= function
-    --> Universal <-- Pair
+MDLL.Universal.catenate ::= function
+    --> Universal <-- Pair_of_Universal
 : (
     lhs ::= first(*topic);
     rhs ::= second(*topic);
@@ -137,14 +137,14 @@ MDLL.Natural ::= type of Universal
     where (is_empty(*topic) ?? true()
         !! is_empty(*first(*topic)) ?? self(*nonfirst(*topic)) !! false());
 
-MDLL.zero ::= synonym of empty;
+MDLL.Natural.zero ::= synonym of empty;
 
-MDLL.is_zero ::= synonym of is_empty;
+MDLL.Natural.is_zero ::= synonym of is_empty;
 
-MDLL.pred ::= function --> Natural <-- Natural
+MDLL.Natural.pred ::= function --> Natural <-- Natural
     requires (is_zero(*topic) ?? false() !! true()) : nonfirst(*topic);
 
-MDLL.succ ::= function --> Natural <-- Natural
+MDLL.Natural.succ ::= function --> Natural <-- Natural
     : prepend(*\*:[empty(),topic]);
 
 MDLL.N1 ::= constant succ(*zero());
@@ -158,11 +158,11 @@ MDLL.N8 ::= constant succ(*N7());
 MDLL.N9 ::= constant succ(*N8());
 MDLL.N10 ::= constant succ(*N9());
 
-MDLL.Pair_of_Natural ::= type of Pair
+MDLL.Natural.Pair_of_Natural ::= type of Pair_of_Universal
     where (first(*topic) isa $Natural
         ?? second(*topic) isa $Natural !! false());
 
-MDLL.plus ::= function
+MDLL.Natural.plus ::= function
     --> Natural <-- Pair_of_Natural
     is_commutative is_associative identity zero()
 : (
@@ -172,7 +172,7 @@ MDLL.plus ::= function
         !! self(*\*:[succ(*augend),pred(*addend)])
 );
 
-MDLL.minus ::= function
+MDLL.Natural.minus ::= function
     --> Natural <-- Pair_of_Natural
     requires in_order(*\*:[second(*topic),first(*topic)])
 : (
@@ -182,7 +182,7 @@ MDLL.minus ::= function
         !! self(*\*:[pred(*minuend),pred(*subtrahend)])
 );
 
-MDLL.times ::= function
+MDLL.Natural.times ::= function
     --> Natural <-- Pair_of_Natural
     is_commutative is_associative identity N1()
 : (
@@ -193,7 +193,7 @@ MDLL.times ::= function
         !! plus(*\*:[multiplicand,self(*\*:[multiplicand,pred(*multiplier)])])
 );
 
-MDLL.divide ::= function
+MDLL.Natural.divide ::= function
     --> Natural <-- Pair_of_Natural
     requires (is_zero(*second(*topic)) ?? false() !! true())
 : (
@@ -206,11 +206,11 @@ MDLL.divide ::= function
 
 /*************************************************************************/
 
-MDLL.count ::= function --> Natural <-- Universal
+MDLL.Universal.count ::= function --> Natural <-- Universal
     : (is_empty(*topic) ?? zero() !! succ(*self(*nonfirst(*topic))));
 
-MDLL.elem ::= function
-    --> Universal <-- Pair
+MDLL.Universal.elem ::= function
+    --> Universal <-- Pair_of_Universal
     requires (
         list ::= first(*topic);
         index ::= second(*topic);
@@ -224,8 +224,8 @@ MDLL.elem ::= function
 
 /* Note that slice() can only return a non-empty list slice. */
 
-MDLL.slice ::= function
-    --> Universal <-- Pair
+MDLL.Universal.slice ::= function
+    --> Universal <-- Pair_of_Universal
     requires (
         list ::= first(*topic);
         range ::= second(*topic);
@@ -250,7 +250,7 @@ MDLL.slice ::= function
      !! self(*\*:[nonfirst(*list),\*:[pred(*first_index),pred(*last_index)]]);
 );
 
-MDLL.every_elem_same_count ::= function
+MDLL.Universal.every_elem_same_count ::= function
     --> Boolean <-- Universal
 : (
        is_empty(*topic)              ?? true()
@@ -262,7 +262,7 @@ MDLL.every_elem_same_count ::= function
 
 /*************************************************************************/
 
-MDLL.Structure_Base ::= type of Pair
+MDLL.Structure.Structure_Base ::= type of Pair_of_Universal
     where (first(*topic) isa $Natural);
 
 MDLL.Structure ::=
@@ -270,25 +270,25 @@ MDLL.Structure ::=
     |Relation|Identifier|Capsule|Stream|External
     default false();
 
-MDLL.structure_kind ::= function
+MDLL.Structure.structure_kind ::= function
     --> Universal <-- Structure_Base : first(*topic);
 
-MDLL.payload ::= function
+MDLL.Structure.payload ::= function
     --> Universal <-- Structure_Base : second(*topic);
 
 /*************************************************************************/
 
-MDLL.SK_INTEGER    ::= synonym of zero;
-MDLL.SK_STRING     ::= synonym of 1;
-MDLL.SK_ARRAY      ::= synonym of 2;
-MDLL.SK_HEADING    ::= synonym of 3;
-MDLL.SK_RENAMING   ::= synonym of 4;
-MDLL.SK_TUPLE      ::= synonym of 5;
-MDLL.SK_RELATION   ::= synonym of 6;
-MDLL.SK_IDENTIFIER ::= synonym of 7;
-MDLL.SK_CAPSULE    ::= synonym of 8;
-MDLL.SK_STREAM     ::= synonym of 9;
-MDLL.SK_EXTERNAL   ::= synonym of 10;
+MDLL.Structure.SK_INTEGER    ::= synonym of zero;
+MDLL.Structure.SK_STRING     ::= synonym of 1;
+MDLL.Structure.SK_ARRAY      ::= synonym of 2;
+MDLL.Structure.SK_HEADING    ::= synonym of 3;
+MDLL.Structure.SK_RENAMING   ::= synonym of 4;
+MDLL.Structure.SK_TUPLE      ::= synonym of 5;
+MDLL.Structure.SK_RELATION   ::= synonym of 6;
+MDLL.Structure.SK_IDENTIFIER ::= synonym of 7;
+MDLL.Structure.SK_CAPSULE    ::= synonym of 8;
+MDLL.Structure.SK_STREAM     ::= synonym of 9;
+MDLL.Structure.SK_EXTERNAL   ::= synonym of 10;
 
 /*************************************************************************/
 
@@ -305,7 +305,7 @@ MDLL.Integer ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_INTEGER()])
         ?? payload(*topic) isa $Integer_Payload !! false());
 
-MDLL.Integer_Payload ::= type of Pair where
+MDLL.Integer.Integer_Payload ::= type of Pair_of_Universal where
 (
     is_neg    ::= first(*topic);
     magnitude ::= second(*topic);
@@ -318,14 +318,14 @@ MDLL.Integer_Payload ::= type of Pair where
     else false();
 );
 
-MDLL.integer ::= function
+MDLL.Integer.integer ::= function
     --> Integer <-- Integer_Payload
     : \*:[SK_INTEGER(),topic];
 
-MDLL.is_neg ::= function --> Boolean <-- Integer
+MDLL.Integer.is_neg ::= function --> Boolean <-- Integer
     : first(*payload(*topic));
 
-MDLL.magnitude ::= function
+MDLL.Integer.magnitude ::= function
     --> Natural <-- Integer
     : second(*payload(*topic));
 
@@ -335,16 +335,16 @@ MDLL.String ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_STRING()])
         ?? payload(*topic) isa $String_Payload !! false());
 
-MDLL.String_Payload ::= type of Universal
+MDLL.String.String_Payload ::= type of Universal
     where (is_empty(*topic) ?? true()
         !! first(*topic) isa $Integer_Payload
         ?? self(*nonfirst(*topic)) !! false());
 
-MDLL.string ::= function
+MDLL.String.string ::= function
     --> String <-- String_Payload
     : \*:[SK_STRING(),topic];
 
-MDLL.Universal_of_String_Payloads ::= type of Universal
+MDLL.String.Universal_of_String_Payloads ::= type of Universal
     where (is_empty(*topic) ?? true() !! first(*topic) isa $String_Payload
         ?? self(*nonfirst(*topic)) !! false());
 
@@ -353,7 +353,7 @@ MDLL.Universal_of_String_Payloads ::= type of Universal
 MDLL.Array ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_ARRAY()]));
 
-MDLL.array ::= function --> Array <-- Universal
+MDLL.Array.array ::= function --> Array <-- Universal
     : \*:[SK_ARRAY(),topic];
 
 /*************************************************************************/
@@ -362,10 +362,10 @@ MDLL.Heading ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_HEADING()])
         ?? payload(*topic) isa $Heading_Payload !! false());
 
-MDLL.Heading_Payload ::= type of Universal_of_String_Payloads
+MDLL.Heading.Heading_Payload ::= type of Universal_of_String_Payloads
     where (elems_in_order(*topic));
 
-MDLL.heading ::= function
+MDLL.Heading.heading ::= function
     --> Heading <-- Heading_Payload
     : \*:[SK_HEADING(),topic];
 
@@ -375,7 +375,7 @@ MDLL.Renaming ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_RENAMING()])
         ?? payload(*topic) isa $Renaming_Payload !! false());
 
-MDLL.Renaming_Payload ::= type of Pair where
+MDLL.Renaming.Renaming_Payload ::= type of Pair_of_Universal where
 (
     after  ::= first(*topic);
     before ::= second(*topic);
@@ -386,14 +386,14 @@ MDLL.Renaming_Payload ::= type of Pair where
     else false();
 );
 
-MDLL.renaming ::= function
+MDLL.Renaming.renaming ::= function
     --> Renaming <-- Renaming_Payload
     : \*:[SK_RENAMING(),topic];
 
-MDLL.renaming_after ::= function
+MDLL.Renaming.renaming_after ::= function
     --> Heading_Payload <-- Renaming : first(*payload(*topic));
 
-MDLL.renaming_before ::= function
+MDLL.Renaming.renaming_before ::= function
     --> Universal_of_String_Payloads <-- Renaming
     : second(*payload(*topic));
 
@@ -403,7 +403,7 @@ MDLL.Tuple ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_TUPLE()])
         ?? payload(*topic) isa $Tuple_Payload !! false());
 
-MDLL.Tuple_Payload ::= type of Pair where
+MDLL.Tuple.Tuple_Payload ::= type of Pair_of_Universal where
 (
     heading ::= first(*topic);
     body    ::= second(*topic);
@@ -412,14 +412,14 @@ MDLL.Tuple_Payload ::= type of Pair where
     else false();
 );
 
-MDLL.tuple ::= function
+MDLL.Tuple.tuple ::= function
     --> Tuple <-- Tuple_Payload
     : \*:[SK_TUPLE(),topic];
 
-MDLL.tuple_heading ::= function
+MDLL.Tuple.tuple_heading ::= function
     --> Heading_Payload <-- Tuple : first(*payload(*topic));
 
-MDLL.tuple_body ::= function --> Universal <-- Tuple
+MDLL.Tuple.tuple_body ::= function --> Universal <-- Tuple
     : second(*payload(*topic));
 
 /*************************************************************************/
@@ -428,7 +428,7 @@ MDLL.Relation ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_RELATION()])
         ?? payload(*topic) isa $Relation_Payload !! false());
 
-MDLL.Relation_Payload ::= type of Pair where
+MDLL.Relation.Relation_Payload ::= type of Pair_of_Universal where
 (
     heading ::= first(*topic);
     body    ::= second(*topic);
@@ -443,14 +443,14 @@ MDLL.Relation_Payload ::= type of Pair where
     else false();
 );
 
-MDLL.relation ::= function
+MDLL.Relation.relation ::= function
     --> Relation <-- Relation_Payload
     : \*:[SK_RELATION(),topic];
 
-MDLL.relation_heading ::= function
+MDLL.Relation.relation_heading ::= function
     --> Heading_Payload <-- Relation : first(*payload(*topic));
 
-MDLL.relation_body ::= function
+MDLL.Relation.relation_body ::= function
     --> Universal <-- Relation : second(*payload(*topic));
 
 /*************************************************************************/
@@ -459,7 +459,7 @@ MDLL.Identifier ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_IDENTIFIER()])
         ?? payload(*topic) isa $Identifier_Payload !! false());
 
-MDLL.Identifier_Payload ::= type of Universal where
+MDLL.Identifier.Identifier_Payload ::= type of Universal where
 (
     if same(*\*:[count(*topic),N4()]) then
       (
@@ -487,28 +487,28 @@ MDLL.Identifier_Payload ::= type of Universal where
     else false()
 );
 
-MDLL.identifier ::= function
+MDLL.Identifier.identifier ::= function
     --> Identifier <-- Identifier_Payload
     : \*:[SK_IDENTIFIER(),topic];
 
-MDLL.pkg_name_base ::= function
+MDLL.Identifier.pkg_name_base ::= function
     --> Universal_of_String_Payloads <-- Identifier
     : elem(*\*:[payload(*topic),zero()]);
 
-MDLL.pkg_name_ext ::= function
+MDLL.Identifier.pkg_name_ext ::= function
     --> Universal_of_String_Payloads <-- Identifier
     : elem(*\*:[payload(*topic),N1()]);
 
-MDLL.rel_starts_n_lev_up ::= function
+MDLL.Identifier.rel_starts_n_lev_up ::= function
     --> Natural <-- Identifier : elem(*\*:[payload(*topic),N2()]);
 
-MDLL.path_beneath_pkg ::= function
+MDLL.Identifier.path_beneath_pkg ::= function
     --> Universal_of_String_Payloads <-- Identifier
     : elem(*\*:[payload(*topic),N3()]);
 
 /*************************************************************************/
 
-MDLL.Reference ::= type of Identifier where
+MDLL.Identifier.Reference ::= type of Identifier where
 (
     if is_empty(*pkg_name_base(*topic)) then
         false()
@@ -521,8 +521,8 @@ MDLL.Reference ::= type of Identifier where
 
 /*************************************************************************/
 
-MDLL.every_elem_isa ::= function
-    --> Boolean <-- Pair
+MDLL.Universal.every_elem_isa ::= function
+    --> Boolean <-- Pair_of_Universal
     requires (second(*topic) isa $Reference)
 : (
     list ::= first(*topic);
@@ -537,18 +537,18 @@ MDLL.Capsule ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_CAPSULE()])
         ?? payload(*topic) isa $Capsule_Payload !! false());
 
-MDLL.Capsule_Payload ::= type of Pair
+MDLL.Capsule.Capsule_Payload ::= type of Pair_of_Universal
     where (first(*topic) isa $Reference_Payload
         ?? second(*topic) isa $Tuple_Payload !! false());
 
-MDLL.capsule ::= function
+MDLL.Capsule.capsule ::= function
     --> Capsule <-- Capsule_Payload
     : \*:[SK_CAPSULE(),topic];
 
-MDLL.capsule_type ::= function
+MDLL.Capsule.capsule_type ::= function
     --> Reference_Payload <-- Capsule : first(*payload(*topic));
 
-MDLL.capsule_attrs ::= function
+MDLL.Capsule.capsule_attrs ::= function
     --> Tuple_Payload <-- Capsule : second(*payload(*topic));
 
 /*************************************************************************/
@@ -557,7 +557,7 @@ MDLL.Stream ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_STREAM()])
         ?? payload(*topic) isa $Integer_Payload !! false());
 
-MDLL.stream ::= function
+MDLL.Stream.stream ::= function
     --> Stream <-- Integer_Payload
     : \*:[SK_STREAM(),topic];
 
@@ -566,7 +566,7 @@ MDLL.stream ::= function
 MDLL.External ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_EXTERNAL()]));
 
-MDLL.external ::= function
+MDLL.External.external ::= function
     --> External <-- Universal : \*:[SK_EXTERNAL(),topic];
 
 /*************************************************************************/
@@ -578,8 +578,8 @@ MDLL.external ::= function
    that isn't of any of those types as having its own singleton type, and
    so every type system value has the same low-level type as itself. */
 
-MDLL.same_low_level_type ::= function
-    --> Boolean <-- Pair is_commutative
+MDLL.Universal.same_low_level_type ::= function
+    --> Boolean <-- Pair_of_Universal is_commutative
 : (
     lhs ::= first(*topic);
     rhs ::= second(*topic);

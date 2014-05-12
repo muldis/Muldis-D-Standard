@@ -23,20 +23,20 @@ MD.String."<=>"|order ::= function
     implements Ordered."<=>"
 : (
        .0 = .1            ?? $=>Same
-    !! ::MDLL.in_order(*\*:[.0,.1]) ?? $=>Less
+    !! ::MDLL.Universal.in_order(*\*:[.0,.1]) ?? $=>Less
     !!                       $=>More
 );
 
 /*************************************************************************/
 
 MD.String.is_empty ::= function (Boolean <-- String)
-    : ::MDLL.is_empty(*::MDLL.payload(*.0));
+    : ::MDLL.Universal.is_empty(*::MDLL.Structure.payload(*.0));
 
 MD.String.is_not_empty ::= function (Boolean <-- String)
     : !.0->is_empty();
 
 MD.String.first_elem ::= function (Universal <-- String)
-    requires (.0->is_not_empty()) : ::MDLL.first(*::MDLL.payload(*.0));
+    requires (.0->is_not_empty()) : ::MDLL.Universal.first(*::MDLL.Structure.payload(*.0));
 
 MD.String.nonfirst_elems ::= function (String <-- String)
     requires (.0->is_not_empty()) : ...;
@@ -50,4 +50,4 @@ MD.String.elem ::= function
 
 MD.String.every_elem_isa ::= function
     (Boolean <-- 0|string : String, 1|type : SC_Reference)
-    : ::MDLL.every_elem_isa(*\*:[::MDLL.payload(*.0),.1]);
+    : ::MDLL.Universal.every_elem_isa(*\*:[::MDLL.Structure.payload(*.0),.1]);

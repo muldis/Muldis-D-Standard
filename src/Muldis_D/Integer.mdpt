@@ -11,7 +11,7 @@ MD.Integer ::= synonym of ::MDLL.Integer
 
 MD.Integer.Int ::= synonym of Integer;
 
-MD.Integer.NN ::= type of Integer where (!::MDLL.is_neg(*topic));
+MD.Integer.NN ::= type of Integer where (!::MDLL.Integer.is_neg(*topic));
 
 MD.Integer.P ::= type of Integer.NN where (topic != 0);
 
@@ -22,12 +22,12 @@ MD.Integer."<=>"|order ::= function
     implements Ordered."<=>"
 : (
        .0 = .1                           ?? $=>Same
-    !! ::MDLL.is_neg(*.0)  and !::MDLL.is_neg(*.1) ?? $=>Less
-    !! !::MDLL.is_neg(*.0) and ::MDLL.is_neg(*.1)  ?? $=>More
-    !! ::MDLL.is_neg(*.0)  and ::MDLL.is_neg(*.1)
-        ?? (::MDLL.in_order(*\*:[::MDLL.magnitude(*.0),::MDLL.magnitude(*.1)])
+    !! ::MDLL.Integer.is_neg(*.0)  and !::MDLL.Integer.is_neg(*.1) ?? $=>Less
+    !! !::MDLL.Integer.is_neg(*.0) and ::MDLL.Integer.is_neg(*.1)  ?? $=>More
+    !! ::MDLL.Integer.is_neg(*.0)  and ::MDLL.Integer.is_neg(*.1)
+        ?? (::MDLL.Universal.in_order(*\*:[::MDLL.Integer.magnitude(*.0),::MDLL.Integer.magnitude(*.1)])
             ?? $=>More !! $=>Less)
-    !! (::MDLL.in_order(*\*:[::MDLL.magnitude(*.0),::MDLL.magnitude(*.1)])
+    !! (::MDLL.Universal.in_order(*\*:[::MDLL.Integer.magnitude(*.0),::MDLL.Integer.magnitude(*.1)])
             ?? $=>Less !! $=>More)
 );
 
@@ -43,26 +43,26 @@ MD.Integer."++"|succ|inc ::= function (Integer <-- Integer)
 
 MD.Integer.monadic."-"|opposite|additive_inverse ::= function
     (Integer <-- Integer) implements Numeric.monadic."-"
-    : (.0 = 0 ?? .0 !! ::MDLL.integer(*\*:[!::MDLL.is_neg(*.0),::MDLL.magnitude(*.0)]));
+    : (.0 = 0 ?? .0 !! ::MDLL.Integer.integer(*\*:[!::MDLL.Integer.is_neg(*.0),::MDLL.Integer.magnitude(*.0)]));
 
 MD.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
     implements Numeric.abs
-    : (::MDLL.is_neg(*.0) ?? ::MDLL.integer(*\*:[true,::MDLL.magnitude(*.0)]) !! .0);
+    : (::MDLL.Integer.is_neg(*.0) ?? ::MDLL.Integer.integer(*\*:[true,::MDLL.Integer.magnitude(*.0)]) !! .0);
 
 MD.Integer."+"|plus|add|sum ::= function
     (Integer <-- 0|augend : Integer, 1|addend : Integer)
     implements Numeric."+" is_commutative is_associative identity 0
 : (
-    s0 ::= ::MDLL.is_neg(*.0);
-    m0 ::= ::MDLL.magnitude(*.0);
-    s1 ::= ::MDLL.is_neg(*.1);
-    m1 ::= ::MDLL.magnitude(*.1);
+    s0 ::= ::MDLL.Integer.is_neg(*.0);
+    m0 ::= ::MDLL.Integer.magnitude(*.0);
+    s1 ::= ::MDLL.Integer.is_neg(*.1);
+    m1 ::= ::MDLL.Integer.magnitude(*.1);
     <-- .0 = 0             ?? .1
      !! .1 = 0             ?? .0
-     !! s0 = s1            ?? ::MDLL.integer(*\*:[s0,::MDLL.plus(*m0,m1)])
+     !! s0 = s1            ?? ::MDLL.Integer.integer(*\*:[s0,::MDLL.Natural.plus(*m0,m1)])
      !! m0 = m1            ?? 0
-     !! ::MDLL.in_order(*\*:[m0,m1]) ?? ::MDLL.integer(*\*:[s1,::MDLL.minus(*\*:[m1,m0])])
-     !!                       ::MDLL.integer(*\*:[s0,::MDLL.minus(*\*:[m0,m1])])
+     !! ::MDLL.Universal.in_order(*\*:[m0,m1]) ?? ::MDLL.Integer.integer(*\*:[s1,::MDLL.Natural.minus(*\*:[m1,m0])])
+     !!                       ::MDLL.Integer.integer(*\*:[s0,::MDLL.Natural.minus(*\*:[m0,m1])])
      ;
 );
 
@@ -78,8 +78,8 @@ MD.Integer."*"|times|multiply|product ::= function
     (Integer <-- 0|multiplicand : Integer, 1|multiplier : Integer)
     implements Numeric."*" is_commutative is_associative identity 1
     : (.0 = 1 ?? .1 !! .1 = 1 ?? .0 !! .0 = 0 or .1 = 0 ?? 0
-        !! ::MDLL.integer(*\*:[ ::MDLL.is_neg(*.0) xor ::MDLL.is_neg(*.1),
-        ::MDLL.times(*\*:[::MDLL.magnitude(*.0),::MDLL.magnitude(*.1)]) ]));
+        !! ::MDLL.Integer.integer(*\*:[ ::MDLL.Integer.is_neg(*.0) xor ::MDLL.Integer.is_neg(*.1),
+        ::MDLL.Natural.times(*\*:[::MDLL.Integer.magnitude(*.0),::MDLL.Integer.magnitude(*.1)]) ]));
 
 MD.Integer."/"|frac_divide|frac_quotient ::= function
     (Ratio <-- 0|dividend : Integer, 1|divisor : Integer)
@@ -104,9 +104,9 @@ MD.Integer.div|whole_divide|whole_quotient ::= function
         /* We know the divisor and dividend do not equal each other and
            that neither of them is a zero or a one. */
 
-        real_q_is_neg ::= ::MDLL.is_neg(*.0) xor ::MDLL.is_neg(*.1);
-        rtz_quotient ::= ::MDLL.integer(*\*:[ real_q_is_neg,
-            ::MDLL.divide(*\*:[::MDLL.magnitude(*.0),::MDLL.magnitude(*.1)]) ]);
+        real_q_is_neg ::= ::MDLL.Integer.is_neg(*.0) xor ::MDLL.Integer.is_neg(*.1);
+        rtz_quotient ::= ::MDLL.Integer.integer(*\*:[ real_q_is_neg,
+            ::MDLL.Natural.divide(*\*:[::MDLL.Integer.magnitude(*.0),::MDLL.Integer.magnitude(*.1)]) ]);
         rtz_remainder ::= .0 - .1 * rtz_quotient;
 
         if rtz_remainder = 0 then
@@ -151,9 +151,9 @@ MD.Integer.div|whole_divide|whole_quotient ::= function
                                 rti_quotient
                             when $=>Half_Even
                               (
-                                q ::= ::MDLL.integer(*\*:[ false,
-                                    ::MDLL.divide(*\*:[::MDLL.magnitude(*rtz_quotient),
-                                    ::MDLL.magnitude(*2)]) ]);
+                                q ::= ::MDLL.Integer.integer(*\*:[ false,
+                                    ::MDLL.Natural.divide(*\*:[::MDLL.Integer.magnitude(*rtz_quotient),
+                                    ::MDLL.Integer.magnitude(*2)]) ]);
                                 r ::= abs(rtz_quotient) - 2 * q;
                                 rtz_quotient_is_even ::= r = 0;
                                 <-- rtz_quotient_is_even
@@ -184,7 +184,7 @@ MD.Integer.quot_and_rem ::= function
 
 MD.Integer.power|exp|exponentiate ::= function
     (Integer <-- 0|base|radix : Integer, 1|exponent : Integer)
-    requires (!::MDLL.is_neg(*.1))
+    requires (!::MDLL.Integer.is_neg(*.1))
     implements Numeric.power : ...;
 
 MD.Integer.factorial ::= function (Integer.P <-- Integer.P)
