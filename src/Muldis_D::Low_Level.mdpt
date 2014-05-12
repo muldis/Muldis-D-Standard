@@ -14,31 +14,31 @@ searching [MDLL];
    This is exposed in the high level type system as Universal. */
 
 MDLL.Universal ::= type of (isa \*^1[maximal_type])
-    where TRUE() default EMPTY();
+    where true() default empty();
 
 /*************************************************************************/
 
-MDLL.EMPTY ::= constant \*^1[constant_EMPTY];
+MDLL.empty ::= constant \*^1[constant_empty];
 
 /* Note, prepend has 2 conceptual arguments, in order ["elem","to"]. */
 
 MDLL.prepend ::= function --> Universal <-- Universal
     requires (
-           empty(*topic)                           ?? FALSE()
-        !! empty(*nonfirst(*topic))              ?? FALSE()
-        !! empty(*nonfirst(*nonfirst(*topic))) ?? TRUE()
-        !! FALSE()
+           is_empty(*topic)                           ?? false()
+        !! is_empty(*nonfirst(*topic))              ?? false()
+        !! is_empty(*nonfirst(*nonfirst(*topic))) ?? true()
+        !! false()
     )
     : \*^1[function_prepend,first(*topic),first(*nonfirst(*topic))];
 
-MDLL.empty ::= function --> Boolean <-- Universal
-    : \*^1[function_empty,topic];
+MDLL.is_empty ::= function --> Boolean <-- Universal
+    : \*^1[function_is_empty,topic];
 
 MDLL.first ::= function --> Universal <-- Universal
-    requires (empty(*topic) ?? FALSE() !! TRUE()) : \*^1[function_first,topic];
+    requires (is_empty(*topic) ?? false() !! true()) : \*^1[function_first,topic];
 
 MDLL.nonfirst ::= function --> Universal <-- Universal
-    requires (empty(*topic) ?? FALSE() !! TRUE()) : \*^1[function_nonfirst,topic];
+    requires (is_empty(*topic) ?? false() !! true()) : \*^1[function_nonfirst,topic];
 
 /*************************************************************************/
 
@@ -48,27 +48,27 @@ MDLL.nonfirst ::= function --> Universal <-- Universal
 
 MDLL.Boolean ::= type of Universal
     where (
-           empty(*topic)              ?? TRUE()
-        !! empty(*nonfirst(*topic)) ?? empty(*first(*topic))
-        !! FALSE()
+           is_empty(*topic)              ?? true()
+        !! is_empty(*nonfirst(*topic)) ?? is_empty(*first(*topic))
+        !! false()
     )
-    default FALSE();
+    default false();
 
-MDLL.FALSE ::= synonym of EMPTY;
+MDLL.false ::= synonym of empty;
 
-MDLL.TRUE ::= constant prepend(*\*:[EMPTY(),EMPTY()]);
+MDLL.true ::= constant prepend(*\*:[empty(),empty()]);
 
 /*************************************************************************/
 
 MDLL.Pair ::= type of Universal
     where (
-           empty(*topic)                           ?? FALSE()
-        !! empty(*nonfirst(*topic))              ?? FALSE()
-        !! empty(*nonfirst(*nonfirst(*topic))) ?? TRUE()
-        !! FALSE()
+           is_empty(*topic)                           ?? false()
+        !! is_empty(*nonfirst(*topic))              ?? false()
+        !! is_empty(*nonfirst(*nonfirst(*topic))) ?? true()
+        !! false()
     )
-    default prepend(*\*:[EMPTY(),
-        prepend(*\*:[EMPTY(),EMPTY()])]);
+    default prepend(*\*:[empty(),
+        prepend(*\*:[empty(),empty()])]);
 
 /*************************************************************************/
 
@@ -77,11 +77,11 @@ MDLL.same ::= function
 : (
     lhs ::= first(*topic);
     rhs ::= second(*topic);
-    <-- empty(*lhs) ?? empty(*rhs)
-     !! empty(*rhs) ?? FALSE()
+    <-- is_empty(*lhs) ?? is_empty(*rhs)
+     !! is_empty(*rhs) ?? false()
      !! self(*\*:[first(*lhs),first(*rhs)])
         ?? self(*\*:[nonfirst(*lhs),nonfirst(*rhs)])
-     !! FALSE()
+     !! false()
 );
 
 MDLL.in_order ::= function
@@ -89,8 +89,8 @@ MDLL.in_order ::= function
 : (
     lhs ::= first(*topic);
     rhs ::= second(*topic);
-    <-- empty(*lhs) ?? TRUE()
-     !! empty(*rhs) ?? FALSE()
+    <-- is_empty(*lhs) ?? true()
+     !! is_empty(*rhs) ?? false()
      !! same(*\*:[first(*lhs),first(*rhs)])
         ?? self(*\*:[nonfirst(*lhs),nonfirst(*rhs)])
      !! self(*\*:[first(*lhs),first(*rhs)])
@@ -99,23 +99,23 @@ MDLL.in_order ::= function
 MDLL.elems_in_order ::= function
     --> Boolean <-- Universal
 : (
-       empty(*topic)                            ?? TRUE()
-    !! empty(*nonfirst(*topic))               ?? TRUE()
+       is_empty(*topic)                            ?? true()
+    !! is_empty(*nonfirst(*topic))               ?? true()
     !! in_order(*\*:[first(*topic),second(*topic)]) ?? self(*nonfirst(*topic))
-    !! FALSE()
+    !! false()
 );
 
 MDLL.second ::= function --> Universal <-- Universal
-    requires (empty(*topic) ?? FALSE() !! TRUE())
+    requires (is_empty(*topic) ?? false() !! true())
     : first(*nonfirst(*topic));
 
 MDLL.last ::= function --> Universal <-- Universal
-    requires (empty(*topic) ?? FALSE() !! TRUE())
-    : (empty(*nonfirst(*topic)) ?? first(*topic) !! self(*nonfirst(*topic)));
+    requires (is_empty(*topic) ?? false() !! true())
+    : (is_empty(*nonfirst(*topic)) ?? first(*topic) !! self(*nonfirst(*topic)));
 
 MDLL.nonlast ::= function --> Universal <-- Universal
-    requires (empty(*topic) ?? FALSE() !! TRUE())
-    : (empty(*nonfirst(*topic)) ?? EMPTY()
+    requires (is_empty(*topic) ?? false() !! true())
+    : (is_empty(*nonfirst(*topic)) ?? empty()
         !! prepend(*\*:[first(*topic),self(*nonfirst(*topic))]));
 
 MDLL.catenate ::= function
@@ -123,7 +123,7 @@ MDLL.catenate ::= function
 : (
     lhs ::= first(*topic);
     rhs ::= second(*topic);
-    <-- empty(*lhs) ?? rhs !! empty(*rhs) ?? lhs
+    <-- is_empty(*lhs) ?? rhs !! is_empty(*rhs) ?? lhs
         !! self(*\*:[nonlast(*lhs),prepend(*\*:[last(*lhs),rhs])]);
 );
 
@@ -134,20 +134,20 @@ MDLL.catenate ::= function
    This is not exposed in the high-level type system at all. */
 
 MDLL.Natural ::= type of Universal
-    where (empty(*topic) ?? TRUE()
-        !! empty(*first(*topic)) ?? self(*nonfirst(*topic)) !! FALSE());
-
-MDLL.ZERO ::= synonym of EMPTY;
+    where (is_empty(*topic) ?? true()
+        !! is_empty(*first(*topic)) ?? self(*nonfirst(*topic)) !! false());
 
 MDLL.zero ::= synonym of empty;
 
+MDLL.is_zero ::= synonym of is_empty;
+
 MDLL.pred ::= function --> Natural <-- Natural
-    requires (zero(*topic) ?? FALSE() !! TRUE()) : nonfirst(*topic);
+    requires (is_zero(*topic) ?? false() !! true()) : nonfirst(*topic);
 
 MDLL.succ ::= function --> Natural <-- Natural
-    : prepend(*\*:[EMPTY(),topic]);
+    : prepend(*\*:[empty(),topic]);
 
-MDLL.N1 ::= constant succ(*ZERO());
+MDLL.N1 ::= constant succ(*zero());
 MDLL.N2 ::= constant succ(*N1());
 MDLL.N3 ::= constant succ(*N2());
 MDLL.N4 ::= constant succ(*N3());
@@ -160,15 +160,15 @@ MDLL.N10 ::= constant succ(*N9());
 
 MDLL.Pair_of_Natural ::= type of Pair
     where (first(*topic) isa $Natural
-        ?? second(*topic) isa $Natural !! FALSE());
+        ?? second(*topic) isa $Natural !! false());
 
 MDLL.plus ::= function
     --> Natural <-- Pair_of_Natural
-    is_commutative is_associative identity ZERO()
+    is_commutative is_associative identity zero()
 : (
     augend ::= first(*topic);
     addend ::= second(*topic);
-    <-- zero(*augend) ?? addend !! zero(*addend) ?? augend
+    <-- is_zero(*augend) ?? addend !! is_zero(*addend) ?? augend
         !! self(*\*:[succ(*augend),pred(*addend)])
 );
 
@@ -178,7 +178,7 @@ MDLL.minus ::= function
 : (
     minuend ::= first(*topic);
     subtrahend ::= second(*topic);
-    <-- zero(*subtrahend) ?? minuend !! same(*\*:[minuend,subtrahend]) ?? ZERO()
+    <-- is_zero(*subtrahend) ?? minuend !! same(*\*:[minuend,subtrahend]) ?? zero()
         !! self(*\*:[pred(*minuend),pred(*subtrahend)])
 );
 
@@ -189,37 +189,37 @@ MDLL.times ::= function
     multiplicand ::= first(*topic);
     multiplier ::= second(*topic);
     <-- same(*\*:[multiplicand,N1()]) ?? multiplier !! same(*\*:[multiplier,N1()]) ?? multiplicand
-        !! zero(*multiplicand) ?? ZERO() !! zero(*multiplier) ?? ZERO()
+        !! is_zero(*multiplicand) ?? zero() !! is_zero(*multiplier) ?? zero()
         !! plus(*\*:[multiplicand,self(*\*:[multiplicand,pred(*multiplier)])])
 );
 
 MDLL.divide ::= function
     --> Natural <-- Pair_of_Natural
-    requires (zero(*second(*topic)) ?? FALSE() !! TRUE())
+    requires (is_zero(*second(*topic)) ?? false() !! true())
 : (
     dividend ::= first(*topic);
     divisor ::= second(*topic);
     <-- same(*\*:[divisor,N1()]) ?? dividend !! same(*\*:[dividend,divisor]) ?? N1()
-        !! in_order(*\*:[dividend,divisor]) ?? ZERO()
+        !! in_order(*\*:[dividend,divisor]) ?? zero()
         !! succ(*self(*\*:[minus(*\*:[dividend,divisor]),divisor]))
 );
 
 /*************************************************************************/
 
 MDLL.count ::= function --> Natural <-- Universal
-    : (empty(*topic) ?? ZERO() !! succ(*self(*nonfirst(*topic))));
+    : (is_empty(*topic) ?? zero() !! succ(*self(*nonfirst(*topic))));
 
 MDLL.elem ::= function
     --> Universal <-- Pair
     requires (
         list ::= first(*topic);
         index ::= second(*topic);
-        <-- index isa $Natural ?? in_order(*\*:[succ(*index),count(*list)]) !! FALSE()
+        <-- index isa $Natural ?? in_order(*\*:[succ(*index),count(*list)]) !! false()
     )
 : (
     list ::= first(*topic);
     index ::= second(*topic);
-    <-- zero(*index) ?? first(*list) !! self(*\*:[nonfirst(*list),pred(*index)])
+    <-- is_zero(*index) ?? first(*list) !! self(*\*:[nonfirst(*list),pred(*index)])
 );
 
 /* Note that slice() can only return a non-empty list slice. */
@@ -235,17 +235,17 @@ MDLL.slice ::= function
             last_index ::= second(*range);
             <-- in_order(*\*:[first_index,last_index])
                 ?? in_order(*\*:[succ(*last_index),count(*list)])
-                !! FALSE()
+                !! false()
           )
-        else FALSE();
+        else false();
     )
 : (
     list ::= first(*topic);
     range ::= second(*topic);
     first_index ::= first(*range);
     last_index ::= second(*range);
-    <-- empty(*nonfirst(*list)) ?? list
-     !! zero(*first_index) ?? prepend(*\*:[first(*list), 
+    <-- is_empty(*nonfirst(*list)) ?? list
+     !! is_zero(*first_index) ?? prepend(*\*:[first(*list), 
         self(*\*:[nonfirst(*list),\*:[first_index,pred(*last_index)]])])
      !! self(*\*:[nonfirst(*list),\*:[pred(*first_index),pred(*last_index)]]);
 );
@@ -253,11 +253,11 @@ MDLL.slice ::= function
 MDLL.every_elem_same_count ::= function
     --> Boolean <-- Universal
 : (
-       empty(*topic)              ?? TRUE()
-    !! empty(*nonfirst(*topic)) ?? TRUE()
+       is_empty(*topic)              ?? true()
+    !! is_empty(*nonfirst(*topic)) ?? true()
     !! same(*\*:[count(*first(*topic)),count(*second(*topic))])
         ?? self(*nonfirst(*topic))
-    !! FALSE()
+    !! false()
 );
 
 /*************************************************************************/
@@ -268,7 +268,7 @@ MDLL.Structure_Base ::= type of Pair
 MDLL.Structure ::=
     Integer|String|Array|Heading|Renaming|Tuple
     |Relation|Identifier|Capsule|Stream|External
-    default FALSE();
+    default false();
 
 MDLL.structure_kind ::= function
     --> Universal <-- Structure_Base : first(*topic);
@@ -278,7 +278,7 @@ MDLL.payload ::= function
 
 /*************************************************************************/
 
-MDLL.SK_INTEGER    ::= synonym of ZERO;
+MDLL.SK_INTEGER    ::= synonym of zero;
 MDLL.SK_STRING     ::= synonym of 1;
 MDLL.SK_ARRAY      ::= synonym of 2;
 MDLL.SK_HEADING    ::= synonym of 3;
@@ -294,7 +294,7 @@ MDLL.SK_EXTERNAL   ::= synonym of 10;
 
 /* An Integer payload is a list of exactly 2 elements where the first
    element is
-   FALSE if the numeric value is >= 0 and TRUE if the numeric value
+   false if the numeric value is >= 0 and true if the numeric value
    is < 0; that first element can be read as "is negative (false/true)".
    The second element is a Natural that defines the magnitude of the
    integer's numeric value.  Every combination of first/second elements is
@@ -303,7 +303,7 @@ MDLL.SK_EXTERNAL   ::= synonym of 10;
 
 MDLL.Integer ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_INTEGER()])
-        ?? payload(*topic) isa $Integer_Payload !! FALSE());
+        ?? payload(*topic) isa $Integer_Payload !! false());
 
 MDLL.Integer_Payload ::= type of Pair where
 (
@@ -311,11 +311,11 @@ MDLL.Integer_Payload ::= type of Pair where
     magnitude ::= second(*topic);
     if is_neg isa $Boolean then
         if magnitude isa $Natural then
-            if same(*\*:[magnitude,ZERO()]) then
-                same(*\*:[is_neg,FALSE()])
-            else TRUE()
-        else FALSE()
-    else FALSE();
+            if same(*\*:[magnitude,zero()]) then
+                same(*\*:[is_neg,false()])
+            else true()
+        else false()
+    else false();
 );
 
 MDLL.integer ::= function
@@ -333,20 +333,20 @@ MDLL.magnitude ::= function
 
 MDLL.String ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_STRING()])
-        ?? payload(*topic) isa $String_Payload !! FALSE());
+        ?? payload(*topic) isa $String_Payload !! false());
 
 MDLL.String_Payload ::= type of Universal
-    where (empty(*topic) ?? TRUE()
+    where (is_empty(*topic) ?? true()
         !! first(*topic) isa $Integer_Payload
-        ?? self(*nonfirst(*topic)) !! FALSE());
+        ?? self(*nonfirst(*topic)) !! false());
 
 MDLL.string ::= function
     --> String <-- String_Payload
     : \*:[SK_STRING(),topic];
 
 MDLL.Universal_of_String_Payloads ::= type of Universal
-    where (empty(*topic) ?? TRUE() !! first(*topic) isa $String_Payload
-        ?? self(*nonfirst(*topic)) !! FALSE());
+    where (is_empty(*topic) ?? true() !! first(*topic) isa $String_Payload
+        ?? self(*nonfirst(*topic)) !! false());
 
 /*************************************************************************/
 
@@ -360,7 +360,7 @@ MDLL.array ::= function --> Array <-- Universal
 
 MDLL.Heading ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_HEADING()])
-        ?? payload(*topic) isa $Heading_Payload !! FALSE());
+        ?? payload(*topic) isa $Heading_Payload !! false());
 
 MDLL.Heading_Payload ::= type of Universal_of_String_Payloads
     where (elems_in_order(*topic));
@@ -373,7 +373,7 @@ MDLL.heading ::= function
 
 MDLL.Renaming ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_RENAMING()])
-        ?? payload(*topic) isa $Renaming_Payload !! FALSE());
+        ?? payload(*topic) isa $Renaming_Payload !! false());
 
 MDLL.Renaming_Payload ::= type of Pair where
 (
@@ -382,8 +382,8 @@ MDLL.Renaming_Payload ::= type of Pair where
     if after isa $Heading_Payload then
         if before isa $Universal_of_String_Payloads then
             same(*\*:[count(*after),count(*before)])
-        else FALSE()
-    else FALSE();
+        else false()
+    else false();
 );
 
 MDLL.renaming ::= function
@@ -401,7 +401,7 @@ MDLL.renaming_before ::= function
 
 MDLL.Tuple ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_TUPLE()])
-        ?? payload(*topic) isa $Tuple_Payload !! FALSE());
+        ?? payload(*topic) isa $Tuple_Payload !! false());
 
 MDLL.Tuple_Payload ::= type of Pair where
 (
@@ -409,7 +409,7 @@ MDLL.Tuple_Payload ::= type of Pair where
     body    ::= second(*topic);
     if heading isa $Heading_Payload then
         same(*\*:[count(*heading),count(*body)])
-    else FALSE();
+    else false();
 );
 
 MDLL.tuple ::= function
@@ -426,21 +426,21 @@ MDLL.tuple_body ::= function --> Universal <-- Tuple
 
 MDLL.Relation ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_RELATION()])
-        ?? payload(*topic) isa $Relation_Payload !! FALSE());
+        ?? payload(*topic) isa $Relation_Payload !! false());
 
 MDLL.Relation_Payload ::= type of Pair where
 (
     heading ::= first(*topic);
     body    ::= second(*topic);
     if heading isa $Heading_Payload then
-        if empty(*body) then
-            TRUE()
+        if is_empty(*body) then
+            true()
         else if same(*\*:[count(*heading),count(*first(*body))]) then
             if every_elem_same_count(*body) then
                 elems_in_order(*body)
-            else FALSE()
-        else FALSE()
-    else FALSE();
+            else false()
+        else false()
+    else false();
 );
 
 MDLL.relation ::= function
@@ -457,13 +457,13 @@ MDLL.relation_body ::= function
 
 MDLL.Identifier ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_IDENTIFIER()])
-        ?? payload(*topic) isa $Identifier_Payload !! FALSE());
+        ?? payload(*topic) isa $Identifier_Payload !! false());
 
 MDLL.Identifier_Payload ::= type of Universal where
 (
     if same(*\*:[count(*topic),N4()]) then
       (
-        pkg_name_base       ::= elem(*\*:[topic,ZERO()]);
+        pkg_name_base       ::= elem(*\*:[topic,zero()]);
         pkg_name_ext        ::= elem(*\*:[topic,N1()]);
         rel_starts_n_lev_up ::= elem(*\*:[topic,N2()]);
         path_beneath_pkg    ::= elem(*\*:[topic,N3()]);
@@ -471,20 +471,20 @@ MDLL.Identifier_Payload ::= type of Universal where
                 if pkg_name_ext isa $Universal_of_String_Payloads then
                     if rel_starts_n_lev_up isa $Natural then
                         if path_beneath_pkg isa $Universal_of_String_Payloads then
-                            if empty(*pkg_name_base) then
-                                if empty(*pkg_name_ext) then
-                                    if empty(*path_beneath_pkg) then
-                                        zero(*rel_starts_n_lev_up)
-                                    else TRUE()
-                                else FALSE()
-                            else zero(*rel_starts_n_lev_up)
-                        else FALSE()
-                    else FALSE()
-                else FALSE()
-            else FALSE()
+                            if is_empty(*pkg_name_base) then
+                                if is_empty(*pkg_name_ext) then
+                                    if is_empty(*path_beneath_pkg) then
+                                        is_zero(*rel_starts_n_lev_up)
+                                    else true()
+                                else false()
+                            else is_zero(*rel_starts_n_lev_up)
+                        else false()
+                    else false()
+                else false()
+            else false()
             ;
       )
-    else FALSE()
+    else false()
 );
 
 MDLL.identifier ::= function
@@ -493,7 +493,7 @@ MDLL.identifier ::= function
 
 MDLL.pkg_name_base ::= function
     --> Universal_of_String_Payloads <-- Identifier
-    : elem(*\*:[payload(*topic),ZERO()]);
+    : elem(*\*:[payload(*topic),zero()]);
 
 MDLL.pkg_name_ext ::= function
     --> Universal_of_String_Payloads <-- Identifier
@@ -510,13 +510,13 @@ MDLL.path_beneath_pkg ::= function
 
 MDLL.Reference ::= type of Identifier where
 (
-    if empty(*pkg_name_base(*topic)) then
-        FALSE()
-    else if empty(*pkg_name_ext(*topic)) then
-        FALSE()
-    else if zero(*rel_starts_n_lev_up(*topic)) then
-        TRUE()
-    else FALSE()
+    if is_empty(*pkg_name_base(*topic)) then
+        false()
+    else if is_empty(*pkg_name_ext(*topic)) then
+        false()
+    else if is_zero(*rel_starts_n_lev_up(*topic)) then
+        true()
+    else false()
 );
 
 /*************************************************************************/
@@ -527,19 +527,19 @@ MDLL.every_elem_isa ::= function
 : (
     list ::= first(*topic);
     type ::= second(*topic);
-    <-- empty(*list) ?? TRUE()
-        !! first(*list) isa type ?? self(*\*:[nonfirst(*list),type]) !! FALSE()
+    <-- is_empty(*list) ?? true()
+        !! first(*list) isa type ?? self(*\*:[nonfirst(*list),type]) !! false()
 );
 
 /*************************************************************************/
 
 MDLL.Capsule ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_CAPSULE()])
-        ?? payload(*topic) isa $Capsule_Payload !! FALSE());
+        ?? payload(*topic) isa $Capsule_Payload !! false());
 
 MDLL.Capsule_Payload ::= type of Pair
     where (first(*topic) isa $Reference_Payload
-        ?? second(*topic) isa $Tuple_Payload !! FALSE());
+        ?? second(*topic) isa $Tuple_Payload !! false());
 
 MDLL.capsule ::= function
     --> Capsule <-- Capsule_Payload
@@ -555,7 +555,7 @@ MDLL.capsule_attrs ::= function
 
 MDLL.Stream ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_STREAM()])
-        ?? payload(*topic) isa $Integer_Payload !! FALSE());
+        ?? payload(*topic) isa $Integer_Payload !! false());
 
 MDLL.stream ::= function
     --> Stream <-- Integer_Payload
@@ -588,6 +588,6 @@ MDLL.same_low_level_type ::= function
         else if lhs isa $Structure then
             if rhs isa $Structure then
                 same(*\*:[structure_kind(*lhs),structure_kind(*rhs)])
-            else FALSE()
+            else false()
         else same(*\*:[lhs,rhs])
 );

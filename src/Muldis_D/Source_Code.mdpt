@@ -61,15 +61,15 @@ MD.Source_Code.SC_Name ::= type of SC_Heading
 /* SC_Pkg_Canon_Name example: Muldis_D:"http://muldis.com":0 */
 
 MD.Source_Code.SC_Pkg_Canon_Name ::= type of SC_Reference
-    where ::MDLL.empty(*::MDLL.path_beneath_pkg(*topic));
+    where ::MDLL.is_empty(*::MDLL.path_beneath_pkg(*topic));
 
 /* SC_Pkg_Local_Alias example: MD */
 
 MD.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
-    where (!::MDLL.empty(*::MDLL.pkg_name_base(*topic))
-        and ::MDLL.empty(*::MDLL.pkg_name_ext(*topic))
-        and ::MDLL.zero(*::MDLL.rel_starts_n_lev_up(*topic))
-        and ::MDLL.empty(*::MDLL.path_beneath_pkg(*topic)));
+    where (!::MDLL.is_empty(*::MDLL.pkg_name_base(*topic))
+        and ::MDLL.is_empty(*::MDLL.pkg_name_ext(*topic))
+        and ::MDLL.is_zero(*::MDLL.rel_starts_n_lev_up(*topic))
+        and ::MDLL.is_empty(*::MDLL.path_beneath_pkg(*topic)));
 
 MD.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
     where topic->every_elem_isa($SC_Pkg_Local_Alias);

@@ -33,12 +33,12 @@ MD.Boolean."++"|succ|inc ::= function (Boolean|"+Inf" <-- Boolean)
 
 /* Note that "false" is a keyword; this function implements it. */
 
-MD.Boolean.false|contradiction ::= synonym of ::MDLL.FALSE
+MD.Boolean.false|contradiction ::= synonym of ::MDLL.false
     implements Boolish."false";
 
 /* Note that "true" is a keyword; this function implements it. */
 
-MD.Boolean.true|tautology ::= synonym of ::MDLL.TRUE
+MD.Boolean.true|tautology ::= synonym of ::MDLL.true
     implements Boolish."true";
 
 /*************************************************************************/

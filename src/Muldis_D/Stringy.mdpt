@@ -30,7 +30,7 @@ MD.String."<=>"|order ::= function
 /*************************************************************************/
 
 MD.String.is_empty ::= function (Boolean <-- String)
-    : ::MDLL.empty(*::MDLL.payload(*.0));
+    : ::MDLL.is_empty(*::MDLL.payload(*.0));
 
 MD.String.is_not_empty ::= function (Boolean <-- String)
     : !.0->is_empty();
