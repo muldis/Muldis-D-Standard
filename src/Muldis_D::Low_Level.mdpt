@@ -1,6 +1,6 @@
-Muldis_D:PT_STD:ASCII:"http://muldis.com":0;
+Muldis_D:PT_STD:ASCII:"http://muldis.com":"0.200.0";
 
-package MDLL ::= Muldis_D::Low_Level:"http://muldis.com":0;
+package MDLL ::= Muldis_D::Low_Level:"http://muldis.com":"0.200.0";
 
 searching [MDLL];
 
