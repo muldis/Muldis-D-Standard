@@ -1,6 +1,6 @@
-Muldis_D:PT_STD:ASCII:"http://muldis.com":"0.200.0";
+Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
 
-package_segment Muldis_D:"http://muldis.com":"0.200.0":Source_Code;
+package_segment Muldis_D:"http://muldis.com":"0.200":Source_Code;
 
 /*************************************************************************/
 
@@ -45,7 +45,7 @@ MD.Source_Code.SC_Renaming ::= synonym of ::MDLL.Renaming;
 
 MD.Source_Code.SC_Identifier ::= synonym of ::MDLL.Identifier;
 
-/* SC_Reference example: \$Muldis_D:"http://muldis.com":"0.200.0".Integer.sum */
+/* SC_Reference example: \$Muldis_D:"http://muldis.com":"0.200".Integer.sum */
 
 MD.Source_Code.SC_Reference ::= synonym of ::MDLL.Reference composes Ordered;
 
@@ -58,7 +58,7 @@ MD.Source_Code.SC_Name ::= type of SC_Heading
 
 /*************************************************************************/
 
-/* SC_Pkg_Canon_Name example: Muldis_D:"http://muldis.com":"0.200.0" */
+/* SC_Pkg_Canon_Name example: Muldis_D:"http://muldis.com":"0.200" */
 
 MD.Source_Code.SC_Pkg_Canon_Name ::= type of SC_Reference
     where ::MDLL.Universal.is_empty(*::MDLL.Identifier.path_beneath_pkg(*topic));

@@ -1,4 +1,4 @@
-Muldis_D:PT_STD:ASCII:"http://muldis.com":"0.200.0";
+Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
 
-package_segment Muldis_D:"http://muldis.com":"0.200.0":Blob;
+package_segment Muldis_D:"http://muldis.com":"0.200":Blob;
 

@@ -1,8 +1,8 @@
-Muldis_D:PT_STD:ASCII:"http://muldis.com":"0.200.0";
+Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
 
-package Latin ::= Muldis_D::Latin:"http://muldis.com":"0.200.0";
+package Latin ::= Muldis_D::Latin:"http://muldis.com":"0.200";
 
-using MD ::= Muldis_D:"http://muldis.com":"0.200.0";
+using MD ::= Muldis_D:"http://muldis.com":"0.200";
 
 searching [MD,Latin];
 
