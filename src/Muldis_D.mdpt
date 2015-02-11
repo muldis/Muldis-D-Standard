@@ -2,8 +2,6 @@ Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
 
 package MD ::= Muldis_D:"http://muldis.com":"0.200";
 
-using MDLL ::= Muldis_D::Low_Level:"http://muldis.com":"0.200";
-
 searching [MD];
 
 has_segment Array;

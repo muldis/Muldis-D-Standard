@@ -2,6 +2,8 @@ Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Integer;
 
+/* THIS FILE IS OUTDATED; THERE IS NO Muldis_D::Low_Level PACKAGE! */
+
 /*************************************************************************/
 
 MD.Integral ::= abstract_type composes Numeric;

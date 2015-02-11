@@ -2,9 +2,9 @@ Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Array;
 
-/*************************************************************************/
+/* THIS FILE IS OUTDATED; THERE IS NO Muldis_D::Low_Level PACKAGE! */
 
-/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW STRUCTURES NOT OPAQUE. */
+/*************************************************************************/
 
 MD.Arrayish ::= abstract_type composes Ordered;
 

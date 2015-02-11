@@ -4,11 +4,10 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Stringy;
 
 /*************************************************************************/
 
-/* TODO - THIS FILE IS OUT OF DATE - INTEGERS NOW STRUCTURES NOT OPAQUE. */
-
 MD.Stringy ::= abstract_type composes Ordered;
 
-MD.String ::= synonym of ::MDLL.String composes Stringy;
+MD.String ::= type of Universal where \*^[isa_String] default \+[]
+    composes Stringy;
 
 MD.Str ::= synonym of String;
 
@@ -23,23 +22,21 @@ MD.String."<=>"|order ::= function
     implements Ordered."<=>"
 : (
        .0 = .1            ?? $=>Same
-    !! ::MDLL.Universal.in_order(*\*:[.0,.1]) ?? $=>Less
+    !! ... ?? $=>Less
     !!                       $=>More
 );
 
 /*************************************************************************/
 
-MD.String.is_empty ::= function (Boolean <-- String)
-    : ::MDLL.Universal.is_empty(*::MDLL.Structure.payload(*.0));
+MD.String.is_empty ::= function (Boolean <-- String) : topic = \+[];
 
-MD.String.is_not_empty ::= function (Boolean <-- String)
-    : !.0->is_empty();
+MD.String.is_not_empty ::= function (Boolean <-- String) : topic != \+[];
 
 MD.String.first_elem ::= function (Universal <-- String)
-    requires (.0->is_not_empty()) : ::MDLL.Universal.first(*::MDLL.Structure.payload(*.0));
+    requires topic != \+[] : ...;
 
 MD.String.nonfirst_elems ::= function (String <-- String)
-    requires (.0->is_not_empty()) : ...;
+    requires topic != \+[] : ...;
 
 MD.String."#"|count|cardinality ::= function
     (Integer.NN <-- String) : ...;
@@ -50,4 +47,4 @@ MD.String.elem ::= function
 
 MD.String.every_elem_isa ::= function
     (Boolean <-- 0|string : String, 1|type : SC_Reference)
-    : ::MDLL.Universal.every_elem_isa(*\*:[::MDLL.Structure.payload(*.0),.1]);
+    : \*^[every_elem_isa,.0,.1];

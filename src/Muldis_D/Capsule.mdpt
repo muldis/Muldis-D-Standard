@@ -4,19 +4,18 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Capsule;
 
 /*************************************************************************/
 
-MD.Capsule ::= synonym of ::MDLL.Capsule;
+MD.Capsule ::= type of Universal where \*^[isa_Capsule,topic] default ...;
 
 /*************************************************************************/
 
 MD.Capsule."=>"|select_Capsule ::= function
-    (Capsule <-- 0|type : SC_Reference, 1|attrs : Tuple)
-    : ::MDLL.Capsule.capsule(*\*:[::MDLL.Structure.payload(*.0),::MDLL.Structure.payload(*.1)]);
+    (Capsule <-- 0|type : SC_Reference, 1|attrs : Tuple) : .0=>.1;
 
 MD.Capsule.Capsule_type ::= function (SC_Reference <-- Capsule)
-    : ::MDLL.Capsule.reference(*::MDLL.Capsule.capsule_type(*.0));
+    : \*^[Capsule_type,.0];
 
 MD.Capsule."%"|attrs ::= function (Tuple <-- Capsule)
-    : ::MDLL.Capsule.tuple(*::MDLL.Capsule.capsule_attrs(*.0));
+    : \*^[Capsule_attrs,.0];
 
 /*************************************************************************/
 
@@ -26,4 +25,3 @@ MD.Capsule.attr ::= function
 /*************************************************************************/
 
 MD.Capsule.Singleton ::= type of Capsule where (is_nullary(%topic));
-

@@ -2,6 +2,8 @@ Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Source_Code;
 
+/* THIS FILE IS OUTDATED; THERE IS NO Muldis_D::Low_Level PACKAGE! */
+
 /*************************************************************************/
 
 /* Source_Code is a closed union that only the system can define, while

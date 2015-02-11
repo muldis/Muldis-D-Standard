@@ -6,7 +6,8 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Boolean;
 
 MD.Boolish ::= abstract_type composes Ordinal;
 
-MD.Boolean ::= synonym of ::MDLL.Boolean composes Boolish;
+MD.Boolean ::= type of Universal where \*^[isa_Boolean,topic]
+    default false composes Boolish;
 
 MD.Bool ::= synonym of Boolean;
 
@@ -31,14 +32,14 @@ MD.Boolean."++"|succ|inc ::= function (Boolean|"+Inf" <-- Boolean)
 
 /*************************************************************************/
 
-/* Note that "false" is a keyword; this function implements it. */
+/* Note that "false" is a keyword; this constant is a shim over it. */
 
-MD.Boolean.false|contradiction ::= synonym of ::MDLL.Boolean.false
+MD.Boolean.false|contradiction ::= constant false
     implements Boolish."false";
 
-/* Note that "true" is a keyword; this function implements it. */
+/* Note that "true" is a keyword; this constant is a shim over it. */
 
-MD.Boolean.true|tautology ::= synonym of ::MDLL.Boolean.true
+MD.Boolean.true|tautology ::= constant true
     implements Boolish."true";
 
 /*************************************************************************/
@@ -46,10 +47,10 @@ MD.Boolean.true|tautology ::= synonym of ::MDLL.Boolean.true
 MD.Boolean.so|"?"|proposition ::= function (Boolean <-- Boolean)
     implements Boolish.so : .0;
 
-/* Note that "not"|"!" is a meta-keyword; this function implements it. */
+/* Note that "not"|"!" is a meta-keyword; this function is a shim over it. */
 
 MD.Boolean.not|"!"|negation ::= function (Boolean <-- Boolean)
-    implements Boolish.not : (.0 ?? false !! true);
+    implements Boolish.not : !.0;
 
 /*************************************************************************/
 
