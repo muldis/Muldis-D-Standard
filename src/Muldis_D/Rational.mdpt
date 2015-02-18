@@ -45,12 +45,12 @@ MD.Ratio.normal ::= function (Ratio <-- Anormal_Ratio)
 
     /* Determine greatest common divisor of pair. */
     gcd ::= (\(abs(n),abs(d)) --> (function : 
-            .1 = 0 ?? .0 !! 0( .1, mod( .0, .1, round_meth : $=>Down ))
+            .1 = 0 ?? .0 !! 0( .1, mod( .0, .1, round_meth : $=>To_Zero ))
         ));
 
     <-- $Ratio => \%{
-        numerator   : div( n, gcd, round_meth : $=>Down ),
-        denominator : div( d, gcd, round_meth : $=>Down ),
+        numerator   : div( n, gcd, round_meth : $=>To_Zero ),
+        denominator : div( d, gcd, round_meth : $=>To_Zero ),
     };
 );
 
