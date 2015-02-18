@@ -38,6 +38,10 @@ MD.Universal.default_of ::= function
 
 /*************************************************************************/
 
+MD.Universal.same_low_level_type ::= function
+    (Boolean <-- Universal, Universal) is_commutative
+    : \*^[same_low_level_type,.0,.1];
+
 /* Note that "same_base_type" is designed to give the answer that would be
    the most useful to normal users, which is also simple and deterministic,
    and that is to treat Capsule as a multiplicity of base types while
@@ -46,7 +50,7 @@ MD.Universal.default_of ::= function
 MD.Universal.same_base_type ::= function
     (Boolean <-- Universal, Universal) is_commutative
 : (
-    if \*^[same_low_level_type,.0,.1] then
+    if same_low_level_type(.0,.1) then
         if .0 isa $Capsule then
             Capsule_type(.0) = Capsule_type(.1)
         else true

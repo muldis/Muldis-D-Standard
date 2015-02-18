@@ -8,6 +8,8 @@ MD.Capsule ::= type of Universal where \*^[isa_Capsule,topic] default ...;
 
 /*************************************************************************/
 
+/* Note that "=>" is a keyword; this function is a shim over it. */
+
 MD.Capsule."=>"|select_Capsule ::= function
     (Capsule <-- 0|type : SC_Reference, 1|attrs : Tuple) : .0=>.1;
 
@@ -21,6 +23,14 @@ MD.Capsule."%"|attrs ::= function (Tuple <-- Capsule)
 
 MD.Capsule.attr ::= function
     (Universal <-- Capsule, 1|name : SC_Name) : attr(%.0,.1);
+
+/*************************************************************************/
+
+MD.Capsule.has_attrs ::= function (Boolean <-- Capsule, SC_Attrs_Spec)
+    : has_attrs(%.0,.1);
+
+MD.Capsule.has_just_attrs ::= function (Boolean <-- Capsule, SC_Attrs_Spec)
+    : has_just_attrs(%.0,.1);
 
 /*************************************************************************/
 
