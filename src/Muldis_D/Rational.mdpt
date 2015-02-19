@@ -126,19 +126,37 @@ MD.Ratio."/"|frac_divide|frac_quotient ::= function
     : .0 * reciprocal(.1);
 
 MD.Ratio.div|whole_divide|whole_quotient ::= function
-    (Integer <-- 0|dividend : Ratio, 1|divisor : Ratio,
+    (Ratio <-- 0|dividend : Ratio, 1|divisor : Ratio,
         round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.div
-: ...;
+: (
+    /* Bring 2 inputs to common denominator like with addition. */
+    orig_d ::= lcm((%.0).denominator, (%.1).denominator);
+    orig_n0 ::= ((%.0).numerator
+        * div(orig_d, (%.0).denominator, round_meth : $=>To_Zero));
+    orig_n1 ::= ((%.1).numerator
+        * div(orig_d, (%.1).denominator, round_meth : $=>To_Zero));
+
+    /* Scale both inputs proportionally into whole-number range. */
+    scaled_n0 ::= orig_n0 * orig_d;
+    scaled_n1 ::= orig_n1 * orig_d;
+
+    /* Use regular Integer whole_divide semantics on the numerators. */
+    scaled_q ::= div(scaled_n0, scaled_n1, round_meth : .round_meth));
+
+    /* Result still of the Ratio type even though its a whole number. */
+    <-- select_Ratio( scaled_q, 1 );
+);
 
 MD.Ratio.mod|modulo|remainder ::= function
     (Ratio <-- 0|dividend : Ratio, 1|divisor : Ratio,
         round_meth : Round_Meth)
-    requires (.1 != 0.0) implements Numeric.mod : ...;
+    requires (.1 != 0.0) implements Numeric.mod
+    : (.0 - (.1 * div(*topic)));
 
 MD.Ratio.divide_and_modulo|quot_and_rem ::= function
-    (type of Tuple where (has_attrs(topic,\%{ quotient : $Integer,
+    (type of Tuple where (has_attrs(topic,\%{ quotient : $Ratio,
         remainder : $Ratio })) <--
         0|dividend : Ratio, 1|divisor : Ratio, round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.divide_and_modulo
-    : ...;
+    : (\%{ quotient : div(*topic), remainder : mod(*topic) });
