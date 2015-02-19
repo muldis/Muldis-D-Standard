@@ -12,21 +12,21 @@ MD.Text ::= type of Capsule composes Textual
 MD.Text.ASCII_Char ::= type of Integer where (topic in 0..127);
 
 MD.Text.ASCII_Chars ::= type of String
-    where (topic->every_elem_isa($ASCII_Char));
+    where (every_elem_isa(topic,$ASCII_Char));
 
 MD.Text.ASCII ::= type of Text
-    where (topic->maximal_chars() isa $ASCII_Chars);
+    where (maximal_chars(topic) isa $ASCII_Chars);
 
 /*************************************************************************/
 
 MD.Text.maximal_chars ::= function (String <-- Text)
-    : .0->attr(\~{maximal_chars});
+    : attr(.0,\~{maximal_chars});
 
 MD.Text.from_maximal_chars ::= function (Text <-- String)
     : (select_Capsule( $Text, \%{ maximal_chars : .0 } ));
 
 MD.Text.ascii_chars ::= function (ASCII_Chars <-- Text.ASCII)
-    : .0->maximal_chars();
+    : maximal_chars(.0);
 
 MD.Text.from_ascii_chars ::= function
-    (Text.ASCII <-- ASCII_Chars) : .0->from_maximal_chars();
+    (Text.ASCII <-- ASCII_Chars) : from_maximal_chars(.0);

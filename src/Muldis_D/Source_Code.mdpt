@@ -74,7 +74,7 @@ MD.Source_Code.SC_Pkg_Local_Alias ::= type of SC_Identifier
         and ::MDLL.Universal.is_empty(*::MDLL.Identifier.path_beneath_pkg(*topic)));
 
 MD.Source_Code.SC_Pkg_Local_Aliases ::= type of Array
-    where topic->every_elem_isa($SC_Pkg_Local_Alias);
+    where every_elem_isa(topic,$SC_Pkg_Local_Alias);
 
 /*************************************************************************/
 
@@ -87,7 +87,7 @@ MD.Source_Code.SC_Pkg_Decl_Map ::= type of Capsule where
 );
 
 MD.Source_Code.SC_Pkg_Decl_Maps ::= type of Array
-    where topic->every_elem_isa($SC_Pkg_Decl_Map);
+    where every_elem_isa(topic,$SC_Pkg_Decl_Map);
 
 /*************************************************************************/
 
@@ -103,7 +103,7 @@ MD.Source_Code.SC_Package ::= type of Capsule where
 );
 
 MD.Source_Code.SC_Package_Segments ::=
-    Array where (topic->every_elem_isa($SC_Pkg_Local_Alias));
+    Array where (every_elem_isa(topic,$SC_Pkg_Local_Alias));
 
 MD.Source_Code.SC_Package_Segment ::= type of Capsule where
 (

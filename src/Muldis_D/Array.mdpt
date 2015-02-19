@@ -19,11 +19,11 @@ MD.Array."<=>"|order ::= function
     (Order <-- 0|lhs : Array, 1|rhs : Array)
     implements Ordered."<=>"
 : (
-       .0->is_empty() ?? (.1->is_empty() ?? $=>Same !! $=>Less)
-    !! .1->is_empty() ?? $=>More
-    !! .0->first_elem() = .1->first_elem()
-        ?? 0(.0->nonfirst_elems(),.1->nonfirst_elems())
-    !! .0->first_elem() <=> .1->first_elem()
+       is_empty(.0) ?? (is_empty(.1) ?? $=>Same !! $=>Less)
+    !! is_empty(.1) ?? $=>More
+    !! first_elem(.0) = first_elem(.1)
+        ?? 0(nonfirst_elems(.0),nonfirst_elems(.1))
+    !! first_elem(.0) <=> first_elem(.1)
 );
 
 /*************************************************************************/
@@ -32,13 +32,13 @@ MD.Array.is_empty ::= function (Boolean <-- Array)
     : ::MDLL.Universal.is_empty(*::MDLL.Structure.payload(*.0));
 
 MD.Array.is_not_empty ::= function (Boolean <-- Array)
-    : !.0->is_empty();
+    : !is_empty(.0);
 
 MD.Array.first_elem ::= function (Universal <-- Array)
-    requires (.0->is_not_empty()) : ::MDLL.Universal.first(*::MDLL.Structure.payload(*.0));
+    requires (is_not_empty(.0)) : ::MDLL.Universal.first(*::MDLL.Structure.payload(*.0));
 
 MD.Array.nonfirst_elems ::= function (Array <-- Array)
-    requires (.0->is_not_empty()) : ...;
+    requires (is_not_empty(.0)) : ...;
 
 MD.Array."#"|count|cardinality ::= function
     (Integer.NN <-- Array) : ...;

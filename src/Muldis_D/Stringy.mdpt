@@ -11,9 +11,9 @@ MD.String ::= type of Universal where \*^[isa_String,topic] default \+[]
 
 MD.Str ::= synonym of String;
 
-MD.String.NN ::= type of String where (topic->every_elem_isa($Integer.NN));
+MD.String.NN ::= type of String where (every_elem_isa(topic,$Integer.NN));
 
-MD.String.P ::= type of String.NN where (topic->every_elem_isa($Integer.P));
+MD.String.P ::= type of String.NN where (every_elem_isa(topic,$Integer.P));
 
 /*************************************************************************/
 

@@ -24,10 +24,10 @@ all same 256 characters, or not. */
 Latin.Text.Latin1_Char ::= type of Integer where ...;
 
 Latin.Text.Latin1_Chars ::= type of String
-    where (topic->every_elem_isa($Latin1_Char));
+    where (every_elem_isa(topic,$Latin1_Char));
 
 Latin.Text.Latin1 ::= type of Text
-    where (topic->maximal_chars() isa $Latin1_Chars);
+    where (maximal_chars(topic) isa $Latin1_Chars);
 
 /*************************************************************************/
 
