@@ -107,7 +107,7 @@ MD.Source_Code.SC_Package_Segments ::=
 
 MD.Source_Code.SC_Package_Segment ::= type of Capsule where
 (
-    Capsule_type(topic) = $SC_Package_Segment
+    Capsule_type(topic) = $1
     and
     has_attrs(%topic,\%{
         materials : $SC_Materials,

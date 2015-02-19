@@ -40,6 +40,10 @@ MD.Integer.monadic."-"|opposite|additive_inverse ::= function
     (Integer <-- Integer) implements Numeric.monadic."-"
     : \*^[Integer_opposite,.0];
 
+MD.Integer.reciprocal|multiplicative_inverse ::= function
+    (Ratio <-- Integer) requires (.0 != 0) implements Numeric.reciprocal
+    : select_Ratio(1,.0);
+
 MD.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
     implements Numeric.abs
     : \*^[Integer_abs,.0];
@@ -55,7 +59,7 @@ MD.Integer."-"|minus|subtract|diff|difference ::= function
 
 MD.Integer."|-|"|abs_minus|abs_diff ::= function
     (Integer.NN <-- 0|minuend : Integer, 1|subtrahend : Integer)
-    implements Numeric."|-|" : (abs(.0 + -.1));
+    implements Numeric."|-|" : abs(.0 + -.1);
 
 MD.Integer."*"|times|multiply|product ::= function
     (Integer <-- 0|multiplicand : Integer, 1|multiplier : Integer)
@@ -156,7 +160,7 @@ MD.Integer.mod|modulo|remainder ::= function
     requires (.1 != 0) implements Numeric.mod : (.0 - (.1 * div(*topic)));
 
 MD.Integer.divide_and_modulo|quot_and_rem ::= function
-    (Tuple where (has_attrs(topic,\%{ quotient : $Integer,
+    (type of Tuple where (has_attrs(topic,\%{ quotient : $Integer,
         remainder : $Integer })) <--
         0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.divide_and_modulo
@@ -171,3 +175,21 @@ MD.Integer.power|exp|exponentiate ::= function
 
 MD.Integer.factorial ::= function (Integer.P <-- Integer.P)
     : \*^[Integer_factorial,.0,.1];
+
+/*************************************************************************/
+
+/* TODO: Consider defining these for negative integers too. */
+
+/* Calculate using the Euclidean algorithm. */
+
+MD.Integer.gcd|greatest_common_divisor ::= function
+    (Integer.NN <-- Integer.NN, Integer.NN)
+    is {commutative,associative,idempotent} identity 0
+    : (.0 = .1 ?? .0 !! .1 = 0 ?? .0
+        !! 0( .1, mod( .0, .1, round_meth : $=>To_Zero ) ));
+
+MD.Integer.lcm|least_common_multiple ::= function
+    (Integer.NN <-- Integer.NN, Integer.NN)
+    is {commutative,associative,idempotent}
+    : (.0 = .1 ?? .0 !! .0 = 0 and .1 = 0 ?? 0
+        !! div( .0 * .1, gcd(.0,.1), round_meth : $=>To_Zero ));
