@@ -36,8 +36,8 @@ MD.Ratio.select_Ratio ::= function
 
 MD.Ratio.normal ::= function (Ratio <-- Anormal_Ratio)
 : (
-    an ::= (%.0).numerator;
-    ad ::= (%.0).denominator;
+    an ::= .0->numerator;
+    ad ::= .0->denominator;
 
     /* Normalize pair so denominator is always > 0. */
     n ::= (ad > 0 ?? an !! -an);
@@ -58,15 +58,15 @@ MD.Ratio."<=>"|order ::= function
     (Order <-- 0|lhs : Ratio, 1|rhs : Ratio)
     implements Ordered."<=>"
 : (
-    if (%.0).denominator = (%.1).denominator then
-        (%.0).numerator <=> (%.1).numerator
+    if .0->denominator = .1->denominator then
+        .0->numerator <=> .1->numerator
     else
       (
-        lcm ::= lcm((%.0).denominator, (%.1).denominator);
-        <-- ((%.0).numerator
-                * div(lcm, (%.0).denominator, round_meth : $=>To_Zero))
-            <=> ((%.1).numerator
-                * div(lcm, (%.1).denominator, round_meth : $=>To_Zero))
+        common_d ::= lcm(.0->denominator, .1->denominator);
+        <-- (.0->numerator
+                * div(common_d, .0->denominator, round_meth : $=>To_Zero))
+            <=> (.1->numerator
+                * div(common_d, .1->denominator, round_meth : $=>To_Zero))
       )
 );
 
@@ -74,33 +74,33 @@ MD.Ratio."<=>"|order ::= function
 
 MD.Ratio.monadic."-"|opposite|additive_inverse ::= function
     (Ratio <-- Ratio) implements Numeric.monadic."-"
-    : $Ratio => \%{ numerator : -(%.0).numerator,
-        denominator : (%.0).denominator };
+    : $Ratio => \%{ numerator : -.0->numerator,
+        denominator : .0->denominator };
 
 MD.Ratio.reciprocal|multiplicative_inverse ::= function
     (Ratio <-- Ratio) requires (.0 != 0.0) implements Numeric.reciprocal
-    : select_Ratio( (%.0).denominator, (%.0).numerator );
+    : select_Ratio( .0->denominator, .0->numerator );
 
 MD.Ratio.abs|modulus ::= function (Ratio.NN <-- Ratio)
     implements Numeric.abs
-    : $Ratio => \%{ numerator : abs((%.0).numerator),
-        denominator : (%.0).denominator };
+    : $Ratio => \%{ numerator : abs(.0->numerator),
+        denominator : .0->denominator };
 
 MD.Ratio."+"|plus|add|sum ::= function
     (Ratio <-- 0|augend : Ratio, 1|addend : Ratio)
     implements Numeric."+" is {commutative,associative} identity 0.0
 : (
-    if (%.0).denominator = (%.1).denominator then
-        select_Ratio((%.0).numerator + (%.1).numerator, (%.0).denominator)
+    if .0->denominator = .1->denominator then
+        select_Ratio(.0->numerator + .1->numerator, .0->denominator)
     else
       (
-        lcm ::= lcm((%.0).denominator, (%.1).denominator);
+        common_d ::= lcm(.0->denominator, .1->denominator);
         <-- select_Ratio(
-            ((%.0).numerator
-                * div(lcm, (%.0).denominator, round_meth : $=>To_Zero))
-            + ((%.1).numerator
-                * div(lcm, (%.1).denominator, round_meth : $=>To_Zero)),
-            lcm
+            (.0->numerator
+                * div(common_d, .0->denominator, round_meth : $=>To_Zero))
+            + (.1->numerator
+                * div(common_d, .1->denominator, round_meth : $=>To_Zero)),
+            common_d
         );
       )
 );
@@ -116,8 +116,8 @@ MD.Ratio."|-|"|abs_minus|abs_diff ::= function
 MD.Ratio."*"|times|multiply|product ::= function
     (Ratio <-- 0|multiplicand : Ratio, 1|multiplier : Ratio)
     implements Numeric."*" is {commutative,associative} identity 1.0
-    : select_Ratio( (%.0).numerator * (%.1).numerator,
-        (%.0).denominator * (%.1).denominator );
+    : select_Ratio( .0->numerator * .1->numerator,
+        .0->denominator * .1->denominator );
 
 MD.Ratio."/"|frac_divide|frac_quotient ::= function
     (Ratio <-- 0|dividend : Ratio, 1|divisor : Ratio)
@@ -131,11 +131,11 @@ MD.Ratio.div|whole_divide|whole_quotient ::= function
     requires (.1 != 0.0) implements Numeric.div
 : (
     /* Bring 2 inputs to common denominator like with addition. */
-    orig_d ::= lcm((%.0).denominator, (%.1).denominator);
-    orig_n0 ::= ((%.0).numerator
-        * div(orig_d, (%.0).denominator, round_meth : $=>To_Zero));
-    orig_n1 ::= ((%.1).numerator
-        * div(orig_d, (%.1).denominator, round_meth : $=>To_Zero));
+    orig_d ::= lcm(.0->denominator, .1->denominator);
+    orig_n0 ::= (.0->numerator
+        * div(orig_d, .0->denominator, round_meth : $=>To_Zero));
+    orig_n1 ::= (.1->numerator
+        * div(orig_d, .1->denominator, round_meth : $=>To_Zero));
 
     /* Scale both inputs proportionally into whole-number range. */
     scaled_n0 ::= orig_n0 * orig_d;
