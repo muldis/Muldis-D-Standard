@@ -6,14 +6,11 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Voidlike;
 
 MD.Voidlike ::= abstract_type;
 
-MD.Voidlike.Void ::= type of Singleton composes Voidlike
-    where (Capsule_type(topic) = $Void);
+MD.Voidlike.Void ::= singleton_type composes Voidlike;
 
-MD.Voidlike.Unknown ::= type of Singleton composes Voidlike
-    where (Capsule_type(topic) = $Unknown);
+MD.Voidlike.Unknown ::= singleton_type composes Voidlike;
 
-MD.Voidlike.Not_Applicable ::= type of Singleton composes Voidlike
-    where (Capsule_type(topic) = $Not_Applicable);
+MD.Voidlike.Not_Applicable ::= singleton_type composes Voidlike;
 
 /*************************************************************************/
 
@@ -23,7 +20,7 @@ MD.Voidlike.Not_Applicable ::= type of Singleton composes Voidlike
 
 MD.Voidlike."//" ::= function
     (Universal <-- Universal, Universal)
-    is_associative is_idempotent : (.0 !isa $Voidlike ?? .0 !! .1);
+    is {associative,idempotent}  : (.0 !isa $Voidlike ?? .0 !! .1);
 
 MD.Voidlike.coalesce ::= function (Universal <-- Array)
     requires (?#.0) : ([//] .0);

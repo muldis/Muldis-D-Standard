@@ -57,13 +57,13 @@ MD.Boolean.not|"!"|negation ::= function (Boolean <-- Boolean)
 MD.Boolean.and|all|every|conjunction ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.and
-    is_commutative is_associative identity true is_idempotent
+    is {commutative,associative,idempotent} identity true
     : (.0 ?? .1 !! false);
 
 MD.Boolean.nand|not_and|not_both|alternative_denial ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.nand
-    is_commutative
+    is {commutative}
     : (.0 !and .1);
 
 /*************************************************************************/
@@ -71,13 +71,13 @@ MD.Boolean.nand|not_and|not_both|alternative_denial ::= function
 MD.Boolean.or|any|some|disjunction ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.or
-    is_commutative is_associative identity false is_idempotent
+    is {commutative,associative,idempotent} identity false
     : (.0 ?? true !! .1);
 
 MD.Boolean.nor|not_or|joint_denial ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.nor
-    is_commutative
+    is {commutative}
     : (.0 !or .1);
 
 /*************************************************************************/
@@ -85,13 +85,13 @@ MD.Boolean.nor|not_or|joint_denial ::= function
 MD.Boolean.xnor|iff|biconditional|material_equivalence ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.xnor
-    is_commutative is_associative identity true
+    is {commutative,associative} identity true
     : (.0 = .1);
 
 MD.Boolean.xor|exclusive_disjunction ::= function
     (Boolean <-- Boolean, Boolean)
     implements Boolish.xor
-    is_commutative is_associative identity false
+    is {commutative,associative} identity false
     : (.0 != .1);
 
 /*************************************************************************/

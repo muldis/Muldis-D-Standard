@@ -14,29 +14,12 @@ MD.Numeric.Round_Meth ::=
     |Half_Even
     default $=>To_Zero;
 
-MD.Numeric.Round_Meth.Down ::= type of Singleton
-    where (Capsule_type(topic) = $Down);
-
-MD.Numeric.Round_Meth.Up ::= type of Singleton
-    where (Capsule_type(topic) = $Up);
-
-MD.Numeric.Round_Meth.To_Zero ::= type of Singleton
-    where (Capsule_type(topic) = $To_Zero);
-
-MD.Numeric.Round_Meth.To_Inf ::= type of Singleton
-    where (Capsule_type(topic) = $To_Inf);
-
-MD.Numeric.Round_Meth.Half_Down ::= type of Singleton
-    where (Capsule_type(topic) = $Half_Down);
-
-MD.Numeric.Round_Meth.Half_Up ::= type of Singleton
-    where (Capsule_type(topic) = $Half_Up);
-
-MD.Numeric.Round_Meth.Half_To_Zero ::= type of Singleton
-    where (Capsule_type(topic) = $Half_To_Zero);
-
-MD.Numeric.Round_Meth.Half_To_Inf ::= type of Singleton
-    where (Capsule_type(topic) = $Half_To_Inf);
-
-MD.Numeric.Round_Meth.Half_Even ::= type of Singleton
-    where (Capsule_type(topic) = $Half_Even);
+MD.Numeric.Round_Meth.Down         ::= singleton_type;
+MD.Numeric.Round_Meth.Up           ::= singleton_type;
+MD.Numeric.Round_Meth.To_Zero      ::= singleton_type;
+MD.Numeric.Round_Meth.To_Inf       ::= singleton_type;
+MD.Numeric.Round_Meth.Half_Down    ::= singleton_type;
+MD.Numeric.Round_Meth.Half_Up      ::= singleton_type;
+MD.Numeric.Round_Meth.Half_To_Zero ::= singleton_type;
+MD.Numeric.Round_Meth.Half_To_Inf  ::= singleton_type;
+MD.Numeric.Round_Meth.Half_Even    ::= singleton_type;

@@ -46,7 +46,7 @@ MD.Integer.abs|modulus ::= function (Integer.NN <-- Integer)
 
 MD.Integer."+"|plus|add|sum ::= function
     (Integer <-- 0|augend : Integer, 1|addend : Integer)
-    implements Numeric."+" is_commutative is_associative identity 0
+    implements Numeric."+" is {commutative,associative} identity 0
     : \*^[Integer_plus,.0,.1];
 
 MD.Integer."-"|minus|subtract|diff|difference ::= function
@@ -59,7 +59,7 @@ MD.Integer."|-|"|abs_minus|abs_diff ::= function
 
 MD.Integer."*"|times|multiply|product ::= function
     (Integer <-- 0|multiplicand : Integer, 1|multiplier : Integer)
-    implements Numeric."*" is_commutative is_associative identity 1
+    implements Numeric."*" is {commutative,associative} identity 1
     : \*^[Integer_times,.0,.1];
 
 MD.Integer."/"|frac_divide|frac_quotient ::= function

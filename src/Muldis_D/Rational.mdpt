@@ -58,6 +58,6 @@ MD.Ratio.normal ::= function (Ratio <-- Anormal_Ratio)
 
 MD.Ratio."*"|times|multiply|product ::= function
     (Ratio <-- 0|multiplicand : Ratio, 1|multiplier : Ratio)
-    implements Numeric."*" is_commutative is_associative identity 1.0
+    implements Numeric."*" is {commutative,associative} identity 1.0
     : select_Ratio( (%.0).numerator * (%.1).numerator,
         (%.0).denominator * (%.1).denominator );

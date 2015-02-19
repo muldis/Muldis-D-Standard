@@ -14,9 +14,9 @@ MD.Ordinal ::= abstract_type composes Ordered;
 
 MD.Order ::= Less|Same|More default $=>Same;
 
-MD.Order.Less ::= type of Singleton where (Capsule_type(topic) = $Less);
-MD.Order.Same ::= type of Singleton where (Capsule_type(topic) = $Same);
-MD.Order.More ::= type of Singleton where (Capsule_type(topic) = $More);
+MD.Order.Less ::= singleton_type;
+MD.Order.Same ::= singleton_type;
+MD.Order.More ::= singleton_type;
 
 /*************************************************************************/
 
