@@ -21,8 +21,15 @@ MD.Capsule."%"|attrs ::= function (Tuple <-- Capsule)
 
 /*************************************************************************/
 
-MD.Capsule.attr ::= function
-    (Universal <-- Capsule, 1|name : SC_Name) : attr(%.0,.1);
+/* Note that ".>" is a special syntax used like "myrat.>numerator". */
+
+MD.Capsule.".>"|attr ::= function (Universal <-- Capsule, SC_Name)
+    : \*^[Capsule_attr,.0,.1];
+
+/* Note that ".>?" is a special syntax used like "myval.>?myoptattr". */
+
+MD.Capsule.".>?"|has_attr ::= function (Boolean <-- Capsule, SC_Name)
+    : \*^[Capsule_has_attr,.0,.1];
 
 /*************************************************************************/
 
