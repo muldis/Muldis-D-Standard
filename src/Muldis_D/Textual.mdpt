@@ -19,14 +19,14 @@ MD.Text.ASCII ::= type of Text
 
 /*************************************************************************/
 
-MD.Text.maximal_chars ::= function (String <-- Text)
+MD.Text.maximal_chars ::= function --> String <-- (Text)
     : attr(.0,\~{maximal_chars});
 
-MD.Text.from_maximal_chars ::= function (Text <-- String)
+MD.Text.from_maximal_chars ::= function --> Text <-- (String)
     : (select_Capsule( $Text, \%{ maximal_chars : .0 } ));
 
-MD.Text.ascii_chars ::= function (ASCII_Chars <-- Text.ASCII)
+MD.Text.ascii_chars ::= function --> ASCII_Chars <-- (Text.ASCII)
     : maximal_chars(.0);
 
 MD.Text.from_ascii_chars ::= function
-    (Text.ASCII <-- ASCII_Chars) : from_maximal_chars(.0);
+    --> Text.ASCII <-- (ASCII_Chars) : from_maximal_chars(.0);

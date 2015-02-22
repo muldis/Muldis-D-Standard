@@ -26,16 +26,16 @@ UC.Text.Unicode.Compat ::= type of Text.Unicode.Canon
 /*************************************************************************/
 
 UC.Text.unicode_codes ::= function
-    (Unicode_Codepoints <-- Text.Unicode) : maximal_chars(.0);
+    --> Unicode_Codepoints <-- (Text.Unicode) : maximal_chars(.0);
 
 UC.Text.from_unicode_codes ::= function
-    (Text.Unicode <-- Unicode_Codepoints) : from_maximal_chars(.0);
+    --> Text.Unicode <-- (Unicode_Codepoints) : from_maximal_chars(.0);
 
 UC.Text.unicode_utf8_octets ::= function
-    (... <-- Text.Unicode) : ...;
+    --> ... <-- (Text.Unicode) : ...;
 
 UC.Text.from_unicode_utf8_octets ::= function
-    (Text.Unicode <-- ...) : ...;
+    --> Text.Unicode <-- (...) : ...;
 
 /*************************************************************************/
 

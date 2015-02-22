@@ -30,11 +30,11 @@ MD.Ratio.P ::= type of Ratio.NN where topic > 0.0 default 1.0;
    various syntaxes for selecting a Ratio, such as "Int/Int". */
 
 MD.Ratio.select_Ratio ::= function
-    (Ratio <-- 0|numerator : Integer, 1|denominator : Integer)
+    --> Ratio <-- (0|numerator : Integer, 1|denominator : Integer)
     requires (.1 != 0)
     : normal($Ratio => \%{ numerator : .0, denominator : .1 });
 
-MD.Ratio.normal ::= function (Ratio <-- Anormal_Ratio)
+MD.Ratio.normal ::= function --> Ratio <-- (Anormal_Ratio)
 : (
     an ::= .0.>numerator;
     ad ::= .0.>denominator;
@@ -55,7 +55,7 @@ MD.Ratio.normal ::= function (Ratio <-- Anormal_Ratio)
 /*************************************************************************/
 
 MD.Ratio."<=>"|order ::= function
-    (Order <-- 0|lhs : Ratio, 1|rhs : Ratio)
+    --> Order <-- (0|lhs : Ratio, 1|rhs : Ratio)
     implements Ordered."<=>"
 : (
     if .0.>denominator = .1.>denominator then
@@ -73,21 +73,21 @@ MD.Ratio."<=>"|order ::= function
 /*************************************************************************/
 
 MD.Ratio.monadic."-"|opposite|additive_inverse ::= function
-    (Ratio <-- Ratio) implements Numeric.monadic."-"
+    --> Ratio <-- (Ratio) implements Numeric.monadic."-"
     : $Ratio => \%{ numerator : -.0.>numerator,
         denominator : .0.>denominator };
 
 MD.Ratio.reciprocal|multiplicative_inverse ::= function
-    (Ratio <-- Ratio) requires (.0 != 0.0) implements Numeric.reciprocal
+    --> Ratio <-- (Ratio) requires (.0 != 0.0) implements Numeric.reciprocal
     : select_Ratio( .0.>denominator, .0.>numerator );
 
-MD.Ratio.abs|modulus ::= function (Ratio.NN <-- Ratio)
+MD.Ratio.abs|modulus ::= function --> Ratio.NN <-- (Ratio)
     implements Numeric.abs
     : $Ratio => \%{ numerator : abs(.0.>numerator),
         denominator : .0.>denominator };
 
 MD.Ratio."+"|plus|add|sum ::= function
-    (Ratio <-- 0|augend : Ratio, 1|addend : Ratio)
+    --> Ratio <-- (0|augend : Ratio, 1|addend : Ratio)
     implements Numeric."+" is {commutative,associative} identity 0.0
 : (
     if .0.>denominator = .1.>denominator then
@@ -106,27 +106,27 @@ MD.Ratio."+"|plus|add|sum ::= function
 );
 
 MD.Ratio."-"|minus|subtract|diff|difference ::= function
-    (Ratio <-- 0|minuend : Ratio, 1|subtrahend : Ratio)
+    --> Ratio <-- (0|minuend : Ratio, 1|subtrahend : Ratio)
     implements Numeric."-" : .0 + -.1;
 
 MD.Ratio."|-|"|abs_minus|abs_diff ::= function
-    (Ratio.NN <-- 0|minuend : Ratio, 1|subtrahend : Ratio)
+    --> Ratio.NN <-- (0|minuend : Ratio, 1|subtrahend : Ratio)
     implements Numeric."|-|" : abs(.0 + -.1);
 
 MD.Ratio."*"|times|multiply|product ::= function
-    (Ratio <-- 0|multiplicand : Ratio, 1|multiplier : Ratio)
+    --> Ratio <-- (0|multiplicand : Ratio, 1|multiplier : Ratio)
     implements Numeric."*" is {commutative,associative} identity 1.0
     : select_Ratio( .0.>numerator * .1.>numerator,
         .0.>denominator * .1.>denominator );
 
 MD.Ratio."/"|frac_divide|frac_quotient ::= function
-    (Ratio <-- 0|dividend : Ratio, 1|divisor : Ratio)
+    --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio)
     requires (.1 != 0.0)
     implements Numeric."/"
     : .0 * reciprocal(.1);
 
 MD.Ratio.div|whole_divide|whole_quotient ::= function
-    (Ratio <-- 0|dividend : Ratio, 1|divisor : Ratio,
+    --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio,
         round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.div
 : (
@@ -149,14 +149,14 @@ MD.Ratio.div|whole_divide|whole_quotient ::= function
 );
 
 MD.Ratio.mod|modulo|remainder ::= function
-    (Ratio <-- 0|dividend : Ratio, 1|divisor : Ratio,
+    --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio,
         round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.mod
     : (.0 - (.1 * div(*topic)));
 
 MD.Ratio.divide_and_modulo|quot_and_rem ::= function
-    (type of Tuple where (has_attrs(topic,\%{ quotient : $Ratio,
+    --> type of Tuple where (has_attrs(topic,\%{ quotient : $Ratio,
         remainder : $Ratio })) <--
-        0|dividend : Ratio, 1|divisor : Ratio, round_meth : Round_Meth)
+        (0|dividend : Ratio, 1|divisor : Ratio, round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.divide_and_modulo
     : (\%{ quotient : div(*topic), remainder : mod(*topic) });

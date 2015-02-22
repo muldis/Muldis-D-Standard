@@ -18,7 +18,7 @@ MD.String.P ::= type of String.NN where (every_elem_isa(topic,$Integer.P));
 /*************************************************************************/
 
 MD.String."<=>"|order ::= function
-    (Order <-- 0|lhs : String, 1|rhs : String)
+    --> Order <-- (0|lhs : String, 1|rhs : String)
     implements Ordered."<=>"
 : (
        .0 = .1            ?? $=>Same
@@ -28,23 +28,23 @@ MD.String."<=>"|order ::= function
 
 /*************************************************************************/
 
-MD.String.is_empty ::= function (Boolean <-- String) : topic = \+[];
+MD.String.is_empty ::= function --> Boolean <-- (String) : topic = \+[];
 
-MD.String.is_not_empty ::= function (Boolean <-- String) : topic != \+[];
+MD.String.is_not_empty ::= function --> Boolean <-- (String) : topic != \+[];
 
-MD.String.first_elem ::= function (Universal <-- String)
+MD.String.first_elem ::= function --> Universal <-- (String)
     requires topic != \+[] : ...;
 
-MD.String.nonfirst_elems ::= function (String <-- String)
+MD.String.nonfirst_elems ::= function --> String <-- (String)
     requires topic != \+[] : ...;
 
 MD.String."#"|count|cardinality ::= function
-    (Integer.NN <-- String) : ...;
+    --> Integer.NN <-- (String) : ...;
 
 MD.String.elem ::= function
-    (Universal <-- 0|string : String, 1|index : Integer.NN)
+    --> Universal <-- (0|string : String, 1|index : Integer.NN)
     requires ... : ...;
 
 MD.String.every_elem_isa ::= function
-    (Boolean <-- 0|string : String, 1|type : SC_Reference)
+    --> Boolean <-- (0|string : String, 1|type : SC_Reference)
     : \*^[every_elem_isa,.0,.1];

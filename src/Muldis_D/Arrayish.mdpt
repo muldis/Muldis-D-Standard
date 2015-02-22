@@ -16,7 +16,7 @@ MD.Array ::= synonym of ::MDLL.Array composes Arrayish;
    than for equality but there is no "<=>" defined for their type. */
 
 MD.Array."<=>"|order ::= function
-    (Order <-- 0|lhs : Array, 1|rhs : Array)
+    --> Order <-- (0|lhs : Array, 1|rhs : Array)
     implements Ordered."<=>"
 : (
        is_empty(.0) ?? (is_empty(.1) ?? $=>Same !! $=>Less)
@@ -28,27 +28,27 @@ MD.Array."<=>"|order ::= function
 
 /*************************************************************************/
 
-MD.Array.is_empty ::= function (Boolean <-- Array)
+MD.Array.is_empty ::= function --> Boolean <-- (Array)
     : ::MDLL.Universal.is_empty(*::MDLL.Structure.payload(*.0));
 
-MD.Array.is_not_empty ::= function (Boolean <-- Array)
+MD.Array.is_not_empty ::= function --> Boolean <-- (Array)
     : !is_empty(.0);
 
-MD.Array.first_elem ::= function (Universal <-- Array)
+MD.Array.first_elem ::= function --> Universal <-- (Array)
     requires (is_not_empty(.0)) : ::MDLL.Universal.first(*::MDLL.Structure.payload(*.0));
 
-MD.Array.nonfirst_elems ::= function (Array <-- Array)
+MD.Array.nonfirst_elems ::= function --> Array <-- (Array)
     requires (is_not_empty(.0)) : ...;
 
 MD.Array."#"|count|cardinality ::= function
-    (Integer.NN <-- Array) : ...;
+    --> Integer.NN <-- (Array) : ...;
 
 /* Note that the ".[]" syntax is implemented using this function. */
 
 MD.Array.elem ::= function
-    (Universal <-- 0|array : Array, 1|index : Integer.NN)
+    --> Universal <-- (0|array : Array, 1|index : Integer.NN)
     requires ... : ...;
 
 MD.Array.every_elem_isa ::= function
-    (Boolean <-- 0|array : Array, 1|type : SC_Reference)
+    --> Boolean <-- (0|array : Array, 1|type : SC_Reference)
     : ::MDLL.Universal.every_elem_isa(*\*:[::MDLL.Structure.payload(*.0),.1]);

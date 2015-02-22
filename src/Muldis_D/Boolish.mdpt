@@ -14,7 +14,7 @@ MD.Bool ::= synonym of Boolean;
 /*************************************************************************/
 
 MD.Boolean."<=>"|order ::= function
-    (Order <-- 0|lhs : Boolean, 1|rhs : Boolean)
+    --> Order <-- (0|lhs : Boolean, 1|rhs : Boolean)
     implements Ordered."<=>"
 : (
        .0 = .1 ?? $=>Same
@@ -44,24 +44,24 @@ MD.Boolean.true|tautology ::= constant true
 
 /*************************************************************************/
 
-MD.Boolean.so|"?"|proposition ::= function (Boolean <-- Boolean)
+MD.Boolean.so|"?"|proposition ::= function --> Boolean <-- (Boolean)
     implements Boolish.so : .0;
 
 /* Note that "not"|"!" is a meta-keyword; this function is a shim over it. */
 
-MD.Boolean.not|"!"|negation ::= function (Boolean <-- Boolean)
+MD.Boolean.not|"!"|negation ::= function --> Boolean <-- (Boolean)
     implements Boolish.not : !.0;
 
 /*************************************************************************/
 
 MD.Boolean.and|all|every|conjunction ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.and
     is {commutative,associative,idempotent} identity true
     : (.0 ?? .1 !! false);
 
 MD.Boolean.nand|not_and|not_both|alternative_denial ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.nand
     is {commutative}
     : (.0 !and .1);
@@ -69,13 +69,13 @@ MD.Boolean.nand|not_and|not_both|alternative_denial ::= function
 /*************************************************************************/
 
 MD.Boolean.or|any|some|disjunction ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.or
     is {commutative,associative,idempotent} identity false
     : (.0 ?? true !! .1);
 
 MD.Boolean.nor|not_or|joint_denial ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.nor
     is {commutative}
     : (.0 !or .1);
@@ -83,13 +83,13 @@ MD.Boolean.nor|not_or|joint_denial ::= function
 /*************************************************************************/
 
 MD.Boolean.xnor|iff|biconditional|material_equivalence ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.xnor
     is {commutative,associative} identity true
     : (.0 = .1);
 
 MD.Boolean.xor|exclusive_disjunction ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.xor
     is {commutative,associative} identity false
     : (.0 != .1);
@@ -97,12 +97,12 @@ MD.Boolean.xor|exclusive_disjunction ::= function
 /*************************************************************************/
 
 MD.Boolean.imp|implies|material_implication ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.imp
     : (.0 ?? .1 !! true);
 
 MD.Boolean.nimp|not_implies|material_nonimplication ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.nimp
     : (.0 !imp .1);
 
@@ -111,12 +111,12 @@ MD.Boolean.nimp|not_implies|material_nonimplication ::= function
 /* Note that "if" is also a keyword, but its meaning differs. */
 
 MD.Boolean.if|converse_implication ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.if
     : (.1 imp .0);
 
 MD.Boolean.nif|not_if|converse_nonimplication ::= function
-    (Boolean <-- Boolean, Boolean)
+    --> Boolean <-- (Boolean, Boolean)
     implements Boolish.nif
     : (.1 nimp .0);
 
