@@ -17,8 +17,7 @@ MD.Integer.P ::= type of Integer.NN where topic > 0 default 1;
 
 /*************************************************************************/
 
-MD.Integer."<=>" ::= function
-    --> Order <-- (0|lhs : Integer, 1|rhs : Integer)
+MD.Integer."<=>" ::= function --> Order <-- (Integer, Integer)
     implements Ordered."<=>"
 : (
        .0 = .1                     ?? $=>Same

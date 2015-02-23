@@ -15,8 +15,7 @@ MD.Array ::= synonym of ::MDLL.Array composes Arrayish;
 /* Note that this will die if any array elements need to be compared other
    than for equality but there is no "<=>" defined for their type. */
 
-MD.Array."<=>" ::= function
-    --> Order <-- (0|lhs : Array, 1|rhs : Array)
+MD.Array."<=>" ::= function --> Order <-- (Array, Array)
     implements Ordered."<=>"
 : (
        is_empty(.0) ?? (is_empty(.1) ?? $=>Same !! $=>Less)

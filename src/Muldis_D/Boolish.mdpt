@@ -13,8 +13,7 @@ MD.Bool ::= synonym of Boolean;
 
 /*************************************************************************/
 
-MD.Boolean."<=>" ::= function
-    --> Order <-- (0|lhs : Boolean, 1|rhs : Boolean)
+MD.Boolean."<=>" ::= function --> Order <-- (Boolean, Boolean)
     implements Ordered."<=>"
 : (
        .0 = .1 ?? $=>Same

@@ -17,8 +17,7 @@ MD.String.P ::= type of String.NN where (every_elem_isa(topic,$Integer.P));
 
 /*************************************************************************/
 
-MD.String."<=>" ::= function
-    --> Order <-- (0|lhs : String, 1|rhs : String)
+MD.String."<=>" ::= function --> Order <-- (String, String)
     implements Ordered."<=>"
 : (
        .0 = .1            ?? $=>Same

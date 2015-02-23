@@ -54,8 +54,7 @@ MD.Ratio.normal ::= function --> Ratio <-- (Anormal_Ratio)
 
 /*************************************************************************/
 
-MD.Ratio."<=>" ::= function
-    --> Order <-- (0|lhs : Ratio, 1|rhs : Ratio)
+MD.Ratio."<=>" ::= function --> Order <-- (Ratio, Ratio)
     implements Ordered."<=>"
 : (
     if .0.>denominator = .1.>denominator then
