@@ -14,9 +14,9 @@ MD.Ordinal ::= abstract_type composes Ordered;
 
 MD.Order ::= Less|Same|More default $=>Same;
 
-MD.Order.Less ::= singleton_type;
-MD.Order.Same ::= singleton_type;
-MD.Order.More ::= singleton_type;
+MD.Order.Less ::= type singleton;
+MD.Order.Same ::= type singleton;
+MD.Order.More ::= type singleton;
 
 /*************************************************************************/
 

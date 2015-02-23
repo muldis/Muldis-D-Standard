@@ -14,12 +14,12 @@ MD.Numeric.Round_Meth ::=
     |Half_Even
     default $=>To_Zero;
 
-MD.Numeric.Round_Meth.Down         ::= singleton_type;
-MD.Numeric.Round_Meth.Up           ::= singleton_type;
-MD.Numeric.Round_Meth.To_Zero      ::= singleton_type;
-MD.Numeric.Round_Meth.To_Inf       ::= singleton_type;
-MD.Numeric.Round_Meth.Half_Down    ::= singleton_type;
-MD.Numeric.Round_Meth.Half_Up      ::= singleton_type;
-MD.Numeric.Round_Meth.Half_To_Zero ::= singleton_type;
-MD.Numeric.Round_Meth.Half_To_Inf  ::= singleton_type;
-MD.Numeric.Round_Meth.Half_Even    ::= singleton_type;
+MD.Numeric.Round_Meth.Down         ::= type singleton;
+MD.Numeric.Round_Meth.Up           ::= type singleton;
+MD.Numeric.Round_Meth.To_Zero      ::= type singleton;
+MD.Numeric.Round_Meth.To_Inf       ::= type singleton;
+MD.Numeric.Round_Meth.Half_Down    ::= type singleton;
+MD.Numeric.Round_Meth.Half_Up      ::= type singleton;
+MD.Numeric.Round_Meth.Half_To_Zero ::= type singleton;
+MD.Numeric.Round_Meth.Half_To_Inf  ::= type singleton;
+MD.Numeric.Round_Meth.Half_Even    ::= type singleton;

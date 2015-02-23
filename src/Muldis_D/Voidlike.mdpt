@@ -6,11 +6,11 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Voidlike;
 
 MD.Voidlike ::= abstract_type;
 
-MD.Voidlike.Void ::= singleton_type composes Voidlike;
+MD.Voidlike.Void ::= type singleton composes Voidlike;
 
-MD.Voidlike.Unknown ::= singleton_type composes Voidlike;
+MD.Voidlike.Unknown ::= type singleton composes Voidlike;
 
-MD.Voidlike.Not_Applicable ::= singleton_type composes Voidlike;
+MD.Voidlike.Not_Applicable ::= type singleton composes Voidlike;
 
 /*************************************************************************/
 

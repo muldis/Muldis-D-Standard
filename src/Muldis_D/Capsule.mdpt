@@ -49,7 +49,7 @@ MD.Capsule.has_just_attrs ::= function --> Boolean <-- (Capsule, SC_Attrs_Spec)
 
 /*************************************************************************/
 
-/* Note that due to the singleton_type keyword existing, it is unlikely
+/* Note that due to the 'type singleton' keyword existing, it is unlikely
    that anyone would actually declare types with "type of Singleton";
    however "Singleton" might still be used in some constraints. */
 
