@@ -17,7 +17,7 @@ MD.Integer.P ::= type of Integer.NN where topic > 0 default 1;
 
 /*************************************************************************/
 
-MD.Integer."<=>"|order ::= function
+MD.Integer."<=>" ::= function
     --> Order <-- (0|lhs : Integer, 1|rhs : Integer)
     implements Ordered."<=>"
 : (
@@ -26,53 +26,87 @@ MD.Integer."<=>"|order ::= function
     !!                                $=>More
 );
 
+MD.Integer.order ::= synonym of "<=>";
+
 /*************************************************************************/
 
-MD.Integer."--"|pred|dec ::= function --> Integer <-- (Integer)
+MD.Integer."--" ::= function --> Integer <-- (Integer)
     implements Ordinal."--" : (.0 - 1);
 
-MD.Integer."++"|succ|inc ::= function --> Integer <-- (Integer)
+MD.Integer.pred ::= synonym of "--";
+MD.Integer.dec  ::= synonym of "--";
+
+MD.Integer."++" ::= function --> Integer <-- (Integer)
     implements Ordinal."++" : (.0 + 1);
+
+MD.Integer.succ ::= synonym of "++";
+MD.Integer.inc  ::= synonym of "++";
 
 /*************************************************************************/
 
-MD.Integer.monadic."-"|opposite|additive_inverse ::= function
+MD.Integer.monadic."-" ::= function
     --> Integer <-- (Integer) implements Numeric.monadic."-"
     : \*^[Integer_opposite,.0];
 
-MD.Integer.reciprocal|multiplicative_inverse ::= function
+MD.Integer.opposite         ::= synonym of monadic."-";
+MD.Integer.additive_inverse ::= synonym of monadic."-";
+
+MD.Integer.reciprocal ::= function
     --> Ratio <-- (Integer) requires (.0 != 0) implements Numeric.reciprocal
     : select_Ratio(1,.0);
 
-MD.Integer.abs|modulus ::= function --> Integer.NN <-- (Integer)
+MD.Integer.multiplicative_inverse ::= synonym of reciprocal;
+
+MD.Integer.abs ::= function --> Integer.NN <-- (Integer)
     implements Numeric.abs
     : \*^[Integer_abs,.0];
 
-MD.Integer."+"|plus|add|sum ::= function
+MD.Integer.modulus ::= synonym of abs;
+
+MD.Integer."+" ::= function
     --> Integer <-- (0|augend : Integer, 1|addend : Integer)
     implements Numeric."+" is {commutative,associative} identity 0
     : \*^[Integer_plus,.0,.1];
 
-MD.Integer."-"|minus|subtract|diff|difference ::= function
+MD.Integer.plus ::= synonym of "+";
+MD.Integer.add  ::= synonym of "+";
+MD.Integer.sum  ::= synonym of "+";
+
+MD.Integer."-" ::= function
     --> Integer <-- (0|minuend : Integer, 1|subtrahend : Integer)
     implements Numeric."-" : \*^[Integer_minus,.0,.1];
 
-MD.Integer."|-|"|abs_minus|abs_diff ::= function
+MD.Integer.minus      ::= synonym of "-";
+MD.Integer.subtract   ::= synonym of "-";
+MD.Integer.diff       ::= synonym of "-";
+MD.Integer.difference ::= synonym of "-";
+
+MD.Integer."|-|" ::= function
     --> Integer.NN <-- (0|minuend : Integer, 1|subtrahend : Integer)
     implements Numeric."|-|" : abs(.0 + -.1);
 
-MD.Integer."*"|times|multiply|product ::= function
+MD.Integer.abs_diff  ::= synonym of "|-|";
+MD.Integer.abs_minus ::= synonym of "|-|";
+
+MD.Integer."*" ::= function
     --> Integer <-- (0|multiplicand : Integer, 1|multiplier : Integer)
     implements Numeric."*" is {commutative,associative} identity 1
     : \*^[Integer_times,.0,.1];
 
-MD.Integer."/"|frac_divide|frac_quotient ::= function
+MD.Integer.times    ::= synonym of "*";
+MD.Integer.multiply ::= synonym of "*";
+MD.Integer.product  ::= synonym of "*";
+
+MD.Integer."/" ::= function
     --> Ratio <-- (0|dividend : Integer, 1|divisor : Integer)
     requires (.1 != 0)
     implements Numeric."/"
     : select_Ratio(.0,.1);
 
-MD.Integer.div|whole_divide|whole_quotient ::= function
+MD.Integer.frac_divide   ::= synonym of "/";
+MD.Integer.frac_quotient ::= synonym of "/";
+
+MD.Integer.div ::= function
     --> Integer <-- (0|dividend : Integer, 1|divisor : Integer,
         round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.div
@@ -154,24 +188,36 @@ MD.Integer.div|whole_divide|whole_quotient ::= function
       )
 );
 
-MD.Integer.mod|modulo|remainder ::= function
+MD.Integer.whole_divide   ::= synonym of div;
+MD.Integer.whole_quotient ::= synonym of div;
+
+MD.Integer.mod ::= function
     --> Integer <-- (0|dividend : Integer, 1|divisor : Integer,
         round_meth : Round_Meth)
-    requires (.1 != 0) implements Numeric.mod : (.0 - (.1 * div(*topic)));
+    requires (.1 != 0) implements Numeric.mod
+    : (.0 - (.1 * div(*topic)));
 
-MD.Integer.divide_and_modulo|quot_and_rem ::= function
+MD.Integer.modulo    ::= synonym of mod;
+MD.Integer.remainder ::= synonym of mod;
+
+MD.Integer.divide_and_modulo ::= function
     --> type of Tuple where (has_attrs(topic,\%{ quotient : $Integer,
         remainder : $Integer })) <--
         (0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
     requires (.1 != 0) implements Numeric.divide_and_modulo
     : (\%{ quotient : div(*topic), remainder : mod(*topic) });
 
+MD.Integer.quot_and_rem ::= synonym of divide_and_modulo;
+
 /*************************************************************************/
 
-MD.Integer.power|exp|exponentiate ::= function
+MD.Integer.power ::= function
     --> Integer <-- (0|base|radix : Integer, 1|exponent : Integer)
     requires (.1 >= 0)
     implements Numeric.power : \*^[Integer_power,.0,.1];
+
+MD.Integer.exp          ::= synonym of power;
+MD.Integer.exponentiate ::= synonym of power;
 
 MD.Integer.factorial ::= function --> Integer.P <-- (Integer.P)
     : \*^[Integer_factorial,.0,.1];
@@ -182,14 +228,18 @@ MD.Integer.factorial ::= function --> Integer.P <-- (Integer.P)
 
 /* Calculate using the Euclidean algorithm. */
 
-MD.Integer.gcd|greatest_common_divisor ::= function
+MD.Integer.gcd ::= function
     --> Integer.NN <-- (Integer.NN, Integer.NN)
     is {commutative,associative,idempotent} identity 0
     : (.0 = .1 ?? .0 !! .1 = 0 ?? .0
         !! 0( .1, mod( .0, .1, round_meth : $=>To_Zero ) ));
 
-MD.Integer.lcm|least_common_multiple ::= function
+MD.Integer.greatest_common_divisor ::= synonym of gcd;
+
+MD.Integer.lcm ::= function
     --> Integer.NN <-- (Integer.NN, Integer.NN)
     is {commutative,associative,idempotent}
     : (.0 = .1 ?? .0 !! .0 = 0 and .1 = 0 ?? 0
         !! div( .0 * .1, gcd(.0,.1), round_meth : $=>To_Zero ));
+
+MD.Integer.least_common_multiple ::= synonym of lcm;

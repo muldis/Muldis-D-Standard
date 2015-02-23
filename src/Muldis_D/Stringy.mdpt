@@ -17,7 +17,7 @@ MD.String.P ::= type of String.NN where (every_elem_isa(topic,$Integer.P));
 
 /*************************************************************************/
 
-MD.String."<=>"|order ::= function
+MD.String."<=>" ::= function
     --> Order <-- (0|lhs : String, 1|rhs : String)
     implements Ordered."<=>"
 : (
@@ -25,6 +25,8 @@ MD.String."<=>"|order ::= function
     !! ... ?? $=>Less
     !!                       $=>More
 );
+
+MD.String.order ::= synonym of "<=>";
 
 /*************************************************************************/
 
@@ -38,8 +40,11 @@ MD.String.first_elem ::= function --> Universal <-- (String)
 MD.String.nonfirst_elems ::= function --> String <-- (String)
     requires topic != \+[] : ...;
 
-MD.String."#"|count|cardinality ::= function
+MD.String."#" ::= function
     --> Integer.NN <-- (String) : ...;
+
+MD.String.count       ::= synonym of "#";
+MD.String.cardinality ::= synonym of "#";
 
 MD.String.elem ::= function
     --> Universal <-- (0|string : String, 1|index : Integer.NN)

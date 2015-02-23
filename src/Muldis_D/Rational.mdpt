@@ -54,7 +54,7 @@ MD.Ratio.normal ::= function --> Ratio <-- (Anormal_Ratio)
 
 /*************************************************************************/
 
-MD.Ratio."<=>"|order ::= function
+MD.Ratio."<=>" ::= function
     --> Order <-- (0|lhs : Ratio, 1|rhs : Ratio)
     implements Ordered."<=>"
 : (
@@ -70,23 +70,32 @@ MD.Ratio."<=>"|order ::= function
       )
 );
 
+MD.Ratio.order ::= synonym of "<=>";
+
 /*************************************************************************/
 
-MD.Ratio.monadic."-"|opposite|additive_inverse ::= function
+MD.Ratio.monadic."-" ::= function
     --> Ratio <-- (Ratio) implements Numeric.monadic."-"
     : $Ratio => \%{ numerator : -.0.>numerator,
         denominator : .0.>denominator };
 
-MD.Ratio.reciprocal|multiplicative_inverse ::= function
+MD.Ratio.opposite         ::= synonym of monadic."-";
+MD.Ratio.additive_inverse ::= synonym of monadic."-";
+
+MD.Ratio.reciprocal ::= function
     --> Ratio <-- (Ratio) requires (.0 != 0.0) implements Numeric.reciprocal
     : select_Ratio( .0.>denominator, .0.>numerator );
 
-MD.Ratio.abs|modulus ::= function --> Ratio.NN <-- (Ratio)
+MD.Ratio.multiplicative_inverse ::= synonym of reciprocal;
+
+MD.Ratio.abs ::= function --> Ratio.NN <-- (Ratio)
     implements Numeric.abs
     : $Ratio => \%{ numerator : abs(.0.>numerator),
         denominator : .0.>denominator };
 
-MD.Ratio."+"|plus|add|sum ::= function
+MD.Ratio.modulus ::= synonym of abs;
+
+MD.Ratio."+" ::= function
     --> Ratio <-- (0|augend : Ratio, 1|addend : Ratio)
     implements Numeric."+" is {commutative,associative} identity 0.0
 : (
@@ -105,27 +114,46 @@ MD.Ratio."+"|plus|add|sum ::= function
       )
 );
 
-MD.Ratio."-"|minus|subtract|diff|difference ::= function
+MD.Ratio.plus ::= synonym of "+";
+MD.Ratio.add  ::= synonym of "+";
+MD.Ratio.sum  ::= synonym of "+";
+
+MD.Ratio."-" ::= function
     --> Ratio <-- (0|minuend : Ratio, 1|subtrahend : Ratio)
     implements Numeric."-" : .0 + -.1;
 
-MD.Ratio."|-|"|abs_minus|abs_diff ::= function
+MD.Ratio.minus      ::= synonym of "-";
+MD.Ratio.subtract   ::= synonym of "-";
+MD.Ratio.diff       ::= synonym of "-";
+MD.Ratio.difference ::= synonym of "-";
+
+MD.Ratio."|-|" ::= function
     --> Ratio.NN <-- (0|minuend : Ratio, 1|subtrahend : Ratio)
     implements Numeric."|-|" : abs(.0 + -.1);
 
-MD.Ratio."*"|times|multiply|product ::= function
+MD.Ratio.abs_diff  ::= synonym of "|-|";
+MD.Ratio.abs_minus ::= synonym of "|-|";
+
+MD.Ratio."*" ::= function
     --> Ratio <-- (0|multiplicand : Ratio, 1|multiplier : Ratio)
     implements Numeric."*" is {commutative,associative} identity 1.0
     : select_Ratio( .0.>numerator * .1.>numerator,
         .0.>denominator * .1.>denominator );
 
-MD.Ratio."/"|frac_divide|frac_quotient ::= function
+MD.Ratio.times    ::= synonym of "*";
+MD.Ratio.multiply ::= synonym of "*";
+MD.Ratio.product  ::= synonym of "*";
+
+MD.Ratio."/" ::= function
     --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio)
     requires (.1 != 0.0)
     implements Numeric."/"
     : .0 * reciprocal(.1);
 
-MD.Ratio.div|whole_divide|whole_quotient ::= function
+MD.Ratio.frac_divide   ::= synonym of "/";
+MD.Ratio.frac_quotient ::= synonym of "/";
+
+MD.Ratio.div ::= function
     --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio,
         round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.div
@@ -142,21 +170,29 @@ MD.Ratio.div|whole_divide|whole_quotient ::= function
     scaled_n1 ::= orig_n1 * orig_d;
 
     /* Use regular Integer whole_divide semantics on the numerators. */
-    scaled_q ::= div(scaled_n0, scaled_n1, round_meth : .round_meth));
+    scaled_q ::= div(scaled_n0, scaled_n1, round_meth : .round_meth);
 
     /* Result still of the Ratio type even though its a whole number. */
     <-- select_Ratio( scaled_q, 1 );
 );
 
-MD.Ratio.mod|modulo|remainder ::= function
+MD.Ratio.whole_divide   ::= synonym of div;
+MD.Ratio.whole_quotient ::= synonym of div;
+
+MD.Ratio.mod ::= function
     --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio,
         round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.mod
     : (.0 - (.1 * div(*topic)));
 
-MD.Ratio.divide_and_modulo|quot_and_rem ::= function
+MD.Ratio.modulo    ::= synonym of mod;
+MD.Ratio.remainder ::= synonym of mod;
+
+MD.Ratio.divide_and_modulo ::= function
     --> type of Tuple where (has_attrs(topic,\%{ quotient : $Ratio,
         remainder : $Ratio })) <--
         (0|dividend : Ratio, 1|divisor : Ratio, round_meth : Round_Meth)
     requires (.1 != 0.0) implements Numeric.divide_and_modulo
     : (\%{ quotient : div(*topic), remainder : mod(*topic) });
+
+MD.Ratio.quot_and_rem ::= synonym of divide_and_modulo;

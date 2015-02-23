@@ -12,22 +12,28 @@ MD.Empty ::= type of Universal where false;
 
 /* Note that "=" is a keyword; this function is a shim over it. */
 
-MD.Universal."="|same ::= function
+MD.Universal."=" ::= function
     --> Boolean <-- (Universal, Universal) is {commutative} : (.0 = .1);
+
+MD.Universal.same ::= synonym of "=";
 
 /*************************************************************************/
 
 /* Note that "!" is a meta-keyword; this function is a shim over it. */
 
-MD.Universal."!="|not_same ::= function
+MD.Universal."!=" ::= function
     --> Boolean <-- (Universal, Universal) is {commutative} : (.0 != .1);
+
+MD.Universal.not_same ::= synonym of "!=";
 
 /*************************************************************************/
 
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
-MD.Universal.isa|value_of ::= function
+MD.Universal.isa ::= function
     --> Boolean <-- (Universal, SC_Reference) : (.0 isa .1);
+
+MD.Universal.value_of ::= synonym of isa;
 
 /*************************************************************************/
 

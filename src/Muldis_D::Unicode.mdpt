@@ -51,15 +51,18 @@ UC.Boolean."¬" ::= synonym of not;
 
 UC.Boolean."∧" ::= synonym of and;
 
-UC.Boolean."⊼"|"↑" ::= synonym of nand;
+UC.Boolean."⊼" ::= synonym of nand;
+UC.Boolean."↑" ::= synonym of nand;
 
 UC.Boolean."∨" ::= synonym of or;
 
-UC.Boolean."⊽"|"↓" ::= synonym of nor;
+UC.Boolean."⊽" ::= synonym of nor;
+UC.Boolean."↓" ::= synonym of nor;
 
 UC.Boolean."↔" ::= synonym of xnor;
 
-UC.Boolean."⊻"|"↮" ::= synonym of xor;
+UC.Boolean."⊻" ::= synonym of xor;
+UC.Boolean."↮" ::= synonym of xor;
 
 UC.Boolean."→" ::= synonym of imp;
 

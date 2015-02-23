@@ -15,7 +15,7 @@ MD.Array ::= synonym of ::MDLL.Array composes Arrayish;
 /* Note that this will die if any array elements need to be compared other
    than for equality but there is no "<=>" defined for their type. */
 
-MD.Array."<=>"|order ::= function
+MD.Array."<=>" ::= function
     --> Order <-- (0|lhs : Array, 1|rhs : Array)
     implements Ordered."<=>"
 : (
@@ -25,6 +25,8 @@ MD.Array."<=>"|order ::= function
         ?? 0(nonfirst_elems(.0),nonfirst_elems(.1))
     !! first_elem(.0) <=> first_elem(.1)
 );
+
+MD.Array.order ::= synonym of "<=>";
 
 /*************************************************************************/
 
@@ -40,8 +42,11 @@ MD.Array.first_elem ::= function --> Universal <-- (Array)
 MD.Array.nonfirst_elems ::= function --> Array <-- (Array)
     requires (is_not_empty(.0)) : ...;
 
-MD.Array."#"|count|cardinality ::= function
+MD.Array."#" ::= function
     --> Integer.NN <-- (Array) : ...;
+
+MD.Array.count       ::= synonym of "#";
+MD.Array.cardinality ::= synonym of "#";
 
 /* Note that the ".[]" syntax is implemented using this function. */
 

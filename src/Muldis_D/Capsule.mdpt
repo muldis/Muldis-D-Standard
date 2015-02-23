@@ -10,26 +10,34 @@ MD.Capsule ::= type of Universal where \*^[isa_Capsule,topic] default ...;
 
 /* Note that "=>" is a keyword; this function is a shim over it. */
 
-MD.Capsule."=>"|select_Capsule ::= function
+MD.Capsule."=>" ::= function
     --> Capsule <-- (0|type : SC_Reference, 1|attrs : Tuple) : .0=>.1;
+
+MD.Capsule.select_Capsule ::= synonym of "=>";
 
 MD.Capsule.Capsule_type ::= function --> SC_Reference <-- (Capsule)
     : \*^[Capsule_type,.0];
 
-MD.Capsule."%"|attrs ::= function --> Tuple <-- (Capsule)
+MD.Capsule."%" ::= function --> Tuple <-- (Capsule)
     : \*^[Capsule_attrs,.0];
+
+MD.Capsule.attrs ::= synonym of "%";
 
 /*************************************************************************/
 
 /* Note that ".>" is a special syntax used like "myrat.>numerator". */
 
-MD.Capsule.".>"|attr ::= function --> Universal <-- (Capsule, SC_Name)
+MD.Capsule.".>" ::= function --> Universal <-- (Capsule, SC_Name)
     : \*^[Capsule_attr,.0,.1];
+
+MD.Capsule.attr ::= synonym of ".>";
 
 /* Note that ".>?" is a special syntax used like "myval.>?myoptattr". */
 
-MD.Capsule.".>?"|has_attr ::= function --> Boolean <-- (Capsule, SC_Name)
+MD.Capsule.".>?" ::= function --> Boolean <-- (Capsule, SC_Name)
     : \*^[Capsule_has_attr,.0,.1];
+
+MD.Capsule.has_attr ::= synonym of ".>?";
 
 /*************************************************************************/
 
