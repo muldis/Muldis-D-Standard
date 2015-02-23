@@ -11,7 +11,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Source_Code;
    subject that each of those types must be a Capsule subtype. */
 
 MD.Source_Code ::=
-    SC_Heading|SC_Renaming|SC_Identifier|...|SC_Package|... default ...;
+    type union {SC_Heading,SC_Renaming,SC_Identifier,...,SC_Package,...} default ...;
 
 MD.Source_Code.Source_Code_Meta.AT ::= abstract_type;
 

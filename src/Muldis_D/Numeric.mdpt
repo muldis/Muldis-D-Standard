@@ -8,10 +8,10 @@ MD.Numeric ::= abstract_type;
 
 /*************************************************************************/
 
-MD.Numeric.Round_Meth ::=
-    Down|Up|To_Zero|To_Inf
-    |Half_Down|Half_Up|Half_To_Zero|Half_To_Inf
-    |Half_Even
+MD.Numeric.Round_Meth ::= type
+    union {Down,Up,To_Zero,To_Inf
+    ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
+    ,Half_Even}
     default $=>To_Zero;
 
 MD.Numeric.Round_Meth.Down         ::= type singleton;

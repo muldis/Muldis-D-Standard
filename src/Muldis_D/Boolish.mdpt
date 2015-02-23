@@ -11,6 +11,9 @@ MD.Boolean ::= type of Universal where \*^[isa_Boolean,topic] default false
 
 MD.Bool ::= synonym of Boolean;
 
+MD.Boolean.False ::= type of Boolean where !topic default false;
+MD.Boolean.True  ::= type of Boolean where topic default true;
+
 /*************************************************************************/
 
 MD.Boolean."<=>" ::= function --> Order <-- (Boolean, Boolean)
@@ -25,13 +28,13 @@ MD.Boolean.order ::= synonym of "<=>";
 
 /*************************************************************************/
 
-MD.Boolean."--" ::= function --> Boolean|"-Inf" <-- (Boolean)
+MD.Boolean."--" ::= function --> type union {False,"-Inf"} <-- (Boolean)
     implements Ordinal."--" : (.0 ?? false !! $=>"-Inf");
 
 MD.Boolean.pred ::= synonym of "--";
 MD.Boolean.dec  ::= synonym of "--";
 
-MD.Boolean."++" ::= function --> Boolean|"+Inf" <-- (Boolean)
+MD.Boolean."++" ::= function --> type union {True,"+Inf"} <-- (Boolean)
     implements Ordinal."++" : (!.0 ?? true !! $=>"+Inf");
 
 MD.Boolean.succ ::= synonym of "++";

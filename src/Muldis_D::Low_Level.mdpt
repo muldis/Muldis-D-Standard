@@ -268,8 +268,8 @@ MDLL.Structure.Structure_Base ::= type of Pair_of_Universal
     where (first(*topic) isa $Natural);
 
 MDLL.Structure ::=
-    Integer|String|Array|Heading|Renaming|Tuple
-    |Relation|Identifier|Capsule|Stream|External
+    type union {Integer,String,Array,Heading,Renaming,Tuple
+    ,Relation,Identifier,Capsule,Stream,External}
     default false();
 
 MDLL.Structure.structure_kind ::= function
