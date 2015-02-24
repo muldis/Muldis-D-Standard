@@ -7,7 +7,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Integral;
 MD.Integral ::= type abstract composes Numeric;
 
 MD.Integer ::= type of Universal where \*^[isa_Integer,topic] default 0 
-    composes Integral composes Cardinal composes Ordinal;
+    composes {Integral,Cardinal,Ordinal};
 
 MD.Integer.Int ::= synonym of Integer;
 

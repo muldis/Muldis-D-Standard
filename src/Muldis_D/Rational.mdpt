@@ -16,7 +16,7 @@ MD.Anormal_Ratio ::= type of Capsule
         })
     )
     default 0.0
-    composes Rational composes Cardinal composes Ordered;
+    composes {Rational,Cardinal,Ordered};
 
 MD.Ratio ::= type of Anormal_Ratio where normal(topic) = topic;
 
