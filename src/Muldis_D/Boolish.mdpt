@@ -4,10 +4,10 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Boolish;
 
 /*************************************************************************/
 
-MD.Boolish ::= type abstract composes Ordinal;
+MD.Boolish ::= type abstract composes Ordinal and_provides_its_default;
 
 MD.Boolean ::= type of Universal where \*^[isa_Boolean,topic] default false
-    composes Boolish;
+    composes Boolish and_provides_its_default;
 
 MD.Bool ::= synonym of Boolean;
 

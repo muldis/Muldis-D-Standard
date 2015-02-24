@@ -6,9 +6,9 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Orderable;
 
 MD.Orderable ::= type abstract;
 
-MD.Ordered ::= type abstract composes Orderable;
+MD.Ordered ::= type abstract composes Orderable and_provides_its_default;
 
-MD.Ordinal ::= type abstract composes Ordered;
+MD.Ordinal ::= type abstract composes Ordered and_provides_its_default;
 
 /*************************************************************************/
 

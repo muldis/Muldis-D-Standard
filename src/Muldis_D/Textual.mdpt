@@ -6,7 +6,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Textual;
 
 MD.Textual ::= type abstract composes Ordered;
 
-MD.Text ::= type of Capsule composes Textual
+MD.Text ::= type of Capsule composes Textual and_provides_its_default
     where (has_attrs(topic,\%{ maximal_chars : $String }));
 
 MD.Text.ASCII_Char ::= type of Integer where (topic in 0..127);
