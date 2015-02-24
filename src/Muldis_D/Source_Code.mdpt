@@ -13,7 +13,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Source_Code;
 MD.Source_Code ::=
     type union {SC_Heading,SC_Renaming,SC_Identifier,...,SC_Package,...} default ...;
 
-MD.Source_Code.Source_Code_Meta.AT ::= abstract_type;
+MD.Source_Code.Source_Code_Meta.AT ::= type abstract;
 
 MD.Source_Code.Source_Code_Meta ::= Source_Code_Meta.AT&Capsule;
 

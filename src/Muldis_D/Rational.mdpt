@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Rational;
 
 /*************************************************************************/
 
-MD.Rational ::= abstract_type composes Numeric;
+MD.Rational ::= type abstract composes Numeric;
 
 MD.Anormal_Ratio ::= type of Capsule
     where (

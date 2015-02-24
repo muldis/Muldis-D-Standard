@@ -4,11 +4,11 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Orderable;
 
 /*************************************************************************/
 
-MD.Orderable ::= abstract_type;
+MD.Orderable ::= type abstract;
 
-MD.Ordered ::= abstract_type composes Orderable;
+MD.Ordered ::= type abstract composes Orderable;
 
-MD.Ordinal ::= abstract_type composes Ordered;
+MD.Ordinal ::= type abstract composes Ordered;
 
 /*************************************************************************/
 
@@ -49,4 +49,4 @@ THIS SORTING NOT TO BE CONFUSED WITH GROUPING SO MAYBE SEQUENTIAL BETTER.
 
 SO, RATHER THAN mixin_type, we probably want classify_type or something
 when its really just about semantics, save mixin where it actually declares
-components, I think. --> abstract_type
+components, I think. --> type abstract

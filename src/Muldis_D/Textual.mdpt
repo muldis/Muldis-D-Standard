@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Textual;
 
 /*************************************************************************/
 
-MD.Textual ::= abstract_type composes Ordered;
+MD.Textual ::= type abstract composes Ordered;
 
 MD.Text ::= type of Capsule composes Textual
     where (has_attrs(topic,\%{ maximal_chars : $String }));

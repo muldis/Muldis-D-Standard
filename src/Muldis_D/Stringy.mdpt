@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Stringy;
 
 /*************************************************************************/
 
-MD.Stringy ::= abstract_type composes Ordered;
+MD.Stringy ::= type abstract composes Ordered;
 
 MD.String ::= type of Universal where \*^[isa_String,topic] default \+[]
     composes Stringy;
