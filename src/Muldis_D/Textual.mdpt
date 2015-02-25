@@ -6,8 +6,9 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Textual;
 
 MD.Textual ::= type abstract composes Ordered;
 
-MD.Text ::= type of Capsule composes Textual and_provides_its_default
-    where (has_attrs(topic,\%{ maximal_chars : $String }));
+MD.Text ::= type of Capsule
+    where has_attrs(topic,\%{ maximal_chars : $String })
+    composes Textual and_provides_its_default;
 
 MD.Text.ASCII_Char ::= type of Integer where (topic in 0..127);
 
@@ -23,10 +24,10 @@ MD.Text.maximal_chars ::= function --> String <-- (Text)
     : attr(.0,\~{maximal_chars});
 
 MD.Text.from_maximal_chars ::= function --> Text <-- (String)
-    : (select_Capsule( $Text, \%{ maximal_chars : .0 } ));
+    : select_Capsule( $Text, \%{ maximal_chars : .0 } );
 
 MD.Text.ascii_chars ::= function --> ASCII_Chars <-- (Text.ASCII)
     : maximal_chars(.0);
 
-MD.Text.from_ascii_chars ::= function
-    --> Text.ASCII <-- (ASCII_Chars) : from_maximal_chars(.0);
+MD.Text.from_ascii_chars ::= function --> Text.ASCII <-- (ASCII_Chars)
+    : from_maximal_chars(.0);

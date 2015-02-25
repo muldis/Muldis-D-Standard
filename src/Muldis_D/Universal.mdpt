@@ -12,8 +12,9 @@ MD.Empty ::= type of Universal where false;
 
 /* Note that "=" is a keyword; this function is a shim over it. */
 
-MD.Universal."=" ::= function
-    --> Boolean <-- (Universal, Universal) is {commutative} : (.0 = .1);
+MD.Universal."=" ::= function --> Boolean <-- (Universal, Universal)
+    is {commutative}
+    : (.0 = .1);
 
 MD.Universal.same ::= synonym of "=";
 
@@ -21,8 +22,9 @@ MD.Universal.same ::= synonym of "=";
 
 /* Note that "!" is a meta-keyword; this function is a shim over it. */
 
-MD.Universal."!=" ::= function
-    --> Boolean <-- (Universal, Universal) is {commutative} : (.0 != .1);
+MD.Universal."!=" ::= function --> Boolean <-- (Universal, Universal)
+    is {commutative}
+    : (.0 != .1);
 
 MD.Universal.not_same ::= synonym of "!=";
 
@@ -30,8 +32,8 @@ MD.Universal.not_same ::= synonym of "!=";
 
 /* Note that "isa" is a keyword; this function is a shim over it. */
 
-MD.Universal.isa ::= function
-    --> Boolean <-- (Universal, SC_Reference) : (.0 isa .1);
+MD.Universal.isa ::= function --> Boolean <-- (Universal, SC_Reference)
+    : (.0 isa .1);
 
 MD.Universal.value_of ::= synonym of isa;
 
@@ -39,13 +41,14 @@ MD.Universal.value_of ::= synonym of isa;
 
 /* Note that "default_of" is a keyword; this function is a shim over it. */
 
-MD.Universal.default_of ::= function
-    --> Universal <-- (SC_Reference) : (default_of .0);
+MD.Universal.default_of ::= function --> Universal <-- (SC_Reference)
+    : (default_of .0);
 
 /*************************************************************************/
 
 MD.Universal.same_low_level_type ::= function
-    --> Boolean <-- (Universal, Universal) is {commutative}
+    --> Boolean <-- (Universal, Universal)
+    is {commutative}
     : \*^[same_low_level_type,.0,.1];
 
 /* Note that "same_base_type" is designed to give the answer that would be
@@ -54,7 +57,8 @@ MD.Universal.same_low_level_type ::= function
    treating all non-Capsule low-level types as just one base-type each. */
 
 MD.Universal.same_base_type ::= function
-    --> Boolean <-- (Universal, Universal) is {commutative}
+    --> Boolean <-- (Universal, Universal)
+    is {commutative}
 : (
     if same_low_level_type(.0,.1) then
         if .0 isa $Capsule then
@@ -67,7 +71,9 @@ MD.Universal.same_base_type ::= function
 
 /* Note that ":=" is a keyword; this updater is a shim over it. */
 
-MD.Universal.":=" ::= updater (&Universal, Universal) : {.0 := .1};
+MD.Universal.":=" ::= updater (&Universal, Universal)
+    : {.0 := .1};
 
 MD.Universal.assign ::= updater
-    (&target : Universal, value : Universal) : {.target := .value};
+    (&target : Universal, value : Universal)
+    : {.target := .value};

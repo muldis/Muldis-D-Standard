@@ -36,23 +36,24 @@ MD.Array.is_not_empty ::= function --> Boolean <-- (Array)
     : !is_empty(.0);
 
 MD.Array.first_elem ::= function --> Universal <-- (Array)
-    requires (is_not_empty(.0)) : ::MDLL.Universal.first(*::MDLL.Structure.payload(*.0));
+    requires (is_not_empty(.0))
+    : ::MDLL.Universal.first(*::MDLL.Structure.payload(*.0));
 
 MD.Array.nonfirst_elems ::= function --> Array <-- (Array)
-    requires (is_not_empty(.0)) : ...;
+    requires (is_not_empty(.0))
+    : ...;
 
-MD.Array."#" ::= function
-    --> Integer.NN <-- (Array) : ...;
+MD.Array."#" ::= function --> Integer.NN <-- (Array)
+    : ...;
 
 MD.Array.count       ::= synonym of "#";
 MD.Array.cardinality ::= synonym of "#";
 
 /* Note that the ".[]" syntax is implemented using this function. */
 
-MD.Array.elem ::= function
-    --> Universal <-- (0|array : Array, 1|index : Integer.NN)
-    requires ... : ...;
+MD.Array.elem ::= function --> Universal <-- (Array, Integer.NN)
+    requires ...
+    : ...;
 
-MD.Array.every_elem_isa ::= function
-    --> Boolean <-- (0|array : Array, 1|type : SC_Reference)
+MD.Array.every_elem_isa ::= function --> Boolean <-- (Array, SC_Reference)
     : ::MDLL.Universal.every_elem_isa(*\*:[::MDLL.Structure.payload(*.0),.1]);

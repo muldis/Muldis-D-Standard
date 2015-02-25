@@ -10,10 +10,14 @@ MD.Capsule ::= type of Universal where \*^[isa_Capsule,topic] default ...;
 
 /* Note that "=>" is a keyword; this function is a shim over it. */
 
-MD.Capsule."=>" ::= function
-    --> Capsule <-- (0|type : SC_Reference, 1|attrs : Tuple) : .0=>.1;
+MD.Capsule."=>" ::= function --> Capsule <-- (SC_Reference, Tuple)
+    : .0=>.1;
 
 MD.Capsule.select_Capsule ::= synonym of "=>";
+
+MD.Capsule.named."=>" ::= function
+    --> Capsule <-- (type : SC_Reference, attrs : Tuple)
+    : .0=>.1;
 
 MD.Capsule.Capsule_type ::= function --> SC_Reference <-- (Capsule)
     : \*^[Capsule_type,.0];

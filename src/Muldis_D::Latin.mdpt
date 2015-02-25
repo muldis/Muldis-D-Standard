@@ -31,8 +31,8 @@ Latin.Text.Latin1 ::= type of Text
 
 /*************************************************************************/
 
-Latin.Text.latin1_chars ::= function
-    --> Latin1_Chars <-- (Text.Latin1) : ...;
+Latin.Text.latin1_chars ::= function --> Latin1_Chars <-- (Text.Latin1)
+    : ...;
 
-Latin.Text.from_latin1_chars ::= function
-    --> Text.Latin1 <-- (Latin1_Chars) : ...;
+Latin.Text.from_latin1_chars ::= function --> Text.Latin1 <-- (Latin1_Chars)
+    : ...;

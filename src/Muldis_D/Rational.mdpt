@@ -29,10 +29,14 @@ MD.Ratio.P ::= type of Ratio.NN where topic > 0.0 default 1.0;
 /* This is a common normalizing selector that can be used to implement
    various syntaxes for selecting a Ratio, such as "Int/Int". */
 
-MD.Ratio.select_Ratio ::= function
-    --> Ratio <-- (0|numerator : Integer, 1|denominator : Integer)
+MD.Ratio.select_Ratio ::= function --> Ratio <-- (Integer, Integer)
     requires (.1 != 0)
     : normal($Ratio => \%{ numerator : .0, denominator : .1 });
+
+MD.Ratio.named.select_Ratio ::= function
+    --> Ratio <-- (numerator : Integer, denominator : Integer)
+    requires (.denominator != 0)
+    : select_Ratio(.numerator,.denominator);
 
 MD.Ratio.normal ::= function --> Ratio <-- (Anormal_Ratio)
 : (
@@ -73,16 +77,17 @@ MD.Ratio.order ::= synonym of "<=>";
 
 /*************************************************************************/
 
-MD.Ratio.monadic."-" ::= function
-    --> Ratio <-- (Ratio) implements Numeric.monadic."-"
+MD.Ratio.monadic."-" ::= function --> Ratio <-- (Ratio)
+    implements Numeric.monadic."-"
     : $Ratio => \%{ numerator : -.0.>numerator,
         denominator : .0.>denominator };
 
 MD.Ratio.opposite         ::= synonym of monadic."-";
 MD.Ratio.additive_inverse ::= synonym of monadic."-";
 
-MD.Ratio.reciprocal ::= function
-    --> Ratio <-- (Ratio) requires (.0 != 0.0) implements Numeric.reciprocal
+MD.Ratio.reciprocal ::= function --> Ratio <-- (Ratio)
+    implements Numeric.reciprocal
+    requires (.0 != 0.0)
     : select_Ratio( .0.>denominator, .0.>numerator );
 
 MD.Ratio.multiplicative_inverse ::= synonym of reciprocal;
@@ -94,9 +99,9 @@ MD.Ratio.abs ::= function --> Ratio.NN <-- (Ratio)
 
 MD.Ratio.modulus ::= synonym of abs;
 
-MD.Ratio."+" ::= function
-    --> Ratio <-- (0|augend : Ratio, 1|addend : Ratio)
-    implements Numeric."+" is {commutative,associative} identity 0.0
+MD.Ratio."+" ::= function --> Ratio <-- (Ratio, Ratio)
+    implements Numeric."+"
+    is {commutative,associative} identity 0.0
 : (
     if .0.>denominator = .1.>denominator then
         select_Ratio(.0.>numerator + .1.>numerator, .0.>denominator)
@@ -115,47 +120,69 @@ MD.Ratio."+" ::= function
 
 MD.Ratio.plus ::= synonym of "+";
 MD.Ratio.add  ::= synonym of "+";
-MD.Ratio.sum  ::= synonym of "+";
 
-MD.Ratio."-" ::= function
-    --> Ratio <-- (0|minuend : Ratio, 1|subtrahend : Ratio)
-    implements Numeric."-" : .0 + -.1;
+MD.Ratio.sum ::= function
+    --> Ratio <-- (augend : Ratio, addend : Ratio)
+    implements Numeric.sum
+    : .augend + .addend];
 
-MD.Ratio.minus      ::= synonym of "-";
-MD.Ratio.subtract   ::= synonym of "-";
-MD.Ratio.diff       ::= synonym of "-";
-MD.Ratio.difference ::= synonym of "-";
+MD.Ratio."-" ::= function --> Ratio <-- (Ratio, Ratio)
+    implements Numeric."-"
+    : .0 + -.1;
 
-MD.Ratio."|-|" ::= function
-    --> Ratio.NN <-- (0|minuend : Ratio, 1|subtrahend : Ratio)
-    implements Numeric."|-|" : abs(.0 + -.1);
+MD.Ratio.minus    ::= synonym of "-";
+MD.Ratio.subtract ::= synonym of "-";
 
-MD.Ratio.abs_diff  ::= synonym of "|-|";
+MD.Ratio.diff ::= function
+    --> Ratio <-- (minuend : Ratio, subtrahend : Ratio)
+    implements Numeric.diff
+    : .minuend - .subtrahend;
+
+MD.Ratio.difference ::= synonym of diff;
+
+MD.Ratio."|-|" ::= function --> Ratio.NN <-- (Ratio, Ratio)
+    implements Numeric."|-|"
+    is {commutative}
+    : abs(.0 + -.1);
+
 MD.Ratio.abs_minus ::= synonym of "|-|";
 
-MD.Ratio."*" ::= function
-    --> Ratio <-- (0|multiplicand : Ratio, 1|multiplier : Ratio)
-    implements Numeric."*" is {commutative,associative} identity 1.0
+MD.Ratio.abs_diff ::= function
+    --> Ratio.NN <-- (minuend : Ratio, subtrahend : Ratio)
+    implements Numeric."|-|"
+    : .minuend |-| .subtrahend;
+
+MD.Ratio."*" ::= function --> Ratio <-- (Ratio, Ratio)
+    implements Numeric."*"
+    is {commutative,associative} identity 1.0
     : select_Ratio( .0.>numerator * .1.>numerator,
         .0.>denominator * .1.>denominator );
 
 MD.Ratio.times    ::= synonym of "*";
 MD.Ratio.multiply ::= synonym of "*";
-MD.Ratio.product  ::= synonym of "*";
 
-MD.Ratio."/" ::= function
-    --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio)
-    requires (.1 != 0.0)
+MD.Ratio.product ::= function
+    --> Ratio <-- (multiplicand : Ratio, multiplier : Ratio)
+    implements Numeric.product
+    : .multiplicand * .multiplier;
+
+MD.Ratio."/" ::= function --> Ratio <-- (Ratio, Ratio)
     implements Numeric."/"
+    requires (.1 != 0.0)
     : .0 * reciprocal(.1);
 
-MD.Ratio.frac_divide   ::= synonym of "/";
-MD.Ratio.frac_quotient ::= synonym of "/";
+MD.Ratio.frac_divide ::= synonym of "/";
+
+MD.Ratio.frac_quotient ::= function
+    --> Ratio <-- (dividend : Ratio, divisor : Ratio)
+    implements Numeric."/"
+    requires (.divisor != 0.0)
+    : .dividend / .divisor;
 
 MD.Ratio.div ::= function
-    --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio,
-        round_meth : Round_Meth)
-    requires (.1 != 0.0) implements Numeric.div
+    --> Ratio <-- (Ratio, Ratio, round_meth : Round_Meth)
+    implements Numeric.div
+    requires (.1 != 0.0)
 : (
     /* Bring 2 inputs to common denominator like with addition. */
     orig_d ::= lcm(.0.>denominator, .1.>denominator);
@@ -175,23 +202,42 @@ MD.Ratio.div ::= function
     <-- select_Ratio( scaled_q, 1 );
 );
 
-MD.Ratio.whole_divide   ::= synonym of div;
-MD.Ratio.whole_quotient ::= synonym of div;
+MD.Ratio.whole_divide ::= synonym of div;
+
+MD.Ratio.whole_quotient ::= function
+    --> Ratio <-- (dividend : Ratio, divisor : Ratio,
+        round_meth : Round_Meth)
+    implements Numeric.whole_quotient
+    requires (.divisor != 0.0)
+    : div( .dividend, .divisor, :.round_meth );
 
 MD.Ratio.mod ::= function
-    --> Ratio <-- (0|dividend : Ratio, 1|divisor : Ratio,
-        round_meth : Round_Meth)
-    requires (.1 != 0.0) implements Numeric.mod
+    --> Ratio <-- (Ratio, Ratio, round_meth : Round_Meth)
+    implements Numeric.mod
+    requires (.1 != 0.0)
     : (.0 - (.1 * div(*topic)));
 
-MD.Ratio.modulo    ::= synonym of mod;
-MD.Ratio.remainder ::= synonym of mod;
+MD.Ratio.modulo ::= synonym of mod;
+
+MD.Ratio.remainder ::= function
+    --> Ratio <-- (dividend : Ratio, divisor : Ratio,
+        round_meth : Round_Meth)
+    implements Numeric.remainder
+    requires (.divisor != 0.0)
+    : mod( .dividend, .divisor, :.round_meth );
 
 MD.Ratio.divide_and_modulo ::= function
-    --> type of Tuple where (has_attrs(topic,\%{ quotient : $Ratio,
-        remainder : $Ratio })) <--
-        (0|dividend : Ratio, 1|divisor : Ratio, round_meth : Round_Meth)
-    requires (.1 != 0.0) implements Numeric.divide_and_modulo
+    --> type of Tuple where has_attrs(topic,\%{ quotient : $Ratio,
+        remainder : $Ratio })
+    <-- (Ratio, Ratio, round_meth : Round_Meth)
+    implements Numeric.divide_and_modulo
+    requires (.1 != 0.0)
     : (\%{ quotient : div(*topic), remainder : mod(*topic) });
 
-MD.Ratio.quot_and_rem ::= synonym of divide_and_modulo;
+MD.Ratio.quot_and_rem ::= function
+    --> type of Tuple where has_attrs(topic,\%{ quotient : $Ratio,
+        remainder : $Ratio })
+    <-- (dividend : Ratio, divisor : Ratio, round_meth : Round_Meth)
+    implements Numeric.quot_and_rem
+    requires (.divisor != 0.0)
+    : quot_and_rem( .dividend, .divisor, :.round_meth );

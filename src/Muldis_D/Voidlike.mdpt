@@ -19,9 +19,10 @@ MD.Voidlike.Not_Applicable ::= type singleton composes Voidlike;
    contexts where the op may be used, other Voidlike identities might be
    desired instead, and better let the contexts just decide explicitly. */
 
-MD.Voidlike."//" ::= function
-    --> Universal <-- (Universal, Universal)
-    is {associative,idempotent}  : (.0 !isa $Voidlike ?? .0 !! .1);
+MD.Voidlike."//" ::= function --> Universal <-- (Universal, Universal)
+    is {associative,idempotent}
+    : (.0 !isa $Voidlike ?? .0 !! .1);
 
 MD.Voidlike.coalesce ::= function --> Universal <-- (Array)
-    requires (?#.0) : ([//] .0);
+    requires (?#.0)
+    : ([//] .0);

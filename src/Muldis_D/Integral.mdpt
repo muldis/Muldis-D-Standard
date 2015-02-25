@@ -44,15 +44,16 @@ MD.Integer.inc  ::= synonym of "++";
 
 /*************************************************************************/
 
-MD.Integer.monadic."-" ::= function
-    --> Integer <-- (Integer) implements Numeric.monadic."-"
+MD.Integer.monadic."-" ::= function --> Integer <-- (Integer)
+    implements Numeric.monadic."-"
     : \*^[Integer_opposite,.0];
 
 MD.Integer.opposite         ::= synonym of monadic."-";
 MD.Integer.additive_inverse ::= synonym of monadic."-";
 
-MD.Integer.reciprocal ::= function
-    --> Ratio <-- (Integer) requires (.0 != 0) implements Numeric.reciprocal
+MD.Integer.reciprocal ::= function --> Ratio <-- (Integer)
+    implements Numeric.reciprocal
+    requires (.0 != 0)
     : select_Ratio(1,.0);
 
 MD.Integer.multiplicative_inverse ::= synonym of reciprocal;
@@ -63,53 +64,75 @@ MD.Integer.abs ::= function --> Integer.NN <-- (Integer)
 
 MD.Integer.modulus ::= synonym of abs;
 
-MD.Integer."+" ::= function
-    --> Integer <-- (0|augend : Integer, 1|addend : Integer)
-    implements Numeric."+" is {commutative,associative} identity 0
+MD.Integer."+" ::= function --> Integer <-- (Integer, Integer)
+    implements Numeric."+"
+    is {commutative,associative} identity 0
     : \*^[Integer_plus,.0,.1];
 
 MD.Integer.plus ::= synonym of "+";
 MD.Integer.add  ::= synonym of "+";
-MD.Integer.sum  ::= synonym of "+";
 
-MD.Integer."-" ::= function
-    --> Integer <-- (0|minuend : Integer, 1|subtrahend : Integer)
-    implements Numeric."-" : \*^[Integer_minus,.0,.1];
+MD.Integer.sum ::= function
+    --> Integer <-- (augend : Integer, addend : Integer)
+    implements Numeric.sum
+    : .augend + .addend];
 
-MD.Integer.minus      ::= synonym of "-";
-MD.Integer.subtract   ::= synonym of "-";
-MD.Integer.diff       ::= synonym of "-";
-MD.Integer.difference ::= synonym of "-";
+MD.Integer."-" ::= function --> Integer <-- (Integer, Integer)
+    implements Numeric."-"
+    : \*^[Integer_minus,.0,.1];
 
-MD.Integer."|-|" ::= function
-    --> Integer.NN <-- (0|minuend : Integer, 1|subtrahend : Integer)
-    implements Numeric."|-|" : abs(.0 + -.1);
+MD.Integer.minus    ::= synonym of "-";
+MD.Integer.subtract ::= synonym of "-";
 
-MD.Integer.abs_diff  ::= synonym of "|-|";
+MD.Integer.diff ::= function
+    --> Integer <-- (minuend : Integer, subtrahend : Integer)
+    implements Numeric.diff
+    : .minuend - .subtrahend;
+
+MD.Integer.difference ::= synonym of diff;
+
+MD.Integer."|-|" ::= function --> Integer.NN <-- (Integer, Integer)
+    implements Numeric."|-|"
+    is {commutative}
+    : abs(.0 + -.1);
+
 MD.Integer.abs_minus ::= synonym of "|-|";
 
-MD.Integer."*" ::= function
-    --> Integer <-- (0|multiplicand : Integer, 1|multiplier : Integer)
-    implements Numeric."*" is {commutative,associative} identity 1
+MD.Integer.abs_diff ::= function
+    --> Integer.NN <-- (minuend : Integer, subtrahend : Integer)
+    implements Numeric."|-|"
+    : .minuend |-| .subtrahend;
+
+MD.Integer."*" ::= function --> Integer <-- (Integer, Integer)
+    implements Numeric."*"
+    is {commutative,associative} identity 1
     : \*^[Integer_times,.0,.1];
 
 MD.Integer.times    ::= synonym of "*";
 MD.Integer.multiply ::= synonym of "*";
-MD.Integer.product  ::= synonym of "*";
 
-MD.Integer."/" ::= function
-    --> Ratio <-- (0|dividend : Integer, 1|divisor : Integer)
-    requires (.1 != 0)
+MD.Integer.product ::= function
+    --> Integer <-- (multiplicand : Integer, multiplier : Integer)
+    implements Numeric.product
+    : .multiplicand * .multiplier;
+
+MD.Integer."/" ::= function --> Ratio <-- (Integer, Integer)
     implements Numeric."/"
+    requires (.1 != 0)
     : select_Ratio(.0,.1);
 
-MD.Integer.frac_divide   ::= synonym of "/";
-MD.Integer.frac_quotient ::= synonym of "/";
+MD.Integer.frac_divide ::= synonym of "/";
+
+MD.Integer.frac_quotient ::= function
+    --> Ratio <-- (dividend : Integer, divisor : Integer)
+    implements Numeric."/"
+    requires (.divisor != 0)
+    : .dividend / .divisor;
 
 MD.Integer.div ::= function
-    --> Integer <-- (0|dividend : Integer, 1|divisor : Integer,
-        round_meth : Round_Meth)
-    requires (.1 != 0) implements Numeric.div
+    --> Integer <-- (Integer, Integer, round_meth : Round_Meth)
+    implements Numeric.div
+    requires (.1 != 0)
 : (
     /* We know we are dividing by a non-zero value. */
 
@@ -188,36 +211,60 @@ MD.Integer.div ::= function
       )
 );
 
-MD.Integer.whole_divide   ::= synonym of div;
-MD.Integer.whole_quotient ::= synonym of div;
+MD.Integer.whole_divide ::= synonym of div;
+
+MD.Integer.whole_quotient ::= function
+    --> Integer <-- (dividend : Integer, divisor : Integer,
+        round_meth : Round_Meth)
+    implements Numeric.whole_quotient
+    requires (.divisor != 0)
+    : div( .dividend, .divisor, :.round_meth );
 
 MD.Integer.mod ::= function
-    --> Integer <-- (0|dividend : Integer, 1|divisor : Integer,
-        round_meth : Round_Meth)
-    requires (.1 != 0) implements Numeric.mod
+    --> Integer <-- (Integer, Integer, round_meth : Round_Meth)
+    implements Numeric.mod
+    requires (.1 != 0)
     : (.0 - (.1 * div(*topic)));
 
-MD.Integer.modulo    ::= synonym of mod;
-MD.Integer.remainder ::= synonym of mod;
+MD.Integer.modulo ::= synonym of mod;
+
+MD.Integer.remainder ::= function
+    --> Integer <-- (dividend : Integer, divisor : Integer,
+        round_meth : Round_Meth)
+    implements Numeric.remainder
+    requires (.divisor != 0)
+    : mod( .dividend, .divisor, :.round_meth );
 
 MD.Integer.divide_and_modulo ::= function
-    --> type of Tuple where (has_attrs(topic,\%{ quotient : $Integer,
-        remainder : $Integer })) <--
-        (0|dividend : Integer, 1|divisor : Integer, round_meth : Round_Meth)
-    requires (.1 != 0) implements Numeric.divide_and_modulo
+    --> type of Tuple where has_attrs(topic,\%{ quotient : $Integer,
+        remainder : $Integer })
+    <-- (Integer, Integer, round_meth : Round_Meth)
+    implements Numeric.divide_and_modulo
+    requires (.1 != 0)
     : (\%{ quotient : div(*topic), remainder : mod(*topic) });
 
-MD.Integer.quot_and_rem ::= synonym of divide_and_modulo;
+MD.Integer.quot_and_rem ::= function
+    --> type of Tuple where has_attrs(topic,\%{ quotient : $Integer,
+        remainder : $Integer })
+    <-- (dividend : Integer, divisor : Integer, round_meth : Round_Meth)
+    implements Numeric.quot_and_rem
+    requires (.divisor != 0)
+    : quot_and_rem( .dividend, .divisor, :.round_meth );
 
 /*************************************************************************/
 
-MD.Integer.power ::= function
-    --> Integer <-- (0|base|radix : Integer, 1|exponent : Integer)
+MD.Integer.power ::= function --> Integer <-- (Integer, Integer)
+    implements Numeric.power
     requires (.1 >= 0)
-    implements Numeric.power : \*^[Integer_power,.0,.1];
+    : \*^[Integer_power,.0,.1];
 
-MD.Integer.exp          ::= synonym of power;
-MD.Integer.exponentiate ::= synonym of power;
+MD.Integer.exp ::= synonym of power;
+
+MD.Integer.exponentiate ::= function
+    --> Integer <-- (radix : Integer, exponent : Integer)
+    implements Numeric.exponentiate
+    requires (.exponent >= 0)
+    : .radix exp .exponent;
 
 MD.Integer.factorial ::= function --> Integer.P <-- (Integer.P)
     : \*^[Integer_factorial,.0,.1];
@@ -228,16 +275,14 @@ MD.Integer.factorial ::= function --> Integer.P <-- (Integer.P)
 
 /* Calculate using the Euclidean algorithm. */
 
-MD.Integer.gcd ::= function
-    --> Integer.NN <-- (Integer.NN, Integer.NN)
+MD.Integer.gcd ::= function --> Integer.NN <-- (Integer.NN, Integer.NN)
     is {commutative,associative,idempotent} identity 0
     : (.0 = .1 ?? .0 !! .1 = 0 ?? .0
         !! 0( .1, mod( .0, .1, round_meth : $=>To_Zero ) ));
 
 MD.Integer.greatest_common_divisor ::= synonym of gcd;
 
-MD.Integer.lcm ::= function
-    --> Integer.NN <-- (Integer.NN, Integer.NN)
+MD.Integer.lcm ::= function --> Integer.NN <-- (Integer.NN, Integer.NN)
     is {commutative,associative,idempotent}
     : (.0 = .1 ?? .0 !! .0 = 0 and .1 = 0 ?? 0
         !! div( .0 * .1, gcd(.0,.1), round_meth : $=>To_Zero ));

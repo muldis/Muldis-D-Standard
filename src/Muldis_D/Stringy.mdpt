@@ -29,26 +29,29 @@ MD.String.order ::= synonym of "<=>";
 
 /*************************************************************************/
 
-MD.String.is_empty ::= function --> Boolean <-- (String) : topic = \+[];
+MD.String.is_empty ::= function --> Boolean <-- (String)
+    : topic = \+[];
 
-MD.String.is_not_empty ::= function --> Boolean <-- (String) : topic != \+[];
+MD.String.is_not_empty ::= function --> Boolean <-- (String)
+    : topic != \+[];
 
 MD.String.first_elem ::= function --> Universal <-- (String)
-    requires topic != \+[] : ...;
+    requires topic != \+[]
+    : ...;
 
 MD.String.nonfirst_elems ::= function --> String <-- (String)
-    requires topic != \+[] : ...;
+    requires topic != \+[]
+    : ...;
 
-MD.String."#" ::= function
-    --> Integer.NN <-- (String) : ...;
+MD.String."#" ::= function --> Integer.NN <-- (String)
+    : ...;
 
 MD.String.count       ::= synonym of "#";
 MD.String.cardinality ::= synonym of "#";
 
-MD.String.elem ::= function
-    --> Universal <-- (0|string : String, 1|index : Integer.NN)
-    requires ... : ...;
+MD.String.elem ::= function --> Integer <-- (String, Integer.NN)
+    requires ...
+    : ...;
 
-MD.String.every_elem_isa ::= function
-    --> Boolean <-- (0|string : String, 1|type : SC_Reference)
+MD.String.every_elem_isa ::= function --> Boolean <-- (String, SC_Reference)
     : \*^[every_elem_isa,.0,.1];
