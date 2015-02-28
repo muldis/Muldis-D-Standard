@@ -61,8 +61,8 @@ MD.Ratio.normal ::= function --> Ratio <-- (Anormal_Ratio)
 MD.Ratio."<=>" ::= function --> Order <-- (Ratio, Ratio)
     implements Ordered."<=>"
 : (
-       .0.>denominator = .1.>denominator ?? .0.>numerator <=> .1.>numerator
-    !!
+    <-- .0.>denominator = .1.>denominator ?? .0.>numerator <=> .1.>numerator
+     !!
       (
         common_d ::= lcm(.0.>denominator, .1.>denominator);
         <-- (.0.>numerator
@@ -102,9 +102,9 @@ MD.Ratio."+" ::= function --> Ratio <-- (Ratio, Ratio)
     implements Numeric."+"
     is {commutative,associative} identity 0.0
 : (
-       .0.>denominator = .1.>denominator
+    <-- .0.>denominator = .1.>denominator
         ?? select_Ratio(.0.>numerator + .1.>numerator, .0.>denominator)
-    !!
+     !!
       (
         common_d ::= lcm(.0.>denominator, .1.>denominator);
         <-- select_Ratio(

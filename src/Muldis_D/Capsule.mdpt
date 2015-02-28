@@ -13,7 +13,12 @@ MD.Capsule ::= type of Universal where \*^[isa_Capsule,topic] default ...;
 MD.Capsule."=>" ::= function --> Capsule <-- (SC_Reference, Tuple)
     : .0=>.1;
 
-MD.Capsule.select_Capsule ::= synonym of "=>";
+/* Note that while "select_Capsule" is more descriptive, in practice the
+   =>/select dyadic is meant to be a direct analogy to "new" in OO
+   languages, which takes a class-name + attr-list pair, and we want our
+   syntax to be nicely terse. */
+
+MD.Capsule.select ::= synonym of "=>";
 
 MD.Capsule.named."=>" ::= function
     --> Capsule <-- (type : SC_Reference, attrs : Tuple)
