@@ -10,12 +10,12 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Source_Code;
    Source_Code_Meta is an open union that any users may add types to,
    subject that each of those types must be a Capsule subtype. */
 
-MD.Source_Code ::=
+MD.Source_Code."" ::=
     type union {SC_Heading,SC_Renaming,SC_Identifier,...,SC_Package,...} default ...;
 
 MD.Source_Code.Source_Code_Meta.AT ::= type abstract;
 
-MD.Source_Code.Source_Code_Meta ::=
+MD.Source_Code.Source_Code_Meta."" ::=
     type of Capsule where topic isa $Source_Code_Meta.AT;
     /* Consider "intersection {Source_Code_Meta.AT,Capsule}" instead. */
 

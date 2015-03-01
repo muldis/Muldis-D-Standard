@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Capsule;
 
 /*************************************************************************/
 
-MD.Capsule ::= type of Universal where \*^[isa_Capsule,topic] default ...;
+MD.Capsule."" ::= type of Universal where \*^[isa_Capsule,topic] default ...;
 
 /*************************************************************************/
 

@@ -12,7 +12,7 @@ MD.Ordinal ::= type abstract composes Ordered and_provides_its_default;
 
 /*************************************************************************/
 
-MD.Order ::= type union {Less,Same,More} default $=>Same;
+MD.Order."" ::= type union {Less,Same,More} default $=>Same;
 
 MD.Order.Less ::= type singleton;
 MD.Order.Same ::= type singleton;

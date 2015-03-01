@@ -14,7 +14,7 @@ UC.Text.Unicode_Codepoint ::= type of Integer
 UC.Text.Unicode_Codepoints ::= type of String
     where (every_elem_isa(topic,$Unicode_Codepoint));
 
-UC.Text.Unicode ::= type of Text
+UC.Text.Unicode."" ::= type of Text
     where (maximal_chars(topic) isa $Unicode_Codepoints);
 
 UC.Text.Unicode.Canon ::= type of Text.Unicode

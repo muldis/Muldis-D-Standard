@@ -4,7 +4,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Voidlike;
 
 /*************************************************************************/
 
-MD.Voidlike ::= type abstract;
+MD.Voidlike."" ::= type abstract;
 
 MD.Voidlike.Void ::= type singleton
     composes Voidlike and_provides_its_default;
