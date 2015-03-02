@@ -1,4 +1,6 @@
-Muldis_D:Plain_Text:ASCII:"http://muldis.com":"0.200";
+Muldis_D:Plain_Text:"http://muldis.com":"0.200";
+
+script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Collective;
 

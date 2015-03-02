@@ -1,4 +1,6 @@
-Muldis_D:Plain_Text:Unicode({1..6.2},UTF-8,canon):"http://muldis.com":"0.200";
+Muldis_D:Plain_Text:"http://muldis.com":"0.200";
+
+script Unicode({1..6.2},UTF-8,canon);
 
 package UC ::= Muldis_D::Unicode:"http://muldis.com":"0.200";
 
