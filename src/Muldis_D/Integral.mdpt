@@ -4,7 +4,7 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Integral;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Integral ::= type abstract composes Numeric and_provides_its_default;
 
@@ -18,7 +18,7 @@ MD.Integer.NN ::= type of Integer where topic >= 0;
 
 MD.Integer.P ::= type of Integer.NN where topic > 0 default 1;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Integer."<=>" ::= function --> Order <-- (Integer, Integer)
     implements Ordered."<=>"
@@ -30,7 +30,7 @@ MD.Integer."<=>" ::= function --> Order <-- (Integer, Integer)
 
 MD.Integer.order ::= synonym of "<=>";
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Integer."--" ::= function --> Integer <-- (Integer)
     implements Ordinal."--" : (.0 - 1);
@@ -44,7 +44,7 @@ MD.Integer."++" ::= function --> Integer <-- (Integer)
 MD.Integer.succ ::= synonym of "++";
 MD.Integer.inc  ::= synonym of "++";
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Integer.monadic."-" ::= function --> Integer <-- (Integer)
     implements Numeric.monadic."-"
@@ -145,7 +145,7 @@ MD.Integer.whole_quotient ::= function
     implements Numeric.whole_quotient
     requires (.divisor != 0)
 : (
-    /* We know we are dividing by a non-zero value. */
+    `We know we are dividing by a non-zero value.`
 
        .dividend = 0        ?? 0
     !! .divisor  = 1        ?? .dividend
@@ -153,8 +153,8 @@ MD.Integer.whole_quotient ::= function
     !! .divisor  = -1       ?? -.dividend
     !!
       (
-        /* This is the case where the divisor and dividend do not equal
-           each other and neither of them is a zero or a one. */
+        `This is the case where the divisor and dividend do not equal
+           each other and neither of them is a zero or a one.`
 
         real_q_is_neg ::= (.dividend < 0 xor .divisor < 0);
         rtz_quotient  ::= \*^[Integer_whole_divide_rtz,.dividend,.divisor];
@@ -163,9 +163,9 @@ MD.Integer.whole_quotient ::= function
         <-- rtz_remainder = 0 ?? rtz_quotient
          !!
           (
-            /* This is the case where the divisor does not divide the
+            `This is the case where the divisor does not divide the
                dividend evently and the real number division result would
-               have a fractional part, so we decide how to round that. */
+               have a fractional part, so we decide how to round that.`
 
             rti_quotient ::= (rtz_quotient + (real_q_is_neg ?? -1 !! 1));
             rdn_quotient ::= (rtz_quotient + (real_q_is_neg ?? -1 !! 0));
@@ -181,8 +181,8 @@ MD.Integer.whole_quotient ::= function
                 !! (2 * abs(rtz_remainder)) > abs(.divisor) ?? rti_quotient
                 !!
                   (
-                    /* This is the case where real division remainder is
-                       exactly one-half so we decide how to round that. */
+                    `This is the case where real division remainder is
+                       exactly one-half so we decide how to round that.`
 
                     .round_meth ??? {
                         $=>Half_Down    : rdn_quotient,
@@ -198,7 +198,7 @@ MD.Integer.whole_quotient ::= function
                             <-- rtz_quotient_is_even ?? rtz_quotient
                              !! rti_quotient;
                           ),
-                    } !!! fail  /* oops, an unhandled case */
+                    } !!! fail  `oops, an unhandled case`
                   )
             ;
           )
@@ -237,7 +237,7 @@ MD.Integer.quot_and_rem ::= function
     requires (.divisor != 0)
     : quot_and_rem( .dividend, .divisor, :.round_meth );
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Integer.power ::= function --> Integer <-- (Integer, Integer)
     implements Numeric.power
@@ -255,11 +255,11 @@ MD.Integer.exponentiate ::= function
 MD.Integer.factorial ::= function --> Integer.P <-- (Integer.P)
     : \*^[Integer_factorial,.0,.1];
 
-/*************************************************************************/
+`#########################################################################`
 
-/* TODO: Consider defining these for negative integers too. */
+`TODO: Consider defining these for negative integers too.`
 
-/* Calculate using the Euclidean algorithm. */
+`Calculate using the Euclidean algorithm.`
 
 MD.Integer.gcd ::= function --> Integer.NN <-- (Integer.NN, Integer.NN)
     is {commutative,associative,idempotent} identity 0

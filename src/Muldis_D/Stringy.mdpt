@@ -4,7 +4,7 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Stringy;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Stringy ::= type abstract composes Ordered;
 
@@ -17,7 +17,7 @@ MD.String.NN ::= type of String where (every_elem_isa(topic,$Integer.NN));
 
 MD.String.P ::= type of String.NN where (every_elem_isa(topic,$Integer.P));
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.String."<=>" ::= function --> Order <-- (String, String)
     implements Ordered."<=>"
@@ -29,7 +29,7 @@ MD.String."<=>" ::= function --> Order <-- (String, String)
 
 MD.String.order ::= synonym of "<=>";
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.String.is_empty ::= function --> Boolean <-- (String)
     : topic = \+[];

@@ -4,7 +4,7 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Textual;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Textual ::= type abstract composes Ordered;
 
@@ -20,7 +20,7 @@ MD.Text.ASCII_Chars ::= type of String
 MD.Text.ASCII ::= type of Text
     where (maximal_chars(topic) isa $ASCII_Chars);
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Text.maximal_chars ::= function --> String <-- (Text)
     : .0.>maximal_chars;

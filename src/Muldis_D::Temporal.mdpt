@@ -8,7 +8,7 @@ using MD ::= Muldis_D:"http://muldis.com":"0.200";
 
 searching [MD,Temporal];
 
-/*************************************************************************/
+`#########################################################################`
 
 THESE TYPES SEEM TO CROSS THE GAMUT BETWEEN BEING UNITS AND ORDINALS AND
 CARDINALS AND NOMINALS ETC.

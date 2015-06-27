@@ -4,21 +4,21 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Capsule;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Capsule."" ::= type of Universal where \*^[isa_Capsule,topic] default ...;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that "=>" is a keyword; this function is a shim over it. */
+`Note that "=>" is a keyword; this function is a shim over it.`
 
 MD.Capsule."=>" ::= function --> Capsule <-- (SC_Reference, Tuple)
     : .0=>.1;
 
-/* Note that while "select_Capsule" is more descriptive, in practice the
+`Note that while "select_Capsule" is more descriptive, in practice the
    =>/select dyadic is meant to be a direct analogy to "new" in OO
    languages, which takes a class-name + attr-list pair, and we want our
-   syntax to be nicely terse. */
+   syntax to be nicely terse.`
 
 MD.Capsule.select ::= synonym of "=>";
 
@@ -34,23 +34,23 @@ MD.Capsule."%" ::= function --> Tuple <-- (Capsule)
 
 MD.Capsule.attrs ::= synonym of "%";
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that ".>" is a special syntax used like "myrat.>numerator". */
+`Note that ".>" is a special syntax used like "myrat.>numerator".`
 
 MD.Capsule.".>" ::= function --> Universal <-- (Capsule, SC_Name)
     : \*^[Capsule_attr,.0,.1];
 
 MD.Capsule.attr ::= synonym of ".>";
 
-/* Note that ".>?" is a special syntax used like "myval.>?myoptattr". */
+`Note that ".>?" is a special syntax used like "myval.>?myoptattr".`
 
 MD.Capsule.".>?" ::= function --> Boolean <-- (Capsule, SC_Name)
     : \*^[Capsule_has_attr,.0,.1];
 
 MD.Capsule.has_attr ::= synonym of ".>?";
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Capsule.has_attrs ::= function --> Boolean <-- (Capsule, SC_Attrs_Spec)
     : has_attrs(%.0,.1);
@@ -58,10 +58,10 @@ MD.Capsule.has_attrs ::= function --> Boolean <-- (Capsule, SC_Attrs_Spec)
 MD.Capsule.has_just_attrs ::= function --> Boolean <-- (Capsule, SC_Attrs_Spec)
     : has_just_attrs(%.0,.1);
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that due to the 'type singleton' keyword existing, it is unlikely
+`Note that due to the 'type singleton' keyword existing, it is unlikely
    that anyone would actually declare types with "type of Singleton";
-   however "Singleton" might still be used in some constraints. */
+   however "Singleton" might still be used in some constraints.`
 
 MD.Capsule.Singleton ::= type of Capsule where %topic = \%{};

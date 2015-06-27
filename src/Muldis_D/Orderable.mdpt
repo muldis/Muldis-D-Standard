@@ -4,7 +4,7 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Orderable;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Orderable ::= type abstract;
 
@@ -12,7 +12,7 @@ MD.Ordered ::= type abstract composes Orderable and_provides_its_default;
 
 MD.Ordinal ::= type abstract composes Ordered and_provides_its_default;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Order."" ::= type union {Less,Same,More} default $=>Same;
 
@@ -20,14 +20,14 @@ MD.Order.Less ::= type singleton;
 MD.Order.Same ::= type singleton;
 MD.Order.More ::= type singleton;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* TODO - SEPARATE ROLES FOR ORDERED THINGS WITH BUCKET VS POINT SEMANTICS,
-DIFFERENCE BEING ... stuff */
+`TODO - SEPARATE ROLES FOR ORDERED THINGS WITH BUCKET VS POINT SEMANTICS,
+DIFFERENCE BEING ... stuff`
 
 
-/* Cardinal, Ordinal, and Nominal (numbers). */
-/* quantity/count vs rank/position vs identifying */
+`Cardinal, Ordinal, and Nominal (numbers).`
+`quantity/count vs rank/position vs identifying`
 
 DO NOT LET NUMERIC/ETC ROLES COMPOSE ORDERED/CARDINAL/NOMINAL ETC BUT ONLY
 LET CONCRETE TYPES DO THAT AS APPLICABLE, AS THESE THINGS ARE ORTHOGONAL.

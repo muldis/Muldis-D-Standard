@@ -4,13 +4,13 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Nominal;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Nominal ::= type abstract;
 
 
-/* Cardinal, Ordinal, and Nominal (numbers). */
-/* quantity/count vs rank/position vs identifying */
+`Cardinal, Ordinal, and Nominal (numbers).`
+`quantity/count vs rank/position vs identifying`
 
 Nominal includes zipcodes, SINs, product ids, jersey #s, etc.
 Nominal does *not* imply any quantity or rank/order.

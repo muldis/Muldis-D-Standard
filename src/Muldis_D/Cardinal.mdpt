@@ -4,19 +4,19 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Cardinal;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Cardinal ::= type abstract;
 
-/* NOTE: THIS, CARDINAL, IS WHAT DECLARES COMMON NUMERIC OPS LIKE
+`NOTE: THIS, CARDINAL, IS WHAT DECLARES COMMON NUMERIC OPS LIKE
 ADD, SUBTRACT, MULTIPLY, DIVIDE, EXPONENTIATION, ETC, *NOT* NUMERIC.
 
 See http://en.wikipedia.org/wiki/Cardinal_number .
 
 Also Cardinals are ostensibly all numbers because, well, they count/quantify things.
 
-/* Cardinal, Ordinal, and Nominal (numbers). */
-/* quantity/count vs rank/position vs identifying */
+`Cardinal, Ordinal, and Nominal (numbers).`
+`quantity/count vs rank/position vs identifying`
 
 DO NOT LET NUMERIC/ETC ROLES COMPOSE ORDERED/CARDINAL/NOMINAL ETC BUT ONLY
 LET CONCRETE TYPES DO THAT AS APPLICABLE, AS THESE THINGS ARE ORTHOGONAL.

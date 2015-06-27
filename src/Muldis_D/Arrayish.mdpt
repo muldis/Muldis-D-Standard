@@ -4,18 +4,18 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Arrayish;
 
-/* THIS FILE IS OUTDATED; THERE IS NO Muldis_D::Low_Level PACKAGE! */
+`THIS FILE IS OUTDATED; THERE IS NO Muldis_D::Low_Level PACKAGE!`
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Arrayish ::= type abstract composes Ordered;
 
 MD.Array."" ::= synonym of ::MDLL.Array composes Arrayish and_provides_its_default;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that this will die if any array elements need to be compared other
-   than for equality but there is no "<=>" defined for their type. */
+`Note that this will die if any array elements need to be compared other
+   than for equality but there is no "<=>" defined for their type.`
 
 MD.Array."<=>" ::= function --> Order <-- (Array, Array)
     implements Ordered."<=>"
@@ -29,7 +29,7 @@ MD.Array."<=>" ::= function --> Order <-- (Array, Array)
 
 MD.Array.order ::= synonym of "<=>";
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Array.is_empty ::= function --> Boolean <-- (Array)
     : ::MDLL.Universal.is_empty(*::MDLL.Structure.payload(*.0));
@@ -51,7 +51,7 @@ MD.Array."#" ::= function --> Integer.NN <-- (Array)
 MD.Array.count       ::= synonym of "#";
 MD.Array.cardinality ::= synonym of "#";
 
-/* Note that the ".[]" syntax is implemented using this function. */
+`Note that the ".[]" syntax is implemented using this function.`
 
 MD.Array.elem ::= function --> Universal <-- (Array, Integer.NN)
     requires ...

@@ -4,15 +4,15 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Universal;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Universal."" ::= type where true default false;
 
 MD.Empty ::= type of Universal where false;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that "=" is a keyword; this function is a shim over it. */
+`Note that "=" is a keyword; this function is a shim over it.`
 
 MD.Universal."=" ::= function --> Boolean <-- (Universal, Universal)
     is {commutative}
@@ -20,9 +20,9 @@ MD.Universal."=" ::= function --> Boolean <-- (Universal, Universal)
 
 MD.Universal.same ::= synonym of "=";
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that "!" is a meta-keyword; this function is a shim over it. */
+`Note that "!" is a meta-keyword; this function is a shim over it.`
 
 MD.Universal."!=" ::= function --> Boolean <-- (Universal, Universal)
     is {commutative}
@@ -30,33 +30,33 @@ MD.Universal."!=" ::= function --> Boolean <-- (Universal, Universal)
 
 MD.Universal.not_same ::= synonym of "!=";
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that "isa" is a keyword; this function is a shim over it. */
+`Note that "isa" is a keyword; this function is a shim over it.`
 
 MD.Universal.isa ::= function --> Boolean <-- (Universal, SC_Reference)
     : (.0 isa .1);
 
 MD.Universal.value_of ::= synonym of isa;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that "default_of" is a keyword; this function is a shim over it. */
+`Note that "default_of" is a keyword; this function is a shim over it.`
 
 MD.Universal.default_of ::= function --> Universal <-- (SC_Reference)
     : (default_of .0);
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Universal.same_low_level_type ::= function
     --> Boolean <-- (Universal, Universal)
     is {commutative}
     : \*^[same_low_level_type,.0,.1];
 
-/* Note that "same_base_type" is designed to give the answer that would be
+`Note that "same_base_type" is designed to give the answer that would be
    the most useful to normal users, which is also simple and deterministic,
    and that is to treat Capsule as a multiplicity of base types while
-   treating all non-Capsule low-level types as just one base-type each. */
+   treating all non-Capsule low-level types as just one base-type each.`
 
 MD.Universal.same_base_type ::= function
     --> Boolean <-- (Universal, Universal)
@@ -69,9 +69,9 @@ MD.Universal.same_base_type ::= function
     else false
 );
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that ":=" is a keyword; this updater is a shim over it. */
+`Note that ":=" is a keyword; this updater is a shim over it.`
 
 MD.Universal.":=" ::= updater (&Universal, Universal)
     : {.0 := .1};

@@ -4,7 +4,7 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Boolish;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolish ::= type abstract composes Ordinal and_provides_its_default;
 
@@ -16,7 +16,7 @@ MD.Bool ::= synonym of Boolean;
 MD.Boolean.False ::= type of Boolean where !topic default false;
 MD.Boolean.True  ::= type of Boolean where topic default true;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolean."<=>" ::= function --> Order <-- (Boolean, Boolean)
     implements Ordered."<=>"
@@ -28,7 +28,7 @@ MD.Boolean."<=>" ::= function --> Order <-- (Boolean, Boolean)
 
 MD.Boolean.order ::= synonym of "<=>";
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolean."--" ::= function --> type union {False,"-Inf"} <-- (Boolean)
     implements Ordinal."--" : (.0 ?? false !! $=>"-Inf");
@@ -42,21 +42,21 @@ MD.Boolean."++" ::= function --> type union {True,"+Inf"} <-- (Boolean)
 MD.Boolean.succ ::= synonym of "++";
 MD.Boolean.inc  ::= synonym of "++";
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that "false" is a keyword; this constant is a shim over it. */
+`Note that "false" is a keyword; this constant is a shim over it.`
 
 MD.Boolean.false ::= constant false;
 
 MD.Boolean.contradiction ::= synonym of false;
 
-/* Note that "true" is a keyword; this constant is a shim over it. */
+`Note that "true" is a keyword; this constant is a shim over it.`
 
 MD.Boolean.true ::= constant true;
 
 MD.Boolean.tautology ::= synonym of true;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolean.so ::= function --> Boolean <-- (Boolean)
     implements Boolish.so : .0;
@@ -64,7 +64,7 @@ MD.Boolean.so ::= function --> Boolean <-- (Boolean)
 MD.Boolean."?"         ::= synonym of so;
 MD.Boolean.proposition ::= synonym of so;
 
-/* Note that "not"|"!" is a meta-keyword; this function is a shim over it. */
+`Note that "not"|"!" is a meta-keyword; this function is a shim over it.`
 
 MD.Boolean.not ::= function --> Boolean <-- (Boolean)
     implements Boolish.not : !.0;
@@ -72,7 +72,7 @@ MD.Boolean.not ::= function --> Boolean <-- (Boolean)
 MD.Boolean."!"      ::= synonym of not;
 MD.Boolean.negation ::= synonym of not;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolean.and ::= function --> Boolean <-- (Boolean, Boolean)
     implements Boolish.and
@@ -92,7 +92,7 @@ MD.Boolean.not_and            ::= synonym of nand;
 MD.Boolean.not_both           ::= synonym of nand;
 MD.Boolean.alternative_denial ::= synonym of nand;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolean.or ::= function --> Boolean <-- (Boolean, Boolean)
     implements Boolish.or
@@ -111,7 +111,7 @@ MD.Boolean.nor ::= function --> Boolean <-- (Boolean, Boolean)
 MD.Boolean.not_or       ::= synonym of nor;
 MD.Boolean.joint_denial ::= synonym of nor;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolean.xnor ::= function --> Boolean <-- (Boolean, Boolean)
     implements Boolish.xnor
@@ -129,7 +129,7 @@ MD.Boolean.xor ::= function --> Boolean <-- (Boolean, Boolean)
 
 MD.Boolean.exclusive_disjunction ::= synonym of xor;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Boolean.imp ::= function --> Boolean <-- (Boolean, Boolean)
     implements Boolish.imp
@@ -145,9 +145,9 @@ MD.Boolean.nimp ::= function --> Boolean <-- (Boolean, Boolean)
 MD.Boolean.not_implies             ::= synonym of nimp;
 MD.Boolean.material_nonimplication ::= synonym of nimp;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note that "if" is also a keyword, but its meaning differs. */
+`Note that "if" is also a keyword, but its meaning differs.`
 
 MD.Boolean.if ::= function --> Boolean <-- (Boolean, Boolean)
     implements Boolish.if
@@ -162,4 +162,4 @@ MD.Boolean.nif ::= function --> Boolean <-- (Boolean, Boolean)
 MD.Boolean.not_if                  ::= synonym of nif;
 MD.Boolean.converse_nonimplication ::= synonym of nif;
 
-/*************************************************************************/
+`#########################################################################`

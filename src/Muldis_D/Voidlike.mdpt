@@ -4,7 +4,7 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Voidlike;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Voidlike."" ::= type abstract;
 
@@ -15,11 +15,11 @@ MD.Voidlike.Unknown ::= type singleton composes Voidlike;
 
 MD.Voidlike.Not_Applicable ::= type singleton composes Voidlike;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Note: We have not given "//" an identity value, eg Void, because in the
+`Note: We have not given "//" an identity value, eg Void, because in the
    contexts where the op may be used, other Voidlike identities might be
-   desired instead, and better let the contexts just decide explicitly. */
+   desired instead, and better let the contexts just decide explicitly.`
 
 MD.Voidlike."//" ::= function --> Universal <-- (Universal, Universal)
     is {associative,idempotent}

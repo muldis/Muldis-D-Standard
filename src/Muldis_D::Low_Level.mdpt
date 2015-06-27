@@ -1,4 +1,4 @@
-/* THIS FILE IS OBSOLETE, THE GRAMMAR SUBSUMES IT. */
+`THIS FILE IS OBSOLETE, THE GRAMMAR SUBSUMES IT.`
 
 Muldis_D:Plain_Text:"http://muldis.com":"0.200";
 
@@ -8,23 +8,23 @@ package MDLL ::= Muldis_D::Low_Level:"http://muldis.com":"0.200";
 
 searching [MDLL];
 
-/*************************************************************************/
+`#########################################################################`
 
-/* A Universal is a generic ordered list of 0..N elements; but you don't
+`A Universal is a generic ordered list of 0..N elements; but you don't
    access elements using numeric indexes but rather without any indexes.
    One can conceive of implementing the general case of an Universal either
    with an array or singly-linked list, where either is copy-on-write;
    all of the fundamental operators are abstract enough to work either way.
-   This is exposed in the high level type system as Universal. */
+   This is exposed in the high level type system as Universal.`
 
 MDLL.Universal ::= type of (isa \*^1[maximal_type])
     where true() default empty();
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Universal.empty ::= constant \*^1[constant_empty];
 
-/* Note, prepend has 2 conceptual arguments, in order ["elem","to"]. */
+`Note, prepend has 2 conceptual arguments, in order ["elem","to"].`
 
 MDLL.Universal.prepend ::= function --> Universal <-- Universal
     requires (
@@ -44,11 +44,11 @@ MDLL.Universal.first ::= function --> Universal <-- Universal
 MDLL.Universal.nonfirst ::= function --> Universal <-- Universal
     requires (is_empty(*topic) ?? false() !! true()) : \*^1[function_nonfirst,topic];
 
-/*************************************************************************/
+`#########################################################################`
 
-/* A Boolean is a list of exactly 0 (false) or 1 (true) elements, in the
+`A Boolean is a list of exactly 0 (false) or 1 (true) elements, in the
    latter case whose sole element is the empty list.
-   This is exposed in the high level type system as Boolean. */
+   This is exposed in the high level type system as Boolean.`
 
 MDLL.Boolean ::= type of Universal
     where (
@@ -62,7 +62,7 @@ MDLL.Boolean.false ::= synonym of empty;
 
 MDLL.Boolean.true ::= constant prepend(*\*:[empty(),empty()]);
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Universal.Pair_of_Universal ::= type of Universal
     where (
@@ -74,7 +74,7 @@ MDLL.Universal.Pair_of_Universal ::= type of Universal
     default prepend(*\*:[empty(),
         prepend(*\*:[empty(),empty()])]);
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Universal.same ::= function
     --> Boolean <-- Pair_of_Universal is_commutative
@@ -131,11 +131,11 @@ MDLL.Universal.catenate ::= function
         !! 0(*\*:[nonlast(*lhs),prepend(*\*:[last(*lhs),rhs])]);
 );
 
-/*************************************************************************/
+`#########################################################################`
 
-/* A Natural is a list of 0..N elements where each element is an empty
+`A Natural is a list of 0..N elements where each element is an empty
    list; the numeric value (0..N) is equal to the count of elements.
-   This is not exposed in the high-level type system at all. */
+   This is not exposed in the high-level type system at all.`
 
 MDLL.Natural ::= type of Universal
     where (is_empty(*topic) ?? true()
@@ -208,7 +208,7 @@ MDLL.Natural.divide ::= function
         !! succ(*0(*\*:[minus(*\*:[dividend,divisor]),divisor]))
 );
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Universal.count ::= function --> Natural <-- Universal
     : (is_empty(*topic) ?? zero() !! succ(*0(*nonfirst(*topic))));
@@ -226,7 +226,7 @@ MDLL.Universal.elem ::= function
     <-- is_zero(*index) ?? first(*list) !! 0(*\*:[nonfirst(*list),pred(*index)])
 );
 
-/* Note that slice() can only return a non-empty list slice. */
+`Note that slice() can only return a non-empty list slice.`
 
 MDLL.Universal.slice ::= function
     --> Universal <-- Pair_of_Universal
@@ -264,7 +264,7 @@ MDLL.Universal.every_elem_same_count ::= function
     !! false()
 );
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Structure.Structure_Base ::= type of Pair_of_Universal
     where (first(*topic) isa $Natural);
@@ -280,7 +280,7 @@ MDLL.Structure.structure_kind ::= function
 MDLL.Structure.payload ::= function
     --> Universal <-- Structure_Base : second(*topic);
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Structure.SK_INTEGER    ::= synonym of zero;
 MDLL.Structure.SK_STRING     ::= synonym of N1;
@@ -294,16 +294,16 @@ MDLL.Structure.SK_CAPSULE    ::= synonym of N8;
 MDLL.Structure.SK_STREAM     ::= synonym of N9;
 MDLL.Structure.SK_EXTERNAL   ::= synonym of N10;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* An Integer payload is a list of exactly 2 elements where the first
+`An Integer payload is a list of exactly 2 elements where the first
    element is
    false if the numeric value is >= 0 and true if the numeric value
    is < 0; that first element can be read as "is negative (false/true)".
    The second element is a Natural that defines the magnitude of the
    integer's numeric value.  Every combination of first/second elements is
    valid with the sole exception of [true,0] as we don't want 2 zero ints.
-   This is exposed in the high level type system as Integer. */
+   This is exposed in the high level type system as Integer.`
 
 MDLL.Integer ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_INTEGER()])
@@ -333,7 +333,7 @@ MDLL.Integer.magnitude ::= function
     --> Natural <-- Integer
     : second(*payload(*topic));
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.String ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_STRING()])
@@ -352,7 +352,7 @@ MDLL.String.Universal_of_String_Payloads ::= type of Universal
     where (is_empty(*topic) ?? true() !! first(*topic) isa $String_Payload
         ?? 0(*nonfirst(*topic)) !! false());
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Array ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_ARRAY()]));
@@ -360,7 +360,7 @@ MDLL.Array ::= type of Structure_Base
 MDLL.Array.array ::= function --> Array <-- Universal
     : \*:[SK_ARRAY(),topic];
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Heading ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_HEADING()])
@@ -373,7 +373,7 @@ MDLL.Heading.heading ::= function
     --> Heading <-- Heading_Payload
     : \*:[SK_HEADING(),topic];
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Renaming ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_RENAMING()])
@@ -401,7 +401,7 @@ MDLL.Renaming.renaming_before ::= function
     --> Universal_of_String_Payloads <-- Renaming
     : second(*payload(*topic));
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Tuple ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_TUPLE()])
@@ -426,7 +426,7 @@ MDLL.Tuple.tuple_heading ::= function
 MDLL.Tuple.tuple_body ::= function --> Universal <-- Tuple
     : second(*payload(*topic));
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Relation ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_RELATION()])
@@ -457,7 +457,7 @@ MDLL.Relation.relation_heading ::= function
 MDLL.Relation.relation_body ::= function
     --> Universal <-- Relation : second(*payload(*topic));
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Identifier ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_IDENTIFIER()])
@@ -510,7 +510,7 @@ MDLL.Identifier.path_beneath_pkg ::= function
     --> Universal_of_String_Payloads <-- Identifier
     : elem(*\*:[payload(*topic),N3()]);
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Identifier.Reference ::= type of Identifier where
 (
@@ -523,7 +523,7 @@ MDLL.Identifier.Reference ::= type of Identifier where
     else false()
 );
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Universal.every_elem_isa ::= function
     --> Boolean <-- Pair_of_Universal
@@ -535,7 +535,7 @@ MDLL.Universal.every_elem_isa ::= function
         !! first(*list) isa type ?? 0(*\*:[nonfirst(*list),type]) !! false()
 );
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Capsule ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_CAPSULE()])
@@ -555,7 +555,7 @@ MDLL.Capsule.capsule_type ::= function
 MDLL.Capsule.capsule_attrs ::= function
     --> Tuple_Payload <-- Capsule : second(*payload(*topic));
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.Stream ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_STREAM()])
@@ -565,7 +565,7 @@ MDLL.Stream.stream ::= function
     --> Stream <-- Integer_Payload
     : \*:[SK_STREAM(),topic];
 
-/*************************************************************************/
+`#########################################################################`
 
 MDLL.External ::= type of Structure_Base
     where (same(*\*:[structure_kind(*topic),SK_EXTERNAL()]));
@@ -573,14 +573,14 @@ MDLL.External ::= type of Structure_Base
 MDLL.External.external ::= function
     --> External <-- Universal : \*:[SK_EXTERNAL(),topic];
 
-/*************************************************************************/
+`#########################################################################`
 
-/* Two values are normally considered to have the same low-level type only
+`Two values are normally considered to have the same low-level type only
    if they are both values of the same one of the types {Boolean, Integer,
    String, Array, SC_Heading, SC_Renaming, Tuple, Relation, SC_Identifier,
    Capsule, Stream, External}, but as a special case, we treat each value
    that isn't of any of those types as having its own singleton type, and
-   so every type system value has the same low-level type as itself. */
+   so every type system value has the same low-level type as itself.`
 
 MDLL.Universal.same_low_level_type ::= function
     --> Boolean <-- Pair_of_Universal is_commutative

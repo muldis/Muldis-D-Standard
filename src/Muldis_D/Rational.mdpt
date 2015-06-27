@@ -4,7 +4,7 @@ script ASCII;
 
 package_segment Muldis_D:"http://muldis.com":"0.200":Rational;
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Rational ::= type abstract composes Numeric;
 
@@ -26,10 +26,10 @@ MD.Ratio.NN ::= type of Ratio where topic >= 0.0;
 
 MD.Ratio.P ::= type of Ratio.NN where topic > 0.0 default 1.0;
 
-/*************************************************************************/
+`#########################################################################`
 
-/* This is a common normalizing selector that can be used to implement
-   various syntaxes for selecting a Ratio, such as "Int/Int". */
+`This is a common normalizing selector that can be used to implement
+   various syntaxes for selecting a Ratio, such as "Int/Int".`
 
 MD.Ratio.select_Ratio ::= function --> Ratio <-- (Integer, Integer)
     requires (.1 != 0)
@@ -45,11 +45,11 @@ MD.Ratio.normal ::= function --> Ratio <-- (Anormal_Ratio)
     an ::= .0.>numerator;
     ad ::= .0.>denominator;
 
-    /* Normalize pair so denominator is always > 0. */
+    `Normalize pair so denominator is always > 0.`
     n ::= (ad > 0 ?? an !! -an);
     d ::= (ad > 0 ?? ad !! -ad);
 
-    /* Determine greatest common divisor of pair. */
+    `Determine greatest common divisor of pair.`
     gcd ::= gcd(abs(n), abs(d));
 
     <-- $Ratio => \%{
@@ -58,7 +58,7 @@ MD.Ratio.normal ::= function --> Ratio <-- (Anormal_Ratio)
     };
 );
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Ratio."<=>" ::= function --> Order <-- (Ratio, Ratio)
     implements Ordered."<=>"
@@ -76,7 +76,7 @@ MD.Ratio."<=>" ::= function --> Order <-- (Ratio, Ratio)
 
 MD.Ratio.order ::= synonym of "<=>";
 
-/*************************************************************************/
+`#########################################################################`
 
 MD.Ratio.monadic."-" ::= function --> Ratio <-- (Ratio)
     implements Numeric.monadic."-"
@@ -185,21 +185,21 @@ MD.Ratio.div ::= function
     implements Numeric.div
     requires (.1 != 0.0)
 : (
-    /* Bring 2 inputs to common denominator like with addition. */
+    `Bring 2 inputs to common denominator like with addition.`
     orig_d ::= lcm(.0.>denominator, .1.>denominator);
     orig_n0 ::= (.0.>numerator
         * div(orig_d, .0.>denominator, round_meth : $=>To_Zero));
     orig_n1 ::= (.1.>numerator
         * div(orig_d, .1.>denominator, round_meth : $=>To_Zero));
 
-    /* Scale both inputs proportionally into whole-number range. */
+    `Scale both inputs proportionally into whole-number range.`
     scaled_n0 ::= orig_n0 * orig_d;
     scaled_n1 ::= orig_n1 * orig_d;
 
-    /* Use regular Integer whole_divide semantics on the numerators. */
+    `Use regular Integer whole_divide semantics on the numerators.`
     scaled_q ::= div(scaled_n0, scaled_n1, round_meth : .round_meth);
 
-    /* Result still of the Ratio type even though its a whole number. */
+    `Result still of the Ratio type even though its a whole number.`
     <-- select_Ratio( scaled_q, 1 );
 );
 
