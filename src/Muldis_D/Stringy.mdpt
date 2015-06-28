@@ -8,7 +8,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Stringy;
 
 MD.Stringy ::= type abstract composes Ordered;
 
-MD.String."" ::= type of Universal where \*^[isa_String,topic] default \+[]
+MD.String."" ::= type of Universal where topic --> \^isa_String default \+[]
     composes Stringy and_provides_its_default;
 
 MD.Str ::= synonym of String;
@@ -56,4 +56,4 @@ MD.String.elem ::= function --> Integer <-- (String, Integer.NN)
     : ...;
 
 MD.String.every_elem_isa ::= function --> Boolean <-- (String, SC_Reference)
-    : \*^[every_elem_isa,.0,.1];
+    : topic --> \^every_elem_isa;

@@ -6,7 +6,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Capsule;
 
 `#########################################################################`
 
-MD.Capsule."" ::= type of Universal where \*^[isa_Capsule,topic] default ...;
+MD.Capsule."" ::= type of Universal where topic --> \^isa_Capsule default ...;
 
 `#########################################################################`
 
@@ -27,10 +27,10 @@ MD.Capsule.named."=>" ::= function
     : .0=>.1;
 
 MD.Capsule.Capsule_type ::= function --> SC_Reference <-- (Capsule)
-    : \*^[Capsule_type,.0];
+    : topic --> \^Capsule_type;
 
 MD.Capsule."%" ::= function --> Tuple <-- (Capsule)
-    : \*^[Capsule_attrs,.0];
+    : topic --> \^Capsule_attrs;
 
 MD.Capsule.attrs ::= synonym of "%";
 
@@ -39,14 +39,14 @@ MD.Capsule.attrs ::= synonym of "%";
 `Note that ".>" is a special syntax used like "myrat.>numerator".`
 
 MD.Capsule.".>" ::= function --> Universal <-- (Capsule, SC_Name)
-    : \*^[Capsule_attr,.0,.1];
+    : topic --> \^Capsule_attr;
 
 MD.Capsule.attr ::= synonym of ".>";
 
 `Note that ".>?" is a special syntax used like "myval.>?myoptattr".`
 
 MD.Capsule.".>?" ::= function --> Boolean <-- (Capsule, SC_Name)
-    : \*^[Capsule_has_attr,.0,.1];
+    : topic --> \^Capsule_has_attr;
 
 MD.Capsule.has_attr ::= synonym of ".>?";
 

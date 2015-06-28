@@ -8,7 +8,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Boolish;
 
 MD.Boolish ::= type abstract composes Ordinal and_provides_its_default;
 
-MD.Boolean."" ::= type of Universal where \*^[isa_Boolean,topic] default false
+MD.Boolean."" ::= type of Universal where topic --> \^isa_Boolean default false
     composes Boolish and_provides_its_default;
 
 MD.Bool ::= synonym of Boolean;

@@ -51,7 +51,7 @@ MD.Universal.default_of ::= function --> Universal <-- (SC_Reference)
 MD.Universal.same_low_level_type ::= function
     --> Boolean <-- (Universal, Universal)
     is {commutative}
-    : \*^[same_low_level_type,.0,.1];
+    : topic --> \^same_low_level_type;
 
 `Note that "same_base_type" is designed to give the answer that would be
    the most useful to normal users, which is also simple and deterministic,

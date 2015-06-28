@@ -8,7 +8,7 @@ package_segment Muldis_D:"http://muldis.com":"0.200":Integral;
 
 MD.Integral ::= type abstract composes Numeric and_provides_its_default;
 
-MD.Integer."" ::= type of Universal where \*^[isa_Integer,topic] default 0 
+MD.Integer."" ::= type of Universal where topic --> \^isa_Integer default 0 
     composes {Integral and_provides_its_default,
         Cardinal and_provides_its_default, Ordinal};
 
@@ -24,7 +24,7 @@ MD.Integer."<=>" ::= function --> Order <-- (Integer, Integer)
     implements Ordered."<=>"
 : (
        .0 = .1                     ?? $=>Same
-    !! \*^[Integer_in_order,.0,.1] ?? $=>Less
+    !! topic --> \^Integer_in_order ?? $=>Less
     !!                                $=>More
 );
 
@@ -48,7 +48,7 @@ MD.Integer.inc  ::= synonym of "++";
 
 MD.Integer.monadic."-" ::= function --> Integer <-- (Integer)
     implements Numeric.monadic."-"
-    : \*^[Integer_opposite,.0];
+    : topic --> \^Integer_opposite;
 
 MD.Integer.opposite         ::= synonym of monadic."-";
 MD.Integer.additive_inverse ::= synonym of monadic."-";
@@ -62,14 +62,14 @@ MD.Integer.multiplicative_inverse ::= synonym of reciprocal;
 
 MD.Integer.abs ::= function --> Integer.NN <-- (Integer)
     implements Numeric.abs
-    : \*^[Integer_abs,.0];
+    : topic --> \^Integer_abs;
 
 MD.Integer.modulus ::= synonym of abs;
 
 MD.Integer."+" ::= function --> Integer <-- (Integer, Integer)
     implements Numeric."+"
     is {commutative,associative} identity 0
-    : \*^[Integer_plus,.0,.1];
+    : topic --> \^Integer_plus;
 
 MD.Integer.plus ::= synonym of "+";
 MD.Integer.add  ::= synonym of "+";
@@ -81,7 +81,7 @@ MD.Integer.sum ::= function
 
 MD.Integer."-" ::= function --> Integer <-- (Integer, Integer)
     implements Numeric."-"
-    : \*^[Integer_minus,.0,.1];
+    : topic --> \^Integer_minus;
 
 MD.Integer.minus    ::= synonym of "-";
 MD.Integer.subtract ::= synonym of "-";
@@ -108,7 +108,7 @@ MD.Integer.abs_diff ::= function
 MD.Integer."*" ::= function --> Integer <-- (Integer, Integer)
     implements Numeric."*"
     is {commutative,associative} identity 1
-    : \*^[Integer_times,.0,.1];
+    : topic --> \^Integer_times;
 
 MD.Integer.times    ::= synonym of "*";
 MD.Integer.multiply ::= synonym of "*";
@@ -157,7 +157,8 @@ MD.Integer.whole_quotient ::= function
            each other and neither of them is a zero or a one.`
 
         real_q_is_neg ::= (.dividend < 0 xor .divisor < 0);
-        rtz_quotient  ::= \*^[Integer_whole_divide_rtz,.dividend,.divisor];
+        rtz_quotient  ::= \(.dividend,.divisor)
+            --> \^Integer_whole_divide_rtz;
         rtz_remainder ::= (.dividend - (.divisor * rtz_quotient));
 
         <-- rtz_remainder = 0 ?? rtz_quotient
@@ -191,8 +192,8 @@ MD.Integer.whole_quotient ::= function
                         $=>Half_To_Inf  : rti_quotient,
                         $=>Half_Even    :
                           (
-                            q ::= \*^[Integer_whole_divide_rtz,
-                                abs(rtz_quotient),2];
+                            q ::= \(abs(rtz_quotient),2)
+                                --> \^Integer_whole_divide_rtz;
                             r ::= (abs(rtz_quotient) - (2 * q));
                             rtz_quotient_is_even ::= (r = 0);
                             <-- rtz_quotient_is_even ?? rtz_quotient
@@ -242,7 +243,7 @@ MD.Integer.quot_and_rem ::= function
 MD.Integer.power ::= function --> Integer <-- (Integer, Integer)
     implements Numeric.power
     requires (.1 >= 0)
-    : \*^[Integer_power,.0,.1];
+    : topic --> \^Integer_power;
 
 MD.Integer.exp ::= synonym of power;
 
@@ -253,7 +254,7 @@ MD.Integer.exponentiate ::= function
     : .radix exp .exponent;
 
 MD.Integer.factorial ::= function --> Integer.P <-- (Integer.P)
-    : \*^[Integer_factorial,.0,.1];
+    : topic --> \^Integer_factorial;
 
 `#########################################################################`
 
