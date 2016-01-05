@@ -1,0 +1,78 @@
+Muldis_D:Plain_Text:"http://muldis.com":"0.201.0.-9";
+script Unicode:8.0:UTF-8:canon;
+
+`#########################################################################`
+`#########################################################################`
+
+package
+{
+    identity MDA ::= Core::Aliases:"http://muldis.com":"0.201.0.-9";
+    foundation "http://muldis.com":"0.201.0.-9";
+    uses MD ::= Core:"http://muldis.com":"0.201.0.-9";
+    floating {::MD, ::MDA};
+
+`#########################################################################`
+
+    ::MDA::"≠" ::= alias of not_same;
+
+`#########################################################################`
+
+    ::MDA::"-∞" ::= alias of Neg_Inf;
+    ::MDA::"+∞" ::= alias of Pos_Inf;
+    ::MDA::"≤"  ::= alias of before_or_same;
+    ::MDA::"≥"  ::= alias of after_or_same;
+
+`#########################################################################`
+
+    ::MDA::"⊥" ::= alias of False;
+    ::MDA::"⊤" ::= alias of True;
+    ::MDA::"¬" ::= alias of not;
+    ::MDA::"∧" ::= alias of and;
+    ::MDA::"⊼" ::= alias of nand;
+    ::MDA::"↑" ::= alias of nand;
+    ::MDA::"∨" ::= alias of or;
+    ::MDA::"⊽" ::= alias of nor;
+    ::MDA::"↓" ::= alias of nor;
+    ::MDA::"↔" ::= alias of xnor;
+    ::MDA::"⊻" ::= alias of xor;
+    ::MDA::"↮" ::= alias of xor;
+    ::MDA::"→" ::= alias of imp;
+    ::MDA::"↛" ::= alias of nimp;
+    ::MDA::"←" ::= alias of if;
+    ::MDA::"↚" ::= alias of nif;
+
+`#########################################################################`
+
+    ::MDA::"−"   ::= alias of "-";
+    ::MDA::"|−|" ::= alias of modulus_minus;
+    ::MDA::"×"   ::= alias of times;
+    ::MDA::"÷"   ::= alias of fractional_divided_by;
+    ::MDA::"∕"   ::= alias of fractional_divided_by;
+
+`#########################################################################`
+
+    ::MDA::"∅?" ::= alias of is_empty;
+    ::MDA::"∅" ::= alias of empty;
+
+`#########################################################################`
+
+    ::MDA::"∋" ::= alias of has;
+    ::MDA::"∌" ::= alias of not_has;
+    ::MDA::"∈" ::= alias of in;
+    ::MDA::"∉" ::= alias of not_in;
+    ::MDA::"∃" ::= alias of any;
+    ::MDA::"∄" ::= alias of none;
+    ::MDA::"∀" ::= alias of all;
+
+`#########################################################################`
+
+    ::MDA::"~∅" ::= constant ([]);
+    ::MDA::"?∅" ::= constant ({});
+    ::MDA::"+∅" ::= constant (\+{});
+
+`#########################################################################`
+
+};
+
+`#########################################################################`
+`#########################################################################`
