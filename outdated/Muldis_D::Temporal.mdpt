@@ -1,15 +1,3 @@
-Muldis_D:Plain_Text:"http://muldis.com":"0.200";
-
-script ASCII;
-
-package Temporal ::= Muldis_D::Temporal:"http://muldis.com":"0.200";
-
-using MD ::= Muldis_D:"http://muldis.com":"0.200";
-
-searching [MD,Temporal];
-
-`#########################################################################`
-
 THESE TYPES SEEM TO CROSS THE GAMUT BETWEEN BEING UNITS AND ORDINALS AND
 CARDINALS AND NOMINALS ETC.
 

@@ -1,11 +1,3 @@
-Muldis_D:Plain_Text:"http://muldis.com":"0.200";
-
-script ASCII;
-
-package_segment Muldis_D::Test_Suite:"http://muldis.com":"0.200":Integer;
-
-`#########################################################################`
-
 `Following is a data table concerning rounding semantics of integer division.
    It gives inputs and expected results; shown as x/y but meaning x div y.`
 

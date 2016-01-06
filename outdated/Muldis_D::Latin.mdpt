@@ -1,13 +1,3 @@
-Muldis_D:Plain_Text:"http://muldis.com":"0.200";
-
-script ASCII;
-
-package Latin ::= Muldis_D::Latin:"http://muldis.com":"0.200";
-
-using MD ::= Muldis_D:"http://muldis.com":"0.200";
-
-searching [MD,Latin];
-
 `Note: This package is meant to cover all Latin1/2/etc and similar legacy
 8-bit fixed-width text encodings, including EBCDIC.  It does not cover
 7-bit ASCII, which is in the Muldis D core, and it doesn't cover Unicode,
@@ -17,8 +7,6 @@ know just enough Unicode to map between Unicode codepoints for the same
 characters as the 8-bit Latin/etc repertoires it handles.  Also remember
 that core is non-normalized Unicode, so multiple distinct core Text values
 may map to the same Latin value.`
-
-`#########################################################################`
 
 `TODO: Check if Latin1 octets and Latin codepoints match exactly for
 all same 256 characters, or not.`
@@ -30,8 +18,6 @@ Latin.Text.Latin1_Chars ::= type of String
 
 Latin.Text.Latin1 ::= type of Text
     where (maximal_chars(topic) isa $Latin1_Chars);
-
-`#########################################################################`
 
 Latin.Text.latin1_chars ::= function --> Latin1_Chars <-- (Text.Latin1)
     : ...;

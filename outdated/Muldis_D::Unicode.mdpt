@@ -1,15 +1,3 @@
-Muldis_D:Plain_Text:"http://muldis.com":"0.200";
-
-script Unicode({1..6.2},UTF-8,canon);
-
-package UC ::= Muldis_D::Unicode:"http://muldis.com":"0.200";
-
-using MD ::= Muldis_D:"http://muldis.com":"0.200";
-
-searching [MD,UC];
-
-`#########################################################################`
-
 UC.Text.Unicode_Codepoint ::= type of Integer
     where (topic in 0..0x10FFFF);
 
@@ -24,8 +12,6 @@ UC.Text.Unicode.Canon ::= type of Text.Unicode
 
 UC.Text.Unicode.Compat ::= type of Text.Unicode.Canon
     where ...;
-
-`#########################################################################`
 
 UC.Text.unicode_codes ::= function
     --> Unicode_Codepoints <-- (Text.Unicode)
