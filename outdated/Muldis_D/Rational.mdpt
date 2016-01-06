@@ -1,11 +1,3 @@
-Muldis_D:Plain_Text:"http://muldis.com":"0.200";
-
-script ASCII;
-
-package_segment Muldis_D:"http://muldis.com":"0.200":Rational;
-
-`#########################################################################`
-
 MD.Rational ::= type abstract composes Numeric;
 
 MD.Anormal_Ratio ::= type of Capsule

@@ -1,11 +1,3 @@
-Muldis_D:Plain_Text:"http://muldis.com":"0.200";
-
-script ASCII;
-
-package_segment Muldis_D:"http://muldis.com":"0.200":Integral;
-
-`#########################################################################`
-
 MD.Integral ::= type abstract composes Numeric and_provides_its_default;
 
 MD.Integer."" ::= type of Universal where topic --> \^isa_Integer default 0 
