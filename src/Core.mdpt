@@ -1,5 +1,5 @@
 Muldis_D:Plain_Text:"http://muldis.com":"0.201.0.-9";
-script ASCII;
+script Unicode:8.0:UTF-8;
 
 `#########################################################################`
 `#########################################################################`
@@ -26,6 +26,8 @@ package
         is commutative;
 
     ::MD::"!=" ::= alias of not_same;
+
+    ::MD::Unicode_Aliases::"≠" ::= alias of not_same;
 
     ::MD::is_a ::= function --> Boolean <-- (Any, Reference)
         : (\.0 --> \.1);
@@ -59,7 +61,11 @@ package
 
     ::MD::Neg_Inf ::= constant (\@0) composes {Orderable, Excuse};
 
+    ::MD::Unicode_Aliases::"-∞" ::= alias of Neg_Inf;
+
     ::MD::Pos_Inf ::= constant (\@0) composes {Orderable, Excuse};
+
+    ::MD::Unicode_Aliases::"+∞" ::= alias of Pos_Inf;
 
     ::MD::in_order::"" ::= function virtual
         --> Boolean <-- (Orderable, Orderable);
@@ -92,9 +98,13 @@ package
 
     ::MD::"<=" ::= alias of before_or_same;
 
+    ::MD::Unicode_Aliases::"≤" ::= alias of before_or_same;
+
     ::MD::after_or_same ::= function commutes before_or_same;
 
     ::MD::">=" ::= alias of after_or_same;
+
+    ::MD::Unicode_Aliases::"≥" ::= alias of after_or_same;
 
     ::MD::min ::= function --> Orderable <-- (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (Pos_Inf())
@@ -176,7 +186,11 @@ package
 
     ::MD::False ::= constant (False);
 
+    ::MD::Unicode_Aliases::"⊥" ::= alias of False;
+
     ::MD::True ::= constant (True);
+
+    ::MD::Unicode_Aliases::"⊤" ::= alias of True;
 
     ::MD::in_order::Boolean ::= function --> Boolean <-- (Boolean, Boolean)
         implements 2::""
@@ -202,23 +216,35 @@ package
 
     ::MD::"!" ::= alias of not;
 
+    ::MD::Unicode_Aliases::"¬" ::= alias of not;
+
     ::MD::and ::= function --> Boolean <-- (Boolean, Boolean)
         is {associative,commutative,idempotent} identity (True)
         : (\.0 ?? \.1 !! False);
+
+    ::MD::Unicode_Aliases::"∧" ::= alias of and;
 
     ::MD::nand ::= function negates and
         is commutative;
 
     ::MD::not_and ::= alias of nand;
 
+    ::MD::Unicode_Aliases::"⊼" ::= alias of nand;
+    ::MD::Unicode_Aliases::"↑" ::= alias of nand;
+
     ::MD::or ::= function --> Boolean <-- (Boolean, Boolean)
         is {associative,commutative,idempotent} identity (False)
         : (\.0 ?? True !! \.1);
+
+    ::MD::Unicode_Aliases::"∨" ::= alias of or;
 
     ::MD::nor ::= function negates or
         is commutative;
 
     ::MD::not_or ::= alias of nor;
+
+    ::MD::Unicode_Aliases::"⊽" ::= alias of nor;
+    ::MD::Unicode_Aliases::"↓" ::= alias of nor;
 
     ::MD::xnor ::= function --> Boolean <-- (Boolean, Boolean)
         is {associative,commutative} identity (True)
@@ -226,23 +252,36 @@ package
 
     ::MD::iff ::= alias of xnor;
 
+    ::MD::Unicode_Aliases::"↔" ::= alias of xnor;
+
     ::MD::xor ::= function negates xnor
         is {associative,commutative} identity (False);
+
+    ::MD::Unicode_Aliases::"⊻" ::= alias of xor;
+    ::MD::Unicode_Aliases::"↮" ::= alias of xor;
 
     ::MD::imp ::= function --> Boolean <-- (Boolean, Boolean)
         : (\.0 ?? \.1 !! True);
 
     ::MD::implies ::= alias of imp;
 
+    ::MD::Unicode_Aliases::"→" ::= alias of imp;
+
     ::MD::nimp ::= function negates imp;
 
     ::MD::not_implies ::= alias of nimp;
 
+    ::MD::Unicode_Aliases::"↛" ::= alias of nimp;
+
     ::MD::if ::= function commutes imp;
+
+    ::MD::Unicode_Aliases::"←" ::= alias of if;
 
     ::MD::nif ::= function commutes nimp;
 
     ::MD::not_if ::= alias of nif;
+
+    ::MD::Unicode_Aliases::"↚" ::= alias of nif;
 
 `#########################################################################`
 
@@ -311,6 +350,8 @@ package
         --> Numerical <-- {(Numerical), (Numerical, Numerical)}
         : (topic --> (degree(topic) = 1 ?? \@opposite !! \@minus));
 
+    ::MD::Unicode_Aliases::"−" ::= alias of "-";
+
     ::MD::modulus_minus ::= function
         --> Numerical <-- (Numerical, Numerical)
         is commutative
@@ -319,12 +360,16 @@ package
     ::MD::abs_minus ::= alias of modulus_minus;
     ::MD::"|-|"     ::= alias of modulus_minus;
 
+    ::MD::Unicode_Aliases::"|−|" ::= alias of modulus_minus;
+
     ::MD::times::"" ::= function virtual
         --> Numerical <-- (Numerical, Numerical)
         is {associative,commutative}
         repeater integral_nn_power;
 
     ::MD::"*" ::= alias of times;
+
+    ::MD::Unicode_Aliases::"×" ::= alias of times;
 
     ::MD::multiple_of::"" ::= function virtual
         --> {Boolean, Excuse::Div_By_Zero} <-- (Numerical, Numerical);
@@ -341,6 +386,9 @@ package
         --> {Numerical, Excuse::Div_By_Zero} <-- (Numerical, Numerical);
 
     ::MD::"/" ::= alias of fractional_divided_by;
+
+    ::MD::Unicode_Aliases::"÷" ::= alias of fractional_divided_by;
+    ::MD::Unicode_Aliases::"∕" ::= alias of fractional_divided_by;
 
     ::MD::integral_divided_by::"" ::= function virtual
         --> {Numerical, Excuse::Div_By_Zero}
@@ -778,7 +826,11 @@ package
 
     ::MD::is_empty ::= function negates so::Emptyable;
 
+    ::MD::Unicode_Aliases::"∅?" ::= alias of is_empty;
+
     ::MD::empty::"" ::= function virtual --> Emptyable <-- (Emptyable);
+
+    ::MD::Unicode_Aliases::"∅" ::= alias of empty;
 
 `#########################################################################`
 
@@ -891,10 +943,16 @@ package
 
     ::MD::String::Maximal_Chars ::= alias of String;
 
-    ::MD::Text::ASCII ::= selection of Text
-        where (topic->Text_from_Maximal_Chars is_a \@String::ASCII_Chars);
+    ::MD::Text::Unicode ::= selection of Text
+        where (topic->Text_from_Maximal_Chars is_a \@String::Unicode_Codes);
 
-    ::MD::String::ASCII_Chars ::= selection of String
+    ::MD::String::Unicode_Codes ::= selection of String::Maximal_Chars
+        where (topic all (function : (topic in 0..0x10FFFF)));
+
+    ::MD::Text::ASCII ::= selection of Text::Unicode
+        where (topic->Text_from_Unicode_Codes is_a \@String::ASCII_Chars);
+
+    ::MD::String::ASCII_Chars ::= selection of String::Unicode_Codes
         where (topic all (function : (topic in 0..127)));
 
     ::MD::in_order::Text ::= function --> Boolean <-- (Text, Text)
@@ -932,13 +990,21 @@ package
         --> String::Maximal_Chars <-- (Text)
         : (\.0->unwrap);
 
+    ::MD::Text_from_Unicode_Codes ::= function
+        --> Text::Unicode <-- (String::Unicode_Codes)
+        : (\.0->Text_from_Maximal_Chars);
+
+    ::MD::Text_to_Unicode_Codes ::= function
+        --> String::Unicode_Codes <-- (Text::Unicode)
+        : (\.0->Text_to_Maximal_Chars);
+
     ::MD::Text_from_ASCII_Chars ::= function
         --> Text::ASCII <-- (String::ASCII_Chars)
-        : (\.0->Text_from_Maximal_Chars);
+        : (\.0->Text_from_Unicode_Codes);
 
     ::MD::Text_to_ASCII_Chars ::= function
         --> String::ASCII_Chars <-- (Text::ASCII)
-        : (\.0->Text_to_Maximal_Chars);
+        : (\.0->Text_to_Unicode_Codes);
 
 `#########################################################################`
 
@@ -962,11 +1028,19 @@ package
 
     ::MD::has::"" ::= function virtual --> Boolean <-- (Homogeneous, Any);
 
+    ::MD::Unicode_Aliases::"∋" ::= alias of has;
+
     ::MD::not_has ::= function negates has;
+
+    ::MD::Unicode_Aliases::"∌" ::= alias of not_has;
 
     ::MD::in ::= function commutes has;
 
+    ::MD::Unicode_Aliases::"∈" ::= alias of in;
+
     ::MD::not_in ::= function commutes not_has;
+
+    ::MD::Unicode_Aliases::"∉" ::= alias of not_in;
 
     ::MD::nest::"" ::= function virtual --> Homogeneous <-- (Homogeneous)
         requires (...);
@@ -983,14 +1057,20 @@ package
 
     ::MD::there_exists ::= alias of any;
 
+    ::MD::Unicode_Aliases::"∃" ::= alias of any;
+
     ::MD::none ::= function negates any;
 
     ::MD::there_does_not_exist ::= alias of none;
+
+    ::MD::Unicode_Aliases::"∄" ::= alias of none;
 
     ::MD::all ::= function --> Boolean <-- (Homogeneous, Primed_Func_Ref)
         : (\.0 none negated_func(of : \.1, passing_args : \@(0)));
 
     ::MD::for_all ::= alias of all;
+
+    ::MD::Unicode_Aliases::"∀" ::= alias of all;
 
     ::MD::all_is_a ::= function --> Boolean <-- (Homogeneous, Reference)
         : (\.0 all (\@is_a assuming topic ^ \@(1)));
@@ -1103,6 +1183,8 @@ package
 
     ::MD::String::"" ::= selection of Array where (topic all_is_a \@Integer);
 
+    ::MD::Unicode_Aliases::"~∅" ::= constant ([]);
+
     ::MD::so::Array ::= function --> Boolean <-- (Array)
         implements 2::""
         : (\.0 != []);
@@ -1201,6 +1283,8 @@ package
             where (...);
     };
 
+    ::MD::Unicode_Aliases::"?∅" ::= constant ({});
+
     ::MD::so::Set ::= function --> Boolean <-- (Set)
         implements 2::""
         : (\.0 != {});
@@ -1248,6 +1332,8 @@ package
     ::MD::Bag ::= selection where (topic -->^ FDN__is_a_Bag)
         default (\+{})
         composes Homogeneous;
+
+    ::MD::Unicode_Aliases::"+∅" ::= constant (\+{});
 
     ::MD::so::Bag ::= function --> Boolean <-- (Bag)
         implements 2::""
