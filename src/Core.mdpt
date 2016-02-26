@@ -837,7 +837,31 @@ package
     ::MD::Stringy ::= interface
         composes {Orderable, Emptyable and_provides_its_default}
         requires_implements {in_order,so,empty
+            ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate};
+
+    ::MD::substring_of::"" ::= function virtual
+        --> Boolean <-- (Stringy, Stringy);
+
+    ::MD::superstring_of ::= function commutes substring_of;
+
+    ::MD::proper_substring_or_superstring ::= function
+        --> Boolean <-- (String, String)
+        is commutative
+        : (topic --> \@not_same and topic --> \@substring_or_superstring);
+
+    ::MD::substring_or_superstring ::= function
+        --> Boolean <-- (String, String)
+        is commutative
+        : (topic --> \@substring_of or topic --> \@superstring_of);
+
+    ::MD::overlaps_string::"" ::= function virtual
+        --> Boolean <-- (String, String)
+        is commutative;
+
+    ::MD::disjoint_string::"" ::= function virtual
+        --> Boolean <-- (String, String)
+        is commutative;
 
     ::MD::catenate::"" ::= function virtual
         --> Stringy <-- (Stringy, Stringy)
@@ -872,6 +896,22 @@ package
     ::MD::empty::Bits ::= function --> Bits <-- (Bits)
         implements 2::""
         : (\~?'');
+
+    ::MD::substring_of::Bits ::= function --> Boolean <-- (Bits, Bits)
+        implements 2::""
+        : ((\.0->Bits_to_String_Bits) substring_of (\.1->Bits_to_String_Bits));
+
+    ::MD::overlaps_string::Bits ::= function --> Boolean <-- (Bits, Bits)
+        implements 2::""
+        is commutative
+        : ((\.0->Bits_to_String_Bits)
+            overlaps_string (\.1->Bits_to_String_Bits));
+
+    ::MD::disjoint_string::Bits ::= function --> Boolean <-- (Bits, Bits)
+        implements 2::""
+        is commutative
+        : ((\.0->Bits_to_String_Bits)
+            disjoint_string (\.1->Bits_to_String_Bits));
 
     ::MD::catenate::Bits ::= function --> Bits <-- (Bits, Bits)
         implements 2::""
@@ -912,6 +952,20 @@ package
         implements 2::""
         : (\~+'');
 
+    ::MD::substring_of::Blob ::= function --> Boolean <-- (Blob, Blob)
+        implements 2::""
+        : ((\.0->Blob_to_Octets) substring_of (\.1->Blob_to_Octets));
+
+    ::MD::overlaps_string::Blob ::= function --> Boolean <-- (Blob, Blob)
+        implements 2::""
+        is commutative
+        : ((\.0->Blob_to_Octets) overlaps_string (\.1->Blob_to_Octets));
+
+    ::MD::disjoint_string::Blob ::= function --> Boolean <-- (Blob, Blob)
+        implements 2::""
+        is commutative
+        : ((\.0->Blob_to_Octets) disjoint_string (\.1->Blob_to_Octets));
+
     ::MD::catenate::Blob ::= function --> Blob <-- (Blob, Blob)
         implements 2::""
         is associative identity (\~+'')
@@ -933,6 +987,7 @@ package
     ::MD::Textual ::= interface
         composes Stringy
         requires_implements {in_order,so,empty
+            ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate
             ,to_Text};
 
@@ -970,6 +1025,23 @@ package
     ::MD::empty::Text ::= function --> Text <-- (Text)
         implements 2::""
         : ('');
+
+    ::MD::substring_of::Text ::= function --> Boolean <-- (Text, Text)
+        implements 2::""
+        : ((\.0->Text_to_Maximal_Chars)
+            substring_of (\.1->Text_to_Maximal_Chars));
+
+    ::MD::overlaps_string::Text ::= function --> Boolean <-- (Text, Text)
+        implements 2::""
+        is commutative
+        : ((\.0->Text_to_Maximal_Chars)
+            overlaps_string (\.1->Text_to_Maximal_Chars));
+
+    ::MD::disjoint_string::Text ::= function --> Boolean <-- (Text, Text)
+        implements 2::""
+        is commutative
+        : ((\.0->Text_to_Maximal_Chars)
+            disjoint_string (\.1->Text_to_Maximal_Chars));
 
     ::MD::catenate::Text ::= function --> Text <-- (Text, Text)
         implements 2::""
@@ -1029,7 +1101,10 @@ package
     ::MD::Homogeneous ::= interface
         composes Emptyable
         requires_implements {so,empty
-            ,has_n
+            ,has_n,multiplicity,insert_n,remove_n
+            ,all_unique,unique
+            ,subset_of,same_members,overlaps_members,disjoint_members
+            ,member_plus,except,intersect,union,exclusive
             ,nest,unnest,any,where,map,reduce,...};
 
     ::MD::in ::= function commutes has;
@@ -1051,6 +1126,112 @@ package
 
     ::MD::has_n::"" ::= function virtual
         --> Boolean <-- (Homogeneous, Any, Integer_NN);
+
+    ::MD::multiplicity::"" ::= function virtual
+        --> Integer_NN <-- (Homogeneous, Any);
+
+    ::MD::insert ::= function --> Homogeneous <-- (Homogeneous, Any)
+        : (insert_n(\.0, \.1, 1));
+
+    ::MD::insert_n::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
+
+    ::MD::remove ::= function --> Homogeneous <-- (Homogeneous, Any)
+        : (remove_n(\.0, \.1, 1));
+
+    ::MD::remove_n::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
+
+    ::MD::all_unique::"" ::= function virtual --> Boolean <-- (Homogeneous);
+
+    ::MD::unique::"" ::= function virtual --> Homogeneous <-- (Homogeneous);
+
+    ::MD::proper_subset_of ::= function
+        --> Boolean <-- (Homogeneous, Homogeneous)
+        : (topic --> \@not_same and topic --> \@subset_of);
+
+    ::MD::Unicode_Aliases::"⊂" ::= alias of proper_subset_of;
+
+    ::MD::not_proper_subset_of ::= function negates proper_subset_of;
+
+    ::MD::Unicode_Aliases::"⊄" ::= alias of not_proper_subset_of;
+
+    ::MD::proper_superset_of ::= function commutes proper_subset_of;
+
+    ::MD::Unicode_Aliases::"⊃" ::= alias of proper_superset_of;
+
+    ::MD::not_proper_superset_of ::= function negates proper_superset_of;
+
+    ::MD::Unicode_Aliases::"⊅" ::= alias of not_proper_superset_of;
+
+    ::MD::subset_of::"" ::= function virtual
+        --> Boolean <-- (Homogeneous, Homogeneous);
+
+    ::MD::Unicode_Aliases::"⊆" ::= alias of subset_of;
+
+    ::MD::not_subset_of ::= function negates subset_of;
+
+    ::MD::Unicode_Aliases::"⊈" ::= alias of not_subset_of;
+
+    ::MD::superset_of ::= function commutes subset_of;
+
+    ::MD::Unicode_Aliases::"⊇" ::= alias of superset_of;
+
+    ::MD::not_superset_of ::= function negates superset_of;
+
+    ::MD::Unicode_Aliases::"⊉" ::= alias of not_superset_of;
+
+    ::MD::same_members::"" ::= function virtual
+        --> Boolean <-- (Homogeneous, Homogeneous)
+        is commutative;
+
+    ::MD::proper_subset_or_superset ::= function
+        --> Boolean <-- (Homogeneous, Homogeneous)
+        is commutative
+        : (not topic --> \@same_members and topic --> \@subset_or_superset);
+
+    ::MD::subset_or_superset ::= function
+        --> Boolean <-- (Homogeneous, Homogeneous)
+        is commutative
+        : (topic --> \@subset_of or topic --> \@superset_of);
+
+    ::MD::overlaps_members::"" ::= function virtual
+        --> Boolean <-- (Homogeneous, Homogeneous)
+        is commutative;
+
+    ::MD::disjoint_members::"" ::= function virtual
+        --> Boolean <-- (Homogeneous, Homogeneous)
+        is commutative;
+
+    ::MD::member_plus::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Homogeneous)
+        is associative;
+
+    ::MD::Unicode_Aliases::"⊎" ::= alias of member_plus;
+
+    ::MD::except::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Homogeneous);
+
+    ::MD::Unicode_Aliases::"∖" ::= alias of except;
+
+    ::MD::intersect::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Homogeneous)
+        is {associative,idempotent};
+
+    ::MD::Unicode_Aliases::"∩" ::= alias of intersect;
+
+    ::MD::union::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Homogeneous)
+        is idempotent;
+
+    ::MD::Unicode_Aliases::"∪" ::= alias of union;
+
+    ::MD::exclusive::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Homogeneous);
+
+    ::MD::symm_diff ::= alias of exclusive;
+
+    ::MD::Unicode_Aliases::"∆" ::= alias of exclusive;
 
     ::MD::nest::"" ::= function virtual --> Homogeneous <-- (Homogeneous)
         requires (...);
@@ -1101,25 +1282,41 @@ package
     ::MD::Discrete ::= interface
         composes Homogeneous and_provides_its_default
         requires_implements {so,empty
-            ,has_n
+            ,has_n,multiplicity,insert_n,remove_n
+            ,all_unique,unique
+            ,subset_of,same_members,overlaps_members,disjoint_members
+            ,member_plus,except,intersect,union,exclusive
             ,nest,unnest,any,where,map,reduce,...
-            ,count};
+            ,to_Set,to_Bag,count,unique_count};
+
+    ::MD::to_Set::"" ::= function virtual --> Set <-- (Discrete);
+
+    ::MD::"?<" ::= alias of to_Set;
+
+    ::MD::to_Bag::"" ::= function virtual --> Bag <-- (Discrete);
+
+    ::MD::"+<" ::= alias of to_Bag;
 
     ::MD::count::"" ::= function virtual --> Integer_NN <-- (Discrete);
 
     ::MD::cardinality ::= alias of count;
     ::MD::"#"         ::= alias of count;
 
+    ::MD::unique_count::"" ::= function virtual --> Integer_NN <-- (Discrete);
+
 `#########################################################################`
 
     ::MD::Positional ::= interface
         composes {Stringy, Accessible, Discrete and_provides_its_default}
         requires_implements {so,empty
+            ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate
-            ,has_n
+            ,has_n,multiplicity,insert_n,remove_n
+            ,all_unique,unique
+            ,except,intersect,union,exclusive
             ,nest,unnest,any,where,map,reduce,...
-            ,count
-            ,elem,has_index,first_index,last_index,slice,index_succ_all_matches,...};
+            ,to_Bag,to_Set,count
+            ,to_Array,elem,has_index,first_index,last_index,slice,index_succ_all_matches,...};
 
     ::MD::Excuse::No_Such_Index ::= constant (\@0) composes Excuse;
 
@@ -1139,6 +1336,43 @@ package
         e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
         e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
     );
+
+    ::MD::subset_of::Positional ::= function
+        --> Boolean <-- (Positional, Positional)
+        implements 2::""
+        : ((\.0->to_Bag) subset_of (\.1->to_Bag));
+
+    ::MD::same_members::Positional ::= function
+        --> Boolean <-- (Positional, Positional)
+        implements 2::""
+        is commutative
+        : ((\.0->to_Bag) same_members (\.1->to_Bag));
+
+    ::MD::overlaps_members::Positional ::= function
+        --> Boolean <-- (Positional, Positional)
+        implements 2::""
+        is commutative
+        : ((\.0->to_Bag) overlaps_members (\.1->to_Bag));
+
+    ::MD::disjoint_members::Positional ::= function
+        --> Boolean <-- (Positional, Positional)
+        implements 2::""
+        is commutative
+        : ((\.0->to_Bag) disjoint_members (\.1->to_Bag));
+
+    ::MD::member_plus::Positional ::= function
+        --> Positional <-- (Positional, Positional)
+        implements 2::""
+        is associative
+        : (topic --> \@catenate);
+
+    ::MD::unique_count::Positional ::= function --> Integer_NN <-- (Positional)
+        implements 2::""
+        : (\.0->to_Set->count);
+
+    ::MD::to_Array::"" ::= function virtual --> Array <-- (Positional);
+
+    ::MD::"~<" ::= alias of to_Array;
 
     ::MD::elem::"" ::= function virtual --> Any <-- (Positional, Integral)
         requires (topic --> \@has_index);
@@ -1160,6 +1394,10 @@ package
     ::MD::".!"::Positional ::= function --> Any <-- (Positional, Integral)
         implements 2::""
         : (topic --> \@elem_or_excuse);
+
+    ::MD::squish ::= function --> Positional <-- (Positional)
+        : (\.0 map (function : (\%( group : \.0, member : False )))
+            ->nest map (function : (\.0.\group)));
 
     ::MD::first_index::"" ::= function virtual --> Integral <-- (Positional)
         requires (?\.0);
@@ -1210,6 +1448,20 @@ package
         implements 2::""
         : ([]);
 
+    ::MD::substring_of::Array ::= function --> Boolean <-- (Array, Array)
+        implements 2::""
+        : (topic -->^ FDN__Array_substring_of);
+
+    ::MD::overlaps_string::Array ::= function --> Boolean <-- (Array, Array)
+        implements 2::""
+        is commutative
+        : (topic -->^ FDN__Array_overlaps_string);
+
+    ::MD::disjoint_string::Array ::= function --> Boolean <-- (Array, Array)
+        implements 2::""
+        is commutative
+        : (topic -->^ FDN__Array_disjoint_string);
+
     ::MD::catenate::Array ::= function --> Array <-- (Array, Array)
         implements 2::""
         is associative identity ([])
@@ -1223,6 +1475,45 @@ package
     ::MD::has_n::Array ::= function --> Boolean <-- (Array, Any, Integer_NN)
         implements 2::""
         : (topic -->^ FDN__Array_has_n);
+
+    ::MD::multiplicity::Array ::= function --> Integer_NN <-- (Array, Any)
+        implements 2::""
+        : (topic -->^ FDN__Array_multiplicity);
+
+    ::MD::insert_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Array_insert_n);
+
+    ::MD::remove_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Array_remove_n);
+
+    ::MD::all_unique::Array ::= function --> Boolean <-- (Array)
+        implements 2::""
+        : (topic -->^ FDN__Array_all_unique);
+
+    ::MD::unique::Array ::= function --> Array <-- (Array)
+        implements 2::""
+        : (topic -->^ FDN__Array_unique);
+
+    ::MD::except::Array ::= function --> Array <-- (Array, Array)
+        implements 2::""
+        : (topic -->^ FDN__Array_except);
+
+    ::MD::intersect::Array ::= function --> Array <-- (Array, Array)
+        implements 2::""
+        is {associative,idempotent}
+        : (topic -->^ FDN__Array_intersect);
+
+    ::MD::union::Array ::= function --> Array <-- (Array, Array)
+        implements 2::""
+        is idempotent identity ([])
+        : (topic -->^ FDN__Array_union);
+
+    ::MD::exclusive::Array ::= function --> Array <-- (Array, Array)
+        implements 2::""
+        identity ([])
+        : (topic -->^ FDN__Array_exclusive);
 
     ::MD::nest::Array ::= function --> Array <-- (Array)
         implements 2::""
@@ -1250,9 +1541,21 @@ package
         implements 2::""
         : (topic -->^ FDN__Array_reduce);
 
+    ::MD::to_Set::Array ::= function --> Set <-- (Array)
+        implements 2::""
+        : (\.0->to_Bag->to_Set);
+
+    ::MD::to_Bag::Array ::= function --> Bag <-- (Array)
+        implements 2::""
+        : (topic -->^ FDN__Array_to_Bag);
+
     ::MD::count::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
         : (topic -->^ FDN__Array_count);
+
+    ::MD::to_Array::Array ::= function --> Array <-- (Array)
+        implements 2::""
+        : (\.0);
 
     ::MD::elem::Array ::= function --> Any <-- (Array, Integer_NN)
         implements 2::""
@@ -1297,7 +1600,7 @@ package
             composes {Discrete, Setty and_provides_its_default};
 
         _Asset ::= selection of Bag
-            where (...);
+            where (all_unique topic);
     };
 
     ::MD::empty_Set ::= constant ({});
@@ -1315,6 +1618,70 @@ package
     ::MD::has_n::Set ::= function --> Boolean <-- (Set, Any, Integer_NN)
         implements 2::""
         : (has_n(\.0->unwrap, \.1, \.2));
+
+    ::MD::multiplicity::Set ::= function --> Integer_NN <-- (Set, Any)
+        implements 2::""
+        : (\.0->unwrap multiplicity \.1);
+
+    ::MD::insert_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
+        implements 2::""
+        : (\.0 has \.1 or \.2 = 0 ?? \.0
+            !! \Set wrap insert_n(\.0->unwrap, \.1, 1));
+
+    ::MD::remove_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
+        implements 2::""
+        : (\Set wrap remove_n(\.0->unwrap, \.1, \.2));
+
+    ::MD::all_unique::Set ::= function --> Boolean <-- (Set)
+        implements 2::""
+        : (True);
+
+    ::MD::unique::Set ::= function --> Set <-- (Set)
+        implements 2::""
+        : (\.0);
+
+    ::MD::subset_of::Set ::= function --> Boolean <-- (Set, Set)
+        implements 2::""
+        : ((\.0->unwrap) subset_of (\.1->unwrap));
+
+    ::MD::same_members::Set ::= function --> Boolean <-- (Set, Set)
+        implements 2::""
+        is commutative
+        : (topic --> \@same);
+
+    ::MD::overlaps_members::Set ::= function --> Boolean <-- (Set, Set)
+        implements 2::""
+        is commutative
+        : ((\.0->unwrap) overlaps_members (\.1->unwrap));
+
+    ::MD::disjoint_members::Set ::= function --> Boolean <-- (Set, Set)
+        implements 2::""
+        is commutative
+        : ((\.0->unwrap) disjoint_members (\.1->unwrap));
+
+    ::MD::member_plus::Set ::= function --> Set <-- (Set, Set)
+        implements 2::""
+        is {associative,commutative,idempotent} identity ({})
+        : (topic --> \@union);
+
+    ::MD::except::Set ::= function --> Set <-- (Set, Set)
+        implements 2::""
+        : (\Set wrap ((\.0->unwrap) except (\.1->unwrap)));
+
+    ::MD::intersect::Set ::= function --> Set <-- (Set, Set)
+        implements 2::""
+        is {associative,commutative,idempotent}
+        : (\Set wrap ((\.0->unwrap) intersect (\.1->unwrap)));
+
+    ::MD::union::Set ::= function --> Set <-- (Set, Set)
+        implements 2::""
+        is {associative,commutative,idempotent} identity ({})
+        : (\Set wrap ((\.0->unwrap) union (\.1->unwrap)));
+
+    ::MD::exclusive::Set ::= function --> Set <-- (Set, Set)
+        implements 2::""
+        is {associative,commutative} identity ({})
+        : (\Set wrap ((\.0->unwrap) exclusive (\.1->unwrap)));
 
     ::MD::nest::Set ::= function --> Set <-- (Set)
         implements 2::""
@@ -1342,9 +1709,21 @@ package
         implements 2::""
         : (\Set wrap (\.0->unwrap reduce \.1));
 
+    ::MD::to_Set::Set ::= function --> Set <-- (Set)
+        implements 2::""
+        : (\.0);
+
+    ::MD::to_Bag::Set ::= function --> Bag <-- (Set)
+        implements 2::""
+        : (\.0->unwrap);
+
     ::MD::count::Set ::= function --> Integer_NN <-- (Set)
         implements 2::""
         : (\.0->unwrap->count);
+
+    ::MD::unique_count::Set ::= function --> Integer_NN <-- (Set)
+        implements 2::""
+        : (\.0->count);
 
 `#########################################################################`
 
@@ -1367,6 +1746,69 @@ package
     ::MD::has_n::Bag ::= function --> Boolean <-- (Bag, Any, Integer_NN)
         implements 2::""
         : (topic -->^ FDN__Bag_has_n);
+
+    ::MD::multiplicity::Bag ::= function --> Integer_NN <-- (Bag, Any)
+        implements 2::""
+        : (topic -->^ FDN__Bag_multiplicity);
+
+    ::MD::insert_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Bag_insert_n);
+
+    ::MD::remove_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Bag_remove_n);
+
+    ::MD::all_unique::Bag ::= function --> Boolean <-- (Bag)
+        implements 2::""
+        : (topic -->^ FDN__Bag_all_unique);
+
+    ::MD::unique::Bag ::= function --> Bag <-- (Bag)
+        implements 2::""
+        : (topic -->^ FDN__Bag_unique);
+
+    ::MD::subset_of::Bag ::= function --> Boolean <-- (Bag, Bag)
+        implements 2::""
+        : (topic -->^ FDN__Bag_subset_of);
+
+    ::MD::same_members::Bag ::= function --> Boolean <-- (Bag, Bag)
+        implements 2::""
+        is commutative
+        : (topic --> \@same);
+
+    ::MD::overlaps_members::Bag ::= function --> Boolean <-- (Bag, Bag)
+        implements 2::""
+        is commutative
+        : (topic -->^ FDN__Bag_overlaps_members);
+
+    ::MD::disjoint_members::Bag ::= function --> Boolean <-- (Bag, Bag)
+        implements 2::""
+        is commutative
+        : (topic -->^ FDN__Bag_disjoint_members);
+
+    ::MD::member_plus::Bag ::= function --> Bag <-- (Bag, Bag)
+        implements 2::""
+        is {associative,commutative} identity (\+{})
+        : (topic -->^ FDN__Bag_member_plus);
+
+    ::MD::except::Bag ::= function --> Bag <-- (Bag, Bag)
+        implements 2::""
+        : (topic -->^ FDN__Bag_except);
+
+    ::MD::intersect::Bag ::= function --> Bag <-- (Bag, Bag)
+        implements 2::""
+        is {associative,commutative,idempotent}
+        : (topic -->^ FDN__Bag_intersect);
+
+    ::MD::union::Bag ::= function --> Bag <-- (Bag, Bag)
+        implements 2::""
+        is {associative,commutative,idempotent} identity (\+{})
+        : (topic -->^ FDN__Bag_union);
+
+    ::MD::exclusive::Bag ::= function --> Bag <-- (Bag, Bag)
+        implements 2::""
+        is {associative,commutative} identity (\+{})
+        : (topic -->^ FDN__Bag_exclusive);
 
     ::MD::nest::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
@@ -1394,9 +1836,21 @@ package
         implements 2::""
         : (topic -->^ FDN__Bag_reduce);
 
+    ::MD::to_Set::Bag ::= function --> Set <-- (Bag)
+        implements 2::""
+        : (\Set wrap (\.0->unique));
+
+    ::MD::to_Bag::Bag ::= function --> Bag <-- (Bag)
+        implements 2::""
+        : (\.0);
+
     ::MD::count::Bag ::= function --> Integer_NN <-- (Bag)
         implements 2::""
         : (topic -->^ FDN__Bag_count);
+
+    ::MD::unique_count::Bag ::= function --> Integer_NN <-- (Bag)
+        implements 2::""
+        : (topic -->^ FDN__Bag_unique_count);
 
 `#########################################################################`
 
@@ -1565,7 +2019,7 @@ package
             composes {Relational, Setty};
 
         _Asset ::= selection of Tuple_Bag
-            where (...);
+            where (all_unique topic);
     };
 
     ::MD::Relation_D0C0 ::= constant (\?%());
