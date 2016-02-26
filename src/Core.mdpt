@@ -836,7 +836,8 @@ package
 
     ::MD::Stringy ::= interface
         composes {Orderable, Emptyable and_provides_its_default}
-        requires_implements {in_order,so,empty,catenate,replicate};
+        requires_implements {in_order,so,empty
+            ,catenate,replicate};
 
     ::MD::catenate::"" ::= function virtual
         --> Stringy <-- (Stringy, Stringy)
@@ -846,7 +847,7 @@ package
     ::MD::"~" ::= alias of catenate;
 
     ::MD::replicate::"" ::= function virtual
-        --> Stringy <-- (Stringy, Integral_NN);
+        --> Stringy <-- (Stringy, Integer_NN);
 
     ::MD::"~#" ::= alias of replicate;
 
@@ -862,7 +863,7 @@ package
 
     ::MD::in_order::Bits ::= function --> Boolean <-- (Bits, Bits)
         implements 2::""
-        : ((\.0->Bits_to_Bits) in_order (\.1->Bits_to_Bits));
+        : ((\.0->Bits_to_String_Bits) in_order (\.1->Bits_to_String_Bits));
 
     ::MD::so::Bits ::= function --> Boolean <-- (Bits)
         implements 2::""
@@ -876,16 +877,17 @@ package
         implements 2::""
         is associative identity (\~?'')
         repeater replicate::Bits
-        : (Bits_from_Bits((\.0->Bits_to_Bits) ~ (\.1->Bits_to_Bits)));
+        : (Bits_from_String_Bits((\.0->Bits_to_String_Bits)
+            ~ (\.1->Bits_to_String_Bits)));
 
-    ::MD::replicate::Bits ::= function --> Bits <-- (Bits, Integral_NN)
+    ::MD::replicate::Bits ::= function --> Bits <-- (Bits, Integer_NN)
         implements 2::""
-        : (Bits_from_Bits((\.0->Bits_to_Bits) ~# \.1));
+        : (Bits_from_String_Bits((\.0->Bits_to_String_Bits) ~# \.1));
 
-    ::MD::Bits_from_Bits ::= function --> Bits <-- (String::Bits)
+    ::MD::Bits_from_String_Bits ::= function --> Bits <-- (String::Bits)
         : (\Bits wrap \.0);
 
-    ::MD::Bits_to_Bits ::= function --> String::Bits <-- (Bits)
+    ::MD::Bits_to_String_Bits ::= function --> String::Bits <-- (Bits)
         : (\.0->unwrap);
 
 `#########################################################################`
@@ -916,7 +918,7 @@ package
         repeater replicate::Blob
         : (Blob_from_Octets((\.0->Blob_to_Octets) ~ (\.1->Blob_to_Octets)));
 
-    ::MD::replicate::Blob ::= function --> Blob <-- (Blob, Integral_NN)
+    ::MD::replicate::Blob ::= function --> Blob <-- (Blob, Integer_NN)
         implements 2::""
         : (Blob_from_Octets((\.0->Blob_to_Octets) ~# \.1));
 
@@ -930,7 +932,9 @@ package
 
     ::MD::Textual ::= interface
         composes Stringy
-        requires_implements {in_order,so,empty,catenate,replicate,to_Text};
+        requires_implements {in_order,so,empty
+            ,catenate,replicate
+            ,to_Text};
 
     ::MD::to_Text::"" ::= function virtual --> Text <-- (Textual);
 
@@ -974,7 +978,7 @@ package
         : (Text_from_Maximal_Chars((\.0->Text_to_Maximal_Chars)
             ~ (\.1->Text_to_Maximal_Chars)));
 
-    ::MD::replicate::Text ::= function --> Text <-- (Text, Integral_NN)
+    ::MD::replicate::Text ::= function --> Text <-- (Text, Integer_NN)
         implements 2::""
         : (Text_from_Maximal_Chars((\.0->Text_to_Maximal_Chars) ~# \.1));
 
@@ -1024,15 +1028,9 @@ package
 
     ::MD::Homogeneous ::= interface
         composes Emptyable
-        requires_implements {so,empty,has,nest,unnest,any,where,map,reduce,...};
-
-    ::MD::has::"" ::= function virtual --> Boolean <-- (Homogeneous, Any);
-
-    ::MD::Unicode_Aliases::"∋" ::= alias of has;
-
-    ::MD::not_has ::= function negates has;
-
-    ::MD::Unicode_Aliases::"∌" ::= alias of not_has;
+        requires_implements {so,empty
+            ,has_n
+            ,nest,unnest,any,where,map,reduce,...};
 
     ::MD::in ::= function commutes has;
 
@@ -1041,6 +1039,18 @@ package
     ::MD::not_in ::= function commutes not_has;
 
     ::MD::Unicode_Aliases::"∉" ::= alias of not_in;
+
+    ::MD::has ::= function --> Boolean <-- (Homogeneous, Any)
+        (has_n(\.0, \.1, 1));
+
+    ::MD::Unicode_Aliases::"∋" ::= alias of has;
+
+    ::MD::not_has ::= function negates has;
+
+    ::MD::Unicode_Aliases::"∌" ::= alias of not_has;
+
+    ::MD::has_n::"" ::= function virtual
+        --> Boolean <-- (Homogeneous, Any, Integer_NN);
 
     ::MD::nest::"" ::= function virtual --> Homogeneous <-- (Homogeneous)
         requires (...);
@@ -1090,9 +1100,12 @@ package
 
     ::MD::Discrete ::= interface
         composes Homogeneous and_provides_its_default
-        requires_implements {so,empty,...,count,...};
+        requires_implements {so,empty
+            ,has_n
+            ,nest,unnest,any,where,map,reduce,...
+            ,count};
 
-    ::MD::count::"" ::= function virtual --> Integral <-- (Homogeneous);
+    ::MD::count::"" ::= function virtual --> Integer_NN <-- (Discrete);
 
     ::MD::cardinality ::= alias of count;
     ::MD::"#"         ::= alias of count;
@@ -1101,10 +1114,12 @@ package
 
     ::MD::Positional ::= interface
         composes {Stringy, Accessible, Discrete and_provides_its_default}
-        requires_implements {so,empty,catenate,replicate
-            ,count,elem,has_index,has,nest,unnest,any,where,map,reduce,...
+        requires_implements {so,empty
+            ,catenate,replicate
+            ,has_n
+            ,nest,unnest,any,where,map,reduce,...
             ,count
-            ,first_index,last_index,slice,index_succ_all_matches,...};
+            ,elem,has_index,first_index,last_index,slice,index_succ_all_matches,...};
 
     ::MD::Excuse::No_Such_Index ::= constant (\@0) composes Excuse;
 
@@ -1183,7 +1198,9 @@ package
 
     ::MD::String::"" ::= selection of Array where (topic all_is_a \@Integer);
 
-    ::MD::Unicode_Aliases::"~∅" ::= constant ([]);
+    ::MD::empty_Array ::= constant ([]);
+
+    ::MD::Unicode_Aliases::"~∅" ::= alias of empty_Array;
 
     ::MD::so::Array ::= function --> Boolean <-- (Array)
         implements 2::""
@@ -1199,26 +1216,13 @@ package
         repeater replicate::Array
         : (topic -->^ FDN__Array_catenate);
 
-    ::MD::replicate::Array ::= function --> Array <-- (Array, Integral_NN)
+    ::MD::replicate::Array ::= function --> Array <-- (Array, Integer_NN)
         implements 2::""
         : (topic -->^ FDN__Array_replicate);
 
-    ::MD::count::Array ::= function --> Integer_NN <-- (Array)
+    ::MD::has_n::Array ::= function --> Boolean <-- (Array, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Array_count);
-
-    ::MD::elem::Array ::= function --> Any <-- (Array, Integer_NN)
-        implements 2::""
-        requires (topic --> \@has_index)
-        : (topic -->^ FDN__Array_elem);
-
-    ::MD::has_index::Array ::= function --> Boolean <-- (Array, Integer_NN)
-        implements 2::""
-        : (topic -->^ FDN__Array_has_index);
-
-    ::MD::has::Array ::= function --> Boolean <-- (Array, Any)
-        implements 2::""
-        : (topic -->^ FDN__Array_has);
+        : (topic -->^ FDN__Array_has_n);
 
     ::MD::nest::Array ::= function --> Array <-- (Array)
         implements 2::""
@@ -1245,6 +1249,19 @@ package
     ::MD::reduce::Array ::= function --> Any <-- (Array, Primed_Func_Ref)
         implements 2::""
         : (topic -->^ FDN__Array_reduce);
+
+    ::MD::count::Array ::= function --> Integer_NN <-- (Array)
+        implements 2::""
+        : (topic -->^ FDN__Array_count);
+
+    ::MD::elem::Array ::= function --> Any <-- (Array, Integer_NN)
+        implements 2::""
+        requires (topic --> \@has_index)
+        : (topic -->^ FDN__Array_elem);
+
+    ::MD::has_index::Array ::= function --> Boolean <-- (Array, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Array_has_index);
 
     ::MD::first_index::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
@@ -1277,13 +1294,15 @@ package
         "" ::= selection of Capsule
             where (has_wrapped( topic, \Set, \@1::_Asset ))
             default ({})
-            composes {Homogeneous, Setty and_provides_its_default};
+            composes {Discrete, Setty and_provides_its_default};
 
         _Asset ::= selection of Bag
             where (...);
     };
 
-    ::MD::Unicode_Aliases::"?∅" ::= constant ({});
+    ::MD::empty_Set ::= constant ({});
+
+    ::MD::Unicode_Aliases::"?∅" ::= alias of empty_Set;
 
     ::MD::so::Set ::= function --> Boolean <-- (Set)
         implements 2::""
@@ -1293,13 +1312,9 @@ package
         implements 2::""
         : ({});
 
-    ::MD::count::Set ::= function --> Integer_NN <-- (Set)
+    ::MD::has_n::Set ::= function --> Boolean <-- (Set, Any, Integer_NN)
         implements 2::""
-        : (\.0->unwrap->count);
-
-    ::MD::has::Set ::= function --> Boolean <-- (Set, Any)
-        implements 2::""
-        : (\.0->unwrap has \.1);
+        : (has_n(\.0->unwrap, \.1, \.2));
 
     ::MD::nest::Set ::= function --> Set <-- (Set)
         implements 2::""
@@ -1327,13 +1342,19 @@ package
         implements 2::""
         : (\Set wrap (\.0->unwrap reduce \.1));
 
+    ::MD::count::Set ::= function --> Integer_NN <-- (Set)
+        implements 2::""
+        : (\.0->unwrap->count);
+
 `#########################################################################`
 
     ::MD::Bag ::= selection where (topic -->^ FDN__is_a_Bag)
         default (\+{})
-        composes Homogeneous;
+        composes Discrete;
 
-    ::MD::Unicode_Aliases::"+∅" ::= constant (\+{});
+    ::MD::empty_Bag ::= constant (\+{});
+
+    ::MD::Unicode_Aliases::"+∅" ::= alias of empty_Bag;
 
     ::MD::so::Bag ::= function --> Boolean <-- (Bag)
         implements 2::""
@@ -1343,13 +1364,9 @@ package
         implements 2::""
         : (\+{});
 
-    ::MD::count::Bag ::= function --> Integer_NN <-- (Bag)
+    ::MD::has_n::Bag ::= function --> Boolean <-- (Bag, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Bag_count);
-
-    ::MD::has::Bag ::= function --> Boolean <-- (Bag, Any)
-        implements 2::""
-        : (topic -->^ FDN__Bag_has);
+        : (topic -->^ FDN__Bag_has_n);
 
     ::MD::nest::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
@@ -1377,6 +1394,10 @@ package
         implements 2::""
         : (topic -->^ FDN__Bag_reduce);
 
+    ::MD::count::Bag ::= function --> Integer_NN <-- (Bag)
+        implements 2::""
+        : (topic -->^ FDN__Bag_count);
+
 `#########################################################################`
 
     ::MD::Attributive ::= interface
@@ -1392,7 +1413,7 @@ package
 
     ::MD::"!?^" ::= alias of is_nullary;
 
-    ::MD::degree::"" ::= function virtual --> Integral <-- (Attributive);
+    ::MD::degree::"" ::= function virtual --> Integer_NN <-- (Attributive);
 
     ::MD::"#^" ::= alias of degree;
 
