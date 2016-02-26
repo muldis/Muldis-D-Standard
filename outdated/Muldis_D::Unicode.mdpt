@@ -1,25 +1,8 @@
-UC.Text.Unicode_Codepoint ::= type of Integer
-    where (topic in 0..0x10FFFF);
-
-UC.Text.Unicode_Codepoints ::= type of String
-    where (every_elem_isa(topic,$Unicode_Codepoint));
-
-UC.Text.Unicode."" ::= type of Text
-    where (maximal_chars(topic) isa $Unicode_Codepoints);
-
 UC.Text.Unicode.Canon ::= type of Text.Unicode
     where ...;
 
 UC.Text.Unicode.Compat ::= type of Text.Unicode.Canon
     where ...;
-
-UC.Text.unicode_codes ::= function
-    --> Unicode_Codepoints <-- (Text.Unicode)
-    : maximal_chars(.0);
-
-UC.Text.from_unicode_codes ::= function
-    --> Text.Unicode <-- (Unicode_Codepoints)
-    : from_maximal_chars(.0);
 
 UC.Text.unicode_utf8_octets ::= function
     --> ... <-- (Text.Unicode)
