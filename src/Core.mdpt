@@ -1091,10 +1091,7 @@ package
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
-            ,any
-            ,insert_n,remove_n
-            ,member_plus,except,intersect,union,exclusive
-            ,nest,unnest,where,map,reduce,...};
+            ,any};
 
     ::MD::in ::= function commutes has;
 
@@ -1203,73 +1200,86 @@ package
     ::MD::all_is_a ::= function --> Boolean <-- (Homogeneous, Reference)
         : (\<0 all (\@is_a assuming topic ^ \@(1)));
 
-    ::MD::insert ::= function --> Homogeneous <-- (Homogeneous, Any)
+`#########################################################################`
+
+    ::MD::Unionable ::= interface
+        composes Homogeneous
+        requires_implements {so,empty
+            ,has_n,multiplicity
+            ,all_unique,unique
+            ,subset_of,same_members,overlaps_members,disjoint_members
+            ,any
+            ,insert_n,remove_n
+            ,member_plus,except,intersect,union,exclusive
+            ,nest,unnest,where,map,reduce,...};
+
+    ::MD::insert ::= function --> Unionable <-- (Unionable, Any)
         : (insert_n(\<0, \<1, 1));
 
     ::MD::insert_n::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
+        --> Unionable <-- (Unionable, Any, Integer_NN);
 
-    ::MD::remove ::= function --> Homogeneous <-- (Homogeneous, Any)
+    ::MD::remove ::= function --> Unionable <-- (Unionable, Any)
         : (remove_n(\<0, \<1, 1));
 
     ::MD::remove_n::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
+        --> Unionable <-- (Unionable, Any, Integer_NN);
 
     ::MD::member_plus::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Homogeneous)
+        --> Unionable <-- (Unionable, Unionable)
         is associative;
 
     ::MD::Unicode_Aliases::"⊎" ::= alias of member_plus;
 
     ::MD::except::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Homogeneous);
+        --> Unionable <-- (Unionable, Unionable);
 
     ::MD::Unicode_Aliases::"∖" ::= alias of except;
 
     ::MD::intersect::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Homogeneous)
+        --> Unionable <-- (Unionable, Unionable)
         is {associative,idempotent};
 
     ::MD::Unicode_Aliases::"∩" ::= alias of intersect;
 
     ::MD::union::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Homogeneous)
+        --> Unionable <-- (Unionable, Unionable)
         is idempotent;
 
     ::MD::Unicode_Aliases::"∪" ::= alias of union;
 
     ::MD::exclusive::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Homogeneous);
+        --> Unionable <-- (Unionable, Unionable);
 
     ::MD::symm_diff ::= alias of exclusive;
 
     ::MD::Unicode_Aliases::"∆" ::= alias of exclusive;
 
-    ::MD::nest::"" ::= function virtual --> Homogeneous <-- (Homogeneous)
+    ::MD::nest::"" ::= function virtual --> Unionable <-- (Unionable)
         requires (...);
 
     ::MD::group ::= alias of nest;
 
-    ::MD::unnest::"" ::= function virtual --> Homogeneous <-- (Homogeneous)
+    ::MD::unnest::"" ::= function virtual --> Unionable <-- (Unionable)
         requires (...);
 
     ::MD::ungroup ::= alias of unnest;
 
     ::MD::where::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Primed_Func_Ref);
+        --> Unionable <-- (Unionable, Primed_Func_Ref);
 
     ::MD::filtering ::= function commutes where;
 
     ::MD::map::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Primed_Func_Ref);
+        --> Unionable <-- (Unionable, Primed_Func_Ref);
 
     ::MD::reduce::"" ::= function virtual
-        --> Any <-- (Homogeneous, Primed_Func_Ref);
+        --> Any <-- (Unionable, Primed_Func_Ref);
 
 `#########################################################################`
 
     ::MD::Discrete ::= interface
-        composes Homogeneous and_provides_its_default
+        composes Unionable and_provides_its_default
         requires_implements {so,empty
             ,has_n,multiplicity
             ,all_unique,unique
@@ -1999,7 +2009,7 @@ package
 `#########################################################################`
 
     ::MD::Relational ::= interface
-        composes {Homogeneous, Attributive}
+        composes {Unionable, Attributive}
         requires_implements {...};
 
 `#########################################################################`
