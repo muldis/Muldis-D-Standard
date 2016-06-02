@@ -117,7 +117,7 @@ package
     ::MD::minmax ::= function
         --> (Orderable, Orderable) <-- (Orderable, Orderable)
         is commutative
-        : (topic --> \in_order::() ?? topic !! \%(\<1, \<0));
+        : (topic --> \in_order::() ?? topic !! (\<1, \<0));
 
 `#########################################################################`
 
@@ -396,7 +396,7 @@ package
     ::MD::divided_by_and_modulo::"" ::= function
         --> ({Numerical, Excuse::Div_By_Zero}, {Numerical, Excuse::Div_By_Zero})
         <-- (Numerical, Numerical, Round_Meth)
-        : (\%(topic --> \div::(), topic --> \mod::()));
+        : ((topic --> \div::(), topic --> \mod::()));
 
     ::MD::integral_power::"" ::= function virtual
         --> {Numerical, Excuse::Zero_To_The_Zero} <-- (Numerical, Integral);
@@ -537,7 +537,7 @@ package
 
         <-- if d = 0 then Excuse::Div_By_Zero() else q;
 
-        q ::= (\Fraction wrap \%(
+        q ::= (\Fraction wrap (
             numerator   : div::((d > 0 ?? n !! -n), gcd, To_Zero::()),
             denominator : div::((d > 0 ?? d !! -d), gcd, To_Zero::()),
         ));
@@ -572,7 +572,7 @@ package
         e2 ::= (
             real_q_is_neg ::= (dividend < 0 xor divisor < 0);
             rtz_quotient  ::= (FDN__Integer_divided_by_rtz
-                ^<-- \%(dividend, divisor));
+                ^<-- (dividend, divisor));
             rtz_remainder ::= (dividend - (divisor * rtz_quotient));
 
             <-- rtz_remainder = 0 ?? rtz_quotient !! e3;
@@ -603,7 +603,7 @@ package
             ' exactly one-half so we decide how to round that.';
 
         e4 ::= (
-            q ::= (FDN__Integer_divided_by_rtz ^<-- \%(abs::(rtz_quotient),2))
+            q ::= (FDN__Integer_divided_by_rtz ^<-- (abs::(rtz_quotient),2))
             r ::= (abs::(rtz_quotient) - (2 * q));
             rtz_quotient_is_even ::= (r = 0);
 
@@ -674,7 +674,7 @@ package
         _Asset ::= selection of Tuple where
         (
             if
-                \<0 ^?= \%(
+                \<0 ^?= (
                     numerator : \Integer::(),
                     denominator : \Integer_P::(),
                 )
@@ -784,7 +784,7 @@ package
         --> {Fraction, Excuse::Zero_To_The_Zero} <-- (Fraction, Integer)
         implements 2::""
         : (\integral_nn_power::()
-            <-- (\<1 >= 0 ?? topic !! \%(reciprocal::(\<0), -\<1)));
+            <-- (\<1 >= 0 ?? topic !! (reciprocal::(\<0), -\<1)));
 
     ::MD::integral_nn_power::Fraction ::= function
         --> {Fraction, Excuse::Zero_To_The_Zero} <-- (Fraction, Integer_NN)
@@ -1399,7 +1399,7 @@ package
         : (topic --> \elem_or_excuse::());
 
     ::MD::squish ::= function --> Positional <-- (Positional)
-        : (\<0 map (function : (\%( group : \<0, member : False )))
+        : (\<0 map (function : (( group : \<0, member : False )))
             ->nest map (function : (\<<group)));
 
     ::MD::first_index::"" ::= function virtual --> Integral <-- (Positional)
@@ -1921,17 +1921,17 @@ package
 `#########################################################################`
 
     ::MD::Tuple ::= selection where (topic -->^ FDN__is_a_Tuple)
-        default (\%())
+        default (())
         composes {Accessible and_provides_its_default,
             Attributive and_provides_its_default};
 
-    ::MD::Tuple_D0 ::= constant (\%());
+    ::MD::Tuple_D0 ::= constant (());
 
     ::MD::D0 ::= alias of Tuple_D0;
 
     ::MD::has_any_attrs::Tuple ::= function --> Boolean <-- (Tuple)
         implements 2::""
-        : (\<0 != \%());
+        : (\<0 != ());
 
     ::MD::degree::Tuple ::= function --> Integer_NN <-- (Tuple)
         implements 2::""
@@ -1973,7 +1973,7 @@ package
     ::MD::extend::Tuple ::= function --> Tuple <-- (Tuple, Tuple)
         implements 2::""
         requires (topic --> \attr_names_disjoint::())
-        is {associative,commutative} identity (\%())
+        is {associative,commutative} identity (())
         : (topic -->^ FDN__Tuple_extend);
 
     ::MD::rename::Tuple ::= function --> Tuple <-- (Tuple, Attr_Renaming)
@@ -2018,18 +2018,18 @@ package
     {
         "" ::= selection of Capsule
             where (has_wrapped::( \<0, \Relation, \1::_Asset() ))
-            default (\?%())
+            default (?%@())
             composes {Relational, Setty};
 
         _Asset ::= selection of Tuple_Bag
             where (all_unique \<0);
     };
 
-    ::MD::Relation_D0C0 ::= constant (\?%());
+    ::MD::Relation_D0C0 ::= constant (?%@());
 
     ::MD::D0C0 ::= alias of Relation_D0C0;
 
-    ::MD::Relation_D0C1 ::= constant (\?%{()});
+    ::MD::Relation_D0C1 ::= constant (?%{()});
 
     ::MD::D0C1 ::= alias of Relation_D0C1;
 
@@ -2039,12 +2039,12 @@ package
     {
         "" ::= selection of Capsule
             where (has_wrapped::( \<0, \Tuple_Bag, \1::_Asset() ))
-            default (\+%())
+            default (+%@())
             composes Relational;
 
         _Asset ::= selection of Tuple where
         (
-            if \<0 ^?= \%( heading : \Attr_Names::(), body : \Bag::() ) then
+            if \<0 ^?= ( heading : \Attr_Names::(), body : \Bag::() ) then
                 if \<<body all \Tuple::() then
                     \<<body all (function : (\"^?="::() \<-- \<<heading))
                 else
@@ -2054,9 +2054,9 @@ package
         );
     };
 
-    ::MD::Tuple_Bag_D0C0 ::= constant (\+%());
+    ::MD::Tuple_Bag_D0C0 ::= constant (+%@());
 
-    ::MD::Tuple_Bag_D0C1 ::= constant (\+%{()});
+    ::MD::Tuple_Bag_D0C1 ::= constant (+%{()});
 
 `#########################################################################`
 
@@ -2110,7 +2110,7 @@ package
         _Asset ::= selection of Tuple where
         (
             if
-                \<0 ^?= \%(
+                \<0 ^?= (
                     identity : (selection of Pkg_Decl_Map where (degree::(\<0) = 1)),
                     foundation : ...,
                     uses : \Pkg_Decl_Map::(),
