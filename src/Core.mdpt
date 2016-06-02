@@ -41,7 +41,7 @@ package
 
     ::MD::Excuse::"" ::= interface;
 
-    ::MD::Excuse::No_Reason ::= constant (\@0)
+    ::MD::Excuse::No_Reason ::= constant
         composes Excuse and_provides_its_default;
 
     ::MD::or_else ::= function --> Any <-- (Any, Any)
@@ -59,11 +59,11 @@ package
     ::MD::Orderable ::= interface
         requires_implements in_order;
 
-    ::MD::Neg_Inf ::= constant (\@0) composes {Orderable, Excuse};
+    ::MD::Neg_Inf ::= constant composes {Orderable, Excuse};
 
     ::MD::Unicode_Aliases::"-∞" ::= alias of Neg_Inf;
 
-    ::MD::Pos_Inf ::= constant (\@0) composes {Orderable, Excuse};
+    ::MD::Pos_Inf ::= constant composes {Orderable, Excuse};
 
     ::MD::Unicode_Aliases::"+∞" ::= alias of Pos_Inf;
 
@@ -285,22 +285,11 @@ package
 
 `#########################################################################`
 
-    ::MD::Round_Meth::"" ::= selection
-        union {2::Down,2::Up,2::To_Zero,2::To_Inf
-            ,2::Half_Down,2::Half_Up,2::Half_To_Zero,2::Half_To_Inf
-            ,2::Half_Even,2::Half_Odd}
-        default (2::To_Zero());
-
-    ::MD::Round_Meth::Down         ::= constant (\@0);
-    ::MD::Round_Meth::Up           ::= constant (\@0);
-    ::MD::Round_Meth::To_Zero      ::= constant (\@0);
-    ::MD::Round_Meth::To_Inf       ::= constant (\@0);
-    ::MD::Round_Meth::Half_Down    ::= constant (\@0);
-    ::MD::Round_Meth::Half_Up      ::= constant (\@0);
-    ::MD::Round_Meth::Half_To_Zero ::= constant (\@0);
-    ::MD::Round_Meth::Half_To_Inf  ::= constant (\@0);
-    ::MD::Round_Meth::Half_Even    ::= constant (\@0);
-    ::MD::Round_Meth::Half_Odd     ::= constant (\@0);
+    ::MD::Round_Meth ::= enumeration
+        union {Down,Up,To_Zero,To_Inf
+            ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
+            ,Half_Even,Half_Odd}
+        default To_Zero;
 
 `#########################################################################`
 
@@ -312,9 +301,9 @@ package
             ,fractional_divided_by,integral_divided_by
             ,integral_power,integral_nn_power};
 
-    ::MD::Excuse::Div_By_Zero ::= constant (\@0) composes Excuse;
+    ::MD::Excuse::Div_By_Zero ::= constant composes Excuse;
 
-    ::MD::Excuse::Zero_To_The_Zero ::= constant (\@0) composes Excuse;
+    ::MD::Excuse::Zero_To_The_Zero ::= constant composes Excuse;
 
     ::MD::so::Numerical ::= function virtual --> Boolean <-- (Numerical)
         implements 2::"";
@@ -1318,7 +1307,7 @@ package
             ,to_Bag,to_Set,count
             ,to_Array,elem,has_index,first_index,last_index,slice,index_succ_all_matches,...};
 
-    ::MD::Excuse::No_Such_Index ::= constant (\@0) composes Excuse;
+    ::MD::Excuse::No_Such_Index ::= constant composes Excuse;
 
     ::MD::in_order::Positional ::= function
         --> Boolean <-- (Positional, Positional)
@@ -1857,7 +1846,7 @@ package
     ::MD::Attributive ::= interface
         requires_implements {has_any_attrs,degree,on,but,extend,rename,has_attrs,has_just_attrs};
 
-    ::MD::Excuse::No_Such_Attr_Name ::= constant (\@0) composes Excuse;
+    ::MD::Excuse::No_Such_Attr_Name ::= constant composes Excuse;
 
     ::MD::has_any_attrs::"" ::= function virtual --> Boolean <-- (Attributive);
 
