@@ -1073,8 +1073,6 @@ package
 
 `#########################################################################`
 
-`#########################################################################`
-
     ::MD::Accessible ::= interface
         requires_implements {".",".?",".!"};
 
@@ -1090,11 +1088,13 @@ package
     ::MD::Homogeneous ::= interface
         composes Emptyable
         requires_implements {so,empty
-            ,has_n,multiplicity,insert_n,remove_n
+            ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
+            ,any
+            ,insert_n,remove_n
             ,member_plus,except,intersect,union,exclusive
-            ,nest,unnest,any,where,map,reduce,...};
+            ,nest,unnest,where,map,reduce,...};
 
     ::MD::in ::= function commutes has;
 
@@ -1118,18 +1118,6 @@ package
 
     ::MD::multiplicity::"" ::= function virtual
         --> Integer_NN <-- (Homogeneous, Any);
-
-    ::MD::insert ::= function --> Homogeneous <-- (Homogeneous, Any)
-        : (insert_n(\<0, \<1, 1));
-
-    ::MD::insert_n::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
-
-    ::MD::remove ::= function --> Homogeneous <-- (Homogeneous, Any)
-        : (remove_n(\<0, \<1, 1));
-
-    ::MD::remove_n::"" ::= function virtual
-        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
 
     ::MD::all_unique::"" ::= function virtual --> Boolean <-- (Homogeneous);
 
@@ -1192,6 +1180,41 @@ package
         --> Boolean <-- (Homogeneous, Homogeneous)
         is commutative;
 
+    ::MD::any::"" ::= function virtual
+        --> Boolean <-- (Homogeneous, Primed_Func_Ref);
+
+    ::MD::there_exists ::= alias of any;
+
+    ::MD::Unicode_Aliases::"∃" ::= alias of any;
+
+    ::MD::none ::= function negates any;
+
+    ::MD::there_does_not_exist ::= alias of none;
+
+    ::MD::Unicode_Aliases::"∄" ::= alias of none;
+
+    ::MD::all ::= function --> Boolean <-- (Homogeneous, Primed_Func_Ref)
+        : (\<0 none negated_func(of : \<1, passing_args : \@(0)));
+
+    ::MD::for_all ::= alias of all;
+
+    ::MD::Unicode_Aliases::"∀" ::= alias of all;
+
+    ::MD::all_is_a ::= function --> Boolean <-- (Homogeneous, Reference)
+        : (\<0 all (\@is_a assuming topic ^ \@(1)));
+
+    ::MD::insert ::= function --> Homogeneous <-- (Homogeneous, Any)
+        : (insert_n(\<0, \<1, 1));
+
+    ::MD::insert_n::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
+
+    ::MD::remove ::= function --> Homogeneous <-- (Homogeneous, Any)
+        : (remove_n(\<0, \<1, 1));
+
+    ::MD::remove_n::"" ::= function virtual
+        --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
+
     ::MD::member_plus::"" ::= function virtual
         --> Homogeneous <-- (Homogeneous, Homogeneous)
         is associative;
@@ -1232,29 +1255,6 @@ package
 
     ::MD::ungroup ::= alias of unnest;
 
-    ::MD::any::"" ::= function virtual
-        --> Boolean <-- (Homogeneous, Primed_Func_Ref);
-
-    ::MD::there_exists ::= alias of any;
-
-    ::MD::Unicode_Aliases::"∃" ::= alias of any;
-
-    ::MD::none ::= function negates any;
-
-    ::MD::there_does_not_exist ::= alias of none;
-
-    ::MD::Unicode_Aliases::"∄" ::= alias of none;
-
-    ::MD::all ::= function --> Boolean <-- (Homogeneous, Primed_Func_Ref)
-        : (\<0 none negated_func(of : \<1, passing_args : \@(0)));
-
-    ::MD::for_all ::= alias of all;
-
-    ::MD::Unicode_Aliases::"∀" ::= alias of all;
-
-    ::MD::all_is_a ::= function --> Boolean <-- (Homogeneous, Reference)
-        : (\<0 all (\@is_a assuming topic ^ \@(1)));
-
     ::MD::where::"" ::= function virtual
         --> Homogeneous <-- (Homogeneous, Primed_Func_Ref);
 
@@ -1271,11 +1271,13 @@ package
     ::MD::Discrete ::= interface
         composes Homogeneous and_provides_its_default
         requires_implements {so,empty
-            ,has_n,multiplicity,insert_n,remove_n
+            ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
+            ,any
+            ,insert_n,remove_n
             ,member_plus,except,intersect,union,exclusive
-            ,nest,unnest,any,where,map,reduce,...
+            ,nest,unnest,where,map,reduce,...
             ,to_Set,to_Bag,count,unique_count};
 
     ::MD::to_Set::"" ::= function virtual --> Set <-- (Discrete);
@@ -1300,10 +1302,12 @@ package
         requires_implements {so,empty
             ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate
-            ,has_n,multiplicity,insert_n,remove_n
+            ,has_n,multiplicity
             ,all_unique,unique
+            ,any
+            ,insert_n,remove_n
             ,except,intersect,union,exclusive
-            ,nest,unnest,any,where,map,reduce,...
+            ,nest,unnest,where,map,reduce,...
             ,to_Bag,to_Set,count
             ,to_Array,elem,has_index,first_index,last_index,slice,index_succ_all_matches,...};
 
@@ -1469,14 +1473,6 @@ package
         implements 2::""
         : (topic -->^ FDN__Array_multiplicity);
 
-    ::MD::insert_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
-        implements 2::""
-        : (topic -->^ FDN__Array_insert_n);
-
-    ::MD::remove_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
-        implements 2::""
-        : (topic -->^ FDN__Array_remove_n);
-
     ::MD::all_unique::Array ::= function --> Boolean <-- (Array)
         implements 2::""
         : (topic -->^ FDN__Array_all_unique);
@@ -1484,6 +1480,18 @@ package
     ::MD::unique::Array ::= function --> Array <-- (Array)
         implements 2::""
         : (topic -->^ FDN__Array_unique);
+
+    ::MD::any::Array ::= function --> Boolean <-- (Array, Primed_Func_Ref)
+        implements 2::""
+        : (topic -->^ FDN__Array_any);
+
+    ::MD::insert_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Array_insert_n);
+
+    ::MD::remove_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Array_remove_n);
 
     ::MD::except::Array ::= function --> Array <-- (Array, Array)
         implements 2::""
@@ -1513,10 +1521,6 @@ package
         implements 2::""
         requires (...)
         : (topic -->^ FDN__Array_unnest);
-
-    ::MD::any::Array ::= function --> Boolean <-- (Array, Primed_Func_Ref)
-        implements 2::""
-        : (topic -->^ FDN__Array_any);
 
     ::MD::where::Array ::= function --> Array <-- (Array, Primed_Func_Ref)
         implements 2::""
@@ -1612,15 +1616,6 @@ package
         implements 2::""
         : (\<0->unwrap multiplicity \<1);
 
-    ::MD::insert_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
-        implements 2::""
-        : (\<0 has \<1 or \<2 = 0 ?? \<0
-            !! \Set wrap insert_n(\<0->unwrap, \<1, 1));
-
-    ::MD::remove_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
-        implements 2::""
-        : (\Set wrap remove_n(\<0->unwrap, \<1, \<2));
-
     ::MD::all_unique::Set ::= function --> Boolean <-- (Set)
         implements 2::""
         : (True);
@@ -1647,6 +1642,19 @@ package
         implements 2::""
         is commutative
         : ((\<0->unwrap) disjoint_members (\<1->unwrap));
+
+    ::MD::any::Set ::= function --> Boolean <-- (Set, Primed_Func_Ref)
+        implements 2::""
+        : (\<0->unwrap any \<1);
+
+    ::MD::insert_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
+        implements 2::""
+        : (\<0 has \<1 or \<2 = 0 ?? \<0
+            !! \Set wrap insert_n(\<0->unwrap, \<1, 1));
+
+    ::MD::remove_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
+        implements 2::""
+        : (\Set wrap remove_n(\<0->unwrap, \<1, \<2));
 
     ::MD::member_plus::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
@@ -1681,10 +1689,6 @@ package
         implements 2::""
         requires (...)
         : (\Set wrap (\<0->unwrap->unnest));
-
-    ::MD::any::Set ::= function --> Boolean <-- (Set, Primed_Func_Ref)
-        implements 2::""
-        : (\<0->unwrap any \<1);
 
     ::MD::where::Set ::= function --> Set <-- (Set, Primed_Func_Ref)
         implements 2::""
@@ -1740,14 +1744,6 @@ package
         implements 2::""
         : (topic -->^ FDN__Bag_multiplicity);
 
-    ::MD::insert_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
-        implements 2::""
-        : (topic -->^ FDN__Bag_insert_n);
-
-    ::MD::remove_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
-        implements 2::""
-        : (topic -->^ FDN__Bag_remove_n);
-
     ::MD::all_unique::Bag ::= function --> Boolean <-- (Bag)
         implements 2::""
         : (topic -->^ FDN__Bag_all_unique);
@@ -1774,6 +1770,18 @@ package
         implements 2::""
         is commutative
         : (topic -->^ FDN__Bag_disjoint_members);
+
+    ::MD::any::Bag ::= function --> Boolean <-- (Bag, Primed_Func_Ref)
+        implements 2::""
+        : (topic -->^ FDN__Bag_any);
+
+    ::MD::insert_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Bag_insert_n);
+
+    ::MD::remove_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
+        implements 2::""
+        : (topic -->^ FDN__Bag_remove_n);
 
     ::MD::member_plus::Bag ::= function --> Bag <-- (Bag, Bag)
         implements 2::""
@@ -1808,10 +1816,6 @@ package
         implements 2::""
         requires (...)
         : (topic -->^ FDN__Bag_unnest);
-
-    ::MD::any::Bag ::= function --> Boolean <-- (Bag, Primed_Func_Ref)
-        implements 2::""
-        : (topic -->^ FDN__Bag_any);
 
     ::MD::where::Bag ::= function --> Bag <-- (Bag, Primed_Func_Ref)
         implements 2::""
