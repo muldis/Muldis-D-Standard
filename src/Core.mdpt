@@ -107,11 +107,11 @@ package
     ::MD::Unicode_Aliases::"≥" ::= alias of after_or_same;
 
     ::MD::min ::= function --> Orderable <-- (Orderable, Orderable)
-        is {associative,commutative,idempotent} identity (Pos_Inf::())
+        is {associative,commutative,idempotent} identity (+∞)
         : (topic --> \in_order::() ?? \<0 !! \<1);
 
     ::MD::max ::= function --> Orderable <-- (Orderable, Orderable)
-        is {associative,commutative,idempotent} identity (Neg_Inf::())
+        is {associative,commutative,idempotent} identity (-∞)
         : (topic --> \in_order::() ?? \<1 !! \<0);
 
     ::MD::minmax ::= function
@@ -202,11 +202,11 @@ package
 
     ::MD::pred::Boolean ::= function --> {False, Neg_Inf} <-- (Boolean)
         implements 2::""
-        : (\<0 ?? False !! Neg_Inf::());
+        : (\<0 ?? False !! -∞);
 
     ::MD::succ::Boolean ::= function --> {True, Pos_Inf} <-- (Boolean)
         implements 2::""
-        : (!\<0 ?? True !! Pos_Inf::());
+        : (!\<0 ?? True !! +∞);
 
     ::MD::to_Boolean::Boolean ::= function --> Boolean <-- (Boolean)
         implements 2::""
@@ -1091,10 +1091,16 @@ package
     ::MD::Homogeneous ::= interface
         composes Emptyable
         requires_implements {to_Boolean,empty
+            ,singular,only_member
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
             ,any};
+
+    ::MD::singular::"" ::= function virtual --> Boolean <-- (Homogeneous);
+
+    ::MD::only_member::"" ::= function virtual --> Any <-- (Homogeneous)
+        requires (topic --> \singular::());
 
     ::MD::in ::= function commutes has;
 
@@ -1205,6 +1211,7 @@ package
     ::MD::Unionable ::= interface
         composes Homogeneous
         requires_implements {to_Boolean,empty
+            ,singular,only_member
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
@@ -1281,6 +1288,7 @@ package
     ::MD::Discrete ::= interface
         composes Unionable and_provides_its_default
         requires_implements {to_Boolean,empty
+            ,singular,only_member
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
@@ -1288,7 +1296,7 @@ package
             ,insert_n,remove_n
             ,member_plus,except,intersect,union,exclusive
             ,nest,unnest,where,map,reduce,...
-            ,to_Set,to_Bag,count,unique_count};
+            ,to_Set,to_Bag,count,unique_count,order_using};
 
     ::MD::to_Set::"" ::= function virtual --> Set <-- (Discrete);
 
@@ -1305,11 +1313,17 @@ package
 
     ::MD::unique_count::"" ::= function virtual --> Integer_NN <-- (Discrete);
 
+    ::MD::order ::= function --> Positional <-- (Discrete)
+        : (\<0 order_using \in_order::());
+
+    ::MD::order_using::"" ::= function virtual
+        --> Positional <-- (Discrete, Function_Call_But_0_1);
+
 `#########################################################################`
 
     ::MD::Positional ::= interface
         composes {Stringy, Discrete and_provides_its_default, Accessible}
-        requires_implements {to_Boolean,empty
+        requires_implements {in_order,to_Boolean,empty
             ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate
             ,has_n,multiplicity
@@ -1318,27 +1332,19 @@ package
             ,insert_n,remove_n
             ,except,intersect,union,exclusive
             ,nest,unnest,where,map,reduce,...
-            ,to_Set,to_Bag,count
-            ,to_Array,elem,has_index,first_index,last_index,slice,index_succ_all_matches,...};
+            ,to_Set,to_Bag,count,order_using
+            ,to_Array,elem,has_index,first_possible_index,slice_n,index_succ_all_matches,...};
 
     ::MD::Excuse::No_Such_Index ::= constant composes Excuse;
 
-    ::MD::in_order::Positional ::= function
-        --> Boolean <-- (Positional, Positional)
+    ::MD::singular::Positional ::= function --> Boolean <-- (Positional)
         implements 2::""
-    : (
-        i ::= (topic --> \index_succ_all_matches::());
-      <--
-        if not \<0 .? i then
-            e1 ::= True
-        else if not \<1 .? i then
-            False
-        else
-            e2 ::= (\<0.i in_order \<1.i);
+        : ((\<0->unique_count) = 1);
 
-        e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
-        e2 ::?= 'This will succeed iff in_order::() is defined for the member type.';
-    );
+    ::MD::only_member::Positional ::= function --> Any <-- (Positional)
+        implements 2::""
+        requires (topic --> \singular::())
+        : (topic --> \first::());
 
     ::MD::subset_of::Positional ::= function
         --> Boolean <-- (Positional, Positional)
@@ -1377,24 +1383,24 @@ package
 
     ::MD::"~|" ::= alias of to_Array;
 
-    ::MD::elem::"" ::= function virtual --> Any <-- (Positional, Integral)
+    ::MD::elem::"" ::= function virtual --> Any <-- (Positional, Integer)
         requires (topic --> \has_index::());
 
-    ::MD::"."::Positional ::= function --> Any <-- (Positional, Integral)
+    ::MD::"."::Positional ::= function --> Any <-- (Positional, Integer)
         implements 2::""
         requires (topic --> \has_index::())
         : (topic --> \elem::());
 
-    ::MD::has_index::"" ::= function virtual --> Boolean <-- (Positional, Integral);
+    ::MD::has_index::"" ::= function virtual --> Boolean <-- (Positional, Integer);
 
-    ::MD::".?"::Positional ::= function --> Boolean <-- (Positional, Integral)
+    ::MD::".?"::Positional ::= function --> Boolean <-- (Positional, Integer)
         implements 2::""
         : (topic --> \has_index::());
 
-    ::MD::elem_or_excuse ::= function --> Any <-- (Positional, Integral)
+    ::MD::elem_or_excuse ::= function --> Any <-- (Positional, Integer)
         : (topic --> \has_index::() ?? topic --> \elem::() !! Excuse::No_Such_Index());
 
-    ::MD::".!"::Positional ::= function --> Any <-- (Positional, Integral)
+    ::MD::".!"::Positional ::= function --> Any <-- (Positional, Integer)
         implements 2::""
         : (topic --> \elem_or_excuse::());
 
@@ -1402,14 +1408,30 @@ package
         : (\<0 map (function : (( group : \<0, member : False )))
             ->nest map (function : (\<<group)));
 
-    ::MD::first_index::"" ::= function virtual --> Integral <-- (Positional)
-        requires (?\<0);
+    ::MD::first_possible_index::"" ::= function virtual
+        --> Integer <-- (Positional);
 
-    ::MD::last_index::"" ::= function virtual --> Integral <-- (Positional)
-        requires (?\<0);
+    ::MD::first_unused_index ::= function --> Integer <-- (Positional)
+        : (first_possible_index::(\<0) + #\<0);
 
-    ::MD::slice::"" ::= function virtual
-        --> Positional <-- (Positional, Interval);
+    ::MD::first_index ::= function --> Integer <-- (Positional)
+        requires (?\<0)
+        : (first_possible_index::(\<0));
+
+    ::MD::last_index ::= function --> Integer <-- (Positional)
+        requires (?\<0)
+        : (--first_unused_index::(\<0));
+
+    ::MD::slice_n::"" ::= function virtual
+        --> Positional <-- (Positional, Integer, NN_Integer)
+        requires (\<1 >= first_possible_index::(\<0)
+            and \<1 + \<2 <= first_unused_index::(\<0));
+
+    ::MD::slice_range ::= function
+        --> Positional <-- (Positional, Integer, Integer)
+        requires (?\<0 and \<1 >= first_possible_index::(\<0)
+            and \<2 < first_unused_index::(\<0))
+        : (slice_n::(\<0, \<1, \<2 - \<1 + 1));
 
     ::MD::first ::= function --> Any <-- (Positional)
         requires (?\<0)
@@ -1417,7 +1439,7 @@ package
 
     ::MD::nonfirst ::= function --> Positional <-- (Positional)
         requires (?\<0)
-        : (\<0 slice first_index::(\<0)^..last_index::(\<0));
+        : (slice_range::(\<0, ++first_index::(\<0), last_index::(\<0)));
 
     ::MD::last ::= function --> Any <-- (Positional)
         requires (?\<0)
@@ -1425,10 +1447,10 @@ package
 
     ::MD::nonlast ::= function --> Positional <-- (Positional)
         requires (?\<0)
-        : (\<0 slice first_index::(\<0)..^last_index::(\<0));
+        : (slice_range::(\<0, first_index::(\<0), --last_index::(\<0)));
 
     ::MD::index_succ_all_matches::"" ::= function virtual
-        --> Integral <-- (Positional, Positional)
+        --> Integer <-- (Positional, Positional)
         is commutative;
 
 `#########################################################################`
@@ -1442,6 +1464,22 @@ package
     ::MD::empty_Array ::= constant ([]);
 
     ::MD::Unicode_Aliases::"~∅" ::= alias of empty_Array;
+
+    ::MD::in_order::Array ::= function --> Boolean <-- (Array, Array)
+        implements 2::""
+    : (
+        i ::= (topic --> \index_succ_all_matches::());
+      <--
+        if not \<0 .? i then
+            e1 ::= True
+        else if not \<1 .? i then
+            False
+        else
+            e2 ::= (\<0.i in_order \<1.i);
+
+        e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
+        e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
+    );
 
     ::MD::to_Boolean::Array ::= function --> Boolean <-- (Array)
         implements 2::""
@@ -1556,6 +1594,10 @@ package
         implements 2::""
         : (topic -->^ FDN__Array_count);
 
+    ::MD::order_using::Array ::= function --> Array <-- (Array, Function_Call_But_0_1)
+        implements 2::""
+        : (topic -->^ FDN__Array_order_using);
+
     ::MD::to_Array::Array ::= function --> Array <-- (Array)
         implements 2::""
         : (\<0);
@@ -1569,19 +1611,15 @@ package
         implements 2::""
         : (topic -->^ FDN__Array_has_index);
 
-    ::MD::first_index::Array ::= function --> Integer_NN <-- (Array)
+    ::MD::first_possible_index::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
-        requires (?\<0)
         : (0);
 
-    ::MD::last_index::Array ::= function --> Integer_NN <-- (Array)
+    ::MD::slice_n::Array ::= function
+        --> Array <-- (Array, NN_Integer, NN_Integer)
         implements 2::""
-        requires (?\<0)
-        : (-- #\<0);
-
-    ::MD::slice::Array ::= function --> Array <-- (Array, Interval)
-        implements 2::""
-        : (topic -->^ FDN__Array_slice);
+        requires (\<1 + \<2 <= #\<0)
+        : (topic -->^ FDN__Array_slice_n);
 
     ::MD::index_succ_all_matches::Array ::= function
         --> Integer_NN <-- (Array, Array)
@@ -1617,6 +1655,15 @@ package
     ::MD::empty::Set ::= function --> Set <-- (Set)
         implements 2::""
         : ({});
+
+    ::MD::singular::Set ::= function --> Boolean <-- (Set)
+        implements 2::""
+        : (\<0->unwrap->singular);
+
+    ::MD::only_member::Set ::= function --> Any <-- (Set)
+        implements 2::""
+        requires (topic --> \singular::())
+        : (\<0->unwrap->only_member);
 
     ::MD::has_n::Set ::= function --> Boolean <-- (Set, Any, Integer_NN)
         implements 2::""
@@ -1728,6 +1775,10 @@ package
         implements 2::""
         : (\<0->count);
 
+    ::MD::order_using::Set ::= function --> Array <-- (Set, Function_Call_But_0_1)
+        implements 2::""
+        : (\Set wrap (\<0->unwrap order_using \<1));
+
 `#########################################################################`
 
     ::MD::Bag ::= selection where (topic -->^ FDN__is_a_Bag)
@@ -1745,6 +1796,15 @@ package
     ::MD::empty::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
         : (\+{});
+
+    ::MD::singular::Bag ::= function --> Boolean <-- (Bag)
+        implements 2::""
+        : (topic -->^ FDN__Bag_singular);
+
+    ::MD::only_member::Bag ::= function --> Any <-- (Bag)
+        implements 2::""
+        requires (topic --> \singular::())
+        : (topic -->^ FDN__Bag_only_member);
 
     ::MD::has_n::Bag ::= function --> Boolean <-- (Bag, Any, Integer_NN)
         implements 2::""
@@ -1855,6 +1915,10 @@ package
         implements 2::""
         : (topic -->^ FDN__Bag_unique_count);
 
+    ::MD::order_using::Bag ::= function --> Array <-- (Bag, Function_Call_But_0_1)
+        implements 2::""
+        : (topic -->^ FDN__Bag_order_using);
+
 `#########################################################################`
 
     ::MD::Attributive ::= interface
@@ -1920,10 +1984,37 @@ package
 
 `#########################################################################`
 
-    ::MD::Tuple ::= selection where (topic -->^ FDN__is_a_Tuple)
+    ::MD::Structural ::= interface
+        composes {Attributive and_provides_its_default,
+            Accessible and_provides_its_default}
+        requires_implements {...,attr,has_attr_name,...};
+
+    ::MD::attr::"" ::= function virtual --> Any <-- (Structural, Attr_Name)
+        requires (topic --> \has_attr_name::());
+
+    ::MD::"."::Structural ::= function --> Any <-- (Structural, Attr_Name)
+        implements 2::""
+        requires (topic --> \has_attr_name::())
+        : (topic --> \attr::());
+
+    ::MD::has_attr_name::"" ::= function virtual --> Boolean <-- (Structural, Attr_Name);
+
+    ::MD::".?"::Structural ::= function --> Boolean <-- (Structural, Attr_Name)
+        implements 2::""
+        : (topic --> \has_attr_name::());
+
+    ::MD::attr_or_excuse ::= function --> Any <-- (Structural, Attr_Name)
+        : (topic --> \has_attr_name::() ?? topic --> \attr::() !! Excuse::No_Such_Attr_Name());
+
+    ::MD::".!"::Structural ::= function --> Any <-- (Structural, Attr_Name)
+        implements 2::""
+        : (topic --> \attr_or_excuse::());
+
+`#########################################################################`
+
+    ::MD::Tuple::"" ::= selection where (topic -->^ FDN__is_a_Tuple)
         default (())
-        composes {Accessible and_provides_its_default,
-            Attributive and_provides_its_default};
+        composes Structural and_provides_its_default;
 
     ::MD::Tuple_D0 ::= constant (());
 
@@ -1937,28 +2028,14 @@ package
         implements 2::""
         : (topic -->^ FDN__Tuple_degree);
 
-    ::MD::attr ::= function --> Any <-- (Tuple, Attr_Name)
+    ::MD::attr::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
+        implements 2::""
         requires (topic --> \has_attr_name::())
         : (topic -->^ FDN__Tuple_attr);
 
-    ::MD::"."::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
+    ::MD::has_attr_name::Tuple ::= function --> Boolean <-- (Tuple, Attr_Name)
         implements 2::""
-        requires (topic --> \has_attr_name::())
-        : (topic --> \attr::());
-
-    ::MD::has_attr_name ::= function --> Boolean <-- (Tuple, Attr_Name)
         : (topic -->^ FDN__Tuple_has_attr_name);
-
-    ::MD::".?"::Tuple ::= function --> Boolean <-- (Tuple, Attr_Name)
-        implements 2::""
-        : (topic --> \has_attr_name::());
-
-    ::MD::attr_or_excuse ::= function --> Any <-- (Tuple, Attr_Name)
-        : (topic --> \has_attr_name::() ?? topic --> \attr::() !! Excuse::No_Such_Attr_Name());
-
-    ::MD::".!"::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
-        implements 2::""
-        : (topic --> \attr_or_excuse::());
 
     ::MD::on::Tuple ::= function --> Tuple <-- (Tuple, Attr_Names)
         implements 2::""
@@ -2014,12 +2091,37 @@ package
 
 `#########################################################################`
 
+    ::MD::Tuple_Array ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Tuple_Array, \1::_Asset() ))
+            default (~%@())
+            composes {Relational, Positional};
+
+        _Asset ::= selection of Tuple where
+        (
+            if \<0 ^?= ( heading : \Attr_Names::(), body : \Array::() ) then
+                if \<<body all \Tuple::() then
+                    \<<body all (function : (\"^?="::() \<-- \<<heading))
+                else
+                    False
+            else
+                False
+        );
+    };
+
+    ::MD::Tuple_Array_D0C0 ::= constant (~%@());
+
+    ::MD::Tuple_Array_D0C1 ::= constant (~%[()]);
+
+`#########################################################################`
+
     ::MD::Relation ::= binder
     {
         "" ::= selection of Capsule
             where (has_wrapped::( \<0, \Relation, \1::_Asset() ))
             default (?%@())
-            composes {Relational, Setty};
+            composes {Relational and_provides_its_default, Discrete, Setty};
 
         _Asset ::= selection of Tuple_Bag
             where (all_unique \<0);
@@ -2040,7 +2142,7 @@ package
         "" ::= selection of Capsule
             where (has_wrapped::( \<0, \Tuple_Bag, \1::_Asset() ))
             default (+%@())
-            composes Relational;
+            composes {Relational, Discrete};
 
         _Asset ::= selection of Tuple where
         (
@@ -2060,15 +2162,74 @@ package
 
 `#########################################################################`
 
-    ::MD::Interval ::= selection ...
+    ::MD::Intervalish ::= interface
         composes Homogeneous
-        ...;
+        requires_implements {...};
 
 `#########################################################################`
 
-    ::MD::Quantity ::= selection ...
+    ::MD::Interval ::= selection of Capsule
+        where (has_wrapped::( \<0, \Interval, \Tuple::Interval() ))
+        default ((-∞)..(+∞))
+        composes {Intervalish, Setty};
+
+    ::MD::Tuple::Interval ::= selection of Tuple
+        where (...);
+
+`#########################################################################`
+
+    ::MD::Unionable_Intervalish ::= interface
+        composes {Intervalish, Unionable}
+        requires_implements {...};
+
+`#########################################################################`
+
+    ::MD::Interval_Set ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Interval_Set, \1::_Asset() ))
+            default (...)
+            composes {Unionable_Intervalish, Setty};
+
+        _Asset ::= selection of Interval_Bag
+            where (all_unique \<0);
+    };
+
+`#########################################################################`
+
+    ::MD::Interval_Bag ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Interval_Bag, \1::_Asset() ))
+            default (...)
+            composes Unionable_Intervalish;
+
+        _Asset ::= selection of Tuple_Bag where
+        (
+            ...
+        );
+    };
+
+`#########################################################################`
+
+    ::MD::Quantitative ::= interface
         composes Numerical
-        ...;
+        requires_implements {...};
+
+`#########################################################################`
+
+    ::MD::Quantity ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Quantity, \1::_Asset() ))
+            default (...)
+            composes Quantitative;
+
+        _Asset ::= selection of Relation where
+        (
+            ...
+        );
+    };
 
 `#########################################################################`
 
@@ -2114,6 +2275,7 @@ package
                     identity : (selection of Pkg_Decl_Map where (degree::(\<0) = 1)),
                     foundation : ...,
                     uses : \Pkg_Decl_Map::(),
+                    entry : ...,
                     floating : ...,
                     materials : ...,
                     annotation : ...,
