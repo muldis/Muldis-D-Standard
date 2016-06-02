@@ -165,14 +165,14 @@ package
 
 `#########################################################################`
 
-    ::MD::Boolable ::= interface requires_implements so;
+    ::MD::Boolable ::= interface requires_implements to_Boolean;
 
-    ::MD::so::"" ::= function virtual --> Boolean <-- (Boolable);
+    ::MD::to_Boolean::"" ::= function virtual --> Boolean <-- (Boolable);
 
-    ::MD::"?"        ::= alias of so;
-    ::MD::to_Boolean ::= alias of so;
+    ::MD::so  ::= alias of to_Boolean;
+    ::MD::"?" ::= alias of to_Boolean;
 
-    ::MD::not_so ::= function negates so;
+    ::MD::not_so ::= function negates to_Boolean;
 
     ::MD::"!?" ::= alias of not_so;
 
@@ -208,11 +208,11 @@ package
         implements 2::""
         : (!\<0 ?? True !! Pos_Inf::());
 
-    ::MD::so::Boolean ::= function --> Boolean <-- (Boolean)
+    ::MD::to_Boolean::Boolean ::= function --> Boolean <-- (Boolean)
         implements 2::""
         : (\<0);
 
-    ::MD::not ::= function negates so::Boolean;
+    ::MD::not ::= function negates to_Boolean::Boolean;
 
     ::MD::"!" ::= alias of not;
 
@@ -295,7 +295,7 @@ package
 
     ::MD::Numerical ::= interface
         composes Boolable
-        requires_implements {so
+        requires_implements {to_Boolean
             ,zero,opposite,reciprocal,modulus
             ,plus,minus,times,multiple_of
             ,fractional_divided_by,integral_divided_by
@@ -305,10 +305,10 @@ package
 
     ::MD::Excuse::Zero_To_The_Zero ::= constant composes Excuse;
 
-    ::MD::so::Numerical ::= function virtual --> Boolean <-- (Numerical)
+    ::MD::to_Boolean::Numerical ::= function virtual --> Boolean <-- (Numerical)
         implements 2::"";
 
-    ::MD::is_zero ::= function negates so::Numerical;
+    ::MD::is_zero ::= function negates to_Boolean::Numerical;
 
     ::MD::zero::"" ::= function virtual --> Numerical <-- (Numerical);
 
@@ -414,7 +414,7 @@ package
         composes {Bicessable and_provides_its_default,
             Numerical and_provides_its_default}
         requires_implements {in_order,asset,pred,succ
-            ,so
+            ,to_Boolean
             ,zero,opposite,reciprocal,modulus
             ,plus,minus,times,multiple_of
             ,fractional_divided_by,integral_divided_by
@@ -485,7 +485,7 @@ package
         repeater plus::Integer
         : (\<0 + 1);
 
-    ::MD::so::Integer ::= function --> Boolean <-- (Integer)
+    ::MD::to_Boolean::Integer ::= function --> Boolean <-- (Integer)
         implements 2::""
         : (\<0 != 0);
 
@@ -646,7 +646,7 @@ package
         composes {Orderable and_provides_its_default,
             Numerical and_provides_its_default}
         requires_implements {in_order
-            ,so
+            ,to_Boolean
             ,zero,opposite,reciprocal,modulus
             ,plus,minus,times,multiple_of
             ,fractional_divided_by,integral_divided_by
@@ -702,7 +702,7 @@ package
           )
     );
 
-    ::MD::so::Fraction ::= function --> Boolean <-- (Fraction)
+    ::MD::to_Boolean::Fraction ::= function --> Boolean <-- (Fraction)
         implements 2::""
         : (\<0 != 0.0);
 
@@ -806,18 +806,21 @@ package
 
     ::MD::Emptyable ::= interface
         composes Boolable
-        requires_implements {so,empty};
+        requires_implements {to_Boolean,empty};
 
-    ::MD::so::Emptyable ::= function virtual --> Boolean <-- (Emptyable)
+    ::MD::Excuse::No_Empty_Value ::= constant composes Excuse;
+
+    ::MD::to_Boolean::Emptyable ::= function virtual --> Boolean <-- (Emptyable)
         implements 2::"";
 
-    ::MD::has_any_members ::= alias of so::Homogeneous;
+    ::MD::has_any_members ::= alias of to_Boolean::Emptyable;
 
-    ::MD::is_empty ::= function negates so::Emptyable;
+    ::MD::is_empty ::= function negates to_Boolean::Emptyable;
 
     ::MD::Unicode_Aliases::"∅?" ::= alias of is_empty;
 
-    ::MD::empty::"" ::= function virtual --> Emptyable <-- (Emptyable);
+    ::MD::empty::"" ::= function virtual
+        --> {Emptyable, Excuse::No_Empty_Value} <-- (Emptyable);
 
     ::MD::Unicode_Aliases::"∅" ::= alias of empty;
 
@@ -825,7 +828,7 @@ package
 
     ::MD::Stringy ::= interface
         composes {Orderable, Emptyable and_provides_its_default}
-        requires_implements {in_order,so,empty
+        requires_implements {in_order,to_Boolean,empty
             ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate};
 
@@ -878,7 +881,7 @@ package
         implements 2::""
         : ((\<0->Bits_to_String_Bits) in_order (\<1->Bits_to_String_Bits));
 
-    ::MD::so::Bits ::= function --> Boolean <-- (Bits)
+    ::MD::to_Boolean::Bits ::= function --> Boolean <-- (Bits)
         implements 2::""
         : (\<0 != \~?'');
 
@@ -933,7 +936,7 @@ package
         implements 2::""
         : ((\<0->Blob_to_Octets) in_order (\<1->Blob_to_Octets));
 
-    ::MD::so::Blob ::= function --> Boolean <-- (Blob)
+    ::MD::to_Boolean::Blob ::= function --> Boolean <-- (Blob)
         implements 2::""
         : (\<0 != \~+'');
 
@@ -975,7 +978,7 @@ package
 
     ::MD::Textual ::= interface
         composes Stringy
-        requires_implements {in_order,so,empty
+        requires_implements {in_order,to_Boolean,empty
             ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate
             ,to_Text};
@@ -1007,7 +1010,7 @@ package
         implements 2::""
         : ((\<0->Text_to_Maximal_Chars) in_order (\<1->Text_to_Maximal_Chars));
 
-    ::MD::so::Text ::= function --> Boolean <-- (Text)
+    ::MD::to_Boolean::Text ::= function --> Boolean <-- (Text)
         implements 2::""
         : (\<0 != '');
 
@@ -1087,7 +1090,7 @@ package
 
     ::MD::Homogeneous ::= interface
         composes Emptyable
-        requires_implements {so,empty
+        requires_implements {to_Boolean,empty
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
@@ -1201,7 +1204,7 @@ package
 
     ::MD::Unionable ::= interface
         composes Homogeneous
-        requires_implements {so,empty
+        requires_implements {to_Boolean,empty
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
@@ -1277,7 +1280,7 @@ package
 
     ::MD::Discrete ::= interface
         composes Unionable and_provides_its_default
-        requires_implements {so,empty
+        requires_implements {to_Boolean,empty
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
@@ -1289,11 +1292,11 @@ package
 
     ::MD::to_Set::"" ::= function virtual --> Set <-- (Discrete);
 
-    ::MD::"?<" ::= alias of to_Set;
+    ::MD::"?|" ::= alias of to_Set;
 
     ::MD::to_Bag::"" ::= function virtual --> Bag <-- (Discrete);
 
-    ::MD::"+<" ::= alias of to_Bag;
+    ::MD::"+|" ::= alias of to_Bag;
 
     ::MD::count::"" ::= function virtual --> Integer_NN <-- (Discrete);
 
@@ -1305,8 +1308,8 @@ package
 `#########################################################################`
 
     ::MD::Positional ::= interface
-        composes {Stringy, Accessible, Discrete and_provides_its_default}
-        requires_implements {so,empty
+        composes {Stringy, Discrete and_provides_its_default, Accessible}
+        requires_implements {to_Boolean,empty
             ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate
             ,has_n,multiplicity
@@ -1315,7 +1318,7 @@ package
             ,insert_n,remove_n
             ,except,intersect,union,exclusive
             ,nest,unnest,where,map,reduce,...
-            ,to_Bag,to_Set,count
+            ,to_Set,to_Bag,count
             ,to_Array,elem,has_index,first_index,last_index,slice,index_succ_all_matches,...};
 
     ::MD::Excuse::No_Such_Index ::= constant composes Excuse;
@@ -1372,7 +1375,7 @@ package
 
     ::MD::to_Array::"" ::= function virtual --> Array <-- (Positional);
 
-    ::MD::"~<" ::= alias of to_Array;
+    ::MD::"~|" ::= alias of to_Array;
 
     ::MD::elem::"" ::= function virtual --> Any <-- (Positional, Integral)
         requires (topic --> \has_index::());
@@ -1440,7 +1443,7 @@ package
 
     ::MD::Unicode_Aliases::"~∅" ::= alias of empty_Array;
 
-    ::MD::so::Array ::= function --> Boolean <-- (Array)
+    ::MD::to_Boolean::Array ::= function --> Boolean <-- (Array)
         implements 2::""
         : (\<0 != []);
 
@@ -1607,7 +1610,7 @@ package
 
     ::MD::Unicode_Aliases::"?∅" ::= alias of empty_Set;
 
-    ::MD::so::Set ::= function --> Boolean <-- (Set)
+    ::MD::to_Boolean::Set ::= function --> Boolean <-- (Set)
         implements 2::""
         : (\<0 != {});
 
@@ -1735,7 +1738,7 @@ package
 
     ::MD::Unicode_Aliases::"+∅" ::= alias of empty_Bag;
 
-    ::MD::so::Bag ::= function --> Boolean <-- (Bag)
+    ::MD::to_Boolean::Bag ::= function --> Boolean <-- (Bag)
         implements 2::""
         : (\<0 != \+{});
 
