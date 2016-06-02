@@ -30,12 +30,12 @@ package
     ::MD::Unicode_Aliases::"≠" ::= alias of not_same;
 
     ::MD::is_a ::= function --> Boolean <-- (Any, Reference)
-        : (\.0 --> \.1);
+        : (\<0 --> \<1);
 
     ::MD::not_is_a ::= function negates is_a;
 
     ::MD::default ::= function --> Any <-- (Reference)
-        : (--> \.0);
+        : (--> \<0);
 
 `#########################################################################`
 
@@ -46,13 +46,13 @@ package
 
     ::MD::or_else ::= function --> Any <-- (Any, Any)
         is {associative,idempotent}
-        : (\.0 --> \@Excuse ?? \.1 !! \.0);
+        : (\<0 --> \@Excuse ?? \<1 !! \<0);
 
     ::MD::coalesce ::= alias of or_else;
 
     ::MD::and_then ::= function --> Any <-- (Any, Any)
         is {associative,idempotent}
-        : (\.0 --> \@Excuse ?? \.0 !! \.1);
+        : (\<0 --> \@Excuse ?? \<0 !! \<1);
 
 `#########################################################################`
 
@@ -108,16 +108,16 @@ package
 
     ::MD::min ::= function --> Orderable <-- (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (Pos_Inf())
-        : (topic --> \@in_order ?? \.0 !! \.1);
+        : (topic --> \@in_order ?? \<0 !! \<1);
 
     ::MD::max ::= function --> Orderable <-- (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (Neg_Inf())
-        : (topic --> \@in_order ?? \.1 !! \.0);
+        : (topic --> \@in_order ?? \<1 !! \<0);
 
     ::MD::minmax ::= function
         --> (Orderable, Orderable) <-- (Orderable, Orderable)
         is commutative
-        : (topic --> \@in_order ?? topic !! \%(\.1, \.0));
+        : (topic --> \@in_order ?? topic !! \%(\<1, \<0));
 
 `#########################################################################`
 
@@ -132,13 +132,13 @@ package
     ::MD::nth_succ ::= function
         --> {Successable, Pos_Inf} <-- (Successable, Integer_NN)
     : (
-        if !?\.1 then
-            \.0
+        if !?\<1 then
+            \<0
         else
-            if (s ::= succ \.0) --> \@Excuse then
+            if (s ::= succ \<0) --> \@Excuse then
                 s
             else
-                s nth_succ --\.1
+                s nth_succ --\<1
     );
 
 `#########################################################################`
@@ -154,13 +154,13 @@ package
     ::MD::nth_pred ::= function
         --> {Bicessable, Neg_Inf} <-- (Bicessable, Integer_NN)
     : (
-        if !?\.1 then
-            \.0
+        if !?\<1 then
+            \<0
         else
-            if (s ::= pred \.0) --> \@Excuse then
+            if (s ::= pred \<0) --> \@Excuse then
                 s
             else
-                s nth_pred --\.1
+                s nth_pred --\<1
     );
 
 `#########################################################################`
@@ -194,23 +194,23 @@ package
 
     ::MD::in_order::Boolean ::= function --> Boolean <-- (Boolean, Boolean)
         implements 2::""
-        : (!\.0 or \.1);
+        : (!\<0 or \<1);
 
     ::MD::asset::Boolean ::= function --> Boolean <-- (Boolean)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::pred::Boolean ::= function --> {False, Neg_Inf} <-- (Boolean)
         implements 2::""
-        : (\.0 ?? False !! Neg_Inf());
+        : (\<0 ?? False !! Neg_Inf());
 
     ::MD::succ::Boolean ::= function --> {True, Pos_Inf} <-- (Boolean)
         implements 2::""
-        : (!\.0 ?? True !! Pos_Inf());
+        : (!\<0 ?? True !! Pos_Inf());
 
     ::MD::so::Boolean ::= function --> Boolean <-- (Boolean)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::not ::= function negates so::Boolean;
 
@@ -220,7 +220,7 @@ package
 
     ::MD::and ::= function --> Boolean <-- (Boolean, Boolean)
         is {associative,commutative,idempotent} identity (True)
-        : (\.0 ?? \.1 !! False);
+        : (\<0 ?? \<1 !! False);
 
     ::MD::Unicode_Aliases::"∧" ::= alias of and;
 
@@ -234,7 +234,7 @@ package
 
     ::MD::or ::= function --> Boolean <-- (Boolean, Boolean)
         is {associative,commutative,idempotent} identity (False)
-        : (\.0 ?? True !! \.1);
+        : (\<0 ?? True !! \<1);
 
     ::MD::Unicode_Aliases::"∨" ::= alias of or;
 
@@ -261,7 +261,7 @@ package
     ::MD::Unicode_Aliases::"↮" ::= alias of xor;
 
     ::MD::imp ::= function --> Boolean <-- (Boolean, Boolean)
-        : (\.0 ?? \.1 !! True);
+        : (\<0 ?? \<1 !! True);
 
     ::MD::implies ::= alias of imp;
 
@@ -377,8 +377,8 @@ package
     ::MD::nearest_multiple_of ::= function
         --> {Numerical, Excuse::Div_By_Zero}
         <-- (Numerical, Numerical, Round_Meth)
-        : (if \.1->is_zero then Excuse::Div_By_Zero()
-            else \.1 * topic --> \@div);
+        : (if \<1->is_zero then Excuse::Div_By_Zero()
+            else \<1 * topic --> \@div);
 
     ::MD::round ::= alias of nearest_multiple_of;
 
@@ -399,8 +399,8 @@ package
     ::MD::modulo ::= function
         --> {Numerical, Excuse::Div_By_Zero}
         <-- (Numerical, Numerical, Round_Meth)
-        : (if \.1->is_zero then Excuse::Div_By_Zero()
-            else \.0 - topic --> \@nearest_multiple_of);
+        : (if \<1->is_zero then Excuse::Div_By_Zero()
+            else \<0 - topic --> \@nearest_multiple_of);
 
     ::MD::mod ::= alias of modulo;
 
@@ -454,20 +454,20 @@ package
 
     ::MD::gcd ::= function --> Integral_P <-- (Integral_NN, Integral_NN)
         is {commutative,associative,idempotent}
-        : ((if \.1->is_zero then \.0 else 0::(\.1, mod(\.0, \.1, To_Zero())))
+        : ((if \<1->is_zero then \<0 else 0::(\<1, mod(\<0, \<1, To_Zero())))
             ::?= 'Calculate using the Euclidean algorithm.');
 
     ::MD::greatest_common_divisor ::= alias of gcd;
 
     ::MD::lcm ::= function --> Integral_NN <-- (Integral_NN, Integral_NN)
         is {commutative,associative,idempotent}
-        : (if \.0->is_zero or \.1->is_zero then \.0->zero
-            else div(\.0 * \.1, \.0 gcd \.1, To_Zero()));
+        : (if \<0->is_zero or \<1->is_zero then \<0->zero
+            else div(\<0 * \<1, \<0 gcd \<1, To_Zero()));
 
     ::MD::least_common_multiple ::= alias of lcm;
 
     ::MD::coprime ::= function --> Boolean <-- (Integral, Integral)
-        : ((abs(\.0) gcd abs(\.1)) = (\.0->zero->succ));
+        : ((abs(\<0) gcd abs(\<1)) = (\<0->zero->succ));
 
 `#########################################################################`
 
@@ -485,20 +485,20 @@ package
 
     ::MD::asset::Integer ::= function --> Integer <-- (Integer)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::pred::Integer ::= function --> Integer <-- (Integer)
         implements 2::Integral
-        : (\.0 - 1);
+        : (\<0 - 1);
 
     ::MD::succ::Integer ::= function --> Integer <-- (Integer)
         implements 2::Integral
         repeater plus::Integer
-        : (\.0 + 1);
+        : (\<0 + 1);
 
     ::MD::so::Integer ::= function --> Boolean <-- (Integer)
         implements 2::""
-        : (\.0 != 0);
+        : (\<0 != 0);
 
     ::MD::zero::Integer ::= function --> Integer <-- (Integer)
         implements 2::""
@@ -511,7 +511,7 @@ package
     ::MD::reciprocal::Integer ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Integer)
         implements 2::""
-        : (1 / \.0);
+        : (1 / \<0);
 
     ::MD::modulus::Integer ::= function --> Integer_NN <-- (Integer)
         implements 2::""
@@ -536,15 +536,15 @@ package
     ::MD::multiple_of::Integer ::= function
         --> {Boolean, Excuse::Div_By_Zero} <-- (Integer, Integer)
         implements 2::""
-        : (if \.1 = 0 then Excuse::Div_By_Zero()
+        : (if \<1 = 0 then Excuse::Div_By_Zero()
             else topic -->^ FDN__Integer_multiple_of);
 
     ::MD::fractional_divided_by::Integer ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Integer, Integer)
         implements 2::""
     : (
-        n ::= \.0;
-        d ::= \.1;
+        n ::= \<0;
+        d ::= \<1;
 
         <-- if d = 0 then Excuse::Div_By_Zero() else q;
 
@@ -561,9 +561,9 @@ package
         <-- (Integer, Integer, Round_Meth)
         implements 2::""
     : (
-        dividend   ::= \.0;
-        divisor    ::= \.1;
-        round_meth ::= \.2;
+        dividend   ::= \<0;
+        divisor    ::= \<1;
+        round_meth ::= \<2;
 
         <-- if divisor = 0 then Excuse::Div_By_Zero() else e1;
 
@@ -634,18 +634,18 @@ package
     ::MD::integral_power::Integer ::= function
         --> {Fraction, Excuse::Zero_To_The_Zero} <-- (Integer, Integer)
         implements 2::""
-        : (if \.0 = 0 and \.1 = 0 then Excuse::Zero_To_The_Zero()
-            else \.0 / 1 ** \.1);
+        : (if \<0 = 0 and \<1 = 0 then Excuse::Zero_To_The_Zero()
+            else \<0 / 1 ** \<1);
 
     ::MD::integral_nn_power::Integer ::= function
         --> {Integer, Excuse::Zero_To_The_Zero} <-- (Integer, Integer_NN)
         implements 2::""
-        : (if \.0 = 0 and \.1 = 0 then Excuse::Zero_To_The_Zero()
+        : (if \<0 = 0 and \<1 = 0 then Excuse::Zero_To_The_Zero()
             else topic -->^ FDN__Integer_nn_power);
 
     ::MD::to_Integer::Integer ::= function --> Integer <-- (Integer)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::factorial::Integer ::= function --> Integer_P <-- (Integer_NN)
         implements 2::""
@@ -690,7 +690,7 @@ package
                     denominator : \@Integer_P,
                 )
             then
-                \.numerator coprime \.denominator
+                \<numerator coprime \<denominator
             else
                 False
         );
@@ -701,21 +701,21 @@ package
     ::MD::in_order::Fraction ::= function --> Boolean <-- (Fraction, Fraction)
         implements 2::""
     : (
-        <-- (\.0->denominator) = (\.1->denominator)
-            ?? in_order(\.0->numerator, \.1->numerator)
+        <-- (\<0->denominator) = (\<1->denominator)
+            ?? in_order(\<0->numerator, \<1->numerator)
          !!
           (
-            common_d ::= lcm(\.0->denominator, \.1->denominator);
+            common_d ::= lcm(\<0->denominator, \<1->denominator);
             <-- in_order(
-                (\.0->numerator) * div(common_d, \.0->denominator, To_Zero()),
-                (\.1->numerator) * div(common_d, \.1->denominator, To_Zero()),
+                (\<0->numerator) * div(common_d, \<0->denominator, To_Zero()),
+                (\<1->numerator) * div(common_d, \<1->denominator, To_Zero()),
             );
           )
     );
 
     ::MD::so::Fraction ::= function --> Boolean <-- (Fraction)
         implements 2::""
-        : (\.0 != 0.0);
+        : (\<0 != 0.0);
 
     ::MD::zero::Fraction ::= function --> Fraction <-- (Fraction)
         implements 2::""
@@ -723,95 +723,95 @@ package
 
     ::MD::opposite::Fraction ::= function --> Fraction <-- (Fraction)
         implements 2::""
-        : (-(\.0->numerator) / (\.0->denominator));
+        : (-(\<0->numerator) / (\<0->denominator));
 
     ::MD::reciprocal::Fraction ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Fraction)
         implements 2::""
-        : (if \.0 = 0.0 then Excuse::Div_By_Zero()
-            else (\.0->denominator) / (\.0->numerator));
+        : (if \<0 = 0.0 then Excuse::Div_By_Zero()
+            else (\<0->denominator) / (\<0->numerator));
 
     ::MD::modulus::Fraction ::= function --> Fraction_NN <-- (Fraction)
         implements 2::""
-        : (abs(\.0->numerator) / (\.0->denominator));
+        : (abs(\<0->numerator) / (\<0->denominator));
 
     ::MD::plus::Fraction ::= function --> Fraction <-- (Fraction, Fraction)
         implements 2::""
         is {associative,commutative} identity (0.0)
         repeater times::Fraction_Integer
     : (
-        <-- (\.0->denominator) = (\.1->denominator)
-            ?? (\.0->numerator) + (\.1->numerator) / (\.0->denominator)
+        <-- (\<0->denominator) = (\<1->denominator)
+            ?? (\<0->numerator) + (\<1->numerator) / (\<0->denominator)
          !!
           (
-            common_d ::= lcm(\.0->denominator, \.1->denominator);
-            <-- ((\.0->numerator) * div(common_d, \.0->denominator, To_Zero()))
-                + ((\.1->numerator) * div(common_d, \.1->denominator, To_Zero()))
+            common_d ::= lcm(\<0->denominator, \<1->denominator);
+            <-- ((\<0->numerator) * div(common_d, \<0->denominator, To_Zero()))
+                + ((\<1->numerator) * div(common_d, \<1->denominator, To_Zero()))
                 / common_d;
           )
     );
 
     ::MD::minus::Fraction ::= function --> Fraction <-- (Fraction, Fraction)
         implements 2::""
-        : (\.0 + (-\.1));
+        : (\<0 + (-\<1));
 
     ::MD::times::Fraction ::= function --> Fraction <-- (Fraction, Fraction)
         implements 2::""
         is {associative,commutative} identity (1.0)
         repeater integral_nn_power::Fraction
-        : (((\.0->numerator) * (\.1->numerator))
-            / ((\.0->denominator) * (\.1->denominator)));
+        : (((\<0->numerator) * (\<1->numerator))
+            / ((\<0->denominator) * (\<1->denominator)));
 
     ::MD::times::Fraction_Integer ::= function
         --> Fraction <-- (Fraction, Integer)
         implements 2::""
-        : (((\.0->numerator) * \.1) / (\.0->denominator));
+        : (((\<0->numerator) * \<1) / (\<0->denominator));
 
     ::MD::multiple_of::Fraction ::= function
         --> {Boolean, Excuse::Div_By_Zero} <-- (Fraction, Fraction)
         implements 2::""
-        : (if \.1 = 0.0 then Excuse::Div_By_Zero()
+        : (if \<1 = 0.0 then Excuse::Div_By_Zero()
             else \@mod <-- topic = 0.0);
 
     ::MD::fractional_divided_by::Fraction ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Fraction, Fraction)
         implements 2::""
-        : (if \.1 = 0.0 then Excuse::Div_By_Zero()
-            else \.0 * reciprocal(\.1));
+        : (if \<1 = 0.0 then Excuse::Div_By_Zero()
+            else \<0 * reciprocal(\<1));
 
     ::MD::integral_divided_by::Fraction ::= function
         --> {Fraction, Excuse::Div_By_Zero}
         <-- (Fraction, Fraction, Round_Meth)
         implements 2::""
     : (
-        d ::= lcm(\.0->denominator, \.1->denominator);
-        n0 ::= ((\.0->numerator) * div(d, \.0->denominator, To_Zero()));
-        n1 ::= ((\.1->numerator) * div(d, \.1->denominator, To_Zero()));
-        <-- if \.1 = 0.0 then Excuse::Div_By_Zero()
-            else div(n0 * d, n1 * d, \.2) / 1;
+        d ::= lcm(\<0->denominator, \<1->denominator);
+        n0 ::= ((\<0->numerator) * div(d, \<0->denominator, To_Zero()));
+        n1 ::= ((\<1->numerator) * div(d, \<1->denominator, To_Zero()));
+        <-- if \<1 = 0.0 then Excuse::Div_By_Zero()
+            else div(n0 * d, n1 * d, \<2) / 1;
     );
 
     ::MD::integral_power::Fraction ::= function
         --> {Fraction, Excuse::Zero_To_The_Zero} <-- (Fraction, Integer)
         implements 2::""
         : (\@integral_nn_power
-            <-- \.1 >= 0 ?? topic !! \%(reciprocal(\.0), -\.1));
+            <-- \<1 >= 0 ?? topic !! \%(reciprocal(\<0), -\<1));
 
     ::MD::integral_nn_power::Fraction ::= function
         --> {Fraction, Excuse::Zero_To_The_Zero} <-- (Fraction, Integer_NN)
         implements 2::""
-        : (if \.0 = 0.0 and \.1 = 0 then Excuse::Zero_To_The_Zero()
-            else ((\.0->numerator) ** \.1) / ((\.0->denominator) ** \.1));
+        : (if \<0 = 0.0 and \<1 = 0 then Excuse::Zero_To_The_Zero()
+            else ((\<0->numerator) ** \<1) / ((\<0->denominator) ** \<1));
 
     ::MD::to_Fraction::Fraction ::= function --> Fraction <-- (Fraction)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::numerator::Fraction ::= function --> Integer <-- (Fraction)
-        : (unwrap(\.0).\numerator);
+        : (unwrap(\<0).\numerator);
 
     ::MD::denominator::Fraction ::= function --> Integer_P <-- (Fraction)
-        : (unwrap(\.0).\denominator);
+        : (unwrap(\<0).\denominator);
 
 `#########################################################################`
 
@@ -887,11 +887,11 @@ package
 
     ::MD::in_order::Bits ::= function --> Boolean <-- (Bits, Bits)
         implements 2::""
-        : ((\.0->Bits_to_String_Bits) in_order (\.1->Bits_to_String_Bits));
+        : ((\<0->Bits_to_String_Bits) in_order (\<1->Bits_to_String_Bits));
 
     ::MD::so::Bits ::= function --> Boolean <-- (Bits)
         implements 2::""
-        : (\.0 != \~?'');
+        : (\<0 != \~?'');
 
     ::MD::empty::Bits ::= function --> Bits <-- (Bits)
         implements 2::""
@@ -899,36 +899,36 @@ package
 
     ::MD::substring_of::Bits ::= function --> Boolean <-- (Bits, Bits)
         implements 2::""
-        : ((\.0->Bits_to_String_Bits) substring_of (\.1->Bits_to_String_Bits));
+        : ((\<0->Bits_to_String_Bits) substring_of (\<1->Bits_to_String_Bits));
 
     ::MD::overlaps_string::Bits ::= function --> Boolean <-- (Bits, Bits)
         implements 2::""
         is commutative
-        : ((\.0->Bits_to_String_Bits)
-            overlaps_string (\.1->Bits_to_String_Bits));
+        : ((\<0->Bits_to_String_Bits)
+            overlaps_string (\<1->Bits_to_String_Bits));
 
     ::MD::disjoint_string::Bits ::= function --> Boolean <-- (Bits, Bits)
         implements 2::""
         is commutative
-        : ((\.0->Bits_to_String_Bits)
-            disjoint_string (\.1->Bits_to_String_Bits));
+        : ((\<0->Bits_to_String_Bits)
+            disjoint_string (\<1->Bits_to_String_Bits));
 
     ::MD::catenate::Bits ::= function --> Bits <-- (Bits, Bits)
         implements 2::""
         is associative identity (\~?'')
         repeater replicate::Bits
-        : (Bits_from_String_Bits((\.0->Bits_to_String_Bits)
-            ~ (\.1->Bits_to_String_Bits)));
+        : (Bits_from_String_Bits((\<0->Bits_to_String_Bits)
+            ~ (\<1->Bits_to_String_Bits)));
 
     ::MD::replicate::Bits ::= function --> Bits <-- (Bits, Integer_NN)
         implements 2::""
-        : (Bits_from_String_Bits((\.0->Bits_to_String_Bits) ~# \.1));
+        : (Bits_from_String_Bits((\<0->Bits_to_String_Bits) ~# \<1));
 
     ::MD::Bits_from_String_Bits ::= function --> Bits <-- (String::Bits)
-        : (\Bits wrap \.0);
+        : (\Bits wrap \<0);
 
     ::MD::Bits_to_String_Bits ::= function --> String::Bits <-- (Bits)
-        : (\.0->unwrap);
+        : (\<0->unwrap);
 
 `#########################################################################`
 
@@ -942,11 +942,11 @@ package
 
     ::MD::in_order::Blob ::= function --> Boolean <-- (Blob, Blob)
         implements 2::""
-        : ((\.0->Blob_to_Octets) in_order (\.1->Blob_to_Octets));
+        : ((\<0->Blob_to_Octets) in_order (\<1->Blob_to_Octets));
 
     ::MD::so::Blob ::= function --> Boolean <-- (Blob)
         implements 2::""
-        : (\.0 != \~+'');
+        : (\<0 != \~+'');
 
     ::MD::empty::Blob ::= function --> Blob <-- (Blob)
         implements 2::""
@@ -954,33 +954,33 @@ package
 
     ::MD::substring_of::Blob ::= function --> Boolean <-- (Blob, Blob)
         implements 2::""
-        : ((\.0->Blob_to_Octets) substring_of (\.1->Blob_to_Octets));
+        : ((\<0->Blob_to_Octets) substring_of (\<1->Blob_to_Octets));
 
     ::MD::overlaps_string::Blob ::= function --> Boolean <-- (Blob, Blob)
         implements 2::""
         is commutative
-        : ((\.0->Blob_to_Octets) overlaps_string (\.1->Blob_to_Octets));
+        : ((\<0->Blob_to_Octets) overlaps_string (\<1->Blob_to_Octets));
 
     ::MD::disjoint_string::Blob ::= function --> Boolean <-- (Blob, Blob)
         implements 2::""
         is commutative
-        : ((\.0->Blob_to_Octets) disjoint_string (\.1->Blob_to_Octets));
+        : ((\<0->Blob_to_Octets) disjoint_string (\<1->Blob_to_Octets));
 
     ::MD::catenate::Blob ::= function --> Blob <-- (Blob, Blob)
         implements 2::""
         is associative identity (\~+'')
         repeater replicate::Blob
-        : (Blob_from_Octets((\.0->Blob_to_Octets) ~ (\.1->Blob_to_Octets)));
+        : (Blob_from_Octets((\<0->Blob_to_Octets) ~ (\<1->Blob_to_Octets)));
 
     ::MD::replicate::Blob ::= function --> Blob <-- (Blob, Integer_NN)
         implements 2::""
-        : (Blob_from_Octets((\.0->Blob_to_Octets) ~# \.1));
+        : (Blob_from_Octets((\<0->Blob_to_Octets) ~# \<1));
 
     ::MD::Blob_from_Octets ::= function --> Blob <-- (String::Octets)
-        : (\Blob wrap \.0);
+        : (\Blob wrap \<0);
 
     ::MD::Blob_to_Octets ::= function --> String::Octets <-- (Blob)
-        : (\.0->unwrap);
+        : (\<0->unwrap);
 
 `#########################################################################`
 
@@ -1016,11 +1016,11 @@ package
 
     ::MD::in_order::Text ::= function --> Boolean <-- (Text, Text)
         implements 2::""
-        : ((\.0->Text_to_Maximal_Chars) in_order (\.1->Text_to_Maximal_Chars));
+        : ((\<0->Text_to_Maximal_Chars) in_order (\<1->Text_to_Maximal_Chars));
 
     ::MD::so::Text ::= function --> Boolean <-- (Text)
         implements 2::""
-        : (\.0 != '');
+        : (\<0 != '');
 
     ::MD::empty::Text ::= function --> Text <-- (Text)
         implements 2::""
@@ -1028,59 +1028,59 @@ package
 
     ::MD::substring_of::Text ::= function --> Boolean <-- (Text, Text)
         implements 2::""
-        : ((\.0->Text_to_Maximal_Chars)
-            substring_of (\.1->Text_to_Maximal_Chars));
+        : ((\<0->Text_to_Maximal_Chars)
+            substring_of (\<1->Text_to_Maximal_Chars));
 
     ::MD::overlaps_string::Text ::= function --> Boolean <-- (Text, Text)
         implements 2::""
         is commutative
-        : ((\.0->Text_to_Maximal_Chars)
-            overlaps_string (\.1->Text_to_Maximal_Chars));
+        : ((\<0->Text_to_Maximal_Chars)
+            overlaps_string (\<1->Text_to_Maximal_Chars));
 
     ::MD::disjoint_string::Text ::= function --> Boolean <-- (Text, Text)
         implements 2::""
         is commutative
-        : ((\.0->Text_to_Maximal_Chars)
-            disjoint_string (\.1->Text_to_Maximal_Chars));
+        : ((\<0->Text_to_Maximal_Chars)
+            disjoint_string (\<1->Text_to_Maximal_Chars));
 
     ::MD::catenate::Text ::= function --> Text <-- (Text, Text)
         implements 2::""
         is associative identity ('')
         repeater replicate::Text
-        : (Text_from_Maximal_Chars((\.0->Text_to_Maximal_Chars)
-            ~ (\.1->Text_to_Maximal_Chars)));
+        : (Text_from_Maximal_Chars((\<0->Text_to_Maximal_Chars)
+            ~ (\<1->Text_to_Maximal_Chars)));
 
     ::MD::replicate::Text ::= function --> Text <-- (Text, Integer_NN)
         implements 2::""
-        : (Text_from_Maximal_Chars((\.0->Text_to_Maximal_Chars) ~# \.1));
+        : (Text_from_Maximal_Chars((\<0->Text_to_Maximal_Chars) ~# \<1));
 
     ::MD::to_Text::Text ::= function --> Text <-- (Text)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::Text_from_Maximal_Chars ::= function
         --> Text <-- (String::Maximal_Chars)
-        : (\Text wrap \.0);
+        : (\Text wrap \<0);
 
     ::MD::Text_to_Maximal_Chars ::= function
         --> String::Maximal_Chars <-- (Text)
-        : (\.0->unwrap);
+        : (\<0->unwrap);
 
     ::MD::Text_from_Unicode_Codes ::= function
         --> Text::Unicode <-- (String::Unicode_Codes)
-        : (\.0->Text_from_Maximal_Chars);
+        : (\<0->Text_from_Maximal_Chars);
 
     ::MD::Text_to_Unicode_Codes ::= function
         --> String::Unicode_Codes <-- (Text::Unicode)
-        : (\.0->Text_to_Maximal_Chars);
+        : (\<0->Text_to_Maximal_Chars);
 
     ::MD::Text_from_ASCII_Chars ::= function
         --> Text::ASCII <-- (String::ASCII_Chars)
-        : (\.0->Text_from_Unicode_Codes);
+        : (\<0->Text_from_Unicode_Codes);
 
     ::MD::Text_to_ASCII_Chars ::= function
         --> String::ASCII_Chars <-- (Text::ASCII)
-        : (\.0->Text_to_Unicode_Codes);
+        : (\<0->Text_to_Unicode_Codes);
 
 `#########################################################################`
 
@@ -1116,7 +1116,7 @@ package
     ::MD::Unicode_Aliases::"∉" ::= alias of not_in;
 
     ::MD::has ::= function --> Boolean <-- (Homogeneous, Any)
-        (has_n(\.0, \.1, 1));
+        (has_n(\<0, \<1, 1));
 
     ::MD::Unicode_Aliases::"∋" ::= alias of has;
 
@@ -1131,13 +1131,13 @@ package
         --> Integer_NN <-- (Homogeneous, Any);
 
     ::MD::insert ::= function --> Homogeneous <-- (Homogeneous, Any)
-        : (insert_n(\.0, \.1, 1));
+        : (insert_n(\<0, \<1, 1));
 
     ::MD::insert_n::"" ::= function virtual
         --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
 
     ::MD::remove ::= function --> Homogeneous <-- (Homogeneous, Any)
-        : (remove_n(\.0, \.1, 1));
+        : (remove_n(\<0, \<1, 1));
 
     ::MD::remove_n::"" ::= function virtual
         --> Homogeneous <-- (Homogeneous, Any, Integer_NN);
@@ -1257,14 +1257,14 @@ package
     ::MD::Unicode_Aliases::"∄" ::= alias of none;
 
     ::MD::all ::= function --> Boolean <-- (Homogeneous, Primed_Func_Ref)
-        : (\.0 none negated_func(of : \.1, passing_args : \@(0)));
+        : (\<0 none negated_func(of : \<1, passing_args : \@(0)));
 
     ::MD::for_all ::= alias of all;
 
     ::MD::Unicode_Aliases::"∀" ::= alias of all;
 
     ::MD::all_is_a ::= function --> Boolean <-- (Homogeneous, Reference)
-        : (\.0 all (\@is_a assuming topic ^ \@(1)));
+        : (\<0 all (\@is_a assuming topic ^ \@(1)));
 
     ::MD::where::"" ::= function virtual
         --> Homogeneous <-- (Homogeneous, Primed_Func_Ref);
@@ -1326,12 +1326,12 @@ package
     : (
         i ::= (topic --> \@index_succ_all_matches);
       <--
-        if not \.0 .? i then
+        if not \<0 .? i then
             e1 ::= True
-        else if not \.1 .? i then
+        else if not \<1 .? i then
             False
         else
-            e2 ::= (\.0.i in_order \.1.i);
+            e2 ::= (\<0.i in_order \<1.i);
 
         e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
         e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
@@ -1340,25 +1340,25 @@ package
     ::MD::subset_of::Positional ::= function
         --> Boolean <-- (Positional, Positional)
         implements 2::""
-        : ((\.0->to_Bag) subset_of (\.1->to_Bag));
+        : ((\<0->to_Bag) subset_of (\<1->to_Bag));
 
     ::MD::same_members::Positional ::= function
         --> Boolean <-- (Positional, Positional)
         implements 2::""
         is commutative
-        : ((\.0->to_Bag) same_members (\.1->to_Bag));
+        : ((\<0->to_Bag) same_members (\<1->to_Bag));
 
     ::MD::overlaps_members::Positional ::= function
         --> Boolean <-- (Positional, Positional)
         implements 2::""
         is commutative
-        : ((\.0->to_Bag) overlaps_members (\.1->to_Bag));
+        : ((\<0->to_Bag) overlaps_members (\<1->to_Bag));
 
     ::MD::disjoint_members::Positional ::= function
         --> Boolean <-- (Positional, Positional)
         implements 2::""
         is commutative
-        : ((\.0->to_Bag) disjoint_members (\.1->to_Bag));
+        : ((\<0->to_Bag) disjoint_members (\<1->to_Bag));
 
     ::MD::member_plus::Positional ::= function
         --> Positional <-- (Positional, Positional)
@@ -1368,7 +1368,7 @@ package
 
     ::MD::unique_count::Positional ::= function --> Integer_NN <-- (Positional)
         implements 2::""
-        : (\.0->to_Set->count);
+        : (\<0->to_Set->count);
 
     ::MD::to_Array::"" ::= function virtual --> Array <-- (Positional);
 
@@ -1396,33 +1396,33 @@ package
         : (topic --> \@elem_or_excuse);
 
     ::MD::squish ::= function --> Positional <-- (Positional)
-        : (\.0 map (function : (\%( group : \.0, member : False )))
-            ->nest map (function : (\.0.\group)));
+        : (\<0 map (function : (\%( group : \<0, member : False )))
+            ->nest map (function : (\<0.\group)));
 
     ::MD::first_index::"" ::= function virtual --> Integral <-- (Positional)
-        requires (?\.0);
+        requires (?\<0);
 
     ::MD::last_index::"" ::= function virtual --> Integral <-- (Positional)
-        requires (?\.0);
+        requires (?\<0);
 
     ::MD::slice::"" ::= function virtual
         --> Positional <-- (Positional, Interval);
 
     ::MD::first ::= function --> Any <-- (Positional)
-        requires (?\.0)
-        : (\.0 . first_index(\.0));
+        requires (?\<0)
+        : (\<0 . first_index(\<0));
 
     ::MD::nonfirst ::= function --> Positional <-- (Positional)
-        requires (?\.0)
-        : (\.0 slice first_index(\.0)^..last_index(\.0));
+        requires (?\<0)
+        : (\<0 slice first_index(\<0)^..last_index(\<0));
 
     ::MD::last ::= function --> Any <-- (Positional)
-        requires (?\.0)
-        : (\.0 . last_index(\.0));
+        requires (?\<0)
+        : (\<0 . last_index(\<0));
 
     ::MD::nonlast ::= function --> Positional <-- (Positional)
-        requires (?\.0)
-        : (\.0 slice first_index(\.0)..^last_index(\.0));
+        requires (?\<0)
+        : (\<0 slice first_index(\<0)..^last_index(\<0));
 
     ::MD::index_succ_all_matches::"" ::= function virtual
         --> Integral <-- (Positional, Positional)
@@ -1442,7 +1442,7 @@ package
 
     ::MD::so::Array ::= function --> Boolean <-- (Array)
         implements 2::""
-        : (\.0 != []);
+        : (\<0 != []);
 
     ::MD::empty::Array ::= function --> Array <-- (Array)
         implements 2::""
@@ -1543,7 +1543,7 @@ package
 
     ::MD::to_Set::Array ::= function --> Set <-- (Array)
         implements 2::""
-        : (\.0->to_Bag->to_Set);
+        : (\<0->to_Bag->to_Set);
 
     ::MD::to_Bag::Array ::= function --> Bag <-- (Array)
         implements 2::""
@@ -1555,7 +1555,7 @@ package
 
     ::MD::to_Array::Array ::= function --> Array <-- (Array)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::elem::Array ::= function --> Any <-- (Array, Integer_NN)
         implements 2::""
@@ -1568,13 +1568,13 @@ package
 
     ::MD::first_index::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
-        requires (?\.0)
+        requires (?\<0)
         : (0);
 
     ::MD::last_index::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
-        requires (?\.0)
-        : (-- #\.0);
+        requires (?\<0)
+        : (-- #\<0);
 
     ::MD::slice::Array ::= function --> Array <-- (Array, Interval)
         implements 2::""
@@ -1609,7 +1609,7 @@ package
 
     ::MD::so::Set ::= function --> Boolean <-- (Set)
         implements 2::""
-        : (\.0 != {});
+        : (\<0 != {});
 
     ::MD::empty::Set ::= function --> Set <-- (Set)
         implements 2::""
@@ -1617,20 +1617,20 @@ package
 
     ::MD::has_n::Set ::= function --> Boolean <-- (Set, Any, Integer_NN)
         implements 2::""
-        : (has_n(\.0->unwrap, \.1, \.2));
+        : (has_n(\<0->unwrap, \<1, \<2));
 
     ::MD::multiplicity::Set ::= function --> Integer_NN <-- (Set, Any)
         implements 2::""
-        : (\.0->unwrap multiplicity \.1);
+        : (\<0->unwrap multiplicity \<1);
 
     ::MD::insert_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
         implements 2::""
-        : (\.0 has \.1 or \.2 = 0 ?? \.0
-            !! \Set wrap insert_n(\.0->unwrap, \.1, 1));
+        : (\<0 has \<1 or \<2 = 0 ?? \<0
+            !! \Set wrap insert_n(\<0->unwrap, \<1, 1));
 
     ::MD::remove_n::Set ::= function --> Set <-- (Set, Any, Integer_NN)
         implements 2::""
-        : (\Set wrap remove_n(\.0->unwrap, \.1, \.2));
+        : (\Set wrap remove_n(\<0->unwrap, \<1, \<2));
 
     ::MD::all_unique::Set ::= function --> Boolean <-- (Set)
         implements 2::""
@@ -1638,11 +1638,11 @@ package
 
     ::MD::unique::Set ::= function --> Set <-- (Set)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::subset_of::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
-        : ((\.0->unwrap) subset_of (\.1->unwrap));
+        : ((\<0->unwrap) subset_of (\<1->unwrap));
 
     ::MD::same_members::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
@@ -1652,12 +1652,12 @@ package
     ::MD::overlaps_members::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
         is commutative
-        : ((\.0->unwrap) overlaps_members (\.1->unwrap));
+        : ((\<0->unwrap) overlaps_members (\<1->unwrap));
 
     ::MD::disjoint_members::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
         is commutative
-        : ((\.0->unwrap) disjoint_members (\.1->unwrap));
+        : ((\<0->unwrap) disjoint_members (\<1->unwrap));
 
     ::MD::member_plus::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
@@ -1666,64 +1666,64 @@ package
 
     ::MD::except::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
-        : (\Set wrap ((\.0->unwrap) except (\.1->unwrap)));
+        : (\Set wrap ((\<0->unwrap) except (\<1->unwrap)));
 
     ::MD::intersect::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
         is {associative,commutative,idempotent}
-        : (\Set wrap ((\.0->unwrap) intersect (\.1->unwrap)));
+        : (\Set wrap ((\<0->unwrap) intersect (\<1->unwrap)));
 
     ::MD::union::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
         is {associative,commutative,idempotent} identity ({})
-        : (\Set wrap ((\.0->unwrap) union (\.1->unwrap)));
+        : (\Set wrap ((\<0->unwrap) union (\<1->unwrap)));
 
     ::MD::exclusive::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
         is {associative,commutative} identity ({})
-        : (\Set wrap ((\.0->unwrap) exclusive (\.1->unwrap)));
+        : (\Set wrap ((\<0->unwrap) exclusive (\<1->unwrap)));
 
     ::MD::nest::Set ::= function --> Set <-- (Set)
         implements 2::""
         requires (...)
-        : (\Set wrap (\.0->unwrap->nest));
+        : (\Set wrap (\<0->unwrap->nest));
 
     ::MD::unnest::Set ::= function --> Set <-- (Set)
         implements 2::""
         requires (...)
-        : (\Set wrap (\.0->unwrap->unnest));
+        : (\Set wrap (\<0->unwrap->unnest));
 
     ::MD::any::Set ::= function --> Boolean <-- (Set, Primed_Func_Ref)
         implements 2::""
-        : (\.0->unwrap any \.1);
+        : (\<0->unwrap any \<1);
 
     ::MD::where::Set ::= function --> Set <-- (Set, Primed_Func_Ref)
         implements 2::""
-        : (\Set wrap (\.0->unwrap where \.1));
+        : (\Set wrap (\<0->unwrap where \<1));
 
     ::MD::map::Set ::= function --> Set <-- (Set, Primed_Func_Ref)
         implements 2::""
-        : (\Set wrap (\.0->unwrap map \.1));
+        : (\Set wrap (\<0->unwrap map \<1));
 
     ::MD::reduce::Set ::= function --> Any <-- (Set, Primed_Func_Ref)
         implements 2::""
-        : (\Set wrap (\.0->unwrap reduce \.1));
+        : (\Set wrap (\<0->unwrap reduce \<1));
 
     ::MD::to_Set::Set ::= function --> Set <-- (Set)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::to_Bag::Set ::= function --> Bag <-- (Set)
         implements 2::""
-        : (\.0->unwrap);
+        : (\<0->unwrap);
 
     ::MD::count::Set ::= function --> Integer_NN <-- (Set)
         implements 2::""
-        : (\.0->unwrap->count);
+        : (\<0->unwrap->count);
 
     ::MD::unique_count::Set ::= function --> Integer_NN <-- (Set)
         implements 2::""
-        : (\.0->count);
+        : (\<0->count);
 
 `#########################################################################`
 
@@ -1737,7 +1737,7 @@ package
 
     ::MD::so::Bag ::= function --> Boolean <-- (Bag)
         implements 2::""
-        : (\.0 != \+{});
+        : (\<0 != \+{});
 
     ::MD::empty::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
@@ -1838,11 +1838,11 @@ package
 
     ::MD::to_Set::Bag ::= function --> Set <-- (Bag)
         implements 2::""
-        : (\Set wrap (\.0->unique));
+        : (\Set wrap (\<0->unique));
 
     ::MD::to_Bag::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
-        : (\.0);
+        : (\<0);
 
     ::MD::count::Bag ::= function --> Integer_NN <-- (Bag)
         implements 2::""
@@ -1928,7 +1928,7 @@ package
 
     ::MD::has_any_attrs::Tuple ::= function --> Boolean <-- (Tuple)
         implements 2::""
-        : (\.0 != \%());
+        : (\<0 != \%());
 
     ::MD::degree::Tuple ::= function --> Integer_NN <-- (Tuple)
         implements 2::""
@@ -1992,7 +1992,7 @@ package
     ::MD::none_of_attrs ::= function negates any_attrs;
 
     ::MD::all_attrs ::= function --> Boolean <-- (Tuple, Primed_Func_Ref)
-        : (\.0 none_of_attrs negated_func(of : \.1, passing_args : \@(0)));
+        : (\<0 none_of_attrs negated_func(of : \<1, passing_args : \@(0)));
 
     ::MD::attrs_where ::= function --> Tuple <-- (Tuple, Primed_Func_Ref)
         : (topic -->^ FDN__Tuple_attrs_where);
@@ -2042,8 +2042,8 @@ package
         _Asset ::= selection of Tuple where
         (
             if topic ^?= \%( heading : \@Attr_Names, body : \@Bag ) then
-                if \.body all_is_a \@Tuple then
-                    \.body all (\@"^?=" assuming \.heading)
+                if \<body all_is_a \@Tuple then
+                    \<body all (\@"^?=" assuming \<heading)
                 else
                     False
             else
@@ -2083,7 +2083,7 @@ package
 
     ::MD::Capsule::has_wrapped ::= function
         --> Boolean <-- (Capsule, Any, Reference)
-        : (wrapper(\.0) = \.1 and unwrap(\.0) --> \.2);
+        : (wrapper(\<0) = \<1 and unwrap(\<0) --> \<2);
 
 `#########################################################################`
 
@@ -2124,14 +2124,14 @@ package
     };
 
     ::MD::Source_Code::Pkg_Decl_Map ::= selection of Tuple
-        where (topic all_attrs (function : (\.asset --> \@Pkg_Canon_Name)));
+        where (topic all_attrs (function : (\<asset --> \@Pkg_Canon_Name)));
 
     ::MD::Source_Code::negated_func ::= function --> Primed_Func_Ref
         <-- (of : Primed_Func_Ref, passing_args : Attr_Names)
     : (
         (function : (
             not(
-                (\.of.\args +^ (topic ^ \.passing_args)) --> (\.of.\func)
+                (\<of.\args +^ (topic ^ \<passing_args)) --> (\<of.\func)
             )
         )) assuming topic
     );
