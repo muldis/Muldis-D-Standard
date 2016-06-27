@@ -18,7 +18,7 @@ package
 
     ::MD::same ::= function --> Boolean <-- (Any, Any)
         is commutative
-        : (topic -->^ FDN__same);
+        : (\<*args -->^ FDN__same);
 
     ::MD::"=" ::= alias of same;
 
@@ -76,11 +76,11 @@ package
 
     ::MD::in_order::Neg_Inf_R ::= function --> Boolean <-- (Orderable, Neg_Inf)
         implements 2::""
-        : (topic --> \same::());
+        : (\<*args --> \same::());
 
     ::MD::in_order::Pos_Inf_L ::= function --> Boolean <-- (Pos_Inf, Orderable)
         implements 2::""
-        : (topic --> \same::());
+        : (\<*args --> \same::());
 
     ::MD::in_order::Pos_Inf_R ::= function --> Boolean <-- (Orderable, Pos_Inf)
         implements 2::""
@@ -108,16 +108,16 @@ package
 
     ::MD::min ::= function --> Orderable <-- (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (+∞)
-        : (topic --> \in_order::() ?? \<0 !! \<1);
+        : (\<*args --> \in_order::() ?? \<0 !! \<1);
 
     ::MD::max ::= function --> Orderable <-- (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (-∞)
-        : (topic --> \in_order::() ?? \<1 !! \<0);
+        : (\<*args --> \in_order::() ?? \<1 !! \<0);
 
     ::MD::minmax ::= function
         --> (Orderable, Orderable) <-- (Orderable, Orderable)
         is commutative
-        : (topic --> \in_order::() ?? topic !! (\<1, \<0));
+        : (\<*args --> \in_order::() ?? \<*args !! (\<1, \<0));
 
 `#########################################################################`
 
@@ -178,7 +178,7 @@ package
 
 `#########################################################################`
 
-    ::MD::Boolean ::= selection where (topic -->^ FDN__is_a_Boolean)
+    ::MD::Boolean ::= selection where (\<*args -->^ FDN__is_a_Boolean)
         default (False)
         composes {Bicessable, Boolable and_provides_its_default};
 
@@ -248,7 +248,7 @@ package
 
     ::MD::xnor ::= function --> Boolean <-- (Boolean, Boolean)
         is {associative,commutative} identity (True)
-        : (topic --> \same::());
+        : (\<*args --> \same::());
 
     ::MD::iff ::= alias of xnor;
 
@@ -337,14 +337,14 @@ package
 
     ::MD::"-" ::= function
         --> Numerical <-- {(Numerical), (Numerical, Numerical)}
-        : (topic --> (degree::(topic) = 1 ?? \opposite::() !! \minus::()));
+        : (\<*args --> (degree::(\<*args) = 1 ?? \opposite::() !! \minus::()));
 
     ::MD::Unicode_Aliases::"−" ::= alias of "-";
 
     ::MD::modulus_minus ::= function
         --> Numerical <-- (Numerical, Numerical)
         is commutative
-        : (modulus topic --> \minus::());
+        : (modulus \<*args --> \minus::());
 
     ::MD::abs_minus ::= alias of modulus_minus;
     ::MD::"|-|"     ::= alias of modulus_minus;
@@ -367,7 +367,7 @@ package
         --> {Numerical, Excuse::Div_By_Zero}
         <-- (Numerical, Numerical, Round_Meth)
         : (if \<1->is_zero then Excuse::Div_By_Zero()
-            else \<1 * topic --> \div::());
+            else \<1 * \<*args --> \div::());
 
     ::MD::round ::= alias of nearest_multiple_of;
 
@@ -389,14 +389,14 @@ package
         --> {Numerical, Excuse::Div_By_Zero}
         <-- (Numerical, Numerical, Round_Meth)
         : (if \<1->is_zero then Excuse::Div_By_Zero()
-            else \<0 - topic --> \nearest_multiple_of::());
+            else \<0 - \<*args --> \nearest_multiple_of::());
 
     ::MD::mod ::= alias of modulo;
 
     ::MD::divided_by_and_modulo::"" ::= function
         --> ({Numerical, Excuse::Div_By_Zero}, {Numerical, Excuse::Div_By_Zero})
         <-- (Numerical, Numerical, Round_Meth)
-        : ((topic --> \div::(), topic --> \mod::()));
+        : ((\<*args --> \div::(), \<*args --> \mod::()));
 
     ::MD::integral_power::"" ::= function virtual
         --> {Numerical, Excuse::Zero_To_The_Zero} <-- (Numerical, Integral);
@@ -460,7 +460,7 @@ package
 
 `#########################################################################`
 
-    ::MD::Integer ::= selection where (topic -->^ FDN__is_a_Integer)
+    ::MD::Integer ::= selection where (\<*args -->^ FDN__is_a_Integer)
         default (0)
         composes Integral and_provides_its_default;
 
@@ -470,7 +470,7 @@ package
 
     ::MD::in_order::Integer ::= function --> Boolean <-- (Integer, Integer)
         implements 2::""
-        : (topic -->^ FDN__Integer_in_order);
+        : (\<*args -->^ FDN__Integer_in_order);
 
     ::MD::asset::Integer ::= function --> Integer <-- (Integer)
         implements 2::""
@@ -495,7 +495,7 @@ package
 
     ::MD::opposite::Integer ::= function --> Integer <-- (Integer)
         implements 2::""
-        : (topic -->^ FDN__Integer_opposite);
+        : (\<*args -->^ FDN__Integer_opposite);
 
     ::MD::reciprocal::Integer ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Integer)
@@ -504,29 +504,29 @@ package
 
     ::MD::modulus::Integer ::= function --> Integer_NN <-- (Integer)
         implements 2::""
-        : (topic -->^ FDN__Integer_modulus);
+        : (\<*args -->^ FDN__Integer_modulus);
 
     ::MD::plus::Integer ::= function --> Integer <-- (Integer, Integer)
         implements 2::""
         is {associative,commutative} identity (0)
         repeater times::Integer
-        : (topic -->^ FDN__Integer_plus);
+        : (\<*args -->^ FDN__Integer_plus);
 
     ::MD::minus::Integer ::= function --> Integer <-- (Integer, Integer)
         implements 2::""
-        : (topic -->^ FDN__Integer_minus);
+        : (\<*args -->^ FDN__Integer_minus);
 
     ::MD::times::Integer ::= function --> Integer <-- (Integer, Integer)
         implements 2::""
         is {associative,commutative} identity (1)
         repeater integral_nn_power::Integer
-        : (topic -->^ FDN__Integer_times);
+        : (\<*args -->^ FDN__Integer_times);
 
     ::MD::multiple_of::Integer ::= function
         --> {Boolean, Excuse::Div_By_Zero} <-- (Integer, Integer)
         implements 2::""
         : (if \<1 = 0 then Excuse::Div_By_Zero()
-            else topic -->^ FDN__Integer_multiple_of);
+            else \<*args -->^ FDN__Integer_multiple_of);
 
     ::MD::fractional_divided_by::Integer ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Integer, Integer)
@@ -630,7 +630,7 @@ package
         --> {Integer, Excuse::Zero_To_The_Zero} <-- (Integer, Integer_NN)
         implements 2::""
         : (if \<0 = 0 and \<1 = 0 then Excuse::Zero_To_The_Zero()
-            else topic -->^ FDN__Integer_nn_power);
+            else \<*args -->^ FDN__Integer_nn_power);
 
     ::MD::to_Integer::Integer ::= function --> Integer <-- (Integer)
         implements 2::""
@@ -638,7 +638,7 @@ package
 
     ::MD::factorial::Integer ::= function --> Integer_P <-- (Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Integer_factorial);
+        : (\<*args -->^ FDN__Integer_factorial);
 
 `#########################################################################`
 
@@ -760,7 +760,7 @@ package
         --> {Boolean, Excuse::Div_By_Zero} <-- (Fraction, Fraction)
         implements 2::""
         : (if \<1 = 0.0 then Excuse::Div_By_Zero()
-            else \mod::() <-- topic = 0.0);
+            else \mod::() <-- \<*args = 0.0);
 
     ::MD::fractional_divided_by::Fraction ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Fraction, Fraction)
@@ -784,7 +784,7 @@ package
         --> {Fraction, Excuse::Zero_To_The_Zero} <-- (Fraction, Integer)
         implements 2::""
         : (\integral_nn_power::()
-            <-- (\<1 >= 0 ?? topic !! (reciprocal::(\<0), -\<1)));
+            <-- (\<1 >= 0 ?? \<*args !! (reciprocal::(\<0), -\<1)));
 
     ::MD::integral_nn_power::Fraction ::= function
         --> {Fraction, Excuse::Zero_To_The_Zero} <-- (Fraction, Integer_NN)
@@ -840,12 +840,12 @@ package
     ::MD::proper_substring_or_superstring ::= function
         --> Boolean <-- (String, String)
         is commutative
-        : (topic --> \not_same::() and topic --> \substring_or_superstring::());
+        : (\<*args --> \not_same::() and \<*args --> \substring_or_superstring::());
 
     ::MD::substring_or_superstring ::= function
         --> Boolean <-- (String, String)
         is commutative
-        : (topic --> \substring_of::() or topic --> \superstring_of::());
+        : (\<*args --> \substring_of::() or \<*args --> \superstring_of::());
 
     ::MD::overlaps_string::"" ::= function virtual
         --> Boolean <-- (String, String)
@@ -1080,7 +1080,7 @@ package
         requires_implements {".",".?",".!"};
 
     ::MD::"."::"" ::= function virtual --> Any <-- (Accessible, Any)
-        requires (topic --> \".?"::());
+        requires (\<*args --> \".?"::());
 
     ::MD::".?"::"" ::= function virtual --> Boolean <-- (Accessible, Any);
 
@@ -1100,7 +1100,7 @@ package
     ::MD::singular::"" ::= function virtual --> Boolean <-- (Homogeneous);
 
     ::MD::only_member::"" ::= function virtual --> Any <-- (Homogeneous)
-        requires (topic --> \singular::());
+        requires (\<*args --> \singular::());
 
     ::MD::in ::= function commutes has;
 
@@ -1131,7 +1131,7 @@ package
 
     ::MD::proper_subset_of ::= function
         --> Boolean <-- (Homogeneous, Homogeneous)
-        : (topic --> \not_same::() and topic --> \subset_of::());
+        : (\<*args --> \not_same::() and \<*args --> \subset_of::());
 
     ::MD::Unicode_Aliases::"⊂" ::= alias of proper_subset_of;
 
@@ -1171,12 +1171,12 @@ package
     ::MD::proper_subset_or_superset ::= function
         --> Boolean <-- (Homogeneous, Homogeneous)
         is commutative
-        : (not topic --> \same_members::() and topic --> \subset_or_superset::());
+        : (not \<*args --> \same_members::() and \<*args --> \subset_or_superset::());
 
     ::MD::subset_or_superset ::= function
         --> Boolean <-- (Homogeneous, Homogeneous)
         is commutative
-        : (topic --> \subset_of::() or topic --> \superset_of::());
+        : (\<*args --> \subset_of::() or \<*args --> \superset_of::());
 
     ::MD::overlaps_members::"" ::= function virtual
         --> Boolean <-- (Homogeneous, Homogeneous)
@@ -1343,8 +1343,8 @@ package
 
     ::MD::only_member::Positional ::= function --> Any <-- (Positional)
         implements 2::""
-        requires (topic --> \singular::())
-        : (topic --> \first::());
+        requires (\<*args --> \singular::())
+        : (\<*args --> \first::());
 
     ::MD::subset_of::Positional ::= function
         --> Boolean <-- (Positional, Positional)
@@ -1373,7 +1373,7 @@ package
         --> Positional <-- (Positional, Positional)
         implements 2::""
         is associative
-        : (topic --> \catenate::());
+        : (\<*args --> \catenate::());
 
     ::MD::unique_count::Positional ::= function --> Integer_NN <-- (Positional)
         implements 2::""
@@ -1384,25 +1384,25 @@ package
     ::MD::"~|" ::= alias of to_Array;
 
     ::MD::elem::"" ::= function virtual --> Any <-- (Positional, Integer)
-        requires (topic --> \has_index::());
+        requires (\<*args --> \has_index::());
 
     ::MD::"."::Positional ::= function --> Any <-- (Positional, Integer)
         implements 2::""
-        requires (topic --> \has_index::())
-        : (topic --> \elem::());
+        requires (\<*args --> \has_index::())
+        : (\<*args --> \elem::());
 
     ::MD::has_index::"" ::= function virtual --> Boolean <-- (Positional, Integer);
 
     ::MD::".?"::Positional ::= function --> Boolean <-- (Positional, Integer)
         implements 2::""
-        : (topic --> \has_index::());
+        : (\<*args --> \has_index::());
 
     ::MD::elem_or_excuse ::= function --> Any <-- (Positional, Integer)
-        : (topic --> \has_index::() ?? topic --> \elem::() !! Excuse::No_Such_Index());
+        : (\<*args --> \has_index::() ?? \<*args --> \elem::() !! Excuse::No_Such_Index());
 
     ::MD::".!"::Positional ::= function --> Any <-- (Positional, Integer)
         implements 2::""
-        : (topic --> \elem_or_excuse::());
+        : (\<*args --> \elem_or_excuse::());
 
     ::MD::squish ::= function --> Positional <-- (Positional)
         : (\<0 map (function : (( group : \<0, member : False )))
@@ -1455,7 +1455,7 @@ package
 
 `#########################################################################`
 
-    ::MD::Array ::= selection where (topic -->^ FDN__is_a_Array)
+    ::MD::Array ::= selection where (\<*args -->^ FDN__is_a_Array)
         default ([])
         composes Positional and_provides_its_default;
 
@@ -1468,7 +1468,7 @@ package
     ::MD::in_order::Array ::= function --> Boolean <-- (Array, Array)
         implements 2::""
     : (
-        i ::= (topic --> \index_succ_all_matches::());
+        i ::= (\<*args --> \index_succ_all_matches::());
       <--
         if not \<0 .? i then
             e1 ::= True
@@ -1491,96 +1491,96 @@ package
 
     ::MD::substring_of::Array ::= function --> Boolean <-- (Array, Array)
         implements 2::""
-        : (topic -->^ FDN__Array_substring_of);
+        : (\<*args -->^ FDN__Array_substring_of);
 
     ::MD::overlaps_string::Array ::= function --> Boolean <-- (Array, Array)
         implements 2::""
         is commutative
-        : (topic -->^ FDN__Array_overlaps_string);
+        : (\<*args -->^ FDN__Array_overlaps_string);
 
     ::MD::disjoint_string::Array ::= function --> Boolean <-- (Array, Array)
         implements 2::""
         is commutative
-        : (topic -->^ FDN__Array_disjoint_string);
+        : (\<*args -->^ FDN__Array_disjoint_string);
 
     ::MD::catenate::Array ::= function --> Array <-- (Array, Array)
         implements 2::""
         is associative identity ([])
         repeater replicate::Array
-        : (topic -->^ FDN__Array_catenate);
+        : (\<*args -->^ FDN__Array_catenate);
 
     ::MD::replicate::Array ::= function --> Array <-- (Array, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Array_replicate);
+        : (\<*args -->^ FDN__Array_replicate);
 
     ::MD::has_n::Array ::= function --> Boolean <-- (Array, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Array_has_n);
+        : (\<*args -->^ FDN__Array_has_n);
 
     ::MD::multiplicity::Array ::= function --> Integer_NN <-- (Array, Any)
         implements 2::""
-        : (topic -->^ FDN__Array_multiplicity);
+        : (\<*args -->^ FDN__Array_multiplicity);
 
     ::MD::all_unique::Array ::= function --> Boolean <-- (Array)
         implements 2::""
-        : (topic -->^ FDN__Array_all_unique);
+        : (\<*args -->^ FDN__Array_all_unique);
 
     ::MD::unique::Array ::= function --> Array <-- (Array)
         implements 2::""
-        : (topic -->^ FDN__Array_unique);
+        : (\<*args -->^ FDN__Array_unique);
 
     ::MD::any::Array ::= function --> Boolean <-- (Array, Function_Call_But_0)
         implements 2::""
-        : (topic -->^ FDN__Array_any);
+        : (\<*args -->^ FDN__Array_any);
 
     ::MD::insert_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Array_insert_n);
+        : (\<*args -->^ FDN__Array_insert_n);
 
     ::MD::remove_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Array_remove_n);
+        : (\<*args -->^ FDN__Array_remove_n);
 
     ::MD::except::Array ::= function --> Array <-- (Array, Array)
         implements 2::""
-        : (topic -->^ FDN__Array_except);
+        : (\<*args -->^ FDN__Array_except);
 
     ::MD::intersect::Array ::= function --> Array <-- (Array, Array)
         implements 2::""
         is {associative,idempotent}
-        : (topic -->^ FDN__Array_intersect);
+        : (\<*args -->^ FDN__Array_intersect);
 
     ::MD::union::Array ::= function --> Array <-- (Array, Array)
         implements 2::""
         is idempotent identity ([])
-        : (topic -->^ FDN__Array_union);
+        : (\<*args -->^ FDN__Array_union);
 
     ::MD::exclusive::Array ::= function --> Array <-- (Array, Array)
         implements 2::""
         identity ([])
-        : (topic -->^ FDN__Array_exclusive);
+        : (\<*args -->^ FDN__Array_exclusive);
 
     ::MD::nest::Array ::= function --> Array <-- (Array)
         implements 2::""
         requires (...)
-        : (topic -->^ FDN__Array_nest);
+        : (\<*args -->^ FDN__Array_nest);
 
     ::MD::unnest::Array ::= function --> Array <-- (Array)
         implements 2::""
         requires (...)
-        : (topic -->^ FDN__Array_unnest);
+        : (\<*args -->^ FDN__Array_unnest);
 
     ::MD::where::Array ::= function --> Array <-- (Array, Function_Call_But_0)
         implements 2::""
-        : (topic -->^ FDN__Array_where);
+        : (\<*args -->^ FDN__Array_where);
 
     ::MD::map::Array ::= function --> Array <-- (Array, Function_Call_But_0)
         implements 2::""
-        : (topic -->^ FDN__Array_map);
+        : (\<*args -->^ FDN__Array_map);
 
     ::MD::reduce::Array ::= function --> Any <-- (Array, Function_Call_But_0_1)
         implements 2::""
-        : (topic -->^ FDN__Array_reduce);
+        : (\<*args -->^ FDN__Array_reduce);
 
     ::MD::to_Set::Array ::= function --> Set <-- (Array)
         implements 2::""
@@ -1588,15 +1588,15 @@ package
 
     ::MD::to_Bag::Array ::= function --> Bag <-- (Array)
         implements 2::""
-        : (topic -->^ FDN__Array_to_Bag);
+        : (\<*args -->^ FDN__Array_to_Bag);
 
     ::MD::count::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
-        : (topic -->^ FDN__Array_count);
+        : (\<*args -->^ FDN__Array_count);
 
     ::MD::order_using::Array ::= function --> Array <-- (Array, Function_Call_But_0_1)
         implements 2::""
-        : (topic -->^ FDN__Array_order_using);
+        : (\<*args -->^ FDN__Array_order_using);
 
     ::MD::to_Array::Array ::= function --> Array <-- (Array)
         implements 2::""
@@ -1604,12 +1604,12 @@ package
 
     ::MD::elem::Array ::= function --> Any <-- (Array, Integer_NN)
         implements 2::""
-        requires (topic --> \has_index::())
-        : (topic -->^ FDN__Array_elem);
+        requires (\<*args --> \has_index::())
+        : (\<*args -->^ FDN__Array_elem);
 
     ::MD::has_index::Array ::= function --> Boolean <-- (Array, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Array_has_index);
+        : (\<*args -->^ FDN__Array_has_index);
 
     ::MD::first_possible_index::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
@@ -1619,13 +1619,13 @@ package
         --> Array <-- (Array, NN_Integer, NN_Integer)
         implements 2::""
         requires (\<1 + \<2 <= #\<0)
-        : (topic -->^ FDN__Array_slice_n);
+        : (\<*args -->^ FDN__Array_slice_n);
 
     ::MD::index_succ_all_matches::Array ::= function
         --> Integer_NN <-- (Array, Array)
         implements 2::""
         is commutative
-        : (topic -->^ FDN__Array_index_succ_all_matches);
+        : (\<*args -->^ FDN__Array_index_succ_all_matches);
 
 `#########################################################################`
 
@@ -1662,7 +1662,7 @@ package
 
     ::MD::only_member::Set ::= function --> Any <-- (Set)
         implements 2::""
-        requires (topic --> \singular::())
+        requires (\<*args --> \singular::())
         : (\<0->unwrap->only_member);
 
     ::MD::has_n::Set ::= function --> Boolean <-- (Set, Any, Integer_NN)
@@ -1688,7 +1688,7 @@ package
     ::MD::same_members::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
         is commutative
-        : (topic --> \same::());
+        : (\<*args --> \same::());
 
     ::MD::overlaps_members::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
@@ -1716,7 +1716,7 @@ package
     ::MD::member_plus::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
         is {associative,commutative,idempotent} identity ({})
-        : (topic --> \union::());
+        : (\<*args --> \union::());
 
     ::MD::except::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
@@ -1781,7 +1781,7 @@ package
 
 `#########################################################################`
 
-    ::MD::Bag ::= selection where (topic -->^ FDN__is_a_Bag)
+    ::MD::Bag ::= selection where (\<*args -->^ FDN__is_a_Bag)
         default (\+{})
         composes Discrete;
 
@@ -1799,105 +1799,105 @@ package
 
     ::MD::singular::Bag ::= function --> Boolean <-- (Bag)
         implements 2::""
-        : (topic -->^ FDN__Bag_singular);
+        : (\<*args -->^ FDN__Bag_singular);
 
     ::MD::only_member::Bag ::= function --> Any <-- (Bag)
         implements 2::""
-        requires (topic --> \singular::())
-        : (topic -->^ FDN__Bag_only_member);
+        requires (\<*args --> \singular::())
+        : (\<*args -->^ FDN__Bag_only_member);
 
     ::MD::has_n::Bag ::= function --> Boolean <-- (Bag, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Bag_has_n);
+        : (\<*args -->^ FDN__Bag_has_n);
 
     ::MD::multiplicity::Bag ::= function --> Integer_NN <-- (Bag, Any)
         implements 2::""
-        : (topic -->^ FDN__Bag_multiplicity);
+        : (\<*args -->^ FDN__Bag_multiplicity);
 
     ::MD::all_unique::Bag ::= function --> Boolean <-- (Bag)
         implements 2::""
-        : (topic -->^ FDN__Bag_all_unique);
+        : (\<*args -->^ FDN__Bag_all_unique);
 
     ::MD::unique::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
-        : (topic -->^ FDN__Bag_unique);
+        : (\<*args -->^ FDN__Bag_unique);
 
     ::MD::subset_of::Bag ::= function --> Boolean <-- (Bag, Bag)
         implements 2::""
-        : (topic -->^ FDN__Bag_subset_of);
+        : (\<*args -->^ FDN__Bag_subset_of);
 
     ::MD::same_members::Bag ::= function --> Boolean <-- (Bag, Bag)
         implements 2::""
         is commutative
-        : (topic --> \same::());
+        : (\<*args --> \same::());
 
     ::MD::overlaps_members::Bag ::= function --> Boolean <-- (Bag, Bag)
         implements 2::""
         is commutative
-        : (topic -->^ FDN__Bag_overlaps_members);
+        : (\<*args -->^ FDN__Bag_overlaps_members);
 
     ::MD::disjoint_members::Bag ::= function --> Boolean <-- (Bag, Bag)
         implements 2::""
         is commutative
-        : (topic -->^ FDN__Bag_disjoint_members);
+        : (\<*args -->^ FDN__Bag_disjoint_members);
 
     ::MD::any::Bag ::= function --> Boolean <-- (Bag, Function_Call_But_0)
         implements 2::""
-        : (topic -->^ FDN__Bag_any);
+        : (\<*args -->^ FDN__Bag_any);
 
     ::MD::insert_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Bag_insert_n);
+        : (\<*args -->^ FDN__Bag_insert_n);
 
     ::MD::remove_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
         implements 2::""
-        : (topic -->^ FDN__Bag_remove_n);
+        : (\<*args -->^ FDN__Bag_remove_n);
 
     ::MD::member_plus::Bag ::= function --> Bag <-- (Bag, Bag)
         implements 2::""
         is {associative,commutative} identity (\+{})
-        : (topic -->^ FDN__Bag_member_plus);
+        : (\<*args -->^ FDN__Bag_member_plus);
 
     ::MD::except::Bag ::= function --> Bag <-- (Bag, Bag)
         implements 2::""
-        : (topic -->^ FDN__Bag_except);
+        : (\<*args -->^ FDN__Bag_except);
 
     ::MD::intersect::Bag ::= function --> Bag <-- (Bag, Bag)
         implements 2::""
         is {associative,commutative,idempotent}
-        : (topic -->^ FDN__Bag_intersect);
+        : (\<*args -->^ FDN__Bag_intersect);
 
     ::MD::union::Bag ::= function --> Bag <-- (Bag, Bag)
         implements 2::""
         is {associative,commutative,idempotent} identity (\+{})
-        : (topic -->^ FDN__Bag_union);
+        : (\<*args -->^ FDN__Bag_union);
 
     ::MD::exclusive::Bag ::= function --> Bag <-- (Bag, Bag)
         implements 2::""
         is {associative,commutative} identity (\+{})
-        : (topic -->^ FDN__Bag_exclusive);
+        : (\<*args -->^ FDN__Bag_exclusive);
 
     ::MD::nest::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
         requires (...)
-        : (topic -->^ FDN__Bag_nest);
+        : (\<*args -->^ FDN__Bag_nest);
 
     ::MD::unnest::Bag ::= function --> Bag <-- (Bag)
         implements 2::""
         requires (...)
-        : (topic -->^ FDN__Bag_unnest);
+        : (\<*args -->^ FDN__Bag_unnest);
 
     ::MD::where::Bag ::= function --> Bag <-- (Bag, Function_Call_But_0)
         implements 2::""
-        : (topic -->^ FDN__Bag_where);
+        : (\<*args -->^ FDN__Bag_where);
 
     ::MD::map::Bag ::= function --> Bag <-- (Bag, Function_Call_But_0)
         implements 2::""
-        : (topic -->^ FDN__Bag_map);
+        : (\<*args -->^ FDN__Bag_map);
 
     ::MD::reduce::Bag ::= function --> Any <-- (Bag, Function_Call_But_0_1)
         implements 2::""
-        : (topic -->^ FDN__Bag_reduce);
+        : (\<*args -->^ FDN__Bag_reduce);
 
     ::MD::to_Set::Bag ::= function --> Set <-- (Bag)
         implements 2::""
@@ -1909,15 +1909,15 @@ package
 
     ::MD::count::Bag ::= function --> Integer_NN <-- (Bag)
         implements 2::""
-        : (topic -->^ FDN__Bag_count);
+        : (\<*args -->^ FDN__Bag_count);
 
     ::MD::unique_count::Bag ::= function --> Integer_NN <-- (Bag)
         implements 2::""
-        : (topic -->^ FDN__Bag_unique_count);
+        : (\<*args -->^ FDN__Bag_unique_count);
 
     ::MD::order_using::Bag ::= function --> Array <-- (Bag, Function_Call_But_0_1)
         implements 2::""
-        : (topic -->^ FDN__Bag_order_using);
+        : (\<*args -->^ FDN__Bag_order_using);
 
 `#########################################################################`
 
@@ -1956,7 +1956,7 @@ package
 
     ::MD::extend::"" ::= function virtual
         --> Attributive <-- (Attributive, Attributive)
-        requires (topic --> \attr_names_disjoint::())
+        requires (\<*args --> \attr_names_disjoint::())
         is {associative,commutative};
 
     ::MD::"+^" ::= alias of extend;
@@ -1990,29 +1990,29 @@ package
         requires_implements {...,attr,has_attr_name,...};
 
     ::MD::attr::"" ::= function virtual --> Any <-- (Structural, Attr_Name)
-        requires (topic --> \has_attr_name::());
+        requires (\<*args --> \has_attr_name::());
 
     ::MD::"."::Structural ::= function --> Any <-- (Structural, Attr_Name)
         implements 2::""
-        requires (topic --> \has_attr_name::())
-        : (topic --> \attr::());
+        requires (\<*args --> \has_attr_name::())
+        : (\<*args --> \attr::());
 
     ::MD::has_attr_name::"" ::= function virtual --> Boolean <-- (Structural, Attr_Name);
 
     ::MD::".?"::Structural ::= function --> Boolean <-- (Structural, Attr_Name)
         implements 2::""
-        : (topic --> \has_attr_name::());
+        : (\<*args --> \has_attr_name::());
 
     ::MD::attr_or_excuse ::= function --> Any <-- (Structural, Attr_Name)
-        : (topic --> \has_attr_name::() ?? topic --> \attr::() !! Excuse::No_Such_Attr_Name());
+        : (\<*args --> \has_attr_name::() ?? \<*args --> \attr::() !! Excuse::No_Such_Attr_Name());
 
     ::MD::".!"::Structural ::= function --> Any <-- (Structural, Attr_Name)
         implements 2::""
-        : (topic --> \attr_or_excuse::());
+        : (\<*args --> \attr_or_excuse::());
 
 `#########################################################################`
 
-    ::MD::Tuple::"" ::= selection where (topic -->^ FDN__is_a_Tuple)
+    ::MD::Tuple::"" ::= selection where (\<*args -->^ FDN__is_a_Tuple)
         default (())
         composes Structural and_provides_its_default;
 
@@ -2026,32 +2026,32 @@ package
 
     ::MD::degree::Tuple ::= function --> Integer_NN <-- (Tuple)
         implements 2::""
-        : (topic -->^ FDN__Tuple_degree);
+        : (\<*args -->^ FDN__Tuple_degree);
 
     ::MD::attr::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
         implements 2::""
-        requires (topic --> \has_attr_name::())
-        : (topic -->^ FDN__Tuple_attr);
+        requires (\<*args --> \has_attr_name::())
+        : (\<*args -->^ FDN__Tuple_attr);
 
     ::MD::has_attr_name::Tuple ::= function --> Boolean <-- (Tuple, Attr_Name)
         implements 2::""
-        : (topic -->^ FDN__Tuple_has_attr_name);
+        : (\<*args -->^ FDN__Tuple_has_attr_name);
 
     ::MD::on::Tuple ::= function --> Tuple <-- (Tuple, Attr_Names)
         implements 2::""
         requires (...)
-        : (topic -->^ FDN__Tuple_on);
+        : (\<*args -->^ FDN__Tuple_on);
 
     ::MD::but::Tuple ::= function --> Tuple <-- (Tuple, Attr_Names)
         implements 2::""
         requires (...)
-        : (topic -->^ FDN__Tuple_but);
+        : (\<*args -->^ FDN__Tuple_but);
 
     ::MD::extend::Tuple ::= function --> Tuple <-- (Tuple, Tuple)
         implements 2::""
-        requires (topic --> \attr_names_disjoint::())
+        requires (\<*args --> \attr_names_disjoint::())
         is {associative,commutative} identity (())
-        : (topic -->^ FDN__Tuple_extend);
+        : (\<*args -->^ FDN__Tuple_extend);
 
     ::MD::rename::Tuple ::= function --> Tuple <-- (Tuple, Attr_Renaming)
         implements 2::""
@@ -2067,7 +2067,7 @@ package
         : (...);
 
     ::MD::any_attrs ::= function --> Boolean <-- (Tuple, Function_Call_But_0)
-        : (topic -->^ FDN__Tuple_any_attrs);
+        : (\<*args -->^ FDN__Tuple_any_attrs);
 
     ::MD::none_of_attrs ::= function negates any_attrs;
 
@@ -2075,13 +2075,13 @@ package
         : (\<0 none_of_attrs ((function : (not \<1 <-- (\<0,))) \<-- (:<1,)));
 
     ::MD::attrs_where ::= function --> Tuple <-- (Tuple, Function_Call_But_0)
-        : (topic -->^ FDN__Tuple_attrs_where);
+        : (\<*args -->^ FDN__Tuple_attrs_where);
 
     ::MD::attrs_map ::= function --> Tuple <-- (Tuple, Function_Call_But_0)
-        : (topic -->^ FDN__Tuple_attrs_map);
+        : (\<*args -->^ FDN__Tuple_attrs_map);
 
     ::MD::attrs_reduce ::= function --> Any <-- (Tuple, Function_Call_But_0_1)
-        : (topic -->^ FDN__Tuple_attrs_reduce);
+        : (\<*args -->^ FDN__Tuple_attrs_reduce);
 
 `#########################################################################`
 
@@ -2233,17 +2233,17 @@ package
 
 `#########################################################################`
 
-    ::MD::Capsule::"" ::= selection where (topic -->^ FDN__is_a_Capsule)
+    ::MD::Capsule::"" ::= selection where (\<*args -->^ FDN__is_a_Capsule)
         default (False wrap False);
 
     ::MD::Capsule::wrap ::= function --> Capsule <-- (Any, Any)
-        : (topic -->^ FDN__Capsule_wrap);
+        : (\<*args -->^ FDN__Capsule_wrap);
 
     ::MD::Capsule::wrapper ::= function --> Any <-- (Capsule)
-        : (topic -->^ FDN__Capsule_wrapper);
+        : (\<*args -->^ FDN__Capsule_wrapper);
 
     ::MD::Capsule::unwrap ::= function --> Any <-- (Capsule)
-        : (topic -->^ FDN__Capsule_unwrap);
+        : (\<*args -->^ FDN__Capsule_unwrap);
 
     ::MD::Capsule::has_wrapped ::= function
         --> Boolean <-- (Capsule, Any, Function_Call_But_0)
@@ -2251,11 +2251,11 @@ package
 
 `#########################################################################`
 
-    ::MD::External::"" ::= selection where (topic -->^ FDN__is_a_External)
+    ::MD::External::"" ::= selection where (\<*args -->^ FDN__is_a_External)
         default (() -->^ FDN__default_External);
 
     ::MD::External::call_function ::= function --> Any <-- (Any)
-        : (FDN__External_call_function ^<-- topic);
+        : (FDN__External_call_function ^<-- \<*args);
 
 `#########################################################################`
 
