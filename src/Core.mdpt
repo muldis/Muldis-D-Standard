@@ -1077,12 +1077,12 @@ package
 `#########################################################################`
 
     ::MD::Accessible ::= interface
-        requires_implements {".",".?",".!"};
+        requires_implements {".?",".",".!"};
+
+    ::MD::".?"::"" ::= function virtual --> Boolean <-- (Accessible, Any);
 
     ::MD::"."::"" ::= function virtual --> Any <-- (Accessible, Any)
         requires (\<*args --> \".?"::());
-
-    ::MD::".?"::"" ::= function virtual --> Boolean <-- (Accessible, Any);
 
     ::MD::".!"::"" ::= function virtual --> Any <-- (Accessible, Any);
 
@@ -1333,7 +1333,7 @@ package
             ,except,intersect,union,exclusive
             ,nest,unnest,where,map,reduce,...
             ,to_Set,to_Bag,count,order_using
-            ,to_Array,elem,has_index,first_possible_index,slice_n,index_succ_all_matches,...};
+            ,has_index,elem,to_Array,first_possible_index,slice_n,index_succ_all_matches,...};
 
     ::MD::Excuse::No_Such_Index ::= constant composes Excuse;
 
@@ -1379,9 +1379,11 @@ package
         implements 2::""
         : (\<0->to_Set->count);
 
-    ::MD::to_Array::"" ::= function virtual --> Array <-- (Positional);
+    ::MD::has_index::"" ::= function virtual --> Boolean <-- (Positional, Integer);
 
-    ::MD::"~|" ::= alias of to_Array;
+    ::MD::".?"::Positional ::= function --> Boolean <-- (Positional, Integer)
+        implements 2::""
+        : (\<*args --> \has_index::());
 
     ::MD::elem::"" ::= function virtual --> Any <-- (Positional, Integer)
         requires (\<*args --> \has_index::());
@@ -1391,18 +1393,16 @@ package
         requires (\<*args --> \has_index::())
         : (\<*args --> \elem::());
 
-    ::MD::has_index::"" ::= function virtual --> Boolean <-- (Positional, Integer);
-
-    ::MD::".?"::Positional ::= function --> Boolean <-- (Positional, Integer)
-        implements 2::""
-        : (\<*args --> \has_index::());
-
     ::MD::elem_or_excuse ::= function --> Any <-- (Positional, Integer)
         : (\<*args --> \has_index::() ?? \<*args --> \elem::() !! Excuse::No_Such_Index());
 
     ::MD::".!"::Positional ::= function --> Any <-- (Positional, Integer)
         implements 2::""
         : (\<*args --> \elem_or_excuse::());
+
+    ::MD::to_Array::"" ::= function virtual --> Array <-- (Positional);
+
+    ::MD::"~|" ::= alias of to_Array;
 
     ::MD::squish ::= function --> Positional <-- (Positional)
         : (\<0 map (function : (( group : \<0, member : False )))
@@ -1598,18 +1598,18 @@ package
         implements 2::""
         : (\<*args -->^ FDN__Array_order_using);
 
-    ::MD::to_Array::Array ::= function --> Array <-- (Array)
+    ::MD::has_index::Array ::= function --> Boolean <-- (Array, Integer_NN)
         implements 2::""
-        : (\<0);
+        : (\<*args -->^ FDN__Array_has_index);
 
     ::MD::elem::Array ::= function --> Any <-- (Array, Integer_NN)
         implements 2::""
         requires (\<*args --> \has_index::())
         : (\<*args -->^ FDN__Array_elem);
 
-    ::MD::has_index::Array ::= function --> Boolean <-- (Array, Integer_NN)
+    ::MD::to_Array::Array ::= function --> Array <-- (Array)
         implements 2::""
-        : (\<*args -->^ FDN__Array_has_index);
+        : (\<0);
 
     ::MD::first_possible_index::Array ::= function --> Integer_NN <-- (Array)
         implements 2::""
@@ -1987,7 +1987,13 @@ package
     ::MD::Structural ::= interface
         composes {Attributive and_provides_its_default,
             Accessible and_provides_its_default}
-        requires_implements {...,attr,has_attr_name,...};
+        requires_implements {...,has_attr_name,attr,...};
+
+    ::MD::has_attr_name::"" ::= function virtual --> Boolean <-- (Structural, Attr_Name);
+
+    ::MD::".?"::Structural ::= function --> Boolean <-- (Structural, Attr_Name)
+        implements 2::""
+        : (\<*args --> \has_attr_name::());
 
     ::MD::attr::"" ::= function virtual --> Any <-- (Structural, Attr_Name)
         requires (\<*args --> \has_attr_name::());
@@ -1996,12 +2002,6 @@ package
         implements 2::""
         requires (\<*args --> \has_attr_name::())
         : (\<*args --> \attr::());
-
-    ::MD::has_attr_name::"" ::= function virtual --> Boolean <-- (Structural, Attr_Name);
-
-    ::MD::".?"::Structural ::= function --> Boolean <-- (Structural, Attr_Name)
-        implements 2::""
-        : (\<*args --> \has_attr_name::());
 
     ::MD::attr_or_excuse ::= function --> Any <-- (Structural, Attr_Name)
         : (\<*args --> \has_attr_name::() ?? \<*args --> \attr::() !! Excuse::No_Such_Attr_Name());
@@ -2027,15 +2027,6 @@ package
     ::MD::degree::Tuple ::= function --> Integer_NN <-- (Tuple)
         implements 2::""
         : (\<*args -->^ FDN__Tuple_degree);
-
-    ::MD::attr::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
-        implements 2::""
-        requires (\<*args --> \has_attr_name::())
-        : (\<*args -->^ FDN__Tuple_attr);
-
-    ::MD::has_attr_name::Tuple ::= function --> Boolean <-- (Tuple, Attr_Name)
-        implements 2::""
-        : (\<*args -->^ FDN__Tuple_has_attr_name);
 
     ::MD::on::Tuple ::= function --> Tuple <-- (Tuple, Attr_Names)
         implements 2::""
@@ -2065,6 +2056,15 @@ package
     ::MD::has_just_attrs::Tuple ::= function --> Boolean <-- (Tuple, Signature)
         implements 2::""
         : (...);
+
+    ::MD::has_attr_name::Tuple ::= function --> Boolean <-- (Tuple, Attr_Name)
+        implements 2::""
+        : (\<*args -->^ FDN__Tuple_has_attr_name);
+
+    ::MD::attr::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
+        implements 2::""
+        requires (\<*args --> \has_attr_name::())
+        : (\<*args -->^ FDN__Tuple_attr);
 
     ::MD::any_attrs ::= function --> Boolean <-- (Tuple, Function_Call_But_0)
         : (\<*args -->^ FDN__Tuple_any_attrs);
