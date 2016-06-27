@@ -998,7 +998,7 @@ package
         where (String::Unicode_Codes::(\<0->Text_from_Maximal_Chars));
 
     ::MD::String::Unicode_Codes ::= selection of String::Maximal_Chars
-        where (\<0 all (function : (\<0 in 0..0x10FFFF)));
+        where (\<0 all (function : (\<0 in ?..{0..0xD7FF,0xE000..0x10FFFF})));
 
     ::MD::Text::ASCII ::= selection of Text::Unicode
         where (String::ASCII_Chars::(\<0->Text_from_Unicode_Codes));
@@ -1074,17 +1074,116 @@ package
         --> String::ASCII_Chars <-- (Text::ASCII)
         : (\<0->Text_to_Unicode_Codes);
 
+    ::MD::Blob_is_UTF_8 ::= function --> Boolean <-- (Blob)
+        : (...);
+
+    ::MD::Text_from_UTF_8_Blob ::= function
+        --> {Text::Unicode, Excuse::Unicode::..., ...} <-- (Blob)
+        : (...);
+
+    ::MD::Text_from_UTF_8_Blob_with_repl_Text ::= function
+        --> Text::Unicode <-- (Blob, Text::Unicode)
+        : (...);
+
+    ::MD::Text_from_UTF_8_Blob_with_repl_char ::= function
+        --> Text::Unicode <-- (Blob)
+        : (Text_from_UTF_8_Blob_with_repl_Text::(\<0,'\\c<0xFFFD>'));
+
+    ::MD::Text_to_UTF_8_Blob ::= function --> Blob <-- (Text::Unicode)
+        : (...);
+
+    ::MD::Blob_is_ASCII ::= function --> Boolean <-- (Blob)
+        : (String::ASCII_Chars(\<0->Blob_to_Octets));
+
+    ::MD::Text_from_ASCII_Blob ::= function
+        --> {Text::ASCII, Excuse::ASCII::High_Bit_Not_Zero} <-- (Blob)
+    : (
+        octets ::= \<0->Blob_to_Octets;
+        <-- if String::ASCII_Chars(octets)
+            then octets->Text_from_ASCII_Chars
+            else Excuse::ASCII::High_Bit_Not_Zero();
+    );
+
+    ::MD::Text_from_ASCII_Blob_with_repl_Text ::= function
+        --> Text::ASCII <-- (Blob, Text::ASCII)
+    : (
+        src_octets ::= (\<0->Blob_to_Octets);
+        repl_chars ::= (\<1->Text_to_ASCII_Chars);
+        result_chars ::= (
+            given #repl_chars
+                when 0 then
+                    src_octets where (function : (\<0 in 0..127))
+                when 1 then
+                    src_octets
+                        map (function : (\<0 in 0..127 ?? \<0 !! \<1))
+                            \<-- (1 : repl_chars.0,)
+                default
+                    src_octets
+                        map (function : (\<0 in 0..127 ?? [\<0] !! \<1))
+                            \<-- (1 : repl_chars,)
+                        reduce \catenate::()
+        );
+        <-- result_chars->Text_from_ASCII_Chars;
+    );
+
+    ::MD::Text_to_ASCII_Blob ::= function --> Blob <-- (Text::ASCII)
+        : (\<0->Text_to_ASCII_Chars->Blob_from_Octets);
+
 `#########################################################################`
 
     ::MD::Accessible ::= interface
-        requires_implements {".?",".",".!"};
+        requires_implements {has_any_at
+            ,mapping_at,at,maybe_at
+            ,replace_at,shiftless_insert_at,shiftless_remove_at
+            ,replace_or_insert_at,shiftless_maybe_remove_at};
 
-    ::MD::".?"::"" ::= function virtual --> Boolean <-- (Accessible, Any);
+    ::MD::has_any_at::"" ::= function virtual
+        --> Boolean <-- (Accessible, Any);
 
-    ::MD::"."::"" ::= function virtual --> Any <-- (Accessible, Any)
-        requires (\<*args --> \".?"::());
+    ::MD::".?" ::= alias of has_any_at;
 
-    ::MD::".!"::"" ::= function virtual --> Any <-- (Accessible, Any);
+    ::MD::mapping_at::"" ::= function virtual
+        --> (Any, Any) <-- (Accessible, Any)
+        requires (\<0 .? \<1);
+
+    ::MD::".:" ::= alias of mapping_at;
+
+    ::MD::at::"" ::= function virtual --> Any <-- (Accessible, Any)
+        requires (\<0 .? \<1);
+
+    ::MD::"." ::= alias of at;
+
+    ::MD::maybe_at::"" ::= function virtual --> Any <-- (Accessible, Any);
+
+    ::MD::".!" ::= alias of maybe_at;
+
+    ::MD::replace_at::"" ::= function virtual
+        --> Accessible <-- (Accessible, (Any, Any))
+        requires (\<0 .? \>>0);
+
+    ::MD::".=" ::= alias of replace_at;
+
+    ::MD::shiftless_insert_at::"" ::= function virtual
+        --> Accessible <-- (Accessible, (Any, Any))
+        requires (not \<0 .? \>>0);
+
+    ::MD::".+" ::= alias of shiftless_insert_at;
+
+    ::MD::shiftless_remove_at::"" ::= function virtual
+        --> Accessible <-- (Accessible, Any)
+        requires (\<0 .? \<1);
+
+    ::MD::".-" ::= alias of shiftless_remove_at;
+
+    ::MD::replace_or_insert_at::"" ::= function virtual
+        --> Accessible <-- (Accessible, (Any, Any));
+
+    ::MD::".=+" ::= alias of replace_or_insert_at;
+
+    ::MD::shiftless_maybe_remove_at::"" ::= function virtual
+        --> Accessible <-- (Accessible, Any);
+
+    ::MD::".?-" ::= alias of shiftless_maybe_remove_at;
 
 `#########################################################################`
 
@@ -1333,7 +1432,9 @@ package
             ,except,intersect,union,exclusive
             ,nest,unnest,where,map,reduce,...
             ,to_Set,to_Bag,count,order_using
-            ,has_index,elem,to_Array,first_possible_index,slice_n,index_succ_all_matches,...};
+            ,at
+            ,to_Array
+            ,first_possible_index,slice_n,index_succ_all_matches,...};
 
     ::MD::Excuse::No_Such_Index ::= constant composes Excuse;
 
@@ -1379,26 +1480,65 @@ package
         implements 2::""
         : (\<0->to_Set->count);
 
-    ::MD::has_index::"" ::= function virtual --> Boolean <-- (Positional, Integer);
-
-    ::MD::".?"::Positional ::= function --> Boolean <-- (Positional, Integer)
+    ::MD::has_any_at::Positional ::= function
+        --> Boolean <-- (Positional, Integer)
         implements 2::""
-        : (\<*args --> \has_index::());
+        : (\<1 >= first_possible_index::(\<0)
+            and \<1 < first_unused_index::(\<0));
 
-    ::MD::elem::"" ::= function virtual --> Any <-- (Positional, Integer)
-        requires (\<*args --> \has_index::());
-
-    ::MD::"."::Positional ::= function --> Any <-- (Positional, Integer)
+    ::MD::mapping_at::Positional ::= function
+        --> (Integer, Any) <-- (Positional, Integer)
         implements 2::""
-        requires (\<*args --> \has_index::())
-        : (\<*args --> \elem::());
+        requires (\<0 .? \<1)
+        : ((\<1, \<0.\<1));
 
-    ::MD::elem_or_excuse ::= function --> Any <-- (Positional, Integer)
-        : (\<*args --> \has_index::() ?? \<*args --> \elem::() !! Excuse::No_Such_Index());
-
-    ::MD::".!"::Positional ::= function --> Any <-- (Positional, Integer)
+    ::MD::maybe_at::Positional ::= function
+        --> Any <-- (Positional, Integer)
         implements 2::""
-        : (\<*args --> \elem_or_excuse::());
+        : (if \<0 .? \<1 then \<0.\<1 else Excuse::No_Such_Index());
+
+    ::MD::replace_at::Positional ::= function
+        --> Positional <-- (Positional, (Integer, Any))
+        implements 2::""
+        requires (\<0 .? \>>0)
+    : (
+        src ::= \<0;
+        ri ::= \>>0;
+        repl_member ::= \>>1;
+        fi ::= first_index src;
+        li ::= last_index src;
+        emp ::= empty src;
+        <-- (if ri > fi then slice_range::(src, fi, --ri) else emp)
+            insert repl_member
+            catenate (if ri < li then slice_range::(src, ++ri, li) else emp);
+    );
+
+    ::MD::shiftless_insert_at::Positional ::= function
+        --> Positional <-- (Positional, (Integer, Any))
+        implements 2::""
+        requires (\>>0 = first_unused_index::(\<0))
+        : (\<0 insert \>>1);
+
+    ::MD::shiftless_remove_at::Positional ::= function
+        --> Positional <-- (Positional, Integer)
+        implements 2::""
+        requires (\<1 >= first_possible_index::(\<0)
+            and \<1 = --first_unused_index::(\<0))
+        : (nonlast \<0);
+
+    ::MD::replace_or_insert_at::Positional ::= function
+        --> Positional <-- (Positional, (Integer, Any))
+        implements 2::""
+        requires (\<1 >= first_possible_index::(\<0)
+            and \<1 <= first_unused_index::(\<0))
+        : (if \<0 .? \>>0 then \<0 .= \>>0 else \<0 .+ \>>0);
+
+    ::MD::shiftless_maybe_remove_at::Positional ::= function
+        --> Positional <-- (Positional, Integer)
+        implements 2::""
+        requires (\<1 >= first_possible_index::(\<0)
+            and \<1 >= --first_unused_index::(\<0))
+        : (if \<1 = --first_unused_index::(\<0) then nonlast \<0 else \<0);
 
     ::MD::to_Array::"" ::= function virtual --> Array <-- (Positional);
 
@@ -1598,14 +1738,10 @@ package
         implements 2::""
         : (\<*args -->^ FDN__Array_order_using);
 
-    ::MD::has_index::Array ::= function --> Boolean <-- (Array, Integer_NN)
+    ::MD::at::Array ::= function --> Any <-- (Array, Integer_NN)
         implements 2::""
-        : (\<*args -->^ FDN__Array_has_index);
-
-    ::MD::elem::Array ::= function --> Any <-- (Array, Integer_NN)
-        implements 2::""
-        requires (\<*args --> \has_index::())
-        : (\<*args -->^ FDN__Array_elem);
+        requires (\<0 .? \<1)
+        : (\<*args -->^ FDN__Array_at);
 
     ::MD::to_Array::Array ::= function --> Array <-- (Array)
         implements 2::""
@@ -1987,28 +2123,31 @@ package
     ::MD::Structural ::= interface
         composes {Attributive and_provides_its_default,
             Accessible and_provides_its_default}
-        requires_implements {...,has_attr_name,attr,...};
+        requires_implements {...
+            ,has_any_at,at
+            ,replace_at,shiftless_insert_at,shiftless_remove_at
+            ,...};
 
-    ::MD::has_attr_name::"" ::= function virtual --> Boolean <-- (Structural, Attr_Name);
-
-    ::MD::".?"::Structural ::= function --> Boolean <-- (Structural, Attr_Name)
+    ::MD::mapping_at::Structural ::= function
+        --> (Attr_Name, Any) <-- (Structural, Attr_Name)
         implements 2::""
-        : (\<*args --> \has_attr_name::());
+        requires (\<0 .? \<1)
+        : ((\<1, \<0.\<1));
 
-    ::MD::attr::"" ::= function virtual --> Any <-- (Structural, Attr_Name)
-        requires (\<*args --> \has_attr_name::());
-
-    ::MD::"."::Structural ::= function --> Any <-- (Structural, Attr_Name)
+    ::MD::maybe_at::Structural ::= function
+        --> Any <-- (Structural, Attr_Name)
         implements 2::""
-        requires (\<*args --> \has_attr_name::())
-        : (\<*args --> \attr::());
+        : (if \<0 .? \<1 then \<0.\<1 else Excuse::No_Such_Attr_Name());
 
-    ::MD::attr_or_excuse ::= function --> Any <-- (Structural, Attr_Name)
-        : (\<*args --> \has_attr_name::() ?? \<*args --> \attr::() !! Excuse::No_Such_Attr_Name());
-
-    ::MD::".!"::Structural ::= function --> Any <-- (Structural, Attr_Name)
+    ::MD::replace_or_insert_at::Structural ::= function
+        --> Structural <-- (Structural, (Attr_Name, Any))
         implements 2::""
-        : (\<*args --> \attr_or_excuse::());
+        : (if \<0 .? \>>0 then \<0 .= \>>0 else \<0 .+ \>>0);
+
+    ::MD::shiftless_maybe_remove_at::Structural ::= function
+        --> Structural <-- (Structural, Attr_Name)
+        implements 2::""
+        : (if \<0 .? \<1 then \<0 .- \<1 else \<0);
 
 `#########################################################################`
 
@@ -2057,14 +2196,33 @@ package
         implements 2::""
         : (...);
 
-    ::MD::has_attr_name::Tuple ::= function --> Boolean <-- (Tuple, Attr_Name)
+    ::MD::has_any_at::Tuple ::= function
+        --> Boolean <-- (Tuple, Attr_Name)
         implements 2::""
-        : (\<*args -->^ FDN__Tuple_has_attr_name);
+        : (\<*args -->^ FDN__Tuple_has_any_at);
 
-    ::MD::attr::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
+    ::MD::at::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
         implements 2::""
-        requires (\<*args --> \has_attr_name::())
-        : (\<*args -->^ FDN__Tuple_attr);
+        requires (\<0 .? \<1)
+        : (\<*args -->^ FDN__Tuple_at);
+
+    ::MD::replace_at::Tuple ::= function
+        --> Tuple <-- (Tuple, (Attr_Name, Any))
+        implements 2::""
+        requires (\<0 .? \>>0)
+    : (\<*args -->^ FDN__Tuple_replace_at);
+
+    ::MD::shiftless_insert_at::Tuple ::= function
+        --> Tuple <-- (Tuple, (Attr_Name, Any))
+        implements 2::""
+        requires (not \<0 .? \>>0)
+        : (\<*args -->^ FDN__Tuple_shiftless_insert_at);
+
+    ::MD::shiftless_remove_at::Tuple ::= function
+        --> Tuple <-- (Tuple, Attr_Name)
+        implements 2::""
+        requires (\<0 .? \<1)
+        : (\<*args -->^ FDN__Tuple_shiftless_remove_at);
 
     ::MD::any_attrs ::= function --> Boolean <-- (Tuple, Function_Call_But_0)
         : (\<*args -->^ FDN__Tuple_any_attrs);
