@@ -1,5 +1,5 @@
 Muldis_D:Plain_Text:"http://muldis.com":"0.201.0.-9";
-script Unicode:8.0:UTF-8;
+script Unicode:9.0:UTF-8;
 
 `#########################################################################`
 `#########################################################################`
@@ -76,11 +76,11 @@ package
 
     ::MD::in_order::Neg_Inf_R ::= function --> Boolean <-- (Orderable, Neg_Inf)
         implements 2::""
-        : (\<*args --> \same::());
+        : (\<0 = \<1);
 
     ::MD::in_order::Pos_Inf_L ::= function --> Boolean <-- (Pos_Inf, Orderable)
         implements 2::""
-        : (\<*args --> \same::());
+        : (\<0 = \<1);
 
     ::MD::in_order::Pos_Inf_R ::= function --> Boolean <-- (Orderable, Pos_Inf)
         implements 2::""
@@ -108,16 +108,16 @@ package
 
     ::MD::min ::= function --> Orderable <-- (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (+∞)
-        : (\<*args --> \in_order::() ?? \<0 !! \<1);
+        : (\<0 in_order \<1 ?? \<0 !! \<1);
 
     ::MD::max ::= function --> Orderable <-- (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (-∞)
-        : (\<*args --> \in_order::() ?? \<1 !! \<0);
+        : (\<0 in_order \<1 ?? \<1 !! \<0);
 
     ::MD::minmax ::= function
         --> (Orderable, Orderable) <-- (Orderable, Orderable)
         is commutative
-        : (\<*args --> \in_order::() ?? \<*args !! (\<1, \<0));
+        : (\<0 in_order \<1 ?? \<*args !! (\<1, \<0));
 
 `#########################################################################`
 
@@ -248,7 +248,7 @@ package
 
     ::MD::xnor ::= function --> Boolean <-- (Boolean, Boolean)
         is {associative,commutative} identity (True)
-        : (\<*args --> \same::());
+        : (\<0 = \<1);
 
     ::MD::iff ::= alias of xnor;
 
@@ -344,7 +344,7 @@ package
     ::MD::modulus_minus ::= function
         --> Numerical <-- (Numerical, Numerical)
         is commutative
-        : (modulus \<*args --> \minus::());
+        : (modulus \<0 - \<1);
 
     ::MD::abs_minus ::= alias of modulus_minus;
     ::MD::"|-|"     ::= alias of modulus_minus;
@@ -367,7 +367,7 @@ package
         --> {Numerical, Excuse::Div_By_Zero}
         <-- (Numerical, Numerical, Round_Meth)
         : (if \<1->is_zero then Excuse::Div_By_Zero()
-            else \<1 * \<*args --> \div::());
+            else \<1 * (\<0 div \<1));
 
     ::MD::round ::= alias of nearest_multiple_of;
 
@@ -389,14 +389,14 @@ package
         --> {Numerical, Excuse::Div_By_Zero}
         <-- (Numerical, Numerical, Round_Meth)
         : (if \<1->is_zero then Excuse::Div_By_Zero()
-            else \<0 - \<*args --> \nearest_multiple_of::());
+            else \<0 - (\<0 nearest_multiple_of \<1));
 
     ::MD::mod ::= alias of modulo;
 
     ::MD::divided_by_and_modulo::"" ::= function
         --> ({Numerical, Excuse::Div_By_Zero}, {Numerical, Excuse::Div_By_Zero})
         <-- (Numerical, Numerical, Round_Meth)
-        : ((\<*args --> \div::(), \<*args --> \mod::()));
+        : ((\<0 div \<1, \<0 mod \<1));
 
     ::MD::integral_power::"" ::= function virtual
         --> {Numerical, Excuse::Zero_To_The_Zero} <-- (Numerical, Integral);
@@ -760,7 +760,7 @@ package
         --> {Boolean, Excuse::Div_By_Zero} <-- (Fraction, Fraction)
         implements 2::""
         : (if \<1 = 0.0 then Excuse::Div_By_Zero()
-            else \mod::() <-- \<*args = 0.0);
+            else (\<0 mod \<1) = 0.0);
 
     ::MD::fractional_divided_by::Fraction ::= function
         --> {Fraction, Excuse::Div_By_Zero} <-- (Fraction, Fraction)
@@ -840,12 +840,12 @@ package
     ::MD::proper_substring_or_superstring ::= function
         --> Boolean <-- (String, String)
         is commutative
-        : (\<*args --> \not_same::() and \<*args --> \substring_or_superstring::());
+        : (\<0 != \<1 and (\<0 substring_or_superstring \<1));
 
     ::MD::substring_or_superstring ::= function
         --> Boolean <-- (String, String)
         is commutative
-        : (\<*args --> \substring_of::() or \<*args --> \superstring_of::());
+        : ((\<0 substring_of \<1) or (\<0 superstring_of \<1));
 
     ::MD::overlaps_string::"" ::= function virtual
         --> Boolean <-- (String, String)
@@ -1204,7 +1204,7 @@ package
     ::MD::singular::"" ::= function virtual --> Boolean <-- (Homogeneous);
 
     ::MD::only_member::"" ::= function virtual --> Any <-- (Homogeneous)
-        requires (\<*args --> \singular::());
+        requires (singular \<0);
 
     ::MD::in ::= function commutes has;
 
@@ -1235,7 +1235,7 @@ package
 
     ::MD::proper_subset_of ::= function
         --> Boolean <-- (Homogeneous, Homogeneous)
-        : (\<*args --> \not_same::() and \<*args --> \subset_of::());
+        : (\<0 != \<1 and (\<0 subset_of \<1));
 
     ::MD::Unicode_Aliases::"⊂" ::= alias of proper_subset_of;
 
@@ -1275,12 +1275,12 @@ package
     ::MD::proper_subset_or_superset ::= function
         --> Boolean <-- (Homogeneous, Homogeneous)
         is commutative
-        : (not \<*args --> \same_members::() and \<*args --> \subset_or_superset::());
+        : (not (\<0 same_members \<1) and (\<0 subset_or_superset \<1));
 
     ::MD::subset_or_superset ::= function
         --> Boolean <-- (Homogeneous, Homogeneous)
         is commutative
-        : (\<*args --> \subset_of::() or \<*args --> \superset_of::());
+        : ((\<0 subset_of \<1) or (\<0 superset_of \<1));
 
     ::MD::overlaps_members::"" ::= function virtual
         --> Boolean <-- (Homogeneous, Homogeneous)
@@ -1451,8 +1451,8 @@ package
 
     ::MD::only_member::Positional ::= function --> Any <-- (Positional)
         implements 2::""
-        requires (\<*args --> \singular::())
-        : (\<*args --> \first::());
+        requires (singular \<0)
+        : (first \<0);
 
     ::MD::subset_of::Positional ::= function
         --> Boolean <-- (Positional, Positional)
@@ -1481,7 +1481,7 @@ package
         --> Positional <-- (Positional, Positional)
         implements 2::""
         is associative
-        : (\<*args --> \catenate::());
+        : (\<0 ~ \<1);
 
     ::MD::unique_count::Positional ::= function --> Integer_NN <-- (Positional)
         implements 2::""
@@ -1620,7 +1620,7 @@ package
     ::MD::in_order::Array ::= function --> Boolean <-- (Array, Array)
         implements 2::""
     : (
-        i ::= (\<*args --> \index_succ_all_matches::());
+        i ::= (\<0 index_succ_all_matches \<1);
       <--
         if not \<0 .? i then
             e1 ::= True
@@ -1810,7 +1810,7 @@ package
 
     ::MD::only_member::Set ::= function --> Any <-- (Set)
         implements 2::""
-        requires (\<*args --> \singular::())
+        requires (singular \<0)
         : (\<0->unwrap->only_member);
 
     ::MD::has_n::Set ::= function --> Boolean <-- (Set, Any, Integer_NN)
@@ -1836,7 +1836,7 @@ package
     ::MD::same_members::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
         is commutative
-        : (\<*args --> \same::());
+        : (\<0 = \<1);
 
     ::MD::overlaps_members::Set ::= function --> Boolean <-- (Set, Set)
         implements 2::""
@@ -1864,7 +1864,7 @@ package
     ::MD::member_plus::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
         is {associative,commutative,idempotent} identity ({})
-        : (\<*args --> \union::());
+        : (\<0 union \<1);
 
     ::MD::except::Set ::= function --> Set <-- (Set, Set)
         implements 2::""
@@ -1951,7 +1951,7 @@ package
 
     ::MD::only_member::Bag ::= function --> Any <-- (Bag)
         implements 2::""
-        requires (\<*args --> \singular::())
+        requires (singular \<0)
         : (\<*args -->^ FDN__Bag_only_member);
 
     ::MD::has_n::Bag ::= function --> Boolean <-- (Bag, Any, Integer_NN)
@@ -1977,7 +1977,7 @@ package
     ::MD::same_members::Bag ::= function --> Boolean <-- (Bag, Bag)
         implements 2::""
         is commutative
-        : (\<*args --> \same::());
+        : (\<0 = \<1);
 
     ::MD::overlaps_members::Bag ::= function --> Boolean <-- (Bag, Bag)
         implements 2::""
@@ -2120,12 +2120,12 @@ package
     ::MD::proper_subheading_or_superheading ::= function
         --> Boolean <-- (Attributive, Attributive)
         is commutative
-        : (@\<0 != @\<1 and \<*args --> \subheading_or_superheading::());
+        : (@\<0 != @\<1 and (\<0 subheading_or_superheading \<1));
 
     ::MD::subheading_or_superheading ::= function
         --> Boolean <-- (Attributive, Attributive)
         is commutative
-        : (\<*args --> \subheading_of::() or \<*args --> \superheading_of::());
+        : ((\<0 subheading_of \<1) or (\<0 superheading_of \<1));
 
     ::MD::overlaps_heading ::= function
         --> Boolean <-- (Attributive, Attributive)
@@ -2275,13 +2275,13 @@ package
         --> Structure <-- (Structure, (Attr_Name, Any))
         implements 2::""
         requires (\<0 .? \>>0)
-    : (\<0 update \<1 --> \D1::());
+    : (\<0 update D1::(\<1));
 
     ::MD::shiftless_insert_at::Structure ::= function
         --> Structure <-- (Structure, (Attr_Name, Any))
         implements 2::""
         requires (not \<0 .? \>>0)
-        : (\<0 extend \<1 --> \D1::());
+        : (\<0 extend D1::(\<1));
 
     ::MD::shiftless_remove_at::Structure ::= function
         --> Structure <-- (Structure, Attr_Name)
@@ -2292,7 +2292,7 @@ package
     ::MD::replace_or_insert_at::Structural ::= function
         --> Structural <-- (Structural, (Attr_Name, Any))
         implements 2::""
-        : (\<0 update_or_extend \<1 --> \D1::());
+        : (\<0 update_or_extend D1::(\<1));
 
     ::MD::shiftless_maybe_remove_at::Structural ::= function
         --> Structural <-- (Structural, Attr_Name)
