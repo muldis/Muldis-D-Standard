@@ -674,7 +674,7 @@ package
         _Asset ::= selection of Tuple where
         (
             if
-                \<0 ^?= (
+                \<0 has_just_attrs (
                     numerator : \Integer::(),
                     denominator : \Integer_P::(),
                 )
@@ -1161,7 +1161,7 @@ package
         --> Accessible <-- (Accessible, (Any, Any))
         requires (\<0 .? \>>0);
 
-    ::MD::".=" ::= alias of replace_at;
+    ::MD::".:=" ::= alias of replace_at;
 
     ::MD::shiftless_insert_at::"" ::= function virtual
         --> Accessible <-- (Accessible, (Any, Any))
@@ -1210,7 +1210,7 @@ package
     ::MD::Unicode_Aliases::"∉" ::= alias of not_in;
 
     ::MD::has ::= function --> Boolean <-- (Homogeneous, Any)
-        (has_n::(\<0, \<1, 1));
+        : (has_n::(\<0, \<1, 1));
 
     ::MD::Unicode_Aliases::"∋" ::= alias of has;
 
@@ -1531,7 +1531,7 @@ package
         implements 2::""
         requires (\<1 >= first_possible_index::(\<0)
             and \<1 <= first_unused_index::(\<0))
-        : (if \<0 .? \>>0 then \<0 .= \>>0 else \<0 .+ \>>0);
+        : (if \<0 .? \>>0 then \<0 .:= \>>0 else \<0 .+ \>>0);
 
     ::MD::shiftless_maybe_remove_at::Positional ::= function
         --> Positional <-- (Positional, Integer)
@@ -2064,46 +2064,46 @@ package
 
     ::MD::has_any_attrs::"" ::= function virtual --> Boolean <-- (Attributive);
 
-    ::MD::"?^" ::= alias of has_any_attrs;
+    ::MD::"?@" ::= alias of has_any_attrs;
 
     ::MD::is_nullary ::= function negates has_any_attrs;
 
-    ::MD::"!?^" ::= alias of is_nullary;
+    ::MD::"!?@" ::= alias of is_nullary;
 
     ::MD::degree::"" ::= function virtual --> Integer_NN <-- (Attributive);
 
-    ::MD::"#^" ::= alias of degree;
+    ::MD::"#@" ::= alias of degree;
 
     ::MD::on::"" ::= function virtual
-        --> Attributive <-- (Attributive, Attr_Names)
+        --> Attributive <-- (Attributive, Heading)
         requires (...);
 
-    ::MD::"^"     ::= alias of on;
+    ::MD::"%="    ::= alias of on;
     ::MD::project ::= alias of on;
 
     ::MD::from ::= function commutes on;
 
     ::MD::but::"" ::= function virtual
-        --> Attributive <-- (Attributive, Attr_Names)
+        --> Attributive <-- (Attributive, Heading)
         requires (...);
 
-    ::MD::"-^"            ::= alias of but;
+    ::MD::"%-"            ::= alias of but;
     ::MD::project_all_but ::= alias of but;
 
     ::MD::extend::"" ::= function virtual
         --> Attributive <-- (Attributive, Attributive)
-        requires (\<*args --> \attr_names_disjoint::())
+        requires (\<*args --> \disjoint_heading::())
         is {associative,commutative};
 
-    ::MD::"+^" ::= alias of extend;
+    ::MD::"%+" ::= alias of extend;
 
     ::MD::rename::"" ::= function virtual
-        --> Attributive <-- (Attributive, Attr_Renaming)
+        --> Attributive <-- (Attributive, Renaming)
         requires (...);
 
     ::MD::renaming ::= function commutes rename;
 
-    ::MD::attr_names_disjoint ::= function
+    ::MD::disjoint_heading ::= function
         --> Boolean <-- (Attributive, Attributive)
         is commutative
         : (...);
@@ -2111,12 +2111,8 @@ package
     ::MD::has_attrs::"" ::= function virtual
         --> Boolean <-- (Attributive, Signature);
 
-    ::MD::"^?" ::= alias of has_attrs;
-
     ::MD::has_just_attrs::"" ::= function virtual
         --> Boolean <-- (Attributive, Signature);
-
-    ::MD::"^?=" ::= alias of has_just_attrs;
 
 `#########################################################################`
 
@@ -2142,7 +2138,7 @@ package
     ::MD::replace_or_insert_at::Structural ::= function
         --> Structural <-- (Structural, (Attr_Name, Any))
         implements 2::""
-        : (if \<0 .? \>>0 then \<0 .= \>>0 else \<0 .+ \>>0);
+        : (if \<0 .? \>>0 then \<0 .:= \>>0 else \<0 .+ \>>0);
 
     ::MD::shiftless_maybe_remove_at::Structural ::= function
         --> Structural <-- (Structural, Attr_Name)
@@ -2167,23 +2163,23 @@ package
         implements 2::""
         : (\<*args -->^ FDN__Tuple_degree);
 
-    ::MD::on::Tuple ::= function --> Tuple <-- (Tuple, Attr_Names)
+    ::MD::on::Tuple ::= function --> Tuple <-- (Tuple, Heading)
         implements 2::""
         requires (...)
         : (\<*args -->^ FDN__Tuple_on);
 
-    ::MD::but::Tuple ::= function --> Tuple <-- (Tuple, Attr_Names)
+    ::MD::but::Tuple ::= function --> Tuple <-- (Tuple, Heading)
         implements 2::""
         requires (...)
         : (\<*args -->^ FDN__Tuple_but);
 
     ::MD::extend::Tuple ::= function --> Tuple <-- (Tuple, Tuple)
         implements 2::""
-        requires (\<*args --> \attr_names_disjoint::())
+        requires (\<*args --> \disjoint_heading::())
         is {associative,commutative} identity (())
         : (\<*args -->^ FDN__Tuple_extend);
 
-    ::MD::rename::Tuple ::= function --> Tuple <-- (Tuple, Attr_Renaming)
+    ::MD::rename::Tuple ::= function --> Tuple <-- (Tuple, Renaming)
         implements 2::""
         requires (...)
         : (...);
@@ -2258,9 +2254,9 @@ package
 
         _Asset ::= selection of Tuple where
         (
-            if \<0 ^?= ( heading : \Attr_Names::(), body : \Array::() ) then
+            if \<0 has_just_attrs ( heading : \Heading::(), body : \Array::() ) then
                 if \<<body all \Tuple::() then
-                    \<<body all (function : (\"^?="::() \<-- \<<heading))
+                    \<<body all (function : (\has_just_attrs::() \<-- \<<heading))
                 else
                     False
             else
@@ -2304,9 +2300,9 @@ package
 
         _Asset ::= selection of Tuple where
         (
-            if \<0 ^?= ( heading : \Attr_Names::(), body : \Bag::() ) then
+            if \<0 has_just_attrs ( heading : \Heading::(), body : \Bag::() ) then
                 if \<<body all \Tuple::() then
-                    \<<body all (function : (\"^?="::() \<-- \<<heading))
+                    \<<body all (function : (\has_just_attrs::() \<-- \<<heading))
                 else
                     False
             else
@@ -2429,7 +2425,7 @@ package
         _Asset ::= selection of Tuple where
         (
             if
-                \<0 ^?= (
+                \<0 has_just_attrs (
                     identity : (selection of Pkg_Decl_Map where (degree::(\<0) = 1)),
                     foundation : ...,
                     uses : \Pkg_Decl_Map::(),
@@ -2440,7 +2436,7 @@ package
                     decoration : ...,
                 )
             then
-                \<<uses attr_names_disjoint \<<identity
+                \<<uses disjoint_heading \<<identity
             else
                 False
         );
