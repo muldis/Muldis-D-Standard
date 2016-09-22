@@ -1132,7 +1132,7 @@ package
 `#########################################################################`
 
     ::MD::Accessible ::= interface
-        requires_implements {has_any_at
+        requires_implements {has_any_at,has_mapping_at
             ,mapping_at,at,maybe_at
             ,replace_at,shiftless_insert_at,shiftless_remove_at
             ,replace_or_insert_at,shiftless_maybe_remove_at};
@@ -1141,6 +1141,11 @@ package
         --> Boolean <-- (Accessible, Any);
 
     ::MD::".?" ::= alias of has_any_at;
+
+    ::MD::has_mapping_at::"" ::= function virtual
+        --> Boolean <-- (Accessible, (Any, Any));
+
+    ::MD::".:?" ::= alias of has_mapping_at;
 
     ::MD::mapping_at::"" ::= function virtual
         --> (Any, Any) <-- (Accessible, Any)
@@ -1374,6 +1379,8 @@ package
     ::MD::where::"" ::= function virtual
         --> Unionable <-- (Unionable, Function_Call_But_0);
 
+    ::MD::Unicode_Aliases::"σ" ::= alias of where;
+
     ::MD::filtering ::= function commutes where;
 
     ::MD::map::"" ::= function virtual
@@ -1485,6 +1492,11 @@ package
         implements 2::""
         : (\<1 >= first_possible_index::(\<0)
             and \<1 < first_unused_index::(\<0));
+
+    ::MD::has_mapping_at::Positional ::= function
+        --> Boolean <-- (Positional, (Integer, Any))
+        implements 2::""
+        : (if \<0 .? \>>0 then \<0.\>>0 = \>>1 else False);
 
     ::MD::mapping_at::Positional ::= function
         --> (Integer, Any) <-- (Positional, Integer)
@@ -2058,7 +2070,10 @@ package
 `#########################################################################`
 
     ::MD::Attributive ::= interface
-        requires_implements {has_any_attrs,degree,rename,on,but,extend,has_attrs,has_just_attrs};
+        requires_implements {has_any_attrs,nullary
+            ,is_unary,degree,heading,rename
+            ,can_project_matching,on,update,extend
+            ,has_attrs,has_just_attrs};
 
     ::MD::Excuse::No_Such_Attr_Name ::= constant composes Excuse;
 
@@ -2070,43 +2085,147 @@ package
 
     ::MD::"!?@" ::= alias of is_nullary;
 
+    ::MD::nullary::"" ::= function virtual --> Attributive <-- (Attributive);
+
+    ::MD::is_unary::"" ::= function virtual --> Boolean <-- (Attributive);
+
     ::MD::degree::"" ::= function virtual --> Integer_NN <-- (Attributive);
 
     ::MD::"#@" ::= alias of degree;
 
+    ::MD::heading::"" ::= function virtual --> Heading <-- (Attributive);
+
+    ::MD::"@" ::= alias of heading;
+
+    ::MD::subheading_of ::= function
+        --> Boolean <-- (Attributive, Attributive)
+        : ((@\<0, @\<1) -->^ FDN__Tuple_subheading_of);
+
+    ::MD::Unicode_Aliases::"⊆@" ::= alias of subheading_of;
+
+    ::MD::superheading_of ::= function commutes subheading_of;
+
+    ::MD::has_subheading ::= alias of superheading_of;
+    ::MD::"@?"           ::= alias of superheading_of;
+
+    ::MD::Unicode_Aliases::"⊇@" ::= alias of superheading_of;
+
+    ::MD::same_heading ::= function
+        --> Boolean <-- (Attributive, Attributive)
+        is commutative
+        : (@\<0 = @\<1);
+
+    ::MD::"=@" ::= alias of same_heading;
+
+    ::MD::proper_subheading_or_superheading ::= function
+        --> Boolean <-- (Attributive, Attributive)
+        is commutative
+        : (@\<0 != @\<1 and \<*args --> \subheading_or_superheading::());
+
+    ::MD::subheading_or_superheading ::= function
+        --> Boolean <-- (Attributive, Attributive)
+        is commutative
+        : (\<*args --> \subheading_of::() or \<*args --> \superheading_of::());
+
+    ::MD::overlaps_heading ::= function
+        --> Boolean <-- (Attributive, Attributive)
+        is commutative
+        : ((@\<0, @\<1) -->^ FDN__Tuple_overlaps_heading);
+
     ::MD::disjoint_heading ::= function
         --> Boolean <-- (Attributive, Attributive)
         is commutative
-        : (...);
+        : ((@\<0, @\<1) -->^ FDN__Tuple_disjoint_heading);
+
+    ::MD::except_heading ::= function
+        --> Heading <-- (Attributive, Attributive)
+        : ((@\<0, @\<1) -->^ FDN__Tuple_except_heading);
+
+    ::MD::Unicode_Aliases::"∖@" ::= alias of except_heading;
+
+    ::MD::intersect_heading ::= function
+        --> Heading <-- (Attributive, Attributive)
+        is {associative,commutative,idempotent}
+        : ((@\<0, @\<1) -->^ FDN__Tuple_intersect_heading);
+
+    ::MD::Unicode_Aliases::"∩@" ::= alias of intersect_heading;
+
+    ::MD::union_heading ::= function
+        --> Heading <-- (Attributive, Attributive)
+        is {associative,commutative,idempotent} identity (())
+        : ((@\<0, @\<1) -->^ FDN__Tuple_union_heading);
+
+    ::MD::Unicode_Aliases::"∪@" ::= alias of union_heading;
+
+    ::MD::exclusive ::= function
+        --> Heading <-- (Attributive, Attributive)
+        is {associative,commutative} identity (())
+        : ((@\<0, @\<1) -->^ FDN__Tuple_exclusive_heading);
+
+    ::MD::symm_diff_heading ::= alias of exclusive_heading;
+
+    ::MD::Unicode_Aliases::"∆@" ::= alias of exclusive_heading;
 
     ::MD::rename::"" ::= function virtual
         --> Attributive <-- (Attributive, Renaming)
         requires (...);
 
+    ::MD::"@:=" ::= alias of rename;
+
+    ::MD::Unicode_Aliases::"ρ" ::= alias of rename;
+
     ::MD::renaming ::= function commutes rename;
+
+    ::MD::can_project_matching::"" ::= function virtual
+        --> Boolean <-- (Attributive, Structural);
+
+    ::MD::"%=?" ::= alias of can_project_matching;
 
     ::MD::on::"" ::= function virtual
         --> Attributive <-- (Attributive, Heading)
-        requires (...);
+        requires (\<0 @? \<1);
 
     ::MD::project ::= alias of on;
     ::MD::"%="    ::= alias of on;
 
+    ::MD::Unicode_Aliases::"π" ::= alias of on;
+
     ::MD::from ::= function commutes on;
 
+    ::MD::maybe_on ::= function --> Attributive <-- (Attributive, Heading)
+        : (\<0 on (\<0 intersect_heading \<1));
+
+    ::MD::"%!" ::= alias of maybe_on;
+
+    ::MD::update::"" ::= function virtual
+        --> Attributive <-- (Attributive, Structural)
+        requires (\<0 @? \<1);
+
+    ::MD::"%:=" ::= alias of update;
+
     ::MD::extend::"" ::= function virtual
-        --> Attributive <-- (Attributive, Attributive)
-        requires (\<*args --> \disjoint_heading::())
-        is {associative,commutative};
+        --> Attributive <-- (Attributive, Structural)
+        requires (\<0 disjoint_heading \<1);
 
     ::MD::"%+" ::= alias of extend;
 
-    ::MD::but::"" ::= function virtual
-        --> Attributive <-- (Attributive, Heading)
-        requires (...);
+    ::MD::but ::= function --> Attributive <-- (Attributive, Heading)
+        requires (\<0 @? \<1)
+        : (\<0 on (\<0 except_heading \<1));
 
     ::MD::project_all_but ::= alias of but;
     ::MD::"%-"            ::= alias of but;
+
+    ::MD::update_or_extend ::= function
+        --> Attributive <-- (Attributive, Structural)
+        : (\<0 on (\<0 except_heading \<1) extend \<1);
+
+    ::MD::"%=+" ::= alias of update_or_extend;
+
+    ::MD::maybe_but ::= function --> Attributive <-- (Attributive, Heading)
+        : (\<0 but (\<0 intersect_heading \<1));
+
+    ::MD::"%?-" ::= alias of maybe_but;
 
     ::MD::has_attrs::"" ::= function virtual
         --> Boolean <-- (Attributive, Signature);
@@ -2119,10 +2238,27 @@ package
     ::MD::Structural ::= interface
         composes {Attributive and_provides_its_default,
             Accessible and_provides_its_default}
-        requires_implements {...
-            ,has_any_at,at
-            ,replace_at,shiftless_insert_at,shiftless_remove_at
-            ,...};
+        requires_implements {has_any_attrs,nullary
+            ,is_unary,degree,heading,rename
+            ,on,update,extend
+            ,has_attrs,has_just_attrs
+            ,at
+            ,to_Tuple};
+
+    ::MD::can_project_matching::Structural ::= function
+        --> Boolean <-- (Structural, Structural)
+        implements 2::""
+        : (if \<0 @? \<1 then \<0 %= @\<1 = \<1 else False);
+
+    ::MD::has_any_at::Structure ::= function
+        --> Boolean <-- (Structure, Attr_Name)
+        implements 2::""
+        : (\<0 @? \<1);
+
+    ::MD::has_mapping_at::Structural ::= function
+        --> Boolean <-- (Structural, (Attr_Name, Any))
+        implements 2::""
+        : (if \<0 .? \>>0 then \<0.\>>0 = \>>1 else False);
 
     ::MD::mapping_at::Structural ::= function
         --> (Attr_Name, Any) <-- (Structural, Attr_Name)
@@ -2135,15 +2271,37 @@ package
         implements 2::""
         : (if \<0 .? \<1 then \<0.\<1 else Excuse::No_Such_Attr_Name());
 
+    ::MD::replace_at::Structure ::= function
+        --> Structure <-- (Structure, (Attr_Name, Any))
+        implements 2::""
+        requires (\<0 .? \>>0)
+    : (\<0 update \<1 --> \D1::());
+
+    ::MD::shiftless_insert_at::Structure ::= function
+        --> Structure <-- (Structure, (Attr_Name, Any))
+        implements 2::""
+        requires (not \<0 .? \>>0)
+        : (\<0 extend \<1 --> \D1::());
+
+    ::MD::shiftless_remove_at::Structure ::= function
+        --> Structure <-- (Structure, Attr_Name)
+        implements 2::""
+        requires (\<0 .? \<1)
+        : (\<0 but \<1);
+
     ::MD::replace_or_insert_at::Structural ::= function
         --> Structural <-- (Structural, (Attr_Name, Any))
         implements 2::""
-        : (if \<0 .? \>>0 then \<0 .:= \>>0 else \<0 .+ \>>0);
+        : (\<0 update_or_extend \<1 --> \D1::());
 
     ::MD::shiftless_maybe_remove_at::Structural ::= function
         --> Structural <-- (Structural, Attr_Name)
         implements 2::""
-        : (if \<0 .? \<1 then \<0 .- \<1 else \<0);
+        : (\<0 maybe_but \<1);
+
+    ::MD::to_Tuple::"" ::= function virtual --> Tuple <-- (Structural);
+
+    ::MD::"%" ::= alias of to_Tuple;
 
 `#########################################################################`
 
@@ -2155,34 +2313,53 @@ package
 
     ::MD::D0 ::= alias of Tuple_D0;
 
+    ::MD::Tuple_D1 ::= selection of Tuple
+        where (is_unary \<0)
+        default ((False));
+
+    ::MD::D1 ::= function --> Tuple_D1 <-- (Attr_Name, Any)
+        : (\<*args -->^ FDN__Tuple_D1_select);
+
     ::MD::has_any_attrs::Tuple ::= function --> Boolean <-- (Tuple)
         implements 2::""
         : (\<0 != ());
+
+    ::MD::nullary::Tuple ::= function --> Tuple <-- (Tuple)
+        implements 2::""
+        : (());
+
+    ::MD::is_unary::Tuple ::= function --> Boolean <-- (Tuple)
+        implements 2::""
+        : (degree::(\<0) = 1);
 
     ::MD::degree::Tuple ::= function --> Integer_NN <-- (Tuple)
         implements 2::""
         : (\<*args -->^ FDN__Tuple_degree);
 
+    ::MD::heading::Tuple ::= function --> Heading <-- (Tuple)
+        implements 2::""
+        : (\<*args -->^ FDN__Tuple_heading);
+
     ::MD::rename::Tuple ::= function --> Tuple <-- (Tuple, Renaming)
         implements 2::""
         requires (...)
-        : (...);
+        : (\<*args -->^ FDN__Tuple_rename);
 
     ::MD::on::Tuple ::= function --> Tuple <-- (Tuple, Heading)
         implements 2::""
-        requires (...)
+        requires (\<0 @? \<1)
         : (\<*args -->^ FDN__Tuple_on);
+
+    ::MD::update::Tuple ::= function --> Tuple <-- (Tuple, Tuple)
+        implements 2::""
+        requires (\<0 @? \<1)
+        : (\<*args -->^ FDN__Tuple_update);
 
     ::MD::extend::Tuple ::= function --> Tuple <-- (Tuple, Tuple)
         implements 2::""
-        requires (\<*args --> \disjoint_heading::())
+        requires (\<0 disjoint_heading \<1)
         is {associative,commutative} identity (())
         : (\<*args -->^ FDN__Tuple_extend);
-
-    ::MD::but::Tuple ::= function --> Tuple <-- (Tuple, Heading)
-        implements 2::""
-        requires (...)
-        : (\<*args -->^ FDN__Tuple_but);
 
     ::MD::has_attrs::Tuple ::= function --> Boolean <-- (Tuple, Signature)
         implements 2::""
@@ -2192,33 +2369,14 @@ package
         implements 2::""
         : (...);
 
-    ::MD::has_any_at::Tuple ::= function
-        --> Boolean <-- (Tuple, Attr_Name)
-        implements 2::""
-        : (\<*args -->^ FDN__Tuple_has_any_at);
-
     ::MD::at::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
         implements 2::""
         requires (\<0 .? \<1)
         : (\<*args -->^ FDN__Tuple_at);
 
-    ::MD::replace_at::Tuple ::= function
-        --> Tuple <-- (Tuple, (Attr_Name, Any))
+    ::MD::to_Tuple::Tuple ::= function --> Tuple <-- (Tuple)
         implements 2::""
-        requires (\<0 .? \>>0)
-    : (\<*args -->^ FDN__Tuple_replace_at);
-
-    ::MD::shiftless_insert_at::Tuple ::= function
-        --> Tuple <-- (Tuple, (Attr_Name, Any))
-        implements 2::""
-        requires (not \<0 .? \>>0)
-        : (\<*args -->^ FDN__Tuple_shiftless_insert_at);
-
-    ::MD::shiftless_remove_at::Tuple ::= function
-        --> Tuple <-- (Tuple, Attr_Name)
-        implements 2::""
-        requires (\<0 .? \<1)
-        : (\<*args -->^ FDN__Tuple_shiftless_remove_at);
+        : (\<0);
 
     ::MD::any_attrs ::= function --> Boolean <-- (Tuple, Function_Call_But_0)
         : (\<*args -->^ FDN__Tuple_any_attrs);
@@ -2414,7 +2572,7 @@ package
 `#########################################################################`
 
     ::MD::Source_Code::Package_List ::= selection of Array
-        where (\<0 all (selection of {Package, Decoration} default Package::()));
+        where (\<0 all (selection of {Package, Decoration}));
 
     ::MD::Source_Code::Package ::= binder
     {
@@ -2426,7 +2584,7 @@ package
         (
             if
                 \<0 has_just_attrs (
-                    identity : (selection of Pkg_Decl_Map where (degree::(\<0) = 1)),
+                    identity : (selection of Pkg_Decl_Map where (is_unary \<0)),
                     foundation : ...,
                     uses : \Pkg_Decl_Map::(),
                     entry : ...,
@@ -2444,6 +2602,15 @@ package
 
     ::MD::Source_Code::Pkg_Decl_Map ::= selection of Tuple
         where (\<0 all_attrs (function : (Pkg_Canon_Name \<<asset)));
+
+    ::MD::Source_Code::Heading ::= selection of Tuple
+        where (\<0 all_attrs (function : (\<<asset = True)));
+
+    ::MD::Source_Code::Attr_Name ::= selection of Heading
+        where (is_unary \<0);
+
+    ::MD::Source_Code::Key_Asset_Pair ::= selection of Tuple
+        where (@\<0 = \@(key,asset));
 
 `#########################################################################`
 
