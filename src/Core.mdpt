@@ -2058,7 +2058,7 @@ package
 `#########################################################################`
 
     ::MD::Attributive ::= interface
-        requires_implements {has_any_attrs,degree,on,but,extend,rename,has_attrs,has_just_attrs};
+        requires_implements {has_any_attrs,degree,rename,on,but,extend,has_attrs,has_just_attrs};
 
     ::MD::Excuse::No_Such_Attr_Name ::= constant composes Excuse;
 
@@ -2074,21 +2074,25 @@ package
 
     ::MD::"#@" ::= alias of degree;
 
+    ::MD::disjoint_heading ::= function
+        --> Boolean <-- (Attributive, Attributive)
+        is commutative
+        : (...);
+
+    ::MD::rename::"" ::= function virtual
+        --> Attributive <-- (Attributive, Renaming)
+        requires (...);
+
+    ::MD::renaming ::= function commutes rename;
+
     ::MD::on::"" ::= function virtual
         --> Attributive <-- (Attributive, Heading)
         requires (...);
 
-    ::MD::"%="    ::= alias of on;
     ::MD::project ::= alias of on;
+    ::MD::"%="    ::= alias of on;
 
     ::MD::from ::= function commutes on;
-
-    ::MD::but::"" ::= function virtual
-        --> Attributive <-- (Attributive, Heading)
-        requires (...);
-
-    ::MD::"%-"            ::= alias of but;
-    ::MD::project_all_but ::= alias of but;
 
     ::MD::extend::"" ::= function virtual
         --> Attributive <-- (Attributive, Attributive)
@@ -2097,16 +2101,12 @@ package
 
     ::MD::"%+" ::= alias of extend;
 
-    ::MD::rename::"" ::= function virtual
-        --> Attributive <-- (Attributive, Renaming)
+    ::MD::but::"" ::= function virtual
+        --> Attributive <-- (Attributive, Heading)
         requires (...);
 
-    ::MD::renaming ::= function commutes rename;
-
-    ::MD::disjoint_heading ::= function
-        --> Boolean <-- (Attributive, Attributive)
-        is commutative
-        : (...);
+    ::MD::project_all_but ::= alias of but;
+    ::MD::"%-"            ::= alias of but;
 
     ::MD::has_attrs::"" ::= function virtual
         --> Boolean <-- (Attributive, Signature);
@@ -2163,15 +2163,15 @@ package
         implements 2::""
         : (\<*args -->^ FDN__Tuple_degree);
 
+    ::MD::rename::Tuple ::= function --> Tuple <-- (Tuple, Renaming)
+        implements 2::""
+        requires (...)
+        : (...);
+
     ::MD::on::Tuple ::= function --> Tuple <-- (Tuple, Heading)
         implements 2::""
         requires (...)
         : (\<*args -->^ FDN__Tuple_on);
-
-    ::MD::but::Tuple ::= function --> Tuple <-- (Tuple, Heading)
-        implements 2::""
-        requires (...)
-        : (\<*args -->^ FDN__Tuple_but);
 
     ::MD::extend::Tuple ::= function --> Tuple <-- (Tuple, Tuple)
         implements 2::""
@@ -2179,10 +2179,10 @@ package
         is {associative,commutative} identity (())
         : (\<*args -->^ FDN__Tuple_extend);
 
-    ::MD::rename::Tuple ::= function --> Tuple <-- (Tuple, Renaming)
+    ::MD::but::Tuple ::= function --> Tuple <-- (Tuple, Heading)
         implements 2::""
         requires (...)
-        : (...);
+        : (\<*args -->^ FDN__Tuple_but);
 
     ::MD::has_attrs::Tuple ::= function --> Boolean <-- (Tuple, Signature)
         implements 2::""
