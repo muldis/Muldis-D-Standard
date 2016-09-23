@@ -29,13 +29,10 @@ package
 
     ::MD::Unicode_Aliases::"≠" ::= alias of not_same;
 
-    ::MD::is_a ::= function --> Boolean <-- (Any, Contract_Name)
-        : ((\<0,) --> (\Function_Call wrap (func: \<1, args: ())));
+    ::MD::is_a ::= function --> Boolean <-- (Any, Signature)
+        : (\<0 --> Signature_to_Function_Call_But_0::(\<1));
 
     ::MD::not_is_a ::= function negates is_a;
-
-    ::MD::default ::= function --> Any <-- (Contract_Name)
-        : (() --> (\Function_Call wrap (func: \<0, args: ())));
 
 `#########################################################################`
 
@@ -654,7 +651,7 @@ package
         _Asset ::= selection of Tuple where
         (
             if
-                \<0 has_just_attrs (
+                \<0 is_a (
                     numerator : \Integer::(),
                     denominator : \Integer_P::(),
                 )
@@ -855,7 +852,7 @@ package
         composes {Stringy and_provides_its_default};
 
     ::MD::String::Bits ::= selection of String
-        where (\<0 all (function : (\<0 in 0..1)));
+        where (\<0 all \in::( 1: 0..1 ));
 
     ::MD::in_order::Bits ::= function --> Boolean <-- (Bits, Bits)
         implements 2::""
@@ -910,7 +907,7 @@ package
         composes Stringy;
 
     ::MD::String::Octets ::= selection of String
-        where (\<0 all (function : (\<0 in 0..255)));
+        where (\<0 all \in::( 1: 0..255 ));
 
     ::MD::in_order::Blob ::= function --> Boolean <-- (Blob, Blob)
         implements 2::""
@@ -978,13 +975,13 @@ package
         where (String::Unicode_Codes::(\<0->Text_from_Maximal_Chars));
 
     ::MD::String::Unicode_Codes ::= selection of String::Maximal_Chars
-        where (\<0 all (function : (\<0 in ?..{0..0xD7FF,0xE000..0x10FFFF})));
+        where (\<0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} ));
 
     ::MD::Text::ASCII ::= selection of Text::Unicode
         where (String::ASCII_Chars::(\<0->Text_from_Unicode_Codes));
 
     ::MD::String::ASCII_Chars ::= selection of String::Unicode_Codes
-        where (\<0 all (function : (\<0 in 0..127)));
+        where (\<0 all \in::( 1: 0..127 ));
 
     ::MD::in_order::Text ::= function --> Boolean <-- (Text, Text)
         implements 2::""
@@ -1092,7 +1089,7 @@ package
         result_chars ::= (
             given #repl_chars
                 when 0 then
-                    src_octets where (function : (\<0 in 0..127))
+                    src_octets where \in::( 1: 0..127 )
                 when 1 then
                     src_octets
                         map (function : (\<0 in 0..127 ?? \<0 !! \<1))
@@ -1121,6 +1118,10 @@ package
         --> Boolean <-- (Accessible, Any);
 
     ::MD::".?" ::= alias of has_any_at;
+
+    ::MD::not_has_any_at ::= function negates has_any_at;
+
+    ::MD::".!?" ::= alias of not_has_any_at;
 
     ::MD::has_mapping_at::"" ::= function virtual
         --> Boolean <-- (Accessible, (Any, Any));
@@ -1271,7 +1272,7 @@ package
         is commutative;
 
     ::MD::any::"" ::= function virtual
-        --> Boolean <-- (Homogeneous, Function_Call_But_0);
+        --> Boolean <-- (Homogeneous, Signature);
 
     ::MD::there_exists ::= alias of any;
 
@@ -1283,12 +1284,14 @@ package
 
     ::MD::Unicode_Aliases::"∄" ::= alias of none;
 
-    ::MD::all ::= function --> Boolean <-- (Homogeneous, Function_Call_But_0)
-        : (\<0 none ((function : (not \<1 <-- (\<0,))) \<-- (:<1,)));
+    ::MD::all ::= function --> Boolean <-- (Homogeneous, Signature)
+        : (\<0 none \not_is_a::(:<1));
 
     ::MD::for_all ::= alias of all;
 
     ::MD::Unicode_Aliases::"∀" ::= alias of all;
+
+    ::MD::not_all ::= function negates all;
 
 `#########################################################################`
 
@@ -1357,7 +1360,7 @@ package
     ::MD::ungroup ::= alias of unnest;
 
     ::MD::where::"" ::= function virtual
-        --> Unionable <-- (Unionable, Function_Call_But_0);
+        --> Unionable <-- (Unionable, Signature);
 
     ::MD::Unicode_Aliases::"σ" ::= alias of where;
 
@@ -1661,9 +1664,9 @@ package
         implements 2::""
         : (\<*args -->^ FDN__Array_unique);
 
-    ::MD::any::Array ::= function --> Boolean <-- (Array, Function_Call_But_0)
+    ::MD::any::Array ::= function --> Boolean <-- (Array, Signature)
         implements 2::""
-        : (\<*args -->^ FDN__Array_any);
+        : ((\<0, Signature_to_Function_Call_But_0::(\<1)) -->^ FDN__Array_any);
 
     ::MD::insert_n::Array ::= function --> Array <-- (Array, Any, Integer_NN)
         implements 2::""
@@ -1702,9 +1705,10 @@ package
         requires (...)
         : (\<*args -->^ FDN__Array_unnest);
 
-    ::MD::where::Array ::= function --> Array <-- (Array, Function_Call_But_0)
+    ::MD::where::Array ::= function --> Array <-- (Array, Signature)
         implements 2::""
-        : (\<*args -->^ FDN__Array_where);
+        : ((\<0, Signature_to_Function_Call_But_0::(\<1))
+            -->^ FDN__Array_where);
 
     ::MD::map::Array ::= function --> Array <-- (Array, Function_Call_But_0)
         implements 2::""
@@ -1828,7 +1832,7 @@ package
         is commutative
         : ((\<0->unwrap) disjoint_members (\<1->unwrap));
 
-    ::MD::any::Set ::= function --> Boolean <-- (Set, Function_Call_But_0)
+    ::MD::any::Set ::= function --> Boolean <-- (Set, Signature)
         implements 2::""
         : (\<0->unwrap any \<1);
 
@@ -1875,7 +1879,7 @@ package
         requires (...)
         : (\Set wrap (\<0->unwrap->unnest));
 
-    ::MD::where::Set ::= function --> Set <-- (Set, Function_Call_But_0)
+    ::MD::where::Set ::= function --> Set <-- (Set, Signature)
         implements 2::""
         : (\Set wrap (\<0->unwrap where \<1));
 
@@ -1969,9 +1973,9 @@ package
         is commutative
         : (\<*args -->^ FDN__Bag_disjoint_members);
 
-    ::MD::any::Bag ::= function --> Boolean <-- (Bag, Function_Call_But_0)
+    ::MD::any::Bag ::= function --> Boolean <-- (Bag, Signature)
         implements 2::""
-        : (\<*args -->^ FDN__Bag_any);
+        : ((\<0, Signature_to_Function_Call_But_0::(\<1)) -->^ FDN__Bag_any);
 
     ::MD::insert_n::Bag ::= function --> Bag <-- (Bag, Any, Integer_NN)
         implements 2::""
@@ -2015,9 +2019,9 @@ package
         requires (...)
         : (\<*args -->^ FDN__Bag_unnest);
 
-    ::MD::where::Bag ::= function --> Bag <-- (Bag, Function_Call_But_0)
+    ::MD::where::Bag ::= function --> Bag <-- (Bag, Signature)
         implements 2::""
-        : (\<*args -->^ FDN__Bag_where);
+        : ((\<0, Signature_to_Function_Call_But_0::(\<1)) -->^ FDN__Bag_where);
 
     ::MD::map::Bag ::= function --> Bag <-- (Bag, Function_Call_But_0)
         implements 2::""
@@ -2052,8 +2056,7 @@ package
     ::MD::Attributive ::= interface
         requires_implements {has_any_attrs,nullary
             ,is_unary,degree,heading,rename
-            ,can_project_matching,on,update,extend
-            ,has_attrs,has_just_attrs};
+            ,can_project_matching,on,update,extend};
 
     ::MD::Excuse::No_Such_Attr_Name ::= constant composes Excuse;
 
@@ -2207,12 +2210,6 @@ package
 
     ::MD::"%?-" ::= alias of maybe_but;
 
-    ::MD::has_attrs::"" ::= function virtual
-        --> Boolean <-- (Attributive, Signature);
-
-    ::MD::has_just_attrs::"" ::= function virtual
-        --> Boolean <-- (Attributive, Signature);
-
 `#########################################################################`
 
     ::MD::Structural ::= interface
@@ -2221,7 +2218,6 @@ package
         requires_implements {has_any_attrs,nullary
             ,is_unary,degree,heading,rename
             ,on,update,extend
-            ,has_attrs,has_just_attrs
             ,at
             ,to_Tuple};
 
@@ -2341,14 +2337,6 @@ package
         is {associative,commutative} identity (())
         : (\<*args -->^ FDN__Tuple_extend);
 
-    ::MD::has_attrs::Tuple ::= function --> Boolean <-- (Tuple, Signature)
-        implements 2::""
-        : (...);
-
-    ::MD::has_just_attrs::Tuple ::= function --> Boolean <-- (Tuple, Signature)
-        implements 2::""
-        : (...);
-
     ::MD::at::Tuple ::= function --> Any <-- (Tuple, Attr_Name)
         implements 2::""
         requires (\<0 .? \<1)
@@ -2358,16 +2346,24 @@ package
         implements 2::""
         : (\<0);
 
-    ::MD::any_attrs ::= function --> Boolean <-- (Tuple, Function_Call_But_0)
-        : (\<*args -->^ FDN__Tuple_any_attrs);
+    ::MD::any_attrs ::= function --> Boolean <-- (Tuple, Signature)
+        : ((\<0, Signature_to_Function_Call_But_0::(\<1))
+            -->^ FDN__Tuple_any_attrs);
 
     ::MD::none_of_attrs ::= function negates any_attrs;
 
-    ::MD::all_attrs ::= function --> Boolean <-- (Tuple, Function_Call_But_0)
-        : (\<0 none_of_attrs ((function : (not \<1 <-- (\<0,))) \<-- (:<1,)));
+    ::MD::all_attrs ::= function --> Boolean <-- (Tuple, Signature)
+        : (\<0 none_of_attrs \not_is_a::(:<1));
 
-    ::MD::attrs_where ::= function --> Tuple <-- (Tuple, Function_Call_But_0)
-        : (\<*args -->^ FDN__Tuple_attrs_where);
+    ::MD::not_all_attrs ::= function negates all_attrs;
+
+    ::MD::all_attr_assets ::= function --> Boolean <-- (Tuple, Signature)
+        : (\<0 all_attrs (function : (\<1 <-- (\<<asset,)))
+            \<-- (1 : Signature_to_Function_Call_But_0::(\<1)));
+
+    ::MD::attrs_where ::= function --> Tuple <-- (Tuple, Signature)
+        : ((\<0, Signature_to_Function_Call_But_0::(\<1))
+            -->^ FDN__Tuple_attrs_where);
 
     ::MD::attrs_map ::= function --> Tuple <-- (Tuple, Function_Call_But_0)
         : (\<*args -->^ FDN__Tuple_attrs_map);
@@ -2392,9 +2388,9 @@ package
 
         _Asset ::= selection of Tuple where
         (
-            if \<0 has_just_attrs ( heading : \Heading::(), body : \Array::() ) then
+            if \<0 is_a ( heading : \Heading::(), body : \Array::() ) then
                 if \<<body all \Tuple::() then
-                    \<<body all (function : (\has_just_attrs::() \<-- \<<heading))
+                    \<<body all (function : (\is_a::() \<-- \<<heading))
                 else
                     False
             else
@@ -2438,9 +2434,9 @@ package
 
         _Asset ::= selection of Tuple where
         (
-            if \<0 has_just_attrs ( heading : \Heading::(), body : \Bag::() ) then
+            if \<0 is_a ( heading : \Heading::(), body : \Bag::() ) then
                 if \<<body all \Tuple::() then
-                    \<<body all (function : (\has_just_attrs::() \<-- \<<heading))
+                    \<<body all (function : (\is_a::() \<-- \<<heading))
                 else
                     False
             else
@@ -2538,8 +2534,9 @@ package
         : (\<*args -->^ FDN__Capsule_unwrap);
 
     ::MD::Capsule::has_wrapped ::= function
-        --> Boolean <-- (Capsule, Any, Function_Call_But_0)
-        : ((wrapper \<0) = \<1 and (unwrap \<0,) --> \<2);
+        --> Boolean <-- (Capsule, Any, Signature)
+        : ((wrapper \<0) = \<1 and
+            (unwrap \<0,) --> Signature_to_Function_Call_But_0::(\<2));
 
 `#########################################################################`
 
@@ -2552,7 +2549,7 @@ package
 `#########################################################################`
 
     ::MD::Source_Code::Package_List ::= selection of Array
-        where (\<0 all (selection of {Package, Decoration}));
+        where (\<0 all {\Package::(), \Decoration::()});
 
     ::MD::Source_Code::Package ::= binder
     {
@@ -2563,7 +2560,7 @@ package
         _Asset ::= selection of Tuple where
         (
             if
-                \<0 has_just_attrs (
+                \<0 is_a (
                     identity : (selection of Pkg_Decl_Map where (is_unary \<0)),
                     foundation : ...,
                     uses : \Pkg_Decl_Map::(),
@@ -2581,16 +2578,39 @@ package
     };
 
     ::MD::Source_Code::Pkg_Decl_Map ::= selection of Tuple
-        where (\<0 all_attrs (function : (Pkg_Canon_Name \<<asset)));
+        where (\<0 .!? \"" and \<0 all_attr_assets \Pkg_Canon_Name::());
 
     ::MD::Source_Code::Heading ::= selection of Tuple
-        where (\<0 all_attrs (function : (\<<asset = True)));
+        where (\<0 all_attr_assets \False::());
 
     ::MD::Source_Code::Attr_Name ::= selection of Heading
         where (is_unary \<0);
 
     ::MD::Source_Code::Key_Asset_Pair ::= selection of Tuple
         where (@\<0 = \@(key,asset));
+
+    ::MD::Source_Code::Signature_to_Function_Call_But_0 ::= function
+        --> Function_Call_But_0 <-- (Signature)
+    : (
+        if Function_Call_But_0 \<0 then
+            \<0
+        else if Signature::Set(\<0) then
+            (function : (\<1 any (function : (\<1 is_a \<0)) \<-- (1 : \<0)))
+                \<-- (1 : \<0)
+        else if Signature::Tuple(\<0) then
+            (function : (
+                if Tuple \<0 then
+                    if \<0 =@ \<1 then
+                        \<0 all_attrs
+                            (function : (\<<asset is_a \<1.\<<name)) \<-- (:<1,)
+                    else
+                        False
+                else
+                    False
+            )) \<-- (1 : \<0)
+        else
+            fail  `We should never get here.`
+    );
 
 `#########################################################################`
 
