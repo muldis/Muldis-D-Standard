@@ -122,46 +122,28 @@ package
 `#########################################################################`
 
     ::MD::Successable ::= interface
-        requires_implements {asset,succ};
+        requires_implements {asset,nth_succ};
 
     ::MD::asset::"" ::= function virtual --> Any <-- (Successable);
 
-    ::MD::succ::"" ::= function virtual
-        --> {Successable, Pos_Inf} <-- (Successable);
+    ::MD::succ ::= function --> {Successable, Pos_Inf} <-- (Successable)
+        : (\<0 nth_succ 1);
 
-    ::MD::nth_succ ::= function
-        --> {Successable, Pos_Inf} <-- (Successable, Integer_NN)
-    : (
-        if !?\<1 then
-            \<0
-        else
-            if Excuse::(s ::= succ \<0) then
-                s
-            else
-                s nth_succ --\<1
-    );
+    ::MD::nth_succ::"" ::= function virtual
+        --> {Successable, Pos_Inf} <-- (Successable, Integer_NN);
 
 `#########################################################################`
 
     ::MD::Bicessable ::= interface
         composes {Orderable and_provides_its_default,
             Successable and_provides_its_default}
-        requires_implements {in_order,asset,pred,succ};
+        requires_implements {in_order,asset,nth_pred,nth_succ};
 
-    ::MD::pred::"" ::= function virtual
-        --> {Bicessable, Neg_Inf} <-- (Bicessable);
+    ::MD::pred ::= function --> {Bicessable, Neg_Inf} <-- (Bicessable)
+        : (\<0 nth_pred 1);
 
-    ::MD::nth_pred ::= function
-        --> {Bicessable, Neg_Inf} <-- (Bicessable, Integer_NN)
-    : (
-        if !?\<1 then
-            \<0
-        else
-            if Excuse::(s ::= pred \<0) then
-                s
-            else
-                s nth_pred --\<1
-    );
+    ::MD::nth_pred::"" ::= function virtual
+        --> {Bicessable, Neg_Inf} <-- (Bicessable, Integer_NN);
 
 `#########################################################################`
 
@@ -200,13 +182,15 @@ package
         implements 2::""
         : (\<0);
 
-    ::MD::pred::Boolean ::= function --> {False, Neg_Inf} <-- (Boolean)
+    ::MD::nth_pred::Boolean ::= function
+        --> {False, Neg_Inf} <-- (Boolean, Integer_NN)
         implements 2::""
-        : (\<0 ?? False !! -∞);
+        : (\<1 = 0 ?? \<0 !! \<1 = 1 and \<0 ?? False !! -∞);
 
-    ::MD::succ::Boolean ::= function --> {True, Pos_Inf} <-- (Boolean)
+    ::MD::nth_succ::Boolean ::= function
+        --> {True, Pos_Inf} <-- (Boolean, Integer_NN)
         implements 2::""
-        : (!\<0 ?? True !! +∞);
+        : (\<1 = 0 ?? \<0 !! \<1 = 1 and !\<0 ?? True !! +∞);
 
     ::MD::to_Boolean::Boolean ::= function --> Boolean <-- (Boolean)
         implements 2::""
@@ -413,7 +397,7 @@ package
     ::MD::Integral ::= interface
         composes {Bicessable and_provides_its_default,
             Numerical and_provides_its_default}
-        requires_implements {in_order,asset,pred,succ
+        requires_implements {in_order,asset,nth_pred,nth_succ
             ,to_Boolean
             ,zero,opposite,reciprocal,modulus
             ,plus,minus,times,multiple_of
@@ -427,15 +411,11 @@ package
     ::MD::Integral_P ::= selection of Integral_NN
         where (\<0 > zero::(\<0)) default (succ::(Integral::()));
 
-    ::MD::pred::Integral ::= function virtual --> Integral <-- (Integral)
-        implements 2::"";
+    ::MD::"--" ::= function --> {Integral, Neg_Inf} <-- (Integral)
+        : (pred \<0);
 
-    ::MD::"--" ::= alias of pred::Integral;
-
-    ::MD::succ::Integral ::= function virtual --> Integral <-- (Integral)
-        implements 2::"";
-
-    ::MD::"++" ::= alias of succ::Integral;
+    ::MD::"++" ::= function --> {Integral, Pos_Inf} <-- (Integral)
+        : (succ \<0);
 
     ::MD::to_Integer::"" ::= function virtual --> Integer <-- (Integral);
 
@@ -476,14 +456,14 @@ package
         implements 2::""
         : (\<0);
 
-    ::MD::pred::Integer ::= function --> Integer <-- (Integer)
+    ::MD::nth_pred::Integer ::= function --> Integer <-- (Integer, Integer_NN)
         implements 2::Integral
-        : (\<0 - 1);
+        : (\<0 - \<1);
 
-    ::MD::succ::Integer ::= function --> Integer <-- (Integer)
+    ::MD::nth_succ::Integer ::= function --> Integer <-- (Integer, Integer_NN)
         implements 2::Integral
         repeater plus::Integer
-        : (\<0 + 1);
+        : (\<0 + \<1);
 
     ::MD::to_Boolean::Integer ::= function --> Boolean <-- (Integer)
         implements 2::""
