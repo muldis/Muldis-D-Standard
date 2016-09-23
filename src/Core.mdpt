@@ -2773,16 +2773,23 @@ package
 
         _Asset ::= selection of Tuple where
         (
+            \<0 is_a (
+                traits : \1::_Traits::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+
+        _Traits ::= selection of Tuple where
+        (
             if
                 \<0 is_a (
                     identity : (selection of Pkg_Decl_Map where (is_unary \<0)),
-                    foundation : ...,
+                    foundation : \Fdn_Canon_Name::(),
                     uses : \Pkg_Decl_Map::(),
-                    entry : ...,
-                    floating : ...,
-                    materials : ...,
-                    annotation : ...,
-                    decoration : ...,
+                    entry : \Entry_Point::(),
+                    floating : \Floating::(),
+                    materials : \Folder::(),
                 )
             then
                 \<<uses disjoint_heading \<<identity
@@ -2794,11 +2801,281 @@ package
     ::MD::Source_Code::Pkg_Decl_Map ::= selection of Tuple
         where (\<0 .!? \"" and \<0 all_attr_assets \Pkg_Canon_Name::());
 
+    ::MD::Source_Code::Pkg_Canon_Name ::= selection of Tuple where
+    (
+        if
+            \<0 is_a (
+                pkg_name_base : \Attr_Name_List::(),
+                pkg_name_ext  : \Attr_Name_List::(),
+                    `Element 0 is the package authority.`
+                    `Element 1 is the package version number.`
+            )
+        then
+                #@\<<pkg_name_base >= 1 and \<<pkg_name_base ∌ \""
+            and #@\<<pkg_name_ext  >= 2 and \<<pkg_name_ext  ∌ \""
+        else
+            False
+    );
+
+    ::MD::Source_Code::Fdn_Canon_Name ::= selection of Attr_Name_List
+        where (#\<0 >= 2 and \<0 ∌ \"");
+            `Element 0 is the Foundation authority.`
+            `Element 1 is the Foundation version number.`
+
+    ::MD::Source_Code::Entry_Point ::= selection of Absolute_Name;
+
+    ::MD::Source_Code::Floating ::= selection of Set
+        where (\<0 all \Absolute_Name::());
+
+    ::MD::Source_Code::Absolute_Name ::= selection of Attr_Name_List
+        where (#\<0 >= 1 and \<0.0 != \"");
+            `Element 0 is the package local alias.`
+            `Elements 1+ are the folder or material names nested beneath it.`
+
+    ::MD::Source_Code::Folder ::= selection of Tuple
+        where (\<0 all_attr_assets {\Folder::(), \Binder::()});
+
+    ::MD::Source_Code::Binder ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Binder, \1::_Asset() ))
+            default (\Binder wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                materials : \1::_Materials::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+
+        _Materials ::= selection of Tuple
+            where (\<0 .? \"" and \<0 all_attr_assets \Material::());
+    };
+
+    ::MD::Source_Code::Material ::= selection
+        union {Alias, Constant, Selection, Interface, Function, Procedure}
+        default (...);
+
+    ::MD::Source_Code::Alias ::= selection of Capsule
+        where (has_wrapped::( \<0, \Alias, \Identity_Identifier::() ))
+        default (\Alias wrap Identity_Identifier::());
+
+    ::MD::Source_Code::Constant ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Constant, \1::_Asset() ))
+            default (\Constant wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                traits : \1::_Traits::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+
+        _Traits ::= selection of Tuple where
+        (
+            \<0 is_a (
+                folded : \Boolean::(),
+                composes : ...,
+                value : \Function_Body::(),  `Defaults to \@0 if omitted.`
+            )
+        );
+    };
+
+    ::MD::Source_Code::Selection ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Selection, \1::_Asset() ))
+            default (\Selection wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                traits : \1::_Traits::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+
+        _Traits ::= selection of Tuple where
+        (
+            \<0 is_a (
+                of : ...,
+                where : \Function_Body::(),
+                default : \Function_Body::(),
+                composes : ...,
+            )
+        );
+    };
+
+    ::MD::Source_Code::Interface ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Interface, \1::_Asset() ))
+            default (\Interface wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                traits : \1::_Traits::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+
+        _Traits ::= selection of Tuple where
+        (
+            \<0 is_a (
+                composes : ...,
+                requires_implements : ...,
+            )
+        );
+    };
+
+    ::MD::Source_Code::Function ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Function, \1::_Asset() ))
+            default (\Function wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                traits : \1::_Traits::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+
+        _Traits ::= selection of Tuple where
+        (
+            \<0 is_a (
+                virtual : \Boolean::(),
+                commutes : \Identity_Identifier::(),
+                negates : \Identity_Identifier::(),
+                returns : \Signature::(),  `Aka "-->" or "to".`
+                matches : \Signature::Tuple(),  `Aka "<--" or "from" or "signature".`
+                implements : ...,
+                overrides : ...,
+                accepts : \Function_Body::(),  `Aka "requires".`
+                intends : \Function_Body::(),
+                is_associative : \Boolean::(),
+                is_commutative : \Boolean::(),
+                is_idempotent : \Boolean::(),
+                identity : \Function_Body::(),
+                repeater : ...,
+                map : \Function_Body::(),  `Aka ":" or "via".`
+            )
+        );
+    };
+
+    ::MD::Source_Code::Function_Body ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Function_Body, \1::_Asset() ))
+            default (\Function_Body wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                root_expr : \Expression::(),
+                named_exprs : \Named_Expr_List::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+    };
+
+    ::MD::Source_Code::Procedure ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Procedure, \1::_Asset() ))
+            default (\Procedure wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                traits : \1::_Traits::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+
+        _Traits ::= selection of Tuple where
+        (
+            \<0 is_a (
+                virtual : \Boolean::(),
+                matches : \Signature::Tuple(),  `Aka "<-->" or "signature".`
+                updates : \Heading::(),  `TODO: Or keyword "source".`
+                implements : ...,
+                overrides : ...,
+                accepts : \Function_Body::(),  `Aka "requires".`
+                intends : \Function_Body::(),
+                vars : \Signature::Tuple(),
+                performs : \Procedure_Body::(),
+            )
+        );
+    };
+
+    ::MD::Source_Code::Procedure_Body ::= binder
+    {
+        "" ::= selection of Capsule
+            where (has_wrapped::( \<0, \Procedure_Body, \1::_Asset() ))
+            default (\Procedure_Body wrap 1::_Asset());
+
+        _Asset ::= selection of Tuple where
+        (
+            \<0 is_a (
+                root_stmt : \Statement::(),
+                named_stmts : \Named_Stmt_List::(),
+                named_exprs : \Named_Expr_List::(),
+                annotation : \Any::(),
+                decoration : \Any::(),
+            )
+        );
+    };
+
+    ::MD::Source_Code::Signature::"" ::= selection
+        union {Function_Call_But_0, 2::Set, 2::Tuple}
+        default (\Any::());
+
+    ::MD::Source_Code::Signature::Set ::= selection of Set
+        where (\<0 all \Signature::());
+
+    ::MD::Source_Code::Signature::Tuple ::= selection of Tuple
+        where (\<0 all_attr_assets \Signature::());
+
     ::MD::Source_Code::Heading ::= selection of Tuple
         where (\<0 all_attr_assets \False::());
 
     ::MD::Source_Code::Attr_Name ::= selection of Heading
         where (is_unary \<0);
+
+    ::MD::Source_Code::Attr_Name_List ::= selection of Array
+        where (\<0 all \Attr_Name::());
+
+    ::MD::Source_Code::Named_Expr_List ::= selection of Tuple
+        where (\<0 .!? \"" and \<0 all_attr_assets \Expression::());
+
+    ::MD::Source_Code::Expression ::= selection
+        union {Expr_Name_Expr, Naming_Expr, Annotating_Expr
+            , ...
+            , delimiting_expr, source_expr
+            , opaque_literal_expr, collection_selector_expr
+            , invocation_expr, conditional_expr, fail_expr, ...}
+        default (...);
+
+    ::MD::Source_Code::Named_Stmt_List ::= selection of Tuple
+        where (\<0 .!? \"" and \<0 all_attr_assets \Statement::());
+
+    ::MD::Source_Code::Statement ::= selection
+        union {...}
+        default (...);
 
     ::MD::Source_Code::Key_Asset_Pair ::= selection of Tuple
         where (@\<0 = \@(key,asset));
