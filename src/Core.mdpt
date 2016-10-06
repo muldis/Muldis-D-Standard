@@ -642,7 +642,7 @@ package
 `#########################################################################`
 
     ::MD::Fraction ::= selection of Capsule
-        where (has_wrapped::( args.\0, \Fraction, (function : (
+        where (has_wrapped::( args.\0, \Fraction, \(
             if
                 args.\0 is_a (
                     numerator : \Integer::(),
@@ -652,7 +652,7 @@ package
                 args.\0.\numerator coprime args.\0.\denominator
             else
                 False
-        )) ))
+        ) ))
         default (0.0)
         composes Fractional and_provides_its_default;
 
@@ -1086,11 +1086,11 @@ package
                     src_octets where \in::( 1: 0..127 )
                 when 1 then
                     src_octets
-                        map (function : (args.\0 in 0..127 ?? args.\0 !! args.\1))
+                        map \(args.\0 in 0..127 ?? args.\0 !! args.\1)
                             \<-- (1 : repl_chars.0,)
                 default
                     src_octets
-                        map (function : (args.\0 in 0..127 ?? [args.\0] !! args.\1))
+                        map \(args.\0 in 0..127 ?? [args.\0] !! args.\1)
                             \<-- (1 : repl_chars,)
                         reduce \catenate::()
         );
@@ -1534,8 +1534,8 @@ package
     ::MD::"~|" ::= alias of to_Array;
 
     ::MD::squish ::= function --> Positional <-- (Positional)
-        : (args.\0 map (function : (( group : args.\0, member : False )))
-            ->nest map (function : (args.\0.\group)));
+        : (args.\0 map \(( group : args.\0, member : False ))
+            ->nest map \(args.\0.\group));
 
     ::MD::first_possible_index::"" ::= function virtual
         --> Integer <-- (Positional);
@@ -1761,7 +1761,7 @@ package
 
     ::MD::Set ::= selection of Capsule
         where (has_wrapped::( args.\0, \Set,
-            (function : (if Bag args.\0 then all_unique args.\0 else False)) ))
+            \(if Bag args.\0 then all_unique args.\0 else False) ))
         default ({})
         composes {Discrete, Setty and_provides_its_default};
 
@@ -2349,7 +2349,7 @@ package
     ::MD::not_all_attrs ::= function negates all_attrs;
 
     ::MD::all_attr_assets ::= function --> Boolean <-- (Tuple, Signature)
-        : (args.\0 all_attrs (function : ((args.\1) <-- (args.\0.\asset,)))
+        : (args.\0 all_attrs \((args.\1) <-- (args.\0.\asset,))
             \<-- (1 : Signature_to_Function_Call_But_0::(args.\1)));
 
     ::MD::attrs_where ::= function --> Tuple <-- (Tuple, Signature)
@@ -2544,7 +2544,7 @@ package
         --> Boolean <-- (Relational, Structural)
         implements 2::""
         : (if args.\0 @? (args.\1)
-            then |(args.\0) all (function : (args.\0 %= @(args.\1) = (args.\1))) \<-- (1 : args.\1,)
+            then |(args.\0) all \(args.\0 %= @(args.\1) = (args.\1)) \<-- (1 : args.\1,)
             else False);
 
     ::MD::on::Relational ::= function
@@ -2579,15 +2579,15 @@ package
 `#########################################################################`
 
     ::MD::Tuple_Array ::= selection of Capsule
-        where (has_wrapped::( args.\0, \Tuple_Array, (function : (
+        where (has_wrapped::( args.\0, \Tuple_Array, \(
             if args.\0 is_a ( heading : \Heading::(), body : \Array::() ) then
                 if args.\0.\body all \Tuple::() then
-                    args.\0.\body all (function : (@(args.\0) = (args.\1))) \<-- (args.\0.\heading)
+                    args.\0.\body all \(@(args.\0) = (args.\1)) \<-- (args.\0.\heading)
                 else
                     False
             else
                 False
-        )) ))
+        ) ))
         default (~%@())
         composes {Relational, Positional};
 
@@ -2612,15 +2612,15 @@ package
 `#########################################################################`
 
     ::MD::Relation ::= selection of Capsule
-        where (has_wrapped::( args.\0, \Relation, (function : (
+        where (has_wrapped::( args.\0, \Relation, \(
             if args.\0 is_a ( heading : \Heading::(), body : \Set::() ) then
                 if args.\0.\body all \Tuple::() then
-                    args.\0.\body all (function : (@(args.\0) = (args.\1))) \<-- (args.\0.\heading)
+                    args.\0.\body all \(@(args.\0) = (args.\1)) \<-- (args.\0.\heading)
                 else
                     False
             else
                 False
-        )) ))
+        ) ))
         default (?%@())
         composes {Relational and_provides_its_default, Discrete, Setty};
 
@@ -2649,15 +2649,15 @@ package
 `#########################################################################`
 
     ::MD::Tuple_Bag ::= selection of Capsule
-        where (has_wrapped::( args.\0, \Tuple_Bag, (function : (
+        where (has_wrapped::( args.\0, \Tuple_Bag, \(
             if args.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then
                 if args.\0.\body all \Tuple::() then
-                    args.\0.\body all (function : (@(args.\0) = (args.\1))) \<-- (args.\0.\heading)
+                    args.\0.\body all \(@(args.\0) = (args.\1)) \<-- (args.\0.\heading)
                 else
                     False
             else
                 False
-        )) ))
+        ) ))
         default (+%@())
         composes {Relational, Discrete};
 
@@ -2705,16 +2705,16 @@ package
 
     ::MD::Interval_Set ::= selection of Capsule
         where (has_wrapped::( args.\0, \Interval_Set,
-            (function : (if Interval_Bag args.\0 then all_unique args.\0 else False)) ))
+            \(if Interval_Bag args.\0 then all_unique args.\0 else False) ))
         default (...)
         composes {Unionable_Intervalish, Setty};
 
 `#########################################################################`
 
     ::MD::Interval_Bag ::= selection of Capsule
-        where (has_wrapped::( args.\0, \Interval_Bag, (function : (
+        where (has_wrapped::( args.\0, \Interval_Bag, \(
             if Tuple_Bag args.\0 then ... else False
-        )) ))
+        ) ))
         default (...)
         composes Unionable_Intervalish;
 
@@ -2727,9 +2727,9 @@ package
 `#########################################################################`
 
     ::MD::Quantity ::= selection of Capsule
-        where (has_wrapped::( args.\0, \Quantity, (function : (
+        where (has_wrapped::( args.\0, \Quantity, \(
             if Relation args.\0 then ... else False
-        )) ))
+        ) ))
         default (...)
         composes Quantitative;
 
@@ -2751,6 +2751,11 @@ package
         --> Boolean <-- (Capsule, Any, Signature)
         : ((wrapper args.\0) = (args.\1) and
             (unwrap args.\0,) --> Signature_to_Function_Call_But_0::(args.\2));
+
+`#########################################################################`
+
+    ::MD::Reference::"" ::= selection where (args -->^ FDN__is_a_Reference)
+        default (() -->^ FDN__default_Reference);
 
 `#########################################################################`
 
@@ -3086,19 +3091,19 @@ package
         if Function_Call_But_0 args.\0 then
             args.\0
         else if Signature::Set(args.\0) then
-            (function : (args.\1 any (function : (args.\1 is_a args.\0)) \<-- (1 : args.\0)))
+            \(args.\1 any \(args.\1 is_a args.\0) \<-- (1 : args.\0))
                 \<-- (1 : args.\0)
         else if Signature::Tuple(args.\0) then
-            (function : (
+            \(
                 if Tuple args.\0 then
                     if args.\0 =@ (args.\1) then
                         args.\0 all_attrs
-                            (function : (args.\0.\asset is_a args.\1.(args.\0.\name))) \<-- ( 1: args.\1, )
+                            \(args.\0.\asset is_a args.\1.(args.\0.\name)) \<-- ( 1: args.\1, )
                     else
                         False
                 else
                     False
-            )) \<-- (1 : args.\0)
+            ) \<-- (1 : args.\0)
         else
             fail  `We should never get here.`
     );
