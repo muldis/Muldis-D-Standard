@@ -4,394 +4,394 @@ script Unicode:9.0:UTF-8;
 `#########################################################################`
 `#########################################################################`
 
-package
-{
-    identity MD ::= Core:"http://muldis.com":"0.201.0.-9";
-    foundation "http://muldis.com":"0.201.0.-9";
-    floating {::MD, ::MD::Round_Meth, ::MD::Capsule, ::MD::Source_Code};
+package (
+    identity : (MD : Core:"http://muldis.com":"0.201.0.-9"),
+    foundation : "http://muldis.com":"0.201.0.-9",
+    floating : {::MD, ::MD::Round_Meth, ::MD::Capsule, ::MD::Source_Code},
+    materials : (
 
 `#########################################################################`
 
-    ::MD::Any ::= selection default (False);
+    Any : selection default (False),
 
-    ::MD::None ::= selection of {};
+    None : selection of {},
 
-    ::MD::same ::= function returns Boolean matches (Any, Any)
+    same : function returns Boolean matches (Any, Any)
         is commutative
-        : (args -->^ FDN__same);
+        : (args -->^ FDN__same),
 
-    ::MD::"=" ::= alias of same;
+    "=" : alias of same,
 
-    ::MD::not_same ::= function negates same
-        is commutative;
+    not_same : function negates same
+        is commutative,
 
-    ::MD::"!=" ::= alias of not_same;
+    "!=" : alias of not_same,
 
-    ::MD::Unicode_Aliases::"≠" ::= alias of not_same;
+    Unicode_Aliases::"≠" : alias of not_same,
 
-    ::MD::is_a ::= function returns Boolean matches (Any, Signature)
-        : ((args.\0) --> Signature_to_Function_Call_But_0::(args.\1));
+    is_a : function returns Boolean matches (Any, Signature)
+        : ((args.\0) --> Signature_to_Function_Call_But_0::(args.\1)),
 
-    ::MD::not_is_a ::= function negates is_a;
-
-`#########################################################################`
-
-    ::MD::Excuse::"" ::= interface;
-
-    ::MD::Excuse::No_Reason ::= constant
-        composes Excuse and_provides_its_default;
-
-    ::MD::or_else ::= function returns Any matches (Any, Any)
-        is {associative,idempotent}
-        : (Excuse args.\0 :? args.\1 :! args.\0);
-
-    ::MD::coalesce ::= alias of or_else;
-
-    ::MD::and_then ::= function returns Any matches (Any, Any)
-        is {associative,idempotent}
-        : (Excuse args.\0 :? args.\0 :! args.\1);
+    not_is_a : function negates is_a,
 
 `#########################################################################`
 
-    ::MD::Orderable ::= interface
-        requires_implements in_order;
+    Excuse::"" : interface,
 
-    ::MD::Neg_Inf ::= constant composes {Orderable, Excuse};
+    Excuse::No_Reason : constant
+        composes Excuse and_provides_its_default,
 
-    ::MD::Unicode_Aliases::"-∞" ::= alias of Neg_Inf;
+    or_else : function returns Any matches (Any, Any)
+        is {associative,idempotent}
+        : (Excuse args.\0 :? args.\1 :! args.\0),
 
-    ::MD::Pos_Inf ::= constant composes {Orderable, Excuse};
+    coalesce : alias of or_else,
 
-    ::MD::Unicode_Aliases::"+∞" ::= alias of Pos_Inf;
+    and_then : function returns Any matches (Any, Any)
+        is {associative,idempotent}
+        : (Excuse args.\0 :? args.\0 :! args.\1),
 
-    ::MD::in_order::"" ::= function virtual
-        returns Boolean matches (Orderable, Orderable);
+`#########################################################################`
 
-    ::MD::in_order::Neg_Inf_L ::= function returns Boolean matches (Neg_Inf, Orderable)
+    Orderable : interface
+        requires_implements in_order,
+
+    Neg_Inf : constant composes {Orderable, Excuse},
+
+    Unicode_Aliases::"-∞" : alias of Neg_Inf,
+
+    Pos_Inf : constant composes {Orderable, Excuse},
+
+    Unicode_Aliases::"+∞" : alias of Pos_Inf,
+
+    in_order::"" : function virtual
+        returns Boolean matches (Orderable, Orderable),
+
+    in_order::Neg_Inf_L : function returns Boolean matches (Neg_Inf, Orderable)
         implements 1::""
-        : (True);
+        : (True),
 
-    ::MD::in_order::Neg_Inf_R ::= function returns Boolean matches (Orderable, Neg_Inf)
+    in_order::Neg_Inf_R : function returns Boolean matches (Orderable, Neg_Inf)
         implements 1::""
-        : (args.\0 = (args.\1));
+        : (args.\0 = (args.\1)),
 
-    ::MD::in_order::Pos_Inf_L ::= function returns Boolean matches (Pos_Inf, Orderable)
+    in_order::Pos_Inf_L : function returns Boolean matches (Pos_Inf, Orderable)
         implements 1::""
-        : (args.\0 = (args.\1));
+        : (args.\0 = (args.\1)),
 
-    ::MD::in_order::Pos_Inf_R ::= function returns Boolean matches (Orderable, Pos_Inf)
+    in_order::Pos_Inf_R : function returns Boolean matches (Orderable, Pos_Inf)
         implements 1::""
-        : (True);
+        : (True),
 
-    ::MD::before ::= function commutes after;
+    before : function commutes after,
 
-    ::MD::"<" ::= alias of before;
+    "<" : alias of before,
 
-    ::MD::after ::= function negates before_or_same;
+    after : function negates before_or_same,
 
-    ::MD::">" ::= alias of after;
+    ">" : alias of after,
 
-    ::MD::before_or_same ::= alias of in_order;
+    before_or_same : alias of in_order,
 
-    ::MD::"<=" ::= alias of before_or_same;
+    "<=" : alias of before_or_same,
 
-    ::MD::Unicode_Aliases::"≤" ::= alias of before_or_same;
+    Unicode_Aliases::"≤" : alias of before_or_same,
 
-    ::MD::after_or_same ::= function commutes before_or_same;
+    after_or_same : function commutes before_or_same,
 
-    ::MD::">=" ::= alias of after_or_same;
+    ">=" : alias of after_or_same,
 
-    ::MD::Unicode_Aliases::"≥" ::= alias of after_or_same;
+    Unicode_Aliases::"≥" : alias of after_or_same,
 
-    ::MD::min ::= function returns Orderable matches (Orderable, Orderable)
+    min : function returns Orderable matches (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (+∞)
-        : (args.\0 in_order args.\1 :? args.\0 :! args.\1);
+        : (args.\0 in_order args.\1 :? args.\0 :! args.\1),
 
-    ::MD::max ::= function returns Orderable matches (Orderable, Orderable)
+    max : function returns Orderable matches (Orderable, Orderable)
         is {associative,commutative,idempotent} identity (-∞)
-        : (args.\0 in_order args.\1 :? args.\1 :! args.\0);
+        : (args.\0 in_order args.\1 :? args.\1 :! args.\0),
 
-    ::MD::minmax ::= function
+    minmax : function
         returns (Orderable, Orderable) matches (Orderable, Orderable)
         is commutative
-        : (args.\0 in_order args.\1 :? args :! (args.\1, args.\0));
+        : (args.\0 in_order args.\1 :? args :! (args.\1, args.\0)),
 
 `#########################################################################`
 
-    ::MD::Successable ::= interface
-        requires_implements {asset,nth_succ};
+    Successable : interface
+        requires_implements {asset,nth_succ},
 
-    ::MD::asset::"" ::= function virtual returns Any matches (Successable);
+    asset::"" : function virtual returns Any matches (Successable),
 
-    ::MD::succ ::= function returns {Successable, Pos_Inf} matches (Successable)
-        : (args.\0 nth_succ 1);
+    succ : function returns {Successable, Pos_Inf} matches (Successable)
+        : (args.\0 nth_succ 1),
 
-    ::MD::nth_succ::"" ::= function virtual
-        returns {Successable, Pos_Inf} matches (Successable, Integer_NN);
+    nth_succ::"" : function virtual
+        returns {Successable, Pos_Inf} matches (Successable, Integer_NN),
 
 `#########################################################################`
 
-    ::MD::Bicessable ::= interface
+    Bicessable : interface
         composes {Orderable and_provides_its_default,
             Successable and_provides_its_default}
-        requires_implements {in_order,asset,nth_pred,nth_succ};
+        requires_implements {in_order,asset,nth_pred,nth_succ},
 
-    ::MD::pred ::= function returns {Bicessable, Neg_Inf} matches (Bicessable)
-        : (args.\0 nth_pred 1);
+    pred : function returns {Bicessable, Neg_Inf} matches (Bicessable)
+        : (args.\0 nth_pred 1),
 
-    ::MD::nth_pred::"" ::= function virtual
-        returns {Bicessable, Neg_Inf} matches (Bicessable, Integer_NN);
-
-`#########################################################################`
-
-    ::MD::Boolable ::= interface requires_implements to_Boolean;
-
-    ::MD::to_Boolean::"" ::= function virtual returns Boolean matches (Boolable);
-
-    ::MD::so  ::= alias of to_Boolean;
-    ::MD::"?" ::= alias of to_Boolean;
-
-    ::MD::not_so ::= function negates to_Boolean;
-
-    ::MD::"!?" ::= alias of not_so;
+    nth_pred::"" : function virtual
+        returns {Bicessable, Neg_Inf} matches (Bicessable, Integer_NN),
 
 `#########################################################################`
 
-    ::MD::Boolean ::= selection where (args -->^ FDN__is_a_Boolean)
+    Boolable : interface requires_implements to_Boolean,
+
+    to_Boolean::"" : function virtual returns Boolean matches (Boolable),
+
+    so  : alias of to_Boolean,
+    "?" : alias of to_Boolean,
+
+    not_so : function negates to_Boolean,
+
+    "!?" : alias of not_so,
+
+`#########################################################################`
+
+    Boolean : selection where (args -->^ FDN__is_a_Boolean)
         default (False)
-        composes {Bicessable, Boolable and_provides_its_default};
+        composes {Bicessable, Boolable and_provides_its_default},
 
-    ::MD::Bool ::= alias of Boolean;
+    Bool : alias of Boolean,
 
-    ::MD::False ::= constant (False);
+    False : constant (False),
 
-    ::MD::Unicode_Aliases::"⊥" ::= alias of False;
+    Unicode_Aliases::"⊥" : alias of False,
 
-    ::MD::True ::= constant (True);
+    True : constant (True),
 
-    ::MD::Unicode_Aliases::"⊤" ::= alias of True;
+    Unicode_Aliases::"⊤" : alias of True,
 
-    ::MD::in_order::Boolean ::= function returns Boolean matches (Boolean, Boolean)
+    in_order::Boolean : function returns Boolean matches (Boolean, Boolean)
         implements 1::""
-        : (!(args.\0) or args.\1);
+        : (!(args.\0) or args.\1),
 
-    ::MD::asset::Boolean ::= function returns Boolean matches (Boolean)
+    asset::Boolean : function returns Boolean matches (Boolean)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::nth_pred::Boolean ::= function
+    nth_pred::Boolean : function
         returns {False, Neg_Inf} matches (Boolean, Integer_NN)
         implements 1::""
-        : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! -∞);
+        : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! -∞),
 
-    ::MD::nth_succ::Boolean ::= function
+    nth_succ::Boolean : function
         returns {True, Pos_Inf} matches (Boolean, Integer_NN)
         implements 1::""
-        : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! +∞);
+        : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! +∞),
 
-    ::MD::to_Boolean::Boolean ::= function returns Boolean matches (Boolean)
+    to_Boolean::Boolean : function returns Boolean matches (Boolean)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::not ::= function negates to_Boolean::Boolean;
+    not : function negates to_Boolean::Boolean,
 
-    ::MD::"!" ::= alias of not;
+    "!" : alias of not,
 
-    ::MD::Unicode_Aliases::"¬" ::= alias of not;
+    Unicode_Aliases::"¬" : alias of not,
 
-    ::MD::and ::= function returns Boolean matches (Boolean, Boolean)
+    and : function returns Boolean matches (Boolean, Boolean)
         is {associative,commutative,idempotent} identity (True)
-        : (args.\0 :? args.\1 :! False);
+        : (args.\0 :? args.\1 :! False),
 
-    ::MD::Unicode_Aliases::"∧" ::= alias of and;
+    Unicode_Aliases::"∧" : alias of and,
 
-    ::MD::nand ::= function negates and
-        is commutative;
+    nand : function negates and
+        is commutative,
 
-    ::MD::not_and ::= alias of nand;
+    not_and : alias of nand,
 
-    ::MD::Unicode_Aliases::"⊼" ::= alias of nand;
-    ::MD::Unicode_Aliases::"↑" ::= alias of nand;
+    Unicode_Aliases::"⊼" : alias of nand,
+    Unicode_Aliases::"↑" : alias of nand,
 
-    ::MD::or ::= function returns Boolean matches (Boolean, Boolean)
+    or : function returns Boolean matches (Boolean, Boolean)
         is {associative,commutative,idempotent} identity (False)
-        : (args.\0 :? True :! args.\1);
+        : (args.\0 :? True :! args.\1),
 
-    ::MD::Unicode_Aliases::"∨" ::= alias of or;
+    Unicode_Aliases::"∨" : alias of or,
 
-    ::MD::nor ::= function negates or
-        is commutative;
+    nor : function negates or
+        is commutative,
 
-    ::MD::not_or ::= alias of nor;
+    not_or : alias of nor,
 
-    ::MD::Unicode_Aliases::"⊽" ::= alias of nor;
-    ::MD::Unicode_Aliases::"↓" ::= alias of nor;
+    Unicode_Aliases::"⊽" : alias of nor,
+    Unicode_Aliases::"↓" : alias of nor,
 
-    ::MD::xnor ::= function returns Boolean matches (Boolean, Boolean)
+    xnor : function returns Boolean matches (Boolean, Boolean)
         is {associative,commutative} identity (True)
-        : (args.\0 = (args.\1));
+        : (args.\0 = (args.\1)),
 
-    ::MD::iff ::= alias of xnor;
+    iff : alias of xnor,
 
-    ::MD::Unicode_Aliases::"↔" ::= alias of xnor;
+    Unicode_Aliases::"↔" : alias of xnor,
 
-    ::MD::xor ::= function negates xnor
-        is {associative,commutative} identity (False);
+    xor : function negates xnor
+        is {associative,commutative} identity (False),
 
-    ::MD::Unicode_Aliases::"⊻" ::= alias of xor;
-    ::MD::Unicode_Aliases::"↮" ::= alias of xor;
+    Unicode_Aliases::"⊻" : alias of xor,
+    Unicode_Aliases::"↮" : alias of xor,
 
-    ::MD::imp ::= function returns Boolean matches (Boolean, Boolean)
-        : (args.\0 :? args.\1 :! True);
+    imp : function returns Boolean matches (Boolean, Boolean)
+        : (args.\0 :? args.\1 :! True),
 
-    ::MD::implies ::= alias of imp;
+    implies : alias of imp,
 
-    ::MD::Unicode_Aliases::"→" ::= alias of imp;
+    Unicode_Aliases::"→" : alias of imp,
 
-    ::MD::nimp ::= function negates imp;
+    nimp : function negates imp,
 
-    ::MD::not_implies ::= alias of nimp;
+    not_implies : alias of nimp,
 
-    ::MD::Unicode_Aliases::"↛" ::= alias of nimp;
+    Unicode_Aliases::"↛" : alias of nimp,
 
-    ::MD::if ::= function commutes imp;
+    if : function commutes imp,
 
-    ::MD::Unicode_Aliases::"←" ::= alias of if;
+    Unicode_Aliases::"←" : alias of if,
 
-    ::MD::nif ::= function commutes nimp;
+    nif : function commutes nimp,
 
-    ::MD::not_if ::= alias of nif;
+    not_if : alias of nif,
 
-    ::MD::Unicode_Aliases::"↚" ::= alias of nif;
+    Unicode_Aliases::"↚" : alias of nif,
 
 `#########################################################################`
 
-    ::MD::Round_Meth ::= enumeration
+    Round_Meth : enumeration
         union {Down,Up,To_Zero,To_Inf
             ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
             ,Half_Even,Half_Odd}
-        default To_Zero;
+        default To_Zero,
 
 `#########################################################################`
 
-    ::MD::Numerical ::= interface
+    Numerical : interface
         composes Boolable
         requires_implements {to_Boolean
             ,zero,opposite,reciprocal,modulus
             ,plus,minus,times,multiple_of
             ,fractional_divided_by,integral_divided_by
-            ,integral_power,integral_nn_power};
+            ,integral_power,integral_nn_power},
 
-    ::MD::Excuse::Div_By_Zero ::= constant composes Excuse;
+    Excuse::Div_By_Zero : constant composes Excuse,
 
-    ::MD::Excuse::Zero_To_The_Zero ::= constant composes Excuse;
+    Excuse::Zero_To_The_Zero : constant composes Excuse,
 
-    ::MD::to_Boolean::Numerical ::= function virtual returns Boolean matches (Numerical)
-        implements 1::"";
+    to_Boolean::Numerical : function virtual returns Boolean matches (Numerical)
+        implements 1::"",
 
-    ::MD::is_zero ::= function negates to_Boolean::Numerical;
+    is_zero : function negates to_Boolean::Numerical,
 
-    ::MD::zero::"" ::= function virtual returns Numerical matches (Numerical);
+    zero::"" : function virtual returns Numerical matches (Numerical),
 
-    ::MD::opposite::"" ::= function virtual returns Numerical matches (Numerical);
+    opposite::"" : function virtual returns Numerical matches (Numerical),
 
-    ::MD::additive_inverse ::= alias of opposite;
+    additive_inverse : alias of opposite,
 
-    ::MD::reciprocal::"" ::= function virtual
-        returns {Numerical, Excuse::Div_By_Zero} matches (Numerical);
+    reciprocal::"" : function virtual
+        returns {Numerical, Excuse::Div_By_Zero} matches (Numerical),
 
-    ::MD::multiplicative_inverse ::= alias of reciprocal;
+    multiplicative_inverse : alias of reciprocal,
 
-    ::MD::modulus::"" ::= function virtual returns Numerical matches (Numerical);
+    modulus::"" : function virtual returns Numerical matches (Numerical),
 
-    ::MD::abs ::= alias of modulus;
+    abs : alias of modulus,
 
-    ::MD::plus::"" ::= function virtual
+    plus::"" : function virtual
         returns Numerical matches (Numerical, Numerical)
         is {associative,commutative}
-        repeater times;
+        repeater times,
 
-    ::MD::"+" ::= alias of plus;
+    "+" : alias of plus,
 
-    ::MD::minus::"" ::= function virtual
-        returns Numerical matches (Numerical, Numerical);
+    minus::"" : function virtual
+        returns Numerical matches (Numerical, Numerical),
 
-    ::MD::"-" ::= function
+    "-" : function
         returns Numerical matches {(Numerical), (Numerical, Numerical)}
-        : (args --> (degree::(args) = 1 :? \opposite::() :! \minus::()));
+        : (args --> (degree::(args) = 1 :? \opposite::() :! \minus::())),
 
-    ::MD::Unicode_Aliases::"−" ::= alias of "-";
+    Unicode_Aliases::"−" : alias of "-",
 
-    ::MD::modulus_minus ::= function
+    modulus_minus : function
         returns Numerical matches (Numerical, Numerical)
         is commutative
-        : (modulus args.\0 - (args.\1));
+        : (modulus args.\0 - (args.\1)),
 
-    ::MD::abs_minus ::= alias of modulus_minus;
-    ::MD::"|-|"     ::= alias of modulus_minus;
+    abs_minus : alias of modulus_minus,
+    "|-|"     : alias of modulus_minus,
 
-    ::MD::Unicode_Aliases::"|−|" ::= alias of modulus_minus;
+    Unicode_Aliases::"|−|" : alias of modulus_minus,
 
-    ::MD::times::"" ::= function virtual
+    times::"" : function virtual
         returns Numerical matches (Numerical, Numerical)
         is {associative,commutative}
-        repeater integral_nn_power;
+        repeater integral_nn_power,
 
-    ::MD::"*" ::= alias of times;
+    "*" : alias of times,
 
-    ::MD::Unicode_Aliases::"×" ::= alias of times;
+    Unicode_Aliases::"×" : alias of times,
 
-    ::MD::multiple_of::"" ::= function virtual
-        returns {Boolean, Excuse::Div_By_Zero} matches (Numerical, Numerical);
+    multiple_of::"" : function virtual
+        returns {Boolean, Excuse::Div_By_Zero} matches (Numerical, Numerical),
 
-    ::MD::nearest_multiple_of ::= function
+    nearest_multiple_of : function
         returns {Numerical, Excuse::Div_By_Zero}
         matches (Numerical, Numerical, Round_Meth)
         : (if args.\1->is_zero then Excuse::Div_By_Zero()
-            else args.\1 * (args.\0 div args.\1));
+            else args.\1 * (args.\0 div args.\1)),
 
-    ::MD::round ::= alias of nearest_multiple_of;
+    round : alias of nearest_multiple_of,
 
-    ::MD::fractional_divided_by::"" ::= function virtual
-        returns {Numerical, Excuse::Div_By_Zero} matches (Numerical, Numerical);
+    fractional_divided_by::"" : function virtual
+        returns {Numerical, Excuse::Div_By_Zero} matches (Numerical, Numerical),
 
-    ::MD::"/" ::= alias of fractional_divided_by;
+    "/" : alias of fractional_divided_by,
 
-    ::MD::Unicode_Aliases::"÷" ::= alias of fractional_divided_by;
-    ::MD::Unicode_Aliases::"∕" ::= alias of fractional_divided_by;
+    Unicode_Aliases::"÷" : alias of fractional_divided_by,
+    Unicode_Aliases::"∕" : alias of fractional_divided_by,
 
-    ::MD::integral_divided_by::"" ::= function virtual
+    integral_divided_by::"" : function virtual
         returns {Numerical, Excuse::Div_By_Zero}
-        matches (Numerical, Numerical, Round_Meth);
+        matches (Numerical, Numerical, Round_Meth),
 
-    ::MD::div ::= alias of integral_divided_by;
+    div : alias of integral_divided_by,
 
-    ::MD::modulo ::= function
+    modulo : function
         returns {Numerical, Excuse::Div_By_Zero}
         matches (Numerical, Numerical, Round_Meth)
         : (if args.\1->is_zero then Excuse::Div_By_Zero()
-            else args.\0 - (args.\0 nearest_multiple_of args.\1));
+            else args.\0 - (args.\0 nearest_multiple_of args.\1)),
 
-    ::MD::mod ::= alias of modulo;
+    mod : alias of modulo,
 
-    ::MD::divided_by_and_modulo::"" ::= function
+    divided_by_and_modulo::"" : function
         returns ({Numerical, Excuse::Div_By_Zero}, {Numerical, Excuse::Div_By_Zero})
         matches (Numerical, Numerical, Round_Meth)
-        : ((args.\0 div args.\1, args.\0 mod args.\1));
+        : ((args.\0 div args.\1, args.\0 mod args.\1)),
 
-    ::MD::integral_power::"" ::= function virtual
-        returns {Numerical, Excuse::Zero_To_The_Zero} matches (Numerical, Integral);
+    integral_power::"" : function virtual
+        returns {Numerical, Excuse::Zero_To_The_Zero} matches (Numerical, Integral),
 
-    ::MD::"**" ::= alias of integral_power;
+    "**" : alias of integral_power,
 
-    ::MD::integral_nn_power::"" ::= function virtual
-        returns {Numerical, Excuse::Zero_To_The_Zero} matches (Numerical, Integral_NN);
+    integral_nn_power::"" : function virtual
+        returns {Numerical, Excuse::Zero_To_The_Zero} matches (Numerical, Integral_NN),
 
-    ::MD::power ::= alias of integral_nn_power;
+    power : alias of integral_nn_power,
 
 `#########################################################################`
 
-    ::MD::Integral ::= interface
+    Integral : interface
         composes {Bicessable and_provides_its_default,
             Numerical and_provides_its_default}
         requires_implements {in_order,asset,nth_pred,nth_succ
@@ -400,112 +400,112 @@ package
             ,plus,minus,times,multiple_of
             ,fractional_divided_by,integral_divided_by
             ,integral_power,integral_nn_power
-            ,to_Integer,factorial};
+            ,to_Integer,factorial},
 
-    ::MD::Integral_NN ::= selection of Integral
-        where (args.\0 >= zero::(args.\0));
+    Integral_NN : selection of Integral
+        where (args.\0 >= zero::(args.\0)),
 
-    ::MD::Integral_P ::= selection of Integral_NN
-        where (args.\0 > zero::(args.\0)) default (succ::(Integral::()));
+    Integral_P : selection of Integral_NN
+        where (args.\0 > zero::(args.\0)) default (succ::(Integral::())),
 
-    ::MD::"--" ::= function returns {Integral, Neg_Inf} matches (Integral)
-        : (pred args.\0);
+    "--" : function returns {Integral, Neg_Inf} matches (Integral)
+        : (pred args.\0),
 
-    ::MD::"++" ::= function returns {Integral, Pos_Inf} matches (Integral)
-        : (succ args.\0);
+    "++" : function returns {Integral, Pos_Inf} matches (Integral)
+        : (succ args.\0),
 
-    ::MD::to_Integer::"" ::= function virtual returns Integer matches (Integral);
+    to_Integer::"" : function virtual returns Integer matches (Integral),
 
-    ::MD::factorial::"" ::= function virtual returns Integral_P matches (Integral_NN);
+    factorial::"" : function virtual returns Integral_P matches (Integral_NN),
 
-    ::MD::gcd ::= function returns Integral_P matches (Integral_NN, Integral_NN)
+    gcd : function returns Integral_P matches (Integral_NN, Integral_NN)
         is {commutative,associative,idempotent}
         : ((if args.\1->is_zero then args.\0 else 0::(args.\1, mod::(args.\0, args.\1, To_Zero::())))
-            ::?= 'Calculate using the Euclidean algorithm.');
+            ::?= 'Calculate using the Euclidean algorithm.'),
 
-    ::MD::greatest_common_divisor ::= alias of gcd;
+    greatest_common_divisor : alias of gcd,
 
-    ::MD::lcm ::= function returns Integral_NN matches (Integral_NN, Integral_NN)
+    lcm : function returns Integral_NN matches (Integral_NN, Integral_NN)
         is {commutative,associative,idempotent}
         : (if args.\0->is_zero or args.\1->is_zero then args.\0->zero
-            else div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::()));
+            else div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::())),
 
-    ::MD::least_common_multiple ::= alias of lcm;
+    least_common_multiple : alias of lcm,
 
-    ::MD::coprime ::= function returns Boolean matches (Integral, Integral)
-        : ((abs::(args.\0) gcd abs::(args.\1)) = (args.\0->zero->succ));
+    coprime : function returns Boolean matches (Integral, Integral)
+        : ((abs::(args.\0) gcd abs::(args.\1)) = (args.\0->zero->succ)),
 
 `#########################################################################`
 
-    ::MD::Integer ::= selection where (args -->^ FDN__is_a_Integer)
+    Integer : selection where (args -->^ FDN__is_a_Integer)
         default (0)
-        composes Integral and_provides_its_default;
+        composes Integral and_provides_its_default,
 
-    ::MD::Integer_NN ::= selection of Integer where (args.\0 >= 0);
+    Integer_NN : selection of Integer where (args.\0 >= 0),
 
-    ::MD::Integer_P ::= selection of Integer_NN where (args.\0 > 0) default (1);
+    Integer_P : selection of Integer_NN where (args.\0 > 0) default (1),
 
-    ::MD::in_order::Integer ::= function returns Boolean matches (Integer, Integer)
+    in_order::Integer : function returns Boolean matches (Integer, Integer)
         implements 1::""
-        : (args -->^ FDN__Integer_in_order);
+        : (args -->^ FDN__Integer_in_order),
 
-    ::MD::asset::Integer ::= function returns Integer matches (Integer)
+    asset::Integer : function returns Integer matches (Integer)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::nth_pred::Integer ::= function returns Integer matches (Integer, Integer_NN)
+    nth_pred::Integer : function returns Integer matches (Integer, Integer_NN)
         implements 1::Integral
-        : (args.\0 - (args.\1));
+        : (args.\0 - (args.\1)),
 
-    ::MD::nth_succ::Integer ::= function returns Integer matches (Integer, Integer_NN)
+    nth_succ::Integer : function returns Integer matches (Integer, Integer_NN)
         implements 1::Integral
         repeater plus::Integer
-        : (args.\0 + (args.\1));
+        : (args.\0 + (args.\1)),
 
-    ::MD::to_Boolean::Integer ::= function returns Boolean matches (Integer)
+    to_Boolean::Integer : function returns Boolean matches (Integer)
         implements 1::""
-        : (args.\0 != 0);
+        : (args.\0 != 0),
 
-    ::MD::zero::Integer ::= function returns Integer matches (Integer)
+    zero::Integer : function returns Integer matches (Integer)
         implements 1::""
-        : (0);
+        : (0),
 
-    ::MD::opposite::Integer ::= function returns Integer matches (Integer)
+    opposite::Integer : function returns Integer matches (Integer)
         implements 1::""
-        : (args -->^ FDN__Integer_opposite);
+        : (args -->^ FDN__Integer_opposite),
 
-    ::MD::reciprocal::Integer ::= function
+    reciprocal::Integer : function
         returns {Fraction, Excuse::Div_By_Zero} matches (Integer)
         implements 1::""
-        : (1 / (args.\0));
+        : (1 / (args.\0)),
 
-    ::MD::modulus::Integer ::= function returns Integer_NN matches (Integer)
+    modulus::Integer : function returns Integer_NN matches (Integer)
         implements 1::""
-        : (args -->^ FDN__Integer_modulus);
+        : (args -->^ FDN__Integer_modulus),
 
-    ::MD::plus::Integer ::= function returns Integer matches (Integer, Integer)
+    plus::Integer : function returns Integer matches (Integer, Integer)
         implements 1::""
         is {associative,commutative} identity (0)
         repeater times::Integer
-        : (args -->^ FDN__Integer_plus);
+        : (args -->^ FDN__Integer_plus),
 
-    ::MD::minus::Integer ::= function returns Integer matches (Integer, Integer)
+    minus::Integer : function returns Integer matches (Integer, Integer)
         implements 1::""
-        : (args -->^ FDN__Integer_minus);
+        : (args -->^ FDN__Integer_minus),
 
-    ::MD::times::Integer ::= function returns Integer matches (Integer, Integer)
+    times::Integer : function returns Integer matches (Integer, Integer)
         implements 1::""
         is {associative,commutative} identity (1)
         repeater integral_nn_power::Integer
-        : (args -->^ FDN__Integer_times);
+        : (args -->^ FDN__Integer_times),
 
-    ::MD::multiple_of::Integer ::= function
+    multiple_of::Integer : function
         returns {Boolean, Excuse::Div_By_Zero} matches (Integer, Integer)
         implements 1::""
         : (if args.\1 = 0 then Excuse::Div_By_Zero()
-            else args -->^ FDN__Integer_multiple_of);
+            else args -->^ FDN__Integer_multiple_of),
 
-    ::MD::fractional_divided_by::Integer ::= function
+    fractional_divided_by::Integer : function
         returns {Fraction, Excuse::Div_By_Zero} matches (Integer, Integer)
         implements 1::""
     : (
@@ -520,9 +520,9 @@ package
         ));
 
         gcd ::= gcd::(abs::(n), abs::(d));
-    );
+    ),
 
-    ::MD::integral_divided_by::Integer ::= function
+    integral_divided_by::Integer : function
         returns {Integer, Excuse::Div_By_Zero}
         matches (Integer, Integer, Round_Meth)
         implements 1::""
@@ -595,31 +595,31 @@ package
                   (rtz_quotient_is_even :? rti_quotient :! rtz_quotient),
             } :!! fail  `oops, an unhandled case`
         );
-    );
+    ),
 
-    ::MD::integral_power::Integer ::= function
+    integral_power::Integer : function
         returns {Fraction, Excuse::Zero_To_The_Zero} matches (Integer, Integer)
         implements 1::""
         : (if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-            else args.\0 / 1 ** (args.\1));
+            else args.\0 / 1 ** (args.\1)),
 
-    ::MD::integral_nn_power::Integer ::= function
+    integral_nn_power::Integer : function
         returns {Integer, Excuse::Zero_To_The_Zero} matches (Integer, Integer_NN)
         implements 1::""
         : (if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-            else args -->^ FDN__Integer_nn_power);
+            else args -->^ FDN__Integer_nn_power),
 
-    ::MD::to_Integer::Integer ::= function returns Integer matches (Integer)
+    to_Integer::Integer : function returns Integer matches (Integer)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::factorial::Integer ::= function returns Integer_P matches (Integer_NN)
+    factorial::Integer : function returns Integer_P matches (Integer_NN)
         implements 1::""
-        : (args -->^ FDN__Integer_factorial);
+        : (args -->^ FDN__Integer_factorial),
 
 `#########################################################################`
 
-    ::MD::Fractional ::= interface
+    Fractional : interface
         composes {Orderable and_provides_its_default,
             Numerical and_provides_its_default}
         requires_implements {in_order
@@ -628,20 +628,20 @@ package
             ,plus,minus,times,multiple_of
             ,fractional_divided_by,integral_divided_by
             ,integral_power,integral_nn_power
-            ,to_Fraction,numerator,denominator};
+            ,to_Fraction,numerator,denominator},
 
-    ::MD::Fractional_NN ::= selection of Fractional
-        where (args.\0 >= zero::(args.\0));
+    Fractional_NN : selection of Fractional
+        where (args.\0 >= zero::(args.\0)),
 
-    ::MD::to_Fraction::"" ::= function virtual returns Fraction matches (Fractional);
+    to_Fraction::"" : function virtual returns Fraction matches (Fractional),
 
-    ::MD::numerator::"" ::= function virtual returns Integral matches (Fractional);
+    numerator::"" : function virtual returns Integral matches (Fractional),
 
-    ::MD::denominator::"" ::= function virtual returns Integral_P matches (Fractional);
+    denominator::"" : function virtual returns Integral_P matches (Fractional),
 
 `#########################################################################`
 
-    ::MD::Fraction ::= selection of Capsule
+    Fraction : selection of Capsule
         where (has_wrapped::( args.\0, \Fraction, \(
             if
                 args.\0 is_a (
@@ -654,11 +654,11 @@ package
                 False
         ) ))
         default (0.0)
-        composes Fractional and_provides_its_default;
+        composes Fractional and_provides_its_default,
 
-    ::MD::Fraction_NN ::= selection of Fraction where (args.\0 >= 0.0);
+    Fraction_NN : selection of Fraction where (args.\0 >= 0.0),
 
-    ::MD::in_order::Fraction ::= function returns Boolean matches (Fraction, Fraction)
+    in_order::Fraction : function returns Boolean matches (Fraction, Fraction)
         implements 1::""
     : (
         <-- (args.\0->denominator) = (args.\1->denominator)
@@ -671,31 +671,31 @@ package
                 (args.\1->numerator) * div::(common_d, args.\1->denominator, To_Zero::()),
             );
           )
-    );
+    ),
 
-    ::MD::to_Boolean::Fraction ::= function returns Boolean matches (Fraction)
+    to_Boolean::Fraction : function returns Boolean matches (Fraction)
         implements 1::""
-        : (args.\0 != 0.0);
+        : (args.\0 != 0.0),
 
-    ::MD::zero::Fraction ::= function returns Fraction matches (Fraction)
+    zero::Fraction : function returns Fraction matches (Fraction)
         implements 1::""
-        : (0.0);
+        : (0.0),
 
-    ::MD::opposite::Fraction ::= function returns Fraction matches (Fraction)
+    opposite::Fraction : function returns Fraction matches (Fraction)
         implements 1::""
-        : (-(args.\0->numerator) / (args.\0->denominator));
+        : (-(args.\0->numerator) / (args.\0->denominator)),
 
-    ::MD::reciprocal::Fraction ::= function
+    reciprocal::Fraction : function
         returns {Fraction, Excuse::Div_By_Zero} matches (Fraction)
         implements 1::""
         : (if args.\0 = 0.0 then Excuse::Div_By_Zero()
-            else (args.\0->denominator) / (args.\0->numerator));
+            else (args.\0->denominator) / (args.\0->numerator)),
 
-    ::MD::modulus::Fraction ::= function returns Fraction_NN matches (Fraction)
+    modulus::Fraction : function returns Fraction_NN matches (Fraction)
         implements 1::""
-        : (abs::(args.\0->numerator) / (args.\0->denominator));
+        : (abs::(args.\0->numerator) / (args.\0->denominator)),
 
-    ::MD::plus::Fraction ::= function returns Fraction matches (Fraction, Fraction)
+    plus::Fraction : function returns Fraction matches (Fraction, Fraction)
         implements 1::""
         is {associative,commutative} identity (0.0)
         repeater times::Fraction_Integer
@@ -709,37 +709,37 @@ package
                 + ((args.\1->numerator) * div::(common_d, args.\1->denominator, To_Zero::()))
                 / common_d;
           )
-    );
+    ),
 
-    ::MD::minus::Fraction ::= function returns Fraction matches (Fraction, Fraction)
+    minus::Fraction : function returns Fraction matches (Fraction, Fraction)
         implements 1::""
-        : (args.\0 + -(args.\1));
+        : (args.\0 + -(args.\1)),
 
-    ::MD::times::Fraction ::= function returns Fraction matches (Fraction, Fraction)
+    times::Fraction : function returns Fraction matches (Fraction, Fraction)
         implements 1::""
         is {associative,commutative} identity (1.0)
         repeater integral_nn_power::Fraction
         : (((args.\0->numerator) * (args.\1->numerator))
-            / ((args.\0->denominator) * (args.\1->denominator)));
+            / ((args.\0->denominator) * (args.\1->denominator))),
 
-    ::MD::times::Fraction_Integer ::= function
+    times::Fraction_Integer : function
         returns Fraction matches (Fraction, Integer)
         implements 1::""
-        : (((args.\0->numerator) * (args.\1)) / (args.\0->denominator));
+        : (((args.\0->numerator) * (args.\1)) / (args.\0->denominator)),
 
-    ::MD::multiple_of::Fraction ::= function
+    multiple_of::Fraction : function
         returns {Boolean, Excuse::Div_By_Zero} matches (Fraction, Fraction)
         implements 1::""
         : (if args.\1 = 0.0 then Excuse::Div_By_Zero()
-            else (args.\0 mod args.\1) = 0.0);
+            else (args.\0 mod args.\1) = 0.0),
 
-    ::MD::fractional_divided_by::Fraction ::= function
+    fractional_divided_by::Fraction : function
         returns {Fraction, Excuse::Div_By_Zero} matches (Fraction, Fraction)
         implements 1::""
         : (if args.\1 = 0.0 then Excuse::Div_By_Zero()
-            else args.\0 * reciprocal::(args.\1));
+            else args.\0 * reciprocal::(args.\1)),
 
-    ::MD::integral_divided_by::Fraction ::= function
+    integral_divided_by::Fraction : function
         returns {Fraction, Excuse::Div_By_Zero}
         matches (Fraction, Fraction, Round_Meth)
         implements 1::""
@@ -749,333 +749,333 @@ package
         n1 ::= ((args.\1->numerator) * div::(d, args.\1->denominator, To_Zero::()));
         returns if args.\1 = 0.0 then Excuse::Div_By_Zero()
             else div::(n0 * d, n1 * d, args.\2) / 1;
-    );
+    ),
 
-    ::MD::integral_power::Fraction ::= function
+    integral_power::Fraction : function
         returns {Fraction, Excuse::Zero_To_The_Zero} matches (Fraction, Integer)
         implements 1::""
         : (\integral_nn_power::()
-            <-- (args.\1 >= 0 :? args :! (reciprocal::(args.\0), -(args.\1))));
+            <-- (args.\1 >= 0 :? args :! (reciprocal::(args.\0), -(args.\1)))),
 
-    ::MD::integral_nn_power::Fraction ::= function
+    integral_nn_power::Fraction : function
         returns {Fraction, Excuse::Zero_To_The_Zero} matches (Fraction, Integer_NN)
         implements 1::""
         : (if args.\0 = 0.0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-            else ((args.\0->numerator) ** (args.\1)) / ((args.\0->denominator) ** (args.\1)));
+            else ((args.\0->numerator) ** (args.\1)) / ((args.\0->denominator) ** (args.\1))),
 
-    ::MD::to_Fraction::Fraction ::= function returns Fraction matches (Fraction)
+    to_Fraction::Fraction : function returns Fraction matches (Fraction)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::numerator::Fraction ::= function returns Integer matches (Fraction)
-        : (unwrap::(args.\0).\numerator);
+    numerator::Fraction : function returns Integer matches (Fraction)
+        : (unwrap::(args.\0).\numerator),
 
-    ::MD::denominator::Fraction ::= function returns Integer_P matches (Fraction)
-        : (unwrap::(args.\0).\denominator);
+    denominator::Fraction : function returns Integer_P matches (Fraction)
+        : (unwrap::(args.\0).\denominator),
 
 `#########################################################################`
 
-    ::MD::Emptyable ::= interface
+    Emptyable : interface
         composes Boolable
-        requires_implements {to_Boolean,empty};
+        requires_implements {to_Boolean,empty},
 
-    ::MD::Excuse::No_Empty_Value ::= constant composes Excuse;
+    Excuse::No_Empty_Value : constant composes Excuse,
 
-    ::MD::to_Boolean::Emptyable ::= function virtual returns Boolean matches (Emptyable)
-        implements 1::"";
+    to_Boolean::Emptyable : function virtual returns Boolean matches (Emptyable)
+        implements 1::"",
 
-    ::MD::has_any_members ::= alias of to_Boolean::Emptyable;
+    has_any_members : alias of to_Boolean::Emptyable,
 
-    ::MD::is_empty ::= function negates to_Boolean::Emptyable;
+    is_empty : function negates to_Boolean::Emptyable,
 
-    ::MD::Unicode_Aliases::"∅?" ::= alias of is_empty;
+    Unicode_Aliases::"∅?" : alias of is_empty,
 
-    ::MD::empty::"" ::= function virtual
-        returns {Emptyable, Excuse::No_Empty_Value} matches (Emptyable);
+    empty::"" : function virtual
+        returns {Emptyable, Excuse::No_Empty_Value} matches (Emptyable),
 
-    ::MD::Unicode_Aliases::"∅" ::= alias of empty;
+    Unicode_Aliases::"∅" : alias of empty,
 
 `#########################################################################`
 
-    ::MD::Stringy ::= interface
+    Stringy : interface
         composes {Orderable, Emptyable and_provides_its_default}
         requires_implements {in_order,to_Boolean,empty
             ,substring_of,overlaps_string,disjoint_string
-            ,catenate,replicate};
+            ,catenate,replicate},
 
-    ::MD::substring_of::"" ::= function virtual
-        returns Boolean matches (Stringy, Stringy);
+    substring_of::"" : function virtual
+        returns Boolean matches (Stringy, Stringy),
 
-    ::MD::superstring_of ::= function commutes substring_of;
+    superstring_of : function commutes substring_of,
 
-    ::MD::proper_substring_or_superstring ::= function
+    proper_substring_or_superstring : function
         returns Boolean matches (String, String)
         is commutative
-        : (args.\0 != (args.\1) and (args.\0 substring_or_superstring args.\1));
+        : (args.\0 != (args.\1) and (args.\0 substring_or_superstring args.\1)),
 
-    ::MD::substring_or_superstring ::= function
+    substring_or_superstring : function
         returns Boolean matches (String, String)
         is commutative
-        : ((args.\0 substring_of args.\1) or (args.\0 superstring_of args.\1));
+        : ((args.\0 substring_of args.\1) or (args.\0 superstring_of args.\1)),
 
-    ::MD::overlaps_string::"" ::= function virtual
+    overlaps_string::"" : function virtual
         returns Boolean matches (String, String)
-        is commutative;
+        is commutative,
 
-    ::MD::disjoint_string::"" ::= function virtual
+    disjoint_string::"" : function virtual
         returns Boolean matches (String, String)
-        is commutative;
+        is commutative,
 
-    ::MD::catenate::"" ::= function virtual
+    catenate::"" : function virtual
         returns Stringy matches (Stringy, Stringy)
         is associative
-        repeater replicate;
+        repeater replicate,
 
-    ::MD::"~" ::= alias of catenate;
+    "~" : alias of catenate,
 
-    ::MD::replicate::"" ::= function virtual
-        returns Stringy matches (Stringy, Integer_NN);
+    replicate::"" : function virtual
+        returns Stringy matches (Stringy, Integer_NN),
 
-    ::MD::"~#" ::= alias of replicate;
+    "~#" : alias of replicate,
 
 `#########################################################################`
 
-    ::MD::Bits ::= ::= selection of Capsule
+    Bits::"" : selection of Capsule
         where (has_wrapped::( args.\0, \Bits, \String::Bits() ))
         default (\~?'')
-        composes {Stringy and_provides_its_default};
+        composes {Stringy and_provides_its_default},
 
-    ::MD::String::Bits ::= selection of String
-        where (args.\0 all \in::( 1: 0..1 ));
+    String::Bits : selection of String
+        where (args.\0 all \in::( 1: 0..1 )),
 
-    ::MD::in_order::Bits ::= function returns Boolean matches (Bits, Bits)
+    in_order::Bits : function returns Boolean matches (Bits, Bits)
         implements 1::""
-        : ((args.\0->Bits_to_String_Bits) in_order (args.\1->Bits_to_String_Bits));
+        : ((args.\0->Bits_to_String_Bits) in_order (args.\1->Bits_to_String_Bits)),
 
-    ::MD::to_Boolean::Bits ::= function returns Boolean matches (Bits)
+    to_Boolean::Bits : function returns Boolean matches (Bits)
         implements 1::""
-        : (args.\0 != \~?'');
+        : (args.\0 != \~?''),
 
-    ::MD::empty::Bits ::= function returns Bits matches (Bits)
+    empty::Bits : function returns Bits matches (Bits)
         implements 1::""
-        : (\~?'');
+        : (\~?''),
 
-    ::MD::substring_of::Bits ::= function returns Boolean matches (Bits, Bits)
+    substring_of::Bits : function returns Boolean matches (Bits, Bits)
         implements 1::""
-        : ((args.\0->Bits_to_String_Bits) substring_of (args.\1->Bits_to_String_Bits));
+        : ((args.\0->Bits_to_String_Bits) substring_of (args.\1->Bits_to_String_Bits)),
 
-    ::MD::overlaps_string::Bits ::= function returns Boolean matches (Bits, Bits)
-        implements 1::""
-        is commutative
-        : ((args.\0->Bits_to_String_Bits)
-            overlaps_string (args.\1->Bits_to_String_Bits));
-
-    ::MD::disjoint_string::Bits ::= function returns Boolean matches (Bits, Bits)
+    overlaps_string::Bits : function returns Boolean matches (Bits, Bits)
         implements 1::""
         is commutative
         : ((args.\0->Bits_to_String_Bits)
-            disjoint_string (args.\1->Bits_to_String_Bits));
+            overlaps_string (args.\1->Bits_to_String_Bits)),
 
-    ::MD::catenate::Bits ::= function returns Bits matches (Bits, Bits)
+    disjoint_string::Bits : function returns Boolean matches (Bits, Bits)
+        implements 1::""
+        is commutative
+        : ((args.\0->Bits_to_String_Bits)
+            disjoint_string (args.\1->Bits_to_String_Bits)),
+
+    catenate::Bits : function returns Bits matches (Bits, Bits)
         implements 1::""
         is associative identity (\~?'')
         repeater replicate::Bits
         : (Bits_from_String_Bits::((args.\0->Bits_to_String_Bits)
-            ~ (args.\1->Bits_to_String_Bits)));
+            ~ (args.\1->Bits_to_String_Bits))),
 
-    ::MD::replicate::Bits ::= function returns Bits matches (Bits, Integer_NN)
+    replicate::Bits : function returns Bits matches (Bits, Integer_NN)
         implements 1::""
-        : (Bits_from_String_Bits::((args.\0->Bits_to_String_Bits) ~# (args.\1)));
+        : (Bits_from_String_Bits::((args.\0->Bits_to_String_Bits) ~# (args.\1))),
 
-    ::MD::Bits_from_String_Bits ::= function returns Bits matches (String::Bits)
-        : (\Bits wrap args.\0);
+    Bits_from_String_Bits : function returns Bits matches (String::Bits)
+        : (\Bits wrap args.\0),
 
-    ::MD::Bits_to_String_Bits ::= function returns String::Bits matches (Bits)
-        : (args.\0->unwrap);
+    Bits_to_String_Bits : function returns String::Bits matches (Bits)
+        : (args.\0->unwrap),
 
 `#########################################################################`
 
-    ::MD::Blob::"" ::= selection of Capsule
+    Blob::"" : selection of Capsule
         where (has_wrapped::( args.\0, \Blob, \String::Octets() ))
         default (\~+'')
-        composes Stringy;
+        composes Stringy,
 
-    ::MD::String::Octets ::= selection of String
-        where (args.\0 all \in::( 1: 0..255 ));
+    String::Octets : selection of String
+        where (args.\0 all \in::( 1: 0..255 )),
 
-    ::MD::in_order::Blob ::= function returns Boolean matches (Blob, Blob)
+    in_order::Blob : function returns Boolean matches (Blob, Blob)
         implements 1::""
-        : ((args.\0->Blob_to_Octets) in_order (args.\1->Blob_to_Octets));
+        : ((args.\0->Blob_to_Octets) in_order (args.\1->Blob_to_Octets)),
 
-    ::MD::to_Boolean::Blob ::= function returns Boolean matches (Blob)
+    to_Boolean::Blob : function returns Boolean matches (Blob)
         implements 1::""
-        : (args.\0 != \~+'');
+        : (args.\0 != \~+''),
 
-    ::MD::empty::Blob ::= function returns Blob matches (Blob)
+    empty::Blob : function returns Blob matches (Blob)
         implements 1::""
-        : (\~+'');
+        : (\~+''),
 
-    ::MD::substring_of::Blob ::= function returns Boolean matches (Blob, Blob)
+    substring_of::Blob : function returns Boolean matches (Blob, Blob)
         implements 1::""
-        : ((args.\0->Blob_to_Octets) substring_of (args.\1->Blob_to_Octets));
+        : ((args.\0->Blob_to_Octets) substring_of (args.\1->Blob_to_Octets)),
 
-    ::MD::overlaps_string::Blob ::= function returns Boolean matches (Blob, Blob)
-        implements 1::""
-        is commutative
-        : ((args.\0->Blob_to_Octets) overlaps_string (args.\1->Blob_to_Octets));
-
-    ::MD::disjoint_string::Blob ::= function returns Boolean matches (Blob, Blob)
+    overlaps_string::Blob : function returns Boolean matches (Blob, Blob)
         implements 1::""
         is commutative
-        : ((args.\0->Blob_to_Octets) disjoint_string (args.\1->Blob_to_Octets));
+        : ((args.\0->Blob_to_Octets) overlaps_string (args.\1->Blob_to_Octets)),
 
-    ::MD::catenate::Blob ::= function returns Blob matches (Blob, Blob)
+    disjoint_string::Blob : function returns Boolean matches (Blob, Blob)
+        implements 1::""
+        is commutative
+        : ((args.\0->Blob_to_Octets) disjoint_string (args.\1->Blob_to_Octets)),
+
+    catenate::Blob : function returns Blob matches (Blob, Blob)
         implements 1::""
         is associative identity (\~+'')
         repeater replicate::Blob
-        : (Blob_from_Octets::((args.\0->Blob_to_Octets) ~ (args.\1->Blob_to_Octets)));
+        : (Blob_from_Octets::((args.\0->Blob_to_Octets) ~ (args.\1->Blob_to_Octets))),
 
-    ::MD::replicate::Blob ::= function returns Blob matches (Blob, Integer_NN)
+    replicate::Blob : function returns Blob matches (Blob, Integer_NN)
         implements 1::""
-        : (Blob_from_Octets::((args.\0->Blob_to_Octets) ~# (args.\1)));
+        : (Blob_from_Octets::((args.\0->Blob_to_Octets) ~# (args.\1))),
 
-    ::MD::Blob_from_Octets ::= function returns Blob matches (String::Octets)
-        : (\Blob wrap args.\0);
+    Blob_from_Octets : function returns Blob matches (String::Octets)
+        : (\Blob wrap args.\0),
 
-    ::MD::Blob_to_Octets ::= function returns String::Octets matches (Blob)
-        : (args.\0->unwrap);
+    Blob_to_Octets : function returns String::Octets matches (Blob)
+        : (args.\0->unwrap),
 
 `#########################################################################`
 
-    ::MD::Textual ::= interface
+    Textual : interface
         composes Stringy
         requires_implements {in_order,to_Boolean,empty
             ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate
-            ,to_Text};
+            ,to_Text},
 
-    ::MD::to_Text::"" ::= function virtual returns Text matches (Textual);
+    to_Text::"" : function virtual returns Text matches (Textual),
 
 `#########################################################################`
 
-    ::MD::Text::"" ::= selection of Capsule
+    Text::"" : selection of Capsule
         where (has_wrapped::( args.\0, \Text, \String::Maximal_Chars() ))
         default ('')
-        composes {Textual and_provides_its_default};
+        composes {Textual and_provides_its_default},
 
-    ::MD::String::Maximal_Chars ::= alias of String;
+    String::Maximal_Chars : alias of String,
 
-    ::MD::Text::Unicode ::= selection of Text
-        where (String::Unicode_Codes::(args.\0->Text_from_Maximal_Chars));
+    Text::Unicode : selection of Text
+        where (String::Unicode_Codes::(args.\0->Text_from_Maximal_Chars)),
 
-    ::MD::String::Unicode_Codes ::= selection of String::Maximal_Chars
-        where (args.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} ));
+    String::Unicode_Codes : selection of String::Maximal_Chars
+        where (args.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )),
 
-    ::MD::Text::ASCII ::= selection of Text::Unicode
-        where (String::ASCII_Chars::(args.\0->Text_from_Unicode_Codes));
+    Text::ASCII : selection of Text::Unicode
+        where (String::ASCII_Chars::(args.\0->Text_from_Unicode_Codes)),
 
-    ::MD::String::ASCII_Chars ::= selection of String::Unicode_Codes
-        where (args.\0 all \in::( 1: 0..127 ));
+    String::ASCII_Chars : selection of String::Unicode_Codes
+        where (args.\0 all \in::( 1: 0..127 )),
 
-    ::MD::in_order::Text ::= function returns Boolean matches (Text, Text)
+    in_order::Text : function returns Boolean matches (Text, Text)
         implements 1::""
-        : ((args.\0->Text_to_Maximal_Chars) in_order (args.\1->Text_to_Maximal_Chars));
+        : ((args.\0->Text_to_Maximal_Chars) in_order (args.\1->Text_to_Maximal_Chars)),
 
-    ::MD::to_Boolean::Text ::= function returns Boolean matches (Text)
+    to_Boolean::Text : function returns Boolean matches (Text)
         implements 1::""
-        : (args.\0 != '');
+        : (args.\0 != ''),
 
-    ::MD::empty::Text ::= function returns Text matches (Text)
+    empty::Text : function returns Text matches (Text)
         implements 1::""
-        : ('');
+        : (''),
 
-    ::MD::substring_of::Text ::= function returns Boolean matches (Text, Text)
+    substring_of::Text : function returns Boolean matches (Text, Text)
         implements 1::""
         : ((args.\0->Text_to_Maximal_Chars)
-            substring_of (args.\1->Text_to_Maximal_Chars));
+            substring_of (args.\1->Text_to_Maximal_Chars)),
 
-    ::MD::overlaps_string::Text ::= function returns Boolean matches (Text, Text)
+    overlaps_string::Text : function returns Boolean matches (Text, Text)
         implements 1::""
         is commutative
         : ((args.\0->Text_to_Maximal_Chars)
-            overlaps_string (args.\1->Text_to_Maximal_Chars));
+            overlaps_string (args.\1->Text_to_Maximal_Chars)),
 
-    ::MD::disjoint_string::Text ::= function returns Boolean matches (Text, Text)
+    disjoint_string::Text : function returns Boolean matches (Text, Text)
         implements 1::""
         is commutative
         : ((args.\0->Text_to_Maximal_Chars)
-            disjoint_string (args.\1->Text_to_Maximal_Chars));
+            disjoint_string (args.\1->Text_to_Maximal_Chars)),
 
-    ::MD::catenate::Text ::= function returns Text matches (Text, Text)
+    catenate::Text : function returns Text matches (Text, Text)
         implements 1::""
         is associative identity ('')
         repeater replicate::Text
         : (Text_from_Maximal_Chars::((args.\0->Text_to_Maximal_Chars)
-            ~ (args.\1->Text_to_Maximal_Chars)));
+            ~ (args.\1->Text_to_Maximal_Chars))),
 
-    ::MD::replicate::Text ::= function returns Text matches (Text, Integer_NN)
+    replicate::Text : function returns Text matches (Text, Integer_NN)
         implements 1::""
-        : (Text_from_Maximal_Chars::((args.\0->Text_to_Maximal_Chars) ~# (args.\1)));
+        : (Text_from_Maximal_Chars::((args.\0->Text_to_Maximal_Chars) ~# (args.\1))),
 
-    ::MD::to_Text::Text ::= function returns Text matches (Text)
+    to_Text::Text : function returns Text matches (Text)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::Text_from_Maximal_Chars ::= function
+    Text_from_Maximal_Chars : function
         returns Text matches (String::Maximal_Chars)
-        : (\Text wrap args.\0);
+        : (\Text wrap args.\0),
 
-    ::MD::Text_to_Maximal_Chars ::= function
+    Text_to_Maximal_Chars : function
         returns String::Maximal_Chars matches (Text)
-        : (args.\0->unwrap);
+        : (args.\0->unwrap),
 
-    ::MD::Text_from_Unicode_Codes ::= function
+    Text_from_Unicode_Codes : function
         returns Text::Unicode matches (String::Unicode_Codes)
-        : (args.\0->Text_from_Maximal_Chars);
+        : (args.\0->Text_from_Maximal_Chars),
 
-    ::MD::Text_to_Unicode_Codes ::= function
+    Text_to_Unicode_Codes : function
         returns String::Unicode_Codes matches (Text::Unicode)
-        : (args.\0->Text_to_Maximal_Chars);
+        : (args.\0->Text_to_Maximal_Chars),
 
-    ::MD::Text_from_ASCII_Chars ::= function
+    Text_from_ASCII_Chars : function
         returns Text::ASCII matches (String::ASCII_Chars)
-        : (args.\0->Text_from_Unicode_Codes);
+        : (args.\0->Text_from_Unicode_Codes),
 
-    ::MD::Text_to_ASCII_Chars ::= function
+    Text_to_ASCII_Chars : function
         returns String::ASCII_Chars matches (Text::ASCII)
-        : (args.\0->Text_to_Unicode_Codes);
+        : (args.\0->Text_to_Unicode_Codes),
 
-    ::MD::Blob_is_UTF_8 ::= function returns Boolean matches (Blob)
-        : (...);
+    Blob_is_UTF_8 : function returns Boolean matches (Blob)
+        : (...),
 
-    ::MD::Text_from_UTF_8_Blob ::= function
+    Text_from_UTF_8_Blob : function
         returns {Text::Unicode, Excuse::Unicode::..., ...} matches (Blob)
-        : (...);
+        : (...),
 
-    ::MD::Text_from_UTF_8_Blob_with_repl_Text ::= function
+    Text_from_UTF_8_Blob_with_repl_Text : function
         returns Text::Unicode matches (Blob, Text::Unicode)
-        : (...);
+        : (...),
 
-    ::MD::Text_from_UTF_8_Blob_with_repl_char ::= function
+    Text_from_UTF_8_Blob_with_repl_char : function
         returns Text::Unicode matches (Blob)
-        : (Text_from_UTF_8_Blob_with_repl_Text::(args.\0,'\\c<0xFFFD>'));
+        : (Text_from_UTF_8_Blob_with_repl_Text::(args.\0,'\\c<0xFFFD>')),
 
-    ::MD::Text_to_UTF_8_Blob ::= function returns Blob matches (Text::Unicode)
-        : (...);
+    Text_to_UTF_8_Blob : function returns Blob matches (Text::Unicode)
+        : (...),
 
-    ::MD::Blob_is_ASCII ::= function returns Boolean matches (Blob)
-        : (String::ASCII_Chars(args.\0->Blob_to_Octets));
+    Blob_is_ASCII : function returns Boolean matches (Blob)
+        : (String::ASCII_Chars(args.\0->Blob_to_Octets)),
 
-    ::MD::Text_from_ASCII_Blob ::= function
+    Text_from_ASCII_Blob : function
         returns {Text::ASCII, Excuse::ASCII::High_Bit_Not_Zero} matches (Blob)
     : (
         octets ::= (args.\0->Blob_to_Octets);
         returns if String::ASCII_Chars(octets)
             then octets->Text_from_ASCII_Chars
             else Excuse::ASCII::High_Bit_Not_Zero();
-    );
+    ),
 
-    ::MD::Text_from_ASCII_Blob_with_repl_Text ::= function
+    Text_from_ASCII_Blob_with_repl_Text : function
         returns Text::ASCII matches (Blob, Text::ASCII)
     : (
         src_octets ::= (args.\0->Blob_to_Octets);
@@ -1095,201 +1095,201 @@ package
                         reduce \catenate::()
         );
         returns result_chars->Text_from_ASCII_Chars;
-    );
+    ),
 
-    ::MD::Text_to_ASCII_Blob ::= function returns Blob matches (Text::ASCII)
-        : (args.\0->Text_to_ASCII_Chars->Blob_from_Octets);
+    Text_to_ASCII_Blob : function returns Blob matches (Text::ASCII)
+        : (args.\0->Text_to_ASCII_Chars->Blob_from_Octets),
 
 `#########################################################################`
 
-    ::MD::Accessible ::= interface
+    Accessible : interface
         requires_implements {has_any_at,has_mapping_at
             ,mapping_at,at,maybe_at
             ,replace_at,shiftless_insert_at,shiftless_remove_at
-            ,replace_or_insert_at,shiftless_maybe_remove_at};
+            ,replace_or_insert_at,shiftless_maybe_remove_at},
 
-    ::MD::has_any_at::"" ::= function virtual
-        returns Boolean matches (Accessible, Any);
+    has_any_at::"" : function virtual
+        returns Boolean matches (Accessible, Any),
 
-    ::MD::".?" ::= alias of has_any_at;
+    ".?" : alias of has_any_at,
 
-    ::MD::not_has_any_at ::= function negates has_any_at;
+    not_has_any_at : function negates has_any_at,
 
-    ::MD::".!?" ::= alias of not_has_any_at;
+    ".!?" : alias of not_has_any_at,
 
-    ::MD::has_mapping_at::"" ::= function virtual
-        returns Boolean matches (Accessible, (Any, Any));
+    has_mapping_at::"" : function virtual
+        returns Boolean matches (Accessible, (Any, Any)),
 
-    ::MD::".:?" ::= alias of has_mapping_at;
+    ".:?" : alias of has_mapping_at,
 
-    ::MD::mapping_at::"" ::= function virtual
+    mapping_at::"" : function virtual
         returns (Any, Any) matches (Accessible, Any)
-        accepts (args.\0 .? (args.\1));
+        accepts (args.\0 .? (args.\1)),
 
-    ::MD::".:" ::= alias of mapping_at;
+    ".:" : alias of mapping_at,
 
-    ::MD::at::"" ::= function virtual returns Any matches (Accessible, Any)
-        accepts (args.\0 .? (args.\1));
+    at::"" : function virtual returns Any matches (Accessible, Any)
+        accepts (args.\0 .? (args.\1)),
 
-    ::MD::"." ::= alias of at;
+    "." : alias of at,
 
-    ::MD::maybe_at::"" ::= function virtual returns Any matches (Accessible, Any);
+    maybe_at::"" : function virtual returns Any matches (Accessible, Any),
 
-    ::MD::".!" ::= alias of maybe_at;
+    ".!" : alias of maybe_at,
 
-    ::MD::replace_at::"" ::= function virtual
+    replace_at::"" : function virtual
         returns Accessible matches (Accessible, (Any, Any))
-        accepts (args.\0 .? (args.\1.\0));
+        accepts (args.\0 .? (args.\1.\0)),
 
-    ::MD::".:=" ::= alias of replace_at;
+    ".:=" : alias of replace_at,
 
-    ::MD::shiftless_insert_at::"" ::= function virtual
+    shiftless_insert_at::"" : function virtual
         returns Accessible matches (Accessible, (Any, Any))
-        accepts (not args.\0 .? (args.\1.\0));
+        accepts (not args.\0 .? (args.\1.\0)),
 
-    ::MD::".+" ::= alias of shiftless_insert_at;
+    ".+" : alias of shiftless_insert_at,
 
-    ::MD::shiftless_remove_at::"" ::= function virtual
+    shiftless_remove_at::"" : function virtual
         returns Accessible matches (Accessible, Any)
-        accepts (args.\0 .? (args.\1));
+        accepts (args.\0 .? (args.\1)),
 
-    ::MD::".-" ::= alias of shiftless_remove_at;
+    ".-" : alias of shiftless_remove_at,
 
-    ::MD::replace_or_insert_at::"" ::= function virtual
-        returns Accessible matches (Accessible, (Any, Any));
+    replace_or_insert_at::"" : function virtual
+        returns Accessible matches (Accessible, (Any, Any)),
 
-    ::MD::".=+" ::= alias of replace_or_insert_at;
+    ".=+" : alias of replace_or_insert_at,
 
-    ::MD::shiftless_maybe_remove_at::"" ::= function virtual
-        returns Accessible matches (Accessible, Any);
+    shiftless_maybe_remove_at::"" : function virtual
+        returns Accessible matches (Accessible, Any),
 
-    ::MD::".?-" ::= alias of shiftless_maybe_remove_at;
+    ".?-" : alias of shiftless_maybe_remove_at,
 
 `#########################################################################`
 
-    ::MD::Homogeneous ::= interface
+    Homogeneous : interface
         composes Emptyable
         requires_implements {to_Boolean,empty
             ,singular,only_member
             ,has_n,multiplicity
             ,all_unique,unique
             ,subset_of,same_members,overlaps_members,disjoint_members
-            ,any};
+            ,any},
 
-    ::MD::singular::"" ::= function virtual returns Boolean matches (Homogeneous);
+    singular::"" : function virtual returns Boolean matches (Homogeneous),
 
-    ::MD::only_member::"" ::= function virtual returns Any matches (Homogeneous)
-        accepts (singular args.\0);
+    only_member::"" : function virtual returns Any matches (Homogeneous)
+        accepts (singular args.\0),
 
-    ::MD::in ::= function commutes has;
+    in : function commutes has,
 
-    ::MD::Unicode_Aliases::"∈" ::= alias of in;
+    Unicode_Aliases::"∈" : alias of in,
 
-    ::MD::not_in ::= function commutes not_has;
+    not_in : function commutes not_has,
 
-    ::MD::Unicode_Aliases::"∉" ::= alias of not_in;
+    Unicode_Aliases::"∉" : alias of not_in,
 
-    ::MD::has ::= function returns Boolean matches (Homogeneous, Any)
-        : (has_n::(args.\0, args.\1, 1));
+    has : function returns Boolean matches (Homogeneous, Any)
+        : (has_n::(args.\0, args.\1, 1)),
 
-    ::MD::Unicode_Aliases::"∋" ::= alias of has;
+    Unicode_Aliases::"∋" : alias of has,
 
-    ::MD::not_has ::= function negates has;
+    not_has : function negates has,
 
-    ::MD::Unicode_Aliases::"∌" ::= alias of not_has;
+    Unicode_Aliases::"∌" : alias of not_has,
 
-    ::MD::has_n::"" ::= function virtual
-        returns Boolean matches (Homogeneous, Any, Integer_NN);
+    has_n::"" : function virtual
+        returns Boolean matches (Homogeneous, Any, Integer_NN),
 
-    ::MD::multiplicity::"" ::= function virtual
-        returns Integer_NN matches (Homogeneous, Any);
+    multiplicity::"" : function virtual
+        returns Integer_NN matches (Homogeneous, Any),
 
-    ::MD::all_unique::"" ::= function virtual returns Boolean matches (Homogeneous);
+    all_unique::"" : function virtual returns Boolean matches (Homogeneous),
 
-    ::MD::unique::"" ::= function virtual returns Homogeneous matches (Homogeneous);
+    unique::"" : function virtual returns Homogeneous matches (Homogeneous),
 
-    ::MD::proper_subset_of ::= function
+    proper_subset_of : function
         returns Boolean matches (Homogeneous, Homogeneous)
-        : (args.\0 != (args.\1) and (args.\0 subset_of args.\1));
+        : (args.\0 != (args.\1) and (args.\0 subset_of args.\1)),
 
-    ::MD::Unicode_Aliases::"⊂" ::= alias of proper_subset_of;
+    Unicode_Aliases::"⊂" : alias of proper_subset_of,
 
-    ::MD::not_proper_subset_of ::= function negates proper_subset_of;
+    not_proper_subset_of : function negates proper_subset_of,
 
-    ::MD::Unicode_Aliases::"⊄" ::= alias of not_proper_subset_of;
+    Unicode_Aliases::"⊄" : alias of not_proper_subset_of,
 
-    ::MD::proper_superset_of ::= function commutes proper_subset_of;
+    proper_superset_of : function commutes proper_subset_of,
 
-    ::MD::Unicode_Aliases::"⊃" ::= alias of proper_superset_of;
+    Unicode_Aliases::"⊃" : alias of proper_superset_of,
 
-    ::MD::not_proper_superset_of ::= function negates proper_superset_of;
+    not_proper_superset_of : function negates proper_superset_of,
 
-    ::MD::Unicode_Aliases::"⊅" ::= alias of not_proper_superset_of;
+    Unicode_Aliases::"⊅" : alias of not_proper_superset_of,
 
-    ::MD::subset_of::"" ::= function virtual
-        returns Boolean matches (Homogeneous, Homogeneous);
+    subset_of::"" : function virtual
+        returns Boolean matches (Homogeneous, Homogeneous),
 
-    ::MD::Unicode_Aliases::"⊆" ::= alias of subset_of;
+    Unicode_Aliases::"⊆" : alias of subset_of,
 
-    ::MD::not_subset_of ::= function negates subset_of;
+    not_subset_of : function negates subset_of,
 
-    ::MD::Unicode_Aliases::"⊈" ::= alias of not_subset_of;
+    Unicode_Aliases::"⊈" : alias of not_subset_of,
 
-    ::MD::superset_of ::= function commutes subset_of;
+    superset_of : function commutes subset_of,
 
-    ::MD::Unicode_Aliases::"⊇" ::= alias of superset_of;
+    Unicode_Aliases::"⊇" : alias of superset_of,
 
-    ::MD::not_superset_of ::= function negates superset_of;
+    not_superset_of : function negates superset_of,
 
-    ::MD::Unicode_Aliases::"⊉" ::= alias of not_superset_of;
+    Unicode_Aliases::"⊉" : alias of not_superset_of,
 
-    ::MD::same_members::"" ::= function virtual
+    same_members::"" : function virtual
         returns Boolean matches (Homogeneous, Homogeneous)
-        is commutative;
+        is commutative,
 
-    ::MD::proper_subset_or_superset ::= function
-        returns Boolean matches (Homogeneous, Homogeneous)
-        is commutative
-        : (not (args.\0 same_members args.\1) and (args.\0 subset_or_superset args.\1));
-
-    ::MD::subset_or_superset ::= function
+    proper_subset_or_superset : function
         returns Boolean matches (Homogeneous, Homogeneous)
         is commutative
-        : ((args.\0 subset_of args.\1) or (args.\0 superset_of args.\1));
+        : (not (args.\0 same_members args.\1) and (args.\0 subset_or_superset args.\1)),
 
-    ::MD::overlaps_members::"" ::= function virtual
+    subset_or_superset : function
         returns Boolean matches (Homogeneous, Homogeneous)
-        is commutative;
+        is commutative
+        : ((args.\0 subset_of args.\1) or (args.\0 superset_of args.\1)),
 
-    ::MD::disjoint_members::"" ::= function virtual
+    overlaps_members::"" : function virtual
         returns Boolean matches (Homogeneous, Homogeneous)
-        is commutative;
+        is commutative,
 
-    ::MD::any::"" ::= function virtual
-        returns Boolean matches (Homogeneous, Signature);
+    disjoint_members::"" : function virtual
+        returns Boolean matches (Homogeneous, Homogeneous)
+        is commutative,
 
-    ::MD::there_exists ::= alias of any;
+    any::"" : function virtual
+        returns Boolean matches (Homogeneous, Signature),
 
-    ::MD::Unicode_Aliases::"∃" ::= alias of any;
+    there_exists : alias of any,
 
-    ::MD::none ::= function negates any;
+    Unicode_Aliases::"∃" : alias of any,
 
-    ::MD::there_does_not_exist ::= alias of none;
+    none : function negates any,
 
-    ::MD::Unicode_Aliases::"∄" ::= alias of none;
+    there_does_not_exist : alias of none,
 
-    ::MD::all ::= function returns Boolean matches (Homogeneous, Signature)
-        : (args.\0 none \not_is_a::( 1: args.\1 ));
+    Unicode_Aliases::"∄" : alias of none,
 
-    ::MD::for_all ::= alias of all;
+    all : function returns Boolean matches (Homogeneous, Signature)
+        : (args.\0 none \not_is_a::( 1: args.\1 )),
 
-    ::MD::Unicode_Aliases::"∀" ::= alias of all;
+    for_all : alias of all,
 
-    ::MD::not_all ::= function negates all;
+    Unicode_Aliases::"∀" : alias of all,
+
+    not_all : function negates all,
 
 `#########################################################################`
 
-    ::MD::Unionable ::= interface
+    Unionable : interface
         composes Homogeneous
         requires_implements {to_Boolean,empty
             ,singular,only_member
@@ -1299,76 +1299,76 @@ package
             ,any
             ,insert_n,remove_n
             ,member_plus,except,intersect,union,exclusive
-            ,nest,unnest,where,map,reduce,...};
+            ,nest,unnest,where,map,reduce,...},
 
-    ::MD::insert ::= function returns Unionable matches (Unionable, Any)
-        : (insert_n::(args.\0, args.\1, 1));
+    insert : function returns Unionable matches (Unionable, Any)
+        : (insert_n::(args.\0, args.\1, 1)),
 
-    ::MD::insert_n::"" ::= function virtual
-        returns Unionable matches (Unionable, Any, Integer_NN);
+    insert_n::"" : function virtual
+        returns Unionable matches (Unionable, Any, Integer_NN),
 
-    ::MD::remove ::= function returns Unionable matches (Unionable, Any)
-        : (remove_n::(args.\0, args.\1, 1));
+    remove : function returns Unionable matches (Unionable, Any)
+        : (remove_n::(args.\0, args.\1, 1)),
 
-    ::MD::remove_n::"" ::= function virtual
-        returns Unionable matches (Unionable, Any, Integer_NN);
+    remove_n::"" : function virtual
+        returns Unionable matches (Unionable, Any, Integer_NN),
 
-    ::MD::member_plus::"" ::= function virtual
+    member_plus::"" : function virtual
         returns Unionable matches (Unionable, Unionable)
-        is associative;
+        is associative,
 
-    ::MD::Unicode_Aliases::"⊎" ::= alias of member_plus;
+    Unicode_Aliases::"⊎" : alias of member_plus,
 
-    ::MD::except::"" ::= function virtual
-        returns Unionable matches (Unionable, Unionable);
+    except::"" : function virtual
+        returns Unionable matches (Unionable, Unionable),
 
-    ::MD::Unicode_Aliases::"∖" ::= alias of except;
+    Unicode_Aliases::"∖" : alias of except,
 
-    ::MD::intersect::"" ::= function virtual
+    intersect::"" : function virtual
         returns Unionable matches (Unionable, Unionable)
-        is {associative,idempotent};
+        is {associative,idempotent},
 
-    ::MD::Unicode_Aliases::"∩" ::= alias of intersect;
+    Unicode_Aliases::"∩" : alias of intersect,
 
-    ::MD::union::"" ::= function virtual
+    union::"" : function virtual
         returns Unionable matches (Unionable, Unionable)
-        is idempotent;
+        is idempotent,
 
-    ::MD::Unicode_Aliases::"∪" ::= alias of union;
+    Unicode_Aliases::"∪" : alias of union,
 
-    ::MD::exclusive::"" ::= function virtual
-        returns Unionable matches (Unionable, Unionable);
+    exclusive::"" : function virtual
+        returns Unionable matches (Unionable, Unionable),
 
-    ::MD::symm_diff ::= alias of exclusive;
+    symm_diff : alias of exclusive,
 
-    ::MD::Unicode_Aliases::"∆" ::= alias of exclusive;
+    Unicode_Aliases::"∆" : alias of exclusive,
 
-    ::MD::nest::"" ::= function virtual returns Unionable matches (Unionable)
-        accepts (...);
+    nest::"" : function virtual returns Unionable matches (Unionable)
+        accepts (...),
 
-    ::MD::group ::= alias of nest;
+    group : alias of nest,
 
-    ::MD::unnest::"" ::= function virtual returns Unionable matches (Unionable)
-        accepts (...);
+    unnest::"" : function virtual returns Unionable matches (Unionable)
+        accepts (...),
 
-    ::MD::ungroup ::= alias of unnest;
+    ungroup : alias of unnest,
 
-    ::MD::where::"" ::= function virtual
-        returns Unionable matches (Unionable, Signature);
+    where::"" : function virtual
+        returns Unionable matches (Unionable, Signature),
 
-    ::MD::Unicode_Aliases::"σ" ::= alias of where;
+    Unicode_Aliases::"σ" : alias of where,
 
-    ::MD::filtering ::= function commutes where;
+    filtering : function commutes where,
 
-    ::MD::map::"" ::= function virtual
-        returns Unionable matches (Unionable, Function_Call_But_0);
+    map::"" : function virtual
+        returns Unionable matches (Unionable, Function_Call_But_0),
 
-    ::MD::reduce::"" ::= function virtual
-        returns Any matches (Unionable, Function_Call_But_0_1);
+    reduce::"" : function virtual
+        returns Any matches (Unionable, Function_Call_But_0_1),
 
 `#########################################################################`
 
-    ::MD::Discrete ::= interface
+    Discrete : interface
         composes Unionable and_provides_its_default
         requires_implements {to_Boolean,empty
             ,singular,only_member
@@ -1379,32 +1379,32 @@ package
             ,insert_n,remove_n
             ,member_plus,except,intersect,union,exclusive
             ,nest,unnest,where,map,reduce,...
-            ,to_Set,to_Bag,count,unique_count,order_using};
+            ,to_Set,to_Bag,count,unique_count,order_using},
 
-    ::MD::to_Set::"" ::= function virtual returns Set matches (Discrete);
+    to_Set::"" : function virtual returns Set matches (Discrete),
 
-    ::MD::"?|" ::= alias of to_Set;
+    "?|" : alias of to_Set,
 
-    ::MD::to_Bag::"" ::= function virtual returns Bag matches (Discrete);
+    to_Bag::"" : function virtual returns Bag matches (Discrete),
 
-    ::MD::"+|" ::= alias of to_Bag;
+    "+|" : alias of to_Bag,
 
-    ::MD::count::"" ::= function virtual returns Integer_NN matches (Discrete);
+    count::"" : function virtual returns Integer_NN matches (Discrete),
 
-    ::MD::cardinality ::= alias of count;
-    ::MD::"#"         ::= alias of count;
+    cardinality : alias of count,
+    "#"         : alias of count,
 
-    ::MD::unique_count::"" ::= function virtual returns Integer_NN matches (Discrete);
+    unique_count::"" : function virtual returns Integer_NN matches (Discrete),
 
-    ::MD::order ::= function returns Positional matches (Discrete)
-        : (args.\0 order_using \in_order::());
+    order : function returns Positional matches (Discrete)
+        : (args.\0 order_using \in_order::()),
 
-    ::MD::order_using::"" ::= function virtual
-        returns Positional matches (Discrete, Function_Call_But_0_1);
+    order_using::"" : function virtual
+        returns Positional matches (Discrete, Function_Call_But_0_1),
 
 `#########################################################################`
 
-    ::MD::Positional ::= interface
+    Positional : interface
         composes {Stringy, Discrete and_provides_its_default, Accessible}
         requires_implements {in_order,to_Boolean,empty
             ,substring_of,overlaps_string,disjoint_string
@@ -1418,75 +1418,75 @@ package
             ,to_Set,to_Bag,count,order_using
             ,at
             ,to_Array
-            ,first_possible_index,slice_n,index_succ_all_matches,...};
+            ,first_possible_index,slice_n,index_succ_all_matches,...},
 
-    ::MD::Excuse::No_Such_Index ::= constant composes Excuse;
+    Excuse::No_Such_Index : constant composes Excuse,
 
-    ::MD::singular::Positional ::= function returns Boolean matches (Positional)
+    singular::Positional : function returns Boolean matches (Positional)
         implements 1::""
-        : ((args.\0->unique_count) = 1);
+        : ((args.\0->unique_count) = 1),
 
-    ::MD::only_member::Positional ::= function returns Any matches (Positional)
+    only_member::Positional : function returns Any matches (Positional)
         implements 1::""
         accepts (singular args.\0)
-        : (first args.\0);
+        : (first args.\0),
 
-    ::MD::subset_of::Positional ::= function
+    subset_of::Positional : function
         returns Boolean matches (Positional, Positional)
         implements 1::""
-        : ((args.\0->to_Bag) subset_of (args.\1->to_Bag));
+        : ((args.\0->to_Bag) subset_of (args.\1->to_Bag)),
 
-    ::MD::same_members::Positional ::= function
-        returns Boolean matches (Positional, Positional)
-        implements 1::""
-        is commutative
-        : ((args.\0->to_Bag) same_members (args.\1->to_Bag));
-
-    ::MD::overlaps_members::Positional ::= function
+    same_members::Positional : function
         returns Boolean matches (Positional, Positional)
         implements 1::""
         is commutative
-        : ((args.\0->to_Bag) overlaps_members (args.\1->to_Bag));
+        : ((args.\0->to_Bag) same_members (args.\1->to_Bag)),
 
-    ::MD::disjoint_members::Positional ::= function
+    overlaps_members::Positional : function
         returns Boolean matches (Positional, Positional)
         implements 1::""
         is commutative
-        : ((args.\0->to_Bag) disjoint_members (args.\1->to_Bag));
+        : ((args.\0->to_Bag) overlaps_members (args.\1->to_Bag)),
 
-    ::MD::member_plus::Positional ::= function
+    disjoint_members::Positional : function
+        returns Boolean matches (Positional, Positional)
+        implements 1::""
+        is commutative
+        : ((args.\0->to_Bag) disjoint_members (args.\1->to_Bag)),
+
+    member_plus::Positional : function
         returns Positional matches (Positional, Positional)
         implements 1::""
         is associative
-        : (args.\0 ~ (args.\1));
+        : (args.\0 ~ (args.\1)),
 
-    ::MD::unique_count::Positional ::= function returns Integer_NN matches (Positional)
+    unique_count::Positional : function returns Integer_NN matches (Positional)
         implements 1::""
-        : (args.\0->to_Set->count);
+        : (args.\0->to_Set->count),
 
-    ::MD::has_any_at::Positional ::= function
+    has_any_at::Positional : function
         returns Boolean matches (Positional, Integer)
         implements 1::""
         : (args.\1 >= first_possible_index::(args.\0)
-            and args.\1 < first_unused_index::(args.\0));
+            and args.\1 < first_unused_index::(args.\0)),
 
-    ::MD::has_mapping_at::Positional ::= function
+    has_mapping_at::Positional : function
         returns Boolean matches (Positional, (Integer, Any))
         implements 1::""
-        : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False);
+        : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
 
-    ::MD::mapping_at::Positional ::= function
+    mapping_at::Positional : function
         returns (Integer, Any) matches (Positional, Integer)
         implements 1::""
         accepts (args.\0 .? (args.\1))
-        : ((args.\1, args.\0.(args.\1)));
+        : ((args.\1, args.\0.(args.\1))),
 
-    ::MD::maybe_at::Positional ::= function
+    maybe_at::Positional : function
         returns Any matches (Positional, Integer)
         implements 1::""
-        : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Index());
+        : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Index()),
 
-    ::MD::replace_at::Positional ::= function
+    replace_at::Positional : function
         returns Positional matches (Positional, (Integer, Any))
         implements 1::""
         accepts (args.\0 .? (args.\1.\0))
@@ -1500,101 +1500,101 @@ package
         returns (if ri > fi then slice_range::(src, fi, --ri) else emp)
             insert repl_member
             catenate (if ri < li then slice_range::(src, ++ri, li) else emp);
-    );
+    ),
 
-    ::MD::shiftless_insert_at::Positional ::= function
+    shiftless_insert_at::Positional : function
         returns Positional matches (Positional, (Integer, Any))
         implements 1::""
         accepts (args.\1.\0 = first_unused_index::(args.\0))
-        : (args.\0 insert args.\1.\1);
+        : (args.\0 insert args.\1.\1),
 
-    ::MD::shiftless_remove_at::Positional ::= function
+    shiftless_remove_at::Positional : function
         returns Positional matches (Positional, Integer)
         implements 1::""
         accepts (args.\1 >= first_possible_index::(args.\0)
             and args.\1 = --first_unused_index::(args.\0))
-        : (nonlast args.\0);
+        : (nonlast args.\0),
 
-    ::MD::replace_or_insert_at::Positional ::= function
+    replace_or_insert_at::Positional : function
         returns Positional matches (Positional, (Integer, Any))
         implements 1::""
         accepts (args.\1 >= first_possible_index::(args.\0)
             and args.\1 <= first_unused_index::(args.\0))
-        : (if args.\0 .? (args.\1.\0) then args.\0 .:= (args.\1.\0) else args.\0 .+ (args.\1.\0));
+        : (if args.\0 .? (args.\1.\0) then args.\0 .:= (args.\1.\0) else args.\0 .+ (args.\1.\0)),
 
-    ::MD::shiftless_maybe_remove_at::Positional ::= function
+    shiftless_maybe_remove_at::Positional : function
         returns Positional matches (Positional, Integer)
         implements 1::""
         accepts (args.\1 >= first_possible_index::(args.\0)
             and args.\1 >= --first_unused_index::(args.\0))
-        : (if args.\1 = --first_unused_index::(args.\0) then nonlast args.\0 else args.\0);
+        : (if args.\1 = --first_unused_index::(args.\0) then nonlast args.\0 else args.\0),
 
-    ::MD::to_Array::"" ::= function virtual returns Array matches (Positional);
+    to_Array::"" : function virtual returns Array matches (Positional),
 
-    ::MD::"~|" ::= alias of to_Array;
+    "~|" : alias of to_Array,
 
-    ::MD::squish ::= function returns Positional matches (Positional)
+    squish : function returns Positional matches (Positional)
         : (args.\0 map \(( group : args.\0, member : False ))
-            ->nest map \(args.\0.\group));
+            ->nest map \(args.\0.\group)),
 
-    ::MD::first_possible_index::"" ::= function virtual
-        returns Integer matches (Positional);
+    first_possible_index::"" : function virtual
+        returns Integer matches (Positional),
 
-    ::MD::first_unused_index ::= function returns Integer matches (Positional)
-        : (first_possible_index::(args.\0) + #(args.\0));
+    first_unused_index : function returns Integer matches (Positional)
+        : (first_possible_index::(args.\0) + #(args.\0)),
 
-    ::MD::first_index ::= function returns Integer matches (Positional)
+    first_index : function returns Integer matches (Positional)
         accepts (?(args.\0))
-        : (first_possible_index::(args.\0));
+        : (first_possible_index::(args.\0)),
 
-    ::MD::last_index ::= function returns Integer matches (Positional)
+    last_index : function returns Integer matches (Positional)
         accepts (?(args.\0))
-        : (--first_unused_index::(args.\0));
+        : (--first_unused_index::(args.\0)),
 
-    ::MD::slice_n::"" ::= function virtual
+    slice_n::"" : function virtual
         returns Positional matches (Positional, Integer, NN_Integer)
         accepts (args.\1 >= first_possible_index::(args.\0)
-            and args.\1 + (args.\2) <= first_unused_index::(args.\0));
+            and args.\1 + (args.\2) <= first_unused_index::(args.\0)),
 
-    ::MD::slice_range ::= function
+    slice_range : function
         returns Positional matches (Positional, Integer, Integer)
         accepts (?(args.\0) and args.\1 >= first_possible_index::(args.\0)
             and args.\2 < first_unused_index::(args.\0))
-        : (slice_n::(args.\0, args.\1, (args.\2) - (args.\1) + 1));
+        : (slice_n::(args.\0, args.\1, (args.\2) - (args.\1) + 1)),
 
-    ::MD::first ::= function returns Any matches (Positional)
+    first : function returns Any matches (Positional)
         accepts (?(args.\0))
-        : (args.\0 . first_index::(args.\0));
+        : (args.\0 . first_index::(args.\0)),
 
-    ::MD::nonfirst ::= function returns Positional matches (Positional)
+    nonfirst : function returns Positional matches (Positional)
         accepts (?(args.\0))
-        : (slice_range::(args.\0, ++first_index::(args.\0), last_index::(args.\0)));
+        : (slice_range::(args.\0, ++first_index::(args.\0), last_index::(args.\0))),
 
-    ::MD::last ::= function returns Any matches (Positional)
+    last : function returns Any matches (Positional)
         accepts (?(args.\0))
-        : (args.\0 . last_index::(args.\0));
+        : (args.\0 . last_index::(args.\0)),
 
-    ::MD::nonlast ::= function returns Positional matches (Positional)
+    nonlast : function returns Positional matches (Positional)
         accepts (?(args.\0))
-        : (slice_range::(args.\0, first_index::(args.\0), --last_index::(args.\0)));
+        : (slice_range::(args.\0, first_index::(args.\0), --last_index::(args.\0))),
 
-    ::MD::index_succ_all_matches::"" ::= function virtual
+    index_succ_all_matches::"" : function virtual
         returns Integer matches (Positional, Positional)
-        is commutative;
+        is commutative,
 
 `#########################################################################`
 
-    ::MD::Array ::= selection where (args -->^ FDN__is_a_Array)
+    Array : selection where (args -->^ FDN__is_a_Array)
         default ([])
-        composes Positional and_provides_its_default;
+        composes Positional and_provides_its_default,
 
-    ::MD::String::"" ::= selection of Array where (args.\0 all \Integer::());
+    String::"" : selection of Array where (args.\0 all \Integer::()),
 
-    ::MD::empty_Array ::= constant ([]);
+    empty_Array : constant ([]),
 
-    ::MD::Unicode_Aliases::"~∅" ::= alias of empty_Array;
+    Unicode_Aliases::"~∅" : alias of empty_Array,
 
-    ::MD::in_order::Array ::= function returns Boolean matches (Array, Array)
+    in_order::Array : function returns Boolean matches (Array, Array)
         implements 1::""
     : (
         i ::= (args.\0 index_succ_all_matches args.\1);
@@ -1608,977 +1608,977 @@ package
 
         e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
         e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
-    );
+    ),
 
-    ::MD::to_Boolean::Array ::= function returns Boolean matches (Array)
+    to_Boolean::Array : function returns Boolean matches (Array)
         implements 1::""
-        : (args.\0 != []);
+        : (args.\0 != []),
 
-    ::MD::empty::Array ::= function returns Array matches (Array)
+    empty::Array : function returns Array matches (Array)
         implements 1::""
-        : ([]);
+        : ([]),
 
-    ::MD::substring_of::Array ::= function returns Boolean matches (Array, Array)
+    substring_of::Array : function returns Boolean matches (Array, Array)
         implements 1::""
-        : (args -->^ FDN__Array_substring_of);
+        : (args -->^ FDN__Array_substring_of),
 
-    ::MD::overlaps_string::Array ::= function returns Boolean matches (Array, Array)
-        implements 1::""
-        is commutative
-        : (args -->^ FDN__Array_overlaps_string);
-
-    ::MD::disjoint_string::Array ::= function returns Boolean matches (Array, Array)
+    overlaps_string::Array : function returns Boolean matches (Array, Array)
         implements 1::""
         is commutative
-        : (args -->^ FDN__Array_disjoint_string);
+        : (args -->^ FDN__Array_overlaps_string),
 
-    ::MD::catenate::Array ::= function returns Array matches (Array, Array)
+    disjoint_string::Array : function returns Boolean matches (Array, Array)
+        implements 1::""
+        is commutative
+        : (args -->^ FDN__Array_disjoint_string),
+
+    catenate::Array : function returns Array matches (Array, Array)
         implements 1::""
         is associative identity ([])
         repeater replicate::Array
-        : (args -->^ FDN__Array_catenate);
+        : (args -->^ FDN__Array_catenate),
 
-    ::MD::replicate::Array ::= function returns Array matches (Array, Integer_NN)
+    replicate::Array : function returns Array matches (Array, Integer_NN)
         implements 1::""
-        : (args -->^ FDN__Array_replicate);
+        : (args -->^ FDN__Array_replicate),
 
-    ::MD::has_n::Array ::= function returns Boolean matches (Array, Any, Integer_NN)
+    has_n::Array : function returns Boolean matches (Array, Any, Integer_NN)
         implements 1::""
-        : (args -->^ FDN__Array_has_n);
+        : (args -->^ FDN__Array_has_n),
 
-    ::MD::multiplicity::Array ::= function returns Integer_NN matches (Array, Any)
+    multiplicity::Array : function returns Integer_NN matches (Array, Any)
         implements 1::""
-        : (args -->^ FDN__Array_multiplicity);
+        : (args -->^ FDN__Array_multiplicity),
 
-    ::MD::all_unique::Array ::= function returns Boolean matches (Array)
+    all_unique::Array : function returns Boolean matches (Array)
         implements 1::""
-        : (args -->^ FDN__Array_all_unique);
+        : (args -->^ FDN__Array_all_unique),
 
-    ::MD::unique::Array ::= function returns Array matches (Array)
+    unique::Array : function returns Array matches (Array)
         implements 1::""
-        : (args -->^ FDN__Array_unique);
+        : (args -->^ FDN__Array_unique),
 
-    ::MD::any::Array ::= function returns Boolean matches (Array, Signature)
+    any::Array : function returns Boolean matches (Array, Signature)
         implements 1::""
-        : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Array_any);
+        : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Array_any),
 
-    ::MD::insert_n::Array ::= function returns Array matches (Array, Any, Integer_NN)
+    insert_n::Array : function returns Array matches (Array, Any, Integer_NN)
         implements 1::""
-        : (args -->^ FDN__Array_insert_n);
+        : (args -->^ FDN__Array_insert_n),
 
-    ::MD::remove_n::Array ::= function returns Array matches (Array, Any, Integer_NN)
+    remove_n::Array : function returns Array matches (Array, Any, Integer_NN)
         implements 1::""
-        : (args -->^ FDN__Array_remove_n);
+        : (args -->^ FDN__Array_remove_n),
 
-    ::MD::except::Array ::= function returns Array matches (Array, Array)
+    except::Array : function returns Array matches (Array, Array)
         implements 1::""
-        : (args -->^ FDN__Array_except);
+        : (args -->^ FDN__Array_except),
 
-    ::MD::intersect::Array ::= function returns Array matches (Array, Array)
+    intersect::Array : function returns Array matches (Array, Array)
         implements 1::""
         is {associative,idempotent}
-        : (args -->^ FDN__Array_intersect);
+        : (args -->^ FDN__Array_intersect),
 
-    ::MD::union::Array ::= function returns Array matches (Array, Array)
+    union::Array : function returns Array matches (Array, Array)
         implements 1::""
         is idempotent identity ([])
-        : (args -->^ FDN__Array_union);
+        : (args -->^ FDN__Array_union),
 
-    ::MD::exclusive::Array ::= function returns Array matches (Array, Array)
+    exclusive::Array : function returns Array matches (Array, Array)
         implements 1::""
         identity ([])
-        : (args -->^ FDN__Array_exclusive);
+        : (args -->^ FDN__Array_exclusive),
 
-    ::MD::nest::Array ::= function returns Array matches (Array)
+    nest::Array : function returns Array matches (Array)
         implements 1::""
         accepts (...)
-        : (args -->^ FDN__Array_nest);
+        : (args -->^ FDN__Array_nest),
 
-    ::MD::unnest::Array ::= function returns Array matches (Array)
+    unnest::Array : function returns Array matches (Array)
         implements 1::""
         accepts (...)
-        : (args -->^ FDN__Array_unnest);
+        : (args -->^ FDN__Array_unnest),
 
-    ::MD::where::Array ::= function returns Array matches (Array, Signature)
+    where::Array : function returns Array matches (Array, Signature)
         implements 1::""
         : ((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-            -->^ FDN__Array_where);
+            -->^ FDN__Array_where),
 
-    ::MD::map::Array ::= function returns Array matches (Array, Function_Call_But_0)
+    map::Array : function returns Array matches (Array, Function_Call_But_0)
         implements 1::""
-        : (args -->^ FDN__Array_map);
+        : (args -->^ FDN__Array_map),
 
-    ::MD::reduce::Array ::= function returns Any matches (Array, Function_Call_But_0_1)
+    reduce::Array : function returns Any matches (Array, Function_Call_But_0_1)
         implements 1::""
-        : (args -->^ FDN__Array_reduce);
+        : (args -->^ FDN__Array_reduce),
 
-    ::MD::to_Set::Array ::= function returns Set matches (Array)
+    to_Set::Array : function returns Set matches (Array)
         implements 1::""
-        : (args.\0->to_Bag->to_Set);
+        : (args.\0->to_Bag->to_Set),
 
-    ::MD::to_Bag::Array ::= function returns Bag matches (Array)
+    to_Bag::Array : function returns Bag matches (Array)
         implements 1::""
-        : (args -->^ FDN__Array_to_Bag);
+        : (args -->^ FDN__Array_to_Bag),
 
-    ::MD::count::Array ::= function returns Integer_NN matches (Array)
+    count::Array : function returns Integer_NN matches (Array)
         implements 1::""
-        : (args -->^ FDN__Array_count);
+        : (args -->^ FDN__Array_count),
 
-    ::MD::order_using::Array ::= function returns Array matches (Array, Function_Call_But_0_1)
+    order_using::Array : function returns Array matches (Array, Function_Call_But_0_1)
         implements 1::""
-        : (args -->^ FDN__Array_order_using);
+        : (args -->^ FDN__Array_order_using),
 
-    ::MD::at::Array ::= function returns Any matches (Array, Integer_NN)
+    at::Array : function returns Any matches (Array, Integer_NN)
         implements 1::""
         accepts (args.\0 .? (args.\1))
-        : (args -->^ FDN__Array_at);
+        : (args -->^ FDN__Array_at),
 
-    ::MD::to_Array::Array ::= function returns Array matches (Array)
+    to_Array::Array : function returns Array matches (Array)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::first_possible_index::Array ::= function returns Integer_NN matches (Array)
+    first_possible_index::Array : function returns Integer_NN matches (Array)
         implements 1::""
-        : (0);
+        : (0),
 
-    ::MD::slice_n::Array ::= function
+    slice_n::Array : function
         returns Array matches (Array, NN_Integer, NN_Integer)
         implements 1::""
         accepts (args.\1 + (args.\2) <= #(args.\0))
-        : (args -->^ FDN__Array_slice_n);
+        : (args -->^ FDN__Array_slice_n),
 
-    ::MD::index_succ_all_matches::Array ::= function
+    index_succ_all_matches::Array : function
         returns Integer_NN matches (Array, Array)
         implements 1::""
         is commutative
-        : (args -->^ FDN__Array_index_succ_all_matches);
+        : (args -->^ FDN__Array_index_succ_all_matches),
 
 `#########################################################################`
 
-    ::MD::Setty ::= interface;
+    Setty : interface,
 
 `#########################################################################`
 
-    ::MD::Set ::= selection of Capsule
+    Set : selection of Capsule
         where (has_wrapped::( args.\0, \Set,
             \(if Bag args.\0 then all_unique args.\0 else False) ))
         default ({})
-        composes {Discrete, Setty and_provides_its_default};
+        composes {Discrete, Setty and_provides_its_default},
 
-    ::MD::empty_Set ::= constant ({});
+    empty_Set : constant ({}),
 
-    ::MD::Unicode_Aliases::"?∅" ::= alias of empty_Set;
+    Unicode_Aliases::"?∅" : alias of empty_Set,
 
-    ::MD::to_Boolean::Set ::= function returns Boolean matches (Set)
+    to_Boolean::Set : function returns Boolean matches (Set)
         implements 1::""
-        : (args.\0 != {});
+        : (args.\0 != {}),
 
-    ::MD::empty::Set ::= function returns Set matches (Set)
+    empty::Set : function returns Set matches (Set)
         implements 1::""
-        : ({});
+        : ({}),
 
-    ::MD::singular::Set ::= function returns Boolean matches (Set)
+    singular::Set : function returns Boolean matches (Set)
         implements 1::""
-        : (args.\0->unwrap->singular);
+        : (args.\0->unwrap->singular),
 
-    ::MD::only_member::Set ::= function returns Any matches (Set)
+    only_member::Set : function returns Any matches (Set)
         implements 1::""
         accepts (singular args.\0)
-        : (args.\0->unwrap->only_member);
+        : (args.\0->unwrap->only_member),
 
-    ::MD::has_n::Set ::= function returns Boolean matches (Set, Any, Integer_NN)
+    has_n::Set : function returns Boolean matches (Set, Any, Integer_NN)
         implements 1::""
-        : (has_n::(args.\0->unwrap, args.\1, args.\2));
+        : (has_n::(args.\0->unwrap, args.\1, args.\2)),
 
-    ::MD::multiplicity::Set ::= function returns Integer_NN matches (Set, Any)
+    multiplicity::Set : function returns Integer_NN matches (Set, Any)
         implements 1::""
-        : (args.\0->unwrap multiplicity args.\1);
+        : (args.\0->unwrap multiplicity args.\1),
 
-    ::MD::all_unique::Set ::= function returns Boolean matches (Set)
+    all_unique::Set : function returns Boolean matches (Set)
         implements 1::""
-        : (True);
+        : (True),
 
-    ::MD::unique::Set ::= function returns Set matches (Set)
+    unique::Set : function returns Set matches (Set)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::subset_of::Set ::= function returns Boolean matches (Set, Set)
+    subset_of::Set : function returns Boolean matches (Set, Set)
         implements 1::""
-        : ((args.\0->unwrap) subset_of (args.\1->unwrap));
+        : ((args.\0->unwrap) subset_of (args.\1->unwrap)),
 
-    ::MD::same_members::Set ::= function returns Boolean matches (Set, Set)
-        implements 1::""
-        is commutative
-        : (args.\0 = (args.\1));
-
-    ::MD::overlaps_members::Set ::= function returns Boolean matches (Set, Set)
+    same_members::Set : function returns Boolean matches (Set, Set)
         implements 1::""
         is commutative
-        : ((args.\0->unwrap) overlaps_members (args.\1->unwrap));
+        : (args.\0 = (args.\1)),
 
-    ::MD::disjoint_members::Set ::= function returns Boolean matches (Set, Set)
+    overlaps_members::Set : function returns Boolean matches (Set, Set)
         implements 1::""
         is commutative
-        : ((args.\0->unwrap) disjoint_members (args.\1->unwrap));
+        : ((args.\0->unwrap) overlaps_members (args.\1->unwrap)),
 
-    ::MD::any::Set ::= function returns Boolean matches (Set, Signature)
+    disjoint_members::Set : function returns Boolean matches (Set, Set)
         implements 1::""
-        : (args.\0->unwrap any args.\1);
+        is commutative
+        : ((args.\0->unwrap) disjoint_members (args.\1->unwrap)),
 
-    ::MD::insert_n::Set ::= function returns Set matches (Set, Any, Integer_NN)
+    any::Set : function returns Boolean matches (Set, Signature)
+        implements 1::""
+        : (args.\0->unwrap any args.\1),
+
+    insert_n::Set : function returns Set matches (Set, Any, Integer_NN)
         implements 1::""
         : (args.\0 has args.\1 or args.\2 = 0 :? args.\0
-            :! \Set wrap insert_n::(args.\0->unwrap, args.\1, 1));
+            :! \Set wrap insert_n::(args.\0->unwrap, args.\1, 1)),
 
-    ::MD::remove_n::Set ::= function returns Set matches (Set, Any, Integer_NN)
+    remove_n::Set : function returns Set matches (Set, Any, Integer_NN)
         implements 1::""
-        : (\Set wrap remove_n::(args.\0->unwrap, args.\1, args.\2));
+        : (\Set wrap remove_n::(args.\0->unwrap, args.\1, args.\2)),
 
-    ::MD::member_plus::Set ::= function returns Set matches (Set, Set)
+    member_plus::Set : function returns Set matches (Set, Set)
         implements 1::""
         is {associative,commutative,idempotent} identity ({})
-        : (args.\0 union args.\1);
+        : (args.\0 union args.\1),
 
-    ::MD::except::Set ::= function returns Set matches (Set, Set)
+    except::Set : function returns Set matches (Set, Set)
         implements 1::""
-        : (\Set wrap ((args.\0->unwrap) except (args.\1->unwrap)));
+        : (\Set wrap ((args.\0->unwrap) except (args.\1->unwrap))),
 
-    ::MD::intersect::Set ::= function returns Set matches (Set, Set)
+    intersect::Set : function returns Set matches (Set, Set)
         implements 1::""
         is {associative,commutative,idempotent}
-        : (\Set wrap ((args.\0->unwrap) intersect (args.\1->unwrap)));
+        : (\Set wrap ((args.\0->unwrap) intersect (args.\1->unwrap))),
 
-    ::MD::union::Set ::= function returns Set matches (Set, Set)
+    union::Set : function returns Set matches (Set, Set)
         implements 1::""
         is {associative,commutative,idempotent} identity ({})
-        : (\Set wrap ((args.\0->unwrap) union (args.\1->unwrap)));
+        : (\Set wrap ((args.\0->unwrap) union (args.\1->unwrap))),
 
-    ::MD::exclusive::Set ::= function returns Set matches (Set, Set)
+    exclusive::Set : function returns Set matches (Set, Set)
         implements 1::""
         is {associative,commutative} identity ({})
-        : (\Set wrap ((args.\0->unwrap) exclusive (args.\1->unwrap)));
+        : (\Set wrap ((args.\0->unwrap) exclusive (args.\1->unwrap))),
 
-    ::MD::nest::Set ::= function returns Set matches (Set)
+    nest::Set : function returns Set matches (Set)
         implements 1::""
         accepts (...)
-        : (\Set wrap (args.\0->unwrap->nest));
+        : (\Set wrap (args.\0->unwrap->nest)),
 
-    ::MD::unnest::Set ::= function returns Set matches (Set)
+    unnest::Set : function returns Set matches (Set)
         implements 1::""
         accepts (...)
-        : (\Set wrap (args.\0->unwrap->unnest));
+        : (\Set wrap (args.\0->unwrap->unnest)),
 
-    ::MD::where::Set ::= function returns Set matches (Set, Signature)
+    where::Set : function returns Set matches (Set, Signature)
         implements 1::""
-        : (\Set wrap (args.\0->unwrap where args.\1));
+        : (\Set wrap (args.\0->unwrap where args.\1)),
 
-    ::MD::map::Set ::= function returns Set matches (Set, Function_Call_But_0)
+    map::Set : function returns Set matches (Set, Function_Call_But_0)
         implements 1::""
-        : (\Set wrap (args.\0->unwrap map args.\1));
+        : (\Set wrap (args.\0->unwrap map args.\1)),
 
-    ::MD::reduce::Set ::= function returns Any matches (Set, Function_Call_But_0_1)
+    reduce::Set : function returns Any matches (Set, Function_Call_But_0_1)
         implements 1::""
-        : (\Set wrap (args.\0->unwrap reduce args.\1));
+        : (\Set wrap (args.\0->unwrap reduce args.\1)),
 
-    ::MD::to_Set::Set ::= function returns Set matches (Set)
+    to_Set::Set : function returns Set matches (Set)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::to_Bag::Set ::= function returns Bag matches (Set)
+    to_Bag::Set : function returns Bag matches (Set)
         implements 1::""
-        : (args.\0->unwrap);
+        : (args.\0->unwrap),
 
-    ::MD::count::Set ::= function returns Integer_NN matches (Set)
+    count::Set : function returns Integer_NN matches (Set)
         implements 1::""
-        : (args.\0->unwrap->count);
+        : (args.\0->unwrap->count),
 
-    ::MD::unique_count::Set ::= function returns Integer_NN matches (Set)
+    unique_count::Set : function returns Integer_NN matches (Set)
         implements 1::""
-        : (args.\0->count);
+        : (args.\0->count),
 
-    ::MD::order_using::Set ::= function returns Array matches (Set, Function_Call_But_0_1)
+    order_using::Set : function returns Array matches (Set, Function_Call_But_0_1)
         implements 1::""
-        : (\Set wrap (args.\0->unwrap order_using args.\1));
+        : (\Set wrap (args.\0->unwrap order_using args.\1)),
 
 `#########################################################################`
 
-    ::MD::Bag ::= selection where (args -->^ FDN__is_a_Bag)
+    Bag : selection where (args -->^ FDN__is_a_Bag)
         default (\+{})
-        composes Discrete;
+        composes Discrete,
 
-    ::MD::empty_Bag ::= constant (\+{});
+    empty_Bag : constant (\+{}),
 
-    ::MD::Unicode_Aliases::"+∅" ::= alias of empty_Bag;
+    Unicode_Aliases::"+∅" : alias of empty_Bag,
 
-    ::MD::to_Boolean::Bag ::= function returns Boolean matches (Bag)
+    to_Boolean::Bag : function returns Boolean matches (Bag)
         implements 1::""
-        : (args.\0 != \+{});
+        : (args.\0 != \+{}),
 
-    ::MD::empty::Bag ::= function returns Bag matches (Bag)
+    empty::Bag : function returns Bag matches (Bag)
         implements 1::""
-        : (\+{});
+        : (\+{}),
 
-    ::MD::singular::Bag ::= function returns Boolean matches (Bag)
+    singular::Bag : function returns Boolean matches (Bag)
         implements 1::""
-        : (args -->^ FDN__Bag_singular);
+        : (args -->^ FDN__Bag_singular),
 
-    ::MD::only_member::Bag ::= function returns Any matches (Bag)
+    only_member::Bag : function returns Any matches (Bag)
         implements 1::""
         accepts (singular args.\0)
-        : (args -->^ FDN__Bag_only_member);
+        : (args -->^ FDN__Bag_only_member),
 
-    ::MD::has_n::Bag ::= function returns Boolean matches (Bag, Any, Integer_NN)
+    has_n::Bag : function returns Boolean matches (Bag, Any, Integer_NN)
         implements 1::""
-        : (args -->^ FDN__Bag_has_n);
+        : (args -->^ FDN__Bag_has_n),
 
-    ::MD::multiplicity::Bag ::= function returns Integer_NN matches (Bag, Any)
+    multiplicity::Bag : function returns Integer_NN matches (Bag, Any)
         implements 1::""
-        : (args -->^ FDN__Bag_multiplicity);
+        : (args -->^ FDN__Bag_multiplicity),
 
-    ::MD::all_unique::Bag ::= function returns Boolean matches (Bag)
+    all_unique::Bag : function returns Boolean matches (Bag)
         implements 1::""
-        : (args -->^ FDN__Bag_all_unique);
+        : (args -->^ FDN__Bag_all_unique),
 
-    ::MD::unique::Bag ::= function returns Bag matches (Bag)
+    unique::Bag : function returns Bag matches (Bag)
         implements 1::""
-        : (args -->^ FDN__Bag_unique);
+        : (args -->^ FDN__Bag_unique),
 
-    ::MD::subset_of::Bag ::= function returns Boolean matches (Bag, Bag)
+    subset_of::Bag : function returns Boolean matches (Bag, Bag)
         implements 1::""
-        : (args -->^ FDN__Bag_subset_of);
+        : (args -->^ FDN__Bag_subset_of),
 
-    ::MD::same_members::Bag ::= function returns Boolean matches (Bag, Bag)
-        implements 1::""
-        is commutative
-        : (args.\0 = (args.\1));
-
-    ::MD::overlaps_members::Bag ::= function returns Boolean matches (Bag, Bag)
+    same_members::Bag : function returns Boolean matches (Bag, Bag)
         implements 1::""
         is commutative
-        : (args -->^ FDN__Bag_overlaps_members);
+        : (args.\0 = (args.\1)),
 
-    ::MD::disjoint_members::Bag ::= function returns Boolean matches (Bag, Bag)
+    overlaps_members::Bag : function returns Boolean matches (Bag, Bag)
         implements 1::""
         is commutative
-        : (args -->^ FDN__Bag_disjoint_members);
+        : (args -->^ FDN__Bag_overlaps_members),
 
-    ::MD::any::Bag ::= function returns Boolean matches (Bag, Signature)
+    disjoint_members::Bag : function returns Boolean matches (Bag, Bag)
         implements 1::""
-        : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_any);
+        is commutative
+        : (args -->^ FDN__Bag_disjoint_members),
 
-    ::MD::insert_n::Bag ::= function returns Bag matches (Bag, Any, Integer_NN)
+    any::Bag : function returns Boolean matches (Bag, Signature)
         implements 1::""
-        : (args -->^ FDN__Bag_insert_n);
+        : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_any),
 
-    ::MD::remove_n::Bag ::= function returns Bag matches (Bag, Any, Integer_NN)
+    insert_n::Bag : function returns Bag matches (Bag, Any, Integer_NN)
         implements 1::""
-        : (args -->^ FDN__Bag_remove_n);
+        : (args -->^ FDN__Bag_insert_n),
 
-    ::MD::member_plus::Bag ::= function returns Bag matches (Bag, Bag)
+    remove_n::Bag : function returns Bag matches (Bag, Any, Integer_NN)
+        implements 1::""
+        : (args -->^ FDN__Bag_remove_n),
+
+    member_plus::Bag : function returns Bag matches (Bag, Bag)
         implements 1::""
         is {associative,commutative} identity (\+{})
-        : (args -->^ FDN__Bag_member_plus);
+        : (args -->^ FDN__Bag_member_plus),
 
-    ::MD::except::Bag ::= function returns Bag matches (Bag, Bag)
+    except::Bag : function returns Bag matches (Bag, Bag)
         implements 1::""
-        : (args -->^ FDN__Bag_except);
+        : (args -->^ FDN__Bag_except),
 
-    ::MD::intersect::Bag ::= function returns Bag matches (Bag, Bag)
+    intersect::Bag : function returns Bag matches (Bag, Bag)
         implements 1::""
         is {associative,commutative,idempotent}
-        : (args -->^ FDN__Bag_intersect);
+        : (args -->^ FDN__Bag_intersect),
 
-    ::MD::union::Bag ::= function returns Bag matches (Bag, Bag)
+    union::Bag : function returns Bag matches (Bag, Bag)
         implements 1::""
         is {associative,commutative,idempotent} identity (\+{})
-        : (args -->^ FDN__Bag_union);
+        : (args -->^ FDN__Bag_union),
 
-    ::MD::exclusive::Bag ::= function returns Bag matches (Bag, Bag)
+    exclusive::Bag : function returns Bag matches (Bag, Bag)
         implements 1::""
         is {associative,commutative} identity (\+{})
-        : (args -->^ FDN__Bag_exclusive);
+        : (args -->^ FDN__Bag_exclusive),
 
-    ::MD::nest::Bag ::= function returns Bag matches (Bag)
+    nest::Bag : function returns Bag matches (Bag)
         implements 1::""
         accepts (...)
-        : (args -->^ FDN__Bag_nest);
+        : (args -->^ FDN__Bag_nest),
 
-    ::MD::unnest::Bag ::= function returns Bag matches (Bag)
+    unnest::Bag : function returns Bag matches (Bag)
         implements 1::""
         accepts (...)
-        : (args -->^ FDN__Bag_unnest);
+        : (args -->^ FDN__Bag_unnest),
 
-    ::MD::where::Bag ::= function returns Bag matches (Bag, Signature)
+    where::Bag : function returns Bag matches (Bag, Signature)
         implements 1::""
-        : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_where);
+        : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_where),
 
-    ::MD::map::Bag ::= function returns Bag matches (Bag, Function_Call_But_0)
+    map::Bag : function returns Bag matches (Bag, Function_Call_But_0)
         implements 1::""
-        : (args -->^ FDN__Bag_map);
+        : (args -->^ FDN__Bag_map),
 
-    ::MD::reduce::Bag ::= function returns Any matches (Bag, Function_Call_But_0_1)
+    reduce::Bag : function returns Any matches (Bag, Function_Call_But_0_1)
         implements 1::""
-        : (args -->^ FDN__Bag_reduce);
+        : (args -->^ FDN__Bag_reduce),
 
-    ::MD::to_Set::Bag ::= function returns Set matches (Bag)
+    to_Set::Bag : function returns Set matches (Bag)
         implements 1::""
-        : (\Set wrap (args.\0->unique));
+        : (\Set wrap (args.\0->unique)),
 
-    ::MD::to_Bag::Bag ::= function returns Bag matches (Bag)
+    to_Bag::Bag : function returns Bag matches (Bag)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::count::Bag ::= function returns Integer_NN matches (Bag)
+    count::Bag : function returns Integer_NN matches (Bag)
         implements 1::""
-        : (args -->^ FDN__Bag_count);
+        : (args -->^ FDN__Bag_count),
 
-    ::MD::unique_count::Bag ::= function returns Integer_NN matches (Bag)
+    unique_count::Bag : function returns Integer_NN matches (Bag)
         implements 1::""
-        : (args -->^ FDN__Bag_unique_count);
+        : (args -->^ FDN__Bag_unique_count),
 
-    ::MD::order_using::Bag ::= function returns Array matches (Bag, Function_Call_But_0_1)
+    order_using::Bag : function returns Array matches (Bag, Function_Call_But_0_1)
         implements 1::""
-        : (args -->^ FDN__Bag_order_using);
+        : (args -->^ FDN__Bag_order_using),
 
 `#########################################################################`
 
-    ::MD::Attributive ::= interface
+    Attributive : interface
         requires_implements {has_any_attrs,nullary
             ,is_unary,degree,heading,rename
-            ,can_project_matching,on,update,extend};
+            ,can_project_matching,on,update,extend},
 
-    ::MD::Excuse::No_Such_Attr_Name ::= constant composes Excuse;
+    Excuse::No_Such_Attr_Name : constant composes Excuse,
 
-    ::MD::Excuse::Not_Same_Heading ::= constant composes Excuse;
+    Excuse::Not_Same_Heading : constant composes Excuse,
 
-    ::MD::has_any_attrs::"" ::= function virtual returns Boolean matches (Attributive);
+    has_any_attrs::"" : function virtual returns Boolean matches (Attributive),
 
-    ::MD::"?@" ::= alias of has_any_attrs;
+    "?@" : alias of has_any_attrs,
 
-    ::MD::is_nullary ::= function negates has_any_attrs;
+    is_nullary : function negates has_any_attrs,
 
-    ::MD::"!?@" ::= alias of is_nullary;
+    "!?@" : alias of is_nullary,
 
-    ::MD::nullary::"" ::= function virtual returns Attributive matches (Attributive);
+    nullary::"" : function virtual returns Attributive matches (Attributive),
 
-    ::MD::is_unary::"" ::= function virtual returns Boolean matches (Attributive);
+    is_unary::"" : function virtual returns Boolean matches (Attributive),
 
-    ::MD::degree::"" ::= function virtual returns Integer_NN matches (Attributive);
+    degree::"" : function virtual returns Integer_NN matches (Attributive),
 
-    ::MD::"#@" ::= alias of degree;
+    "#@" : alias of degree,
 
-    ::MD::heading::"" ::= function virtual returns Heading matches (Attributive);
+    heading::"" : function virtual returns Heading matches (Attributive),
 
-    ::MD::"@" ::= alias of heading;
+    "@" : alias of heading,
 
-    ::MD::subheading_of ::= function
+    subheading_of : function
         returns Boolean matches (Attributive, Attributive)
-        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_subheading_of);
+        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_subheading_of),
 
-    ::MD::Unicode_Aliases::"⊆@" ::= alias of subheading_of;
+    Unicode_Aliases::"⊆@" : alias of subheading_of,
 
-    ::MD::superheading_of ::= function commutes subheading_of;
+    superheading_of : function commutes subheading_of,
 
-    ::MD::has_subheading ::= alias of superheading_of;
-    ::MD::"@?"           ::= alias of superheading_of;
+    has_subheading : alias of superheading_of,
+    "@?"           : alias of superheading_of,
 
-    ::MD::Unicode_Aliases::"⊇@" ::= alias of superheading_of;
+    Unicode_Aliases::"⊇@" : alias of superheading_of,
 
-    ::MD::same_heading ::= function
-        returns Boolean matches (Attributive, Attributive)
-        is commutative
-        : (@(args.\0) = @(args.\1));
-
-    ::MD::"=@" ::= alias of same_heading;
-
-    ::MD::proper_subheading_or_superheading ::= function
+    same_heading : function
         returns Boolean matches (Attributive, Attributive)
         is commutative
-        : (@(args.\0) != @(args.\1) and (args.\0 subheading_or_superheading args.\1));
+        : (@(args.\0) = @(args.\1)),
 
-    ::MD::subheading_or_superheading ::= function
+    "=@" : alias of same_heading,
+
+    proper_subheading_or_superheading : function
         returns Boolean matches (Attributive, Attributive)
         is commutative
-        : ((args.\0 subheading_of args.\1) or (args.\0 superheading_of args.\1));
+        : (@(args.\0) != @(args.\1) and (args.\0 subheading_or_superheading args.\1)),
 
-    ::MD::overlaps_heading ::= function
+    subheading_or_superheading : function
         returns Boolean matches (Attributive, Attributive)
         is commutative
-        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_overlaps_heading);
+        : ((args.\0 subheading_of args.\1) or (args.\0 superheading_of args.\1)),
 
-    ::MD::disjoint_heading ::= function
+    overlaps_heading : function
         returns Boolean matches (Attributive, Attributive)
         is commutative
-        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_disjoint_heading);
+        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_overlaps_heading),
 
-    ::MD::except_heading ::= function
+    disjoint_heading : function
+        returns Boolean matches (Attributive, Attributive)
+        is commutative
+        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_disjoint_heading),
+
+    except_heading : function
         returns Heading matches (Attributive, Attributive)
-        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_except_heading);
+        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_except_heading),
 
-    ::MD::Unicode_Aliases::"∖@" ::= alias of except_heading;
+    Unicode_Aliases::"∖@" : alias of except_heading,
 
-    ::MD::intersect_heading ::= function
+    intersect_heading : function
         returns Heading matches (Attributive, Attributive)
         is {associative,commutative,idempotent}
-        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_intersect_heading);
+        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_intersect_heading),
 
-    ::MD::Unicode_Aliases::"∩@" ::= alias of intersect_heading;
+    Unicode_Aliases::"∩@" : alias of intersect_heading,
 
-    ::MD::union_heading ::= function
+    union_heading : function
         returns Heading matches (Attributive, Attributive)
         is {associative,commutative,idempotent} identity (())
-        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_union_heading);
+        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_union_heading),
 
-    ::MD::Unicode_Aliases::"∪@" ::= alias of union_heading;
+    Unicode_Aliases::"∪@" : alias of union_heading,
 
-    ::MD::exclusive ::= function
+    exclusive : function
         returns Heading matches (Attributive, Attributive)
         is {associative,commutative} identity (())
-        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_exclusive_heading);
+        : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_exclusive_heading),
 
-    ::MD::symm_diff_heading ::= alias of exclusive_heading;
+    symm_diff_heading : alias of exclusive_heading,
 
-    ::MD::Unicode_Aliases::"∆@" ::= alias of exclusive_heading;
+    Unicode_Aliases::"∆@" : alias of exclusive_heading,
 
-    ::MD::rename::"" ::= function virtual
+    rename::"" : function virtual
         returns Attributive matches (Attributive, Renaming)
-        accepts (...);
+        accepts (...),
 
-    ::MD::"@:=" ::= alias of rename;
+    "@:=" : alias of rename,
 
-    ::MD::Unicode_Aliases::"ρ" ::= alias of rename;
+    Unicode_Aliases::"ρ" : alias of rename,
 
-    ::MD::renaming ::= function commutes rename;
+    renaming : function commutes rename,
 
-    ::MD::can_project_matching::"" ::= function virtual
-        returns Boolean matches (Attributive, Structural);
+    can_project_matching::"" : function virtual
+        returns Boolean matches (Attributive, Structural),
 
-    ::MD::"%=?" ::= alias of can_project_matching;
+    "%=?" : alias of can_project_matching,
 
-    ::MD::on::"" ::= function virtual
+    on::"" : function virtual
         returns Attributive matches (Attributive, Heading)
-        accepts (args.\0 @? (args.\1));
+        accepts (args.\0 @? (args.\1)),
 
-    ::MD::project ::= alias of on;
-    ::MD::"%="    ::= alias of on;
+    project : alias of on,
+    "%="    : alias of on,
 
-    ::MD::Unicode_Aliases::"π" ::= alias of on;
+    Unicode_Aliases::"π" : alias of on,
 
-    ::MD::from ::= function commutes on;
+    from : function commutes on,
 
-    ::MD::maybe_on ::= function returns Attributive matches (Attributive, Heading)
-        : (args.\0 on (args.\0 intersect_heading args.\1));
+    maybe_on : function returns Attributive matches (Attributive, Heading)
+        : (args.\0 on (args.\0 intersect_heading args.\1)),
 
-    ::MD::"%!" ::= alias of maybe_on;
+    "%!" : alias of maybe_on,
 
-    ::MD::update::"" ::= function virtual
+    update::"" : function virtual
         returns Attributive matches (Attributive, Structural)
-        accepts (args.\0 @? (args.\1));
+        accepts (args.\0 @? (args.\1)),
 
-    ::MD::"%:=" ::= alias of update;
+    "%:=" : alias of update,
 
-    ::MD::extend::"" ::= function virtual
+    extend::"" : function virtual
         returns Attributive matches (Attributive, Structural)
-        accepts (args.\0 disjoint_heading args.\1);
+        accepts (args.\0 disjoint_heading args.\1),
 
-    ::MD::"%+" ::= alias of extend;
+    "%+" : alias of extend,
 
-    ::MD::but ::= function returns Attributive matches (Attributive, Heading)
+    but : function returns Attributive matches (Attributive, Heading)
         accepts (args.\0 @? (args.\1))
-        : (args.\0 on (args.\0 except_heading args.\1));
+        : (args.\0 on (args.\0 except_heading args.\1)),
 
-    ::MD::project_all_but ::= alias of but;
-    ::MD::"%-"            ::= alias of but;
+    project_all_but : alias of but,
+    "%-"            : alias of but,
 
-    ::MD::update_or_extend ::= function
+    update_or_extend : function
         returns Attributive matches (Attributive, Structural)
-        : (args.\0 on (args.\0 except_heading args.\1) extend args.\1);
+        : (args.\0 on (args.\0 except_heading args.\1) extend args.\1),
 
-    ::MD::"%=+" ::= alias of update_or_extend;
+    "%=+" : alias of update_or_extend,
 
-    ::MD::maybe_but ::= function returns Attributive matches (Attributive, Heading)
-        : (args.\0 but (args.\0 intersect_heading args.\1));
+    maybe_but : function returns Attributive matches (Attributive, Heading)
+        : (args.\0 but (args.\0 intersect_heading args.\1)),
 
-    ::MD::"%?-" ::= alias of maybe_but;
+    "%?-" : alias of maybe_but,
 
 `#########################################################################`
 
-    ::MD::Structural ::= interface
+    Structural : interface
         composes {Attributive and_provides_its_default,
             Accessible and_provides_its_default}
         requires_implements {has_any_attrs,nullary
             ,is_unary,degree,heading,rename
             ,on,update,extend
             ,at
-            ,to_Tuple};
+            ,to_Tuple},
 
-    ::MD::can_project_matching::Structural ::= function
+    can_project_matching::Structural : function
         returns Boolean matches (Structural, Structural)
         implements 1::""
-        : (if args.\0 @? (args.\1) then args.\0 %= @(args.\1) = (args.\1) else False);
+        : (if args.\0 @? (args.\1) then args.\0 %= @(args.\1) = (args.\1) else False),
 
-    ::MD::has_any_at::Structure ::= function
+    has_any_at::Structure : function
         returns Boolean matches (Structure, Attr_Name)
         implements 1::""
-        : (args.\0 @? (args.\1));
+        : (args.\0 @? (args.\1)),
 
-    ::MD::has_mapping_at::Structural ::= function
+    has_mapping_at::Structural : function
         returns Boolean matches (Structural, (Attr_Name, Any))
         implements 1::""
-        : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False);
+        : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
 
-    ::MD::mapping_at::Structural ::= function
+    mapping_at::Structural : function
         returns (Attr_Name, Any) matches (Structural, Attr_Name)
         implements 1::""
         accepts (args.\0 .? (args.\1))
-        : ((args.\1, args.\0.(args.\1)));
+        : ((args.\1, args.\0.(args.\1))),
 
-    ::MD::maybe_at::Structural ::= function
+    maybe_at::Structural : function
         returns Any matches (Structural, Attr_Name)
         implements 1::""
-        : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Attr_Name());
+        : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Attr_Name()),
 
-    ::MD::replace_at::Structure ::= function
+    replace_at::Structure : function
         returns Structure matches (Structure, (Attr_Name, Any))
         implements 1::""
         accepts (args.\0 .? (args.\1.\0))
-    : (args.\0 update D1::(args.\1));
+    : (args.\0 update D1::(args.\1)),
 
-    ::MD::shiftless_insert_at::Structure ::= function
+    shiftless_insert_at::Structure : function
         returns Structure matches (Structure, (Attr_Name, Any))
         implements 1::""
         accepts (not args.\0 .? (args.\1.\0))
-        : (args.\0 extend D1::(args.\1));
+        : (args.\0 extend D1::(args.\1)),
 
-    ::MD::shiftless_remove_at::Structure ::= function
+    shiftless_remove_at::Structure : function
         returns Structure matches (Structure, Attr_Name)
         implements 1::""
         accepts (args.\0 .? (args.\1))
-        : (args.\0 but args.\1);
+        : (args.\0 but args.\1),
 
-    ::MD::replace_or_insert_at::Structural ::= function
+    replace_or_insert_at::Structural : function
         returns Structural matches (Structural, (Attr_Name, Any))
         implements 1::""
-        : (args.\0 update_or_extend D1::(args.\1));
+        : (args.\0 update_or_extend D1::(args.\1)),
 
-    ::MD::shiftless_maybe_remove_at::Structural ::= function
+    shiftless_maybe_remove_at::Structural : function
         returns Structural matches (Structural, Attr_Name)
         implements 1::""
-        : (args.\0 maybe_but args.\1);
+        : (args.\0 maybe_but args.\1),
 
-    ::MD::to_Tuple::"" ::= function virtual returns Tuple matches (Structural);
+    to_Tuple::"" : function virtual returns Tuple matches (Structural),
 
-    ::MD::"%" ::= alias of to_Tuple;
+    "%" : alias of to_Tuple,
 
 `#########################################################################`
 
-    ::MD::Tuple::"" ::= selection where (args -->^ FDN__is_a_Tuple)
+    Tuple::"" : selection where (args -->^ FDN__is_a_Tuple)
         default (())
-        composes Structural and_provides_its_default;
+        composes Structural and_provides_its_default,
 
-    ::MD::Tuple_D0 ::= constant (());
+    Tuple_D0 : constant (()),
 
-    ::MD::D0 ::= alias of Tuple_D0;
+    D0 : alias of Tuple_D0,
 
-    ::MD::Tuple_D1 ::= selection of Tuple
+    Tuple_D1 : selection of Tuple
         where (is_unary args.\0)
-        default ((False));
+        default ((False)),
 
-    ::MD::D1 ::= function returns Tuple_D1 matches (Attr_Name, Any)
-        : (args -->^ FDN__Tuple_D1_select);
+    D1 : function returns Tuple_D1 matches (Attr_Name, Any)
+        : (args -->^ FDN__Tuple_D1_select),
 
-    ::MD::has_any_attrs::Tuple ::= function returns Boolean matches (Tuple)
+    has_any_attrs::Tuple : function returns Boolean matches (Tuple)
         implements 1::""
-        : (args.\0 != ());
+        : (args.\0 != ()),
 
-    ::MD::nullary::Tuple ::= function returns Tuple matches (Tuple)
+    nullary::Tuple : function returns Tuple matches (Tuple)
         implements 1::""
-        : (());
+        : (()),
 
-    ::MD::is_unary::Tuple ::= function returns Boolean matches (Tuple)
+    is_unary::Tuple : function returns Boolean matches (Tuple)
         implements 1::""
-        : (degree::(args.\0) = 1);
+        : (degree::(args.\0) = 1),
 
-    ::MD::degree::Tuple ::= function returns Integer_NN matches (Tuple)
+    degree::Tuple : function returns Integer_NN matches (Tuple)
         implements 1::""
-        : (args -->^ FDN__Tuple_degree);
+        : (args -->^ FDN__Tuple_degree),
 
-    ::MD::heading::Tuple ::= function returns Heading matches (Tuple)
+    heading::Tuple : function returns Heading matches (Tuple)
         implements 1::""
-        : (args -->^ FDN__Tuple_heading);
+        : (args -->^ FDN__Tuple_heading),
 
-    ::MD::rename::Tuple ::= function returns Tuple matches (Tuple, Renaming)
+    rename::Tuple : function returns Tuple matches (Tuple, Renaming)
         implements 1::""
         accepts (...)
-        : (args -->^ FDN__Tuple_rename);
+        : (args -->^ FDN__Tuple_rename),
 
-    ::MD::on::Tuple ::= function returns Tuple matches (Tuple, Heading)
+    on::Tuple : function returns Tuple matches (Tuple, Heading)
         implements 1::""
         accepts (args.\0 @? (args.\1))
-        : (args -->^ FDN__Tuple_on);
+        : (args -->^ FDN__Tuple_on),
 
-    ::MD::update::Tuple ::= function returns Tuple matches (Tuple, Tuple)
+    update::Tuple : function returns Tuple matches (Tuple, Tuple)
         implements 1::""
         accepts (args.\0 @? (args.\1))
-        : (args -->^ FDN__Tuple_update);
+        : (args -->^ FDN__Tuple_update),
 
-    ::MD::extend::Tuple ::= function returns Tuple matches (Tuple, Tuple)
+    extend::Tuple : function returns Tuple matches (Tuple, Tuple)
         implements 1::""
         accepts (args.\0 disjoint_heading args.\1)
         is {associative,commutative} identity (())
-        : (args -->^ FDN__Tuple_extend);
+        : (args -->^ FDN__Tuple_extend),
 
-    ::MD::at::Tuple ::= function returns Any matches (Tuple, Attr_Name)
+    at::Tuple : function returns Any matches (Tuple, Attr_Name)
         implements 1::""
         accepts (args.\0 .? (args.\1))
-        : (args -->^ FDN__Tuple_at);
+        : (args -->^ FDN__Tuple_at),
 
-    ::MD::to_Tuple::Tuple ::= function returns Tuple matches (Tuple)
+    to_Tuple::Tuple : function returns Tuple matches (Tuple)
         implements 1::""
-        : (args.\0);
+        : (args.\0),
 
-    ::MD::any_attrs ::= function returns Boolean matches (Tuple, Signature)
+    any_attrs : function returns Boolean matches (Tuple, Signature)
         : ((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-            -->^ FDN__Tuple_any_attrs);
+            -->^ FDN__Tuple_any_attrs),
 
-    ::MD::none_of_attrs ::= function negates any_attrs;
+    none_of_attrs : function negates any_attrs,
 
-    ::MD::all_attrs ::= function returns Boolean matches (Tuple, Signature)
-        : (args.\0 none_of_attrs \not_is_a::( 1: args.\1 ));
+    all_attrs : function returns Boolean matches (Tuple, Signature)
+        : (args.\0 none_of_attrs \not_is_a::( 1: args.\1 )),
 
-    ::MD::not_all_attrs ::= function negates all_attrs;
+    not_all_attrs : function negates all_attrs,
 
-    ::MD::all_attr_assets ::= function returns Boolean matches (Tuple, Signature)
+    all_attr_assets : function returns Boolean matches (Tuple, Signature)
         : (args.\0 all_attrs \((args.\1) <-- (args.\0.\asset,))
-            \<-- (1 : Signature_to_Function_Call_But_0::(args.\1)));
+            \<-- (1 : Signature_to_Function_Call_But_0::(args.\1))),
 
-    ::MD::attrs_where ::= function returns Tuple matches (Tuple, Signature)
+    attrs_where : function returns Tuple matches (Tuple, Signature)
         : ((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-            -->^ FDN__Tuple_attrs_where);
+            -->^ FDN__Tuple_attrs_where),
 
-    ::MD::attrs_map ::= function returns Tuple matches (Tuple, Function_Call_But_0)
-        : (args -->^ FDN__Tuple_attrs_map);
+    attrs_map : function returns Tuple matches (Tuple, Function_Call_But_0)
+        : (args -->^ FDN__Tuple_attrs_map),
 
-    ::MD::attrs_reduce ::= function returns Any matches (Tuple, Function_Call_But_0_1)
-        : (args -->^ FDN__Tuple_attrs_reduce);
+    attrs_reduce : function returns Any matches (Tuple, Function_Call_But_0_1)
+        : (args -->^ FDN__Tuple_attrs_reduce),
 
 `#########################################################################`
 
-    ::MD::Relational ::= interface
+    Relational : interface
         composes {Unionable, Attributive}
-        requires_implements {heading,body,select_Relational};
+        requires_implements {heading,body,select_Relational},
 
-    ::MD::to_Boolean::Relational ::= function returns Boolean matches (Relational)
+    to_Boolean::Relational : function returns Boolean matches (Relational)
         implements 1::""
-        : (? |(args.\0));
+        : (? |(args.\0)),
 
-    ::MD::empty::Relational ::= function returns Relational matches (Relational)
+    empty::Relational : function returns Relational matches (Relational)
         implements 1::""
-        : (select_Relational::( like: args.\0, heading: @(args.\0), body: empty |(args.\0) ));
+        : (select_Relational::( like: args.\0, heading: @(args.\0), body: empty |(args.\0) )),
 
-    ::MD::singular::Relational ::= function returns Boolean matches (Relational)
+    singular::Relational : function returns Boolean matches (Relational)
         implements 1::""
-        : (singular |(args.\0));
+        : (singular |(args.\0)),
 
-    ::MD::only_member::Relational ::= function returns Structural matches (Relational)
+    only_member::Relational : function returns Structural matches (Relational)
         implements 1::""
         accepts (singular args.\0)
-        : (only_member |(args.\0));
+        : (only_member |(args.\0)),
 
-    ::MD::has_n::Relational ::= function
+    has_n::Relational : function
         returns {Boolean, Excuse::Not_Same_Heading}
         matches (Relational, Structural, Integer_NN)
         implements 1::""
         : (if args.\0 =@ (args.\1) then has_n::(|(args.\0), args.\1, args.\2)
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::multiplicity::Relational ::= function
+    multiplicity::Relational : function
         returns Integer_NN matches (Relational, Structural)
         implements 1::""
-        : (|(args.\0) multiplicity args.\1);
+        : (|(args.\0) multiplicity args.\1),
 
-    ::MD::all_unique::Relational ::= function returns Boolean matches (Relational)
+    all_unique::Relational : function returns Boolean matches (Relational)
         implements 1::""
-        : (all_unique |(args.\0));
+        : (all_unique |(args.\0)),
 
-    ::MD::unique::Relational ::= function returns Relational matches (Relational)
+    unique::Relational : function returns Relational matches (Relational)
         implements 1::""
-        : (select_Relational::( like: args.\0, heading: @(args.\0), body: unique |(args.\0) ));
+        : (select_Relational::( like: args.\0, heading: @(args.\0), body: unique |(args.\0) )),
 
-    ::MD::subset_of::Relational ::= function
+    subset_of::Relational : function
         returns {Boolean, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         : (if args.\0 =@ (args.\1) then |(args.\0) subset_of |(args.\1)
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::same_members::Relational ::= function
+    same_members::Relational : function
         returns {Boolean, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         is commutative
         : (if args.\0 =@ (args.\1) then |(args.\0) same_members |(args.\1)
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::overlaps_members::Relational ::= function
+    overlaps_members::Relational : function
         returns {Boolean, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         is commutative
         : (if args.\0 =@ (args.\1) then |(args.\0) overlaps_members |(args.\1)
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::disjoint_members::Relational ::= function
+    disjoint_members::Relational : function
         returns {Boolean, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         is commutative
         : (if args.\0 =@ (args.\1) then |(args.\0) disjoint_members |(args.\1)
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::any::Relational ::= function
+    any::Relational : function
         returns Boolean matches (Relational, Signature)
         implements 1::""
-        : (|(args.\0) any args.\1);
+        : (|(args.\0) any args.\1),
 
-    ::MD::insert_n::Relational ::= function
+    insert_n::Relational : function
         returns {Relational, Excuse::Not_Same_Heading}
         matches (Relational, Structural, Integer_NN)
         implements 1::""
         : (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: insert_n::(|(args.\0), args.\1, args.\2) )
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::remove_n::Relational ::= function
+    remove_n::Relational : function
         returns {Relational, Excuse::Not_Same_Heading}
         matches (Relational, Structural, Integer_NN)
         implements 1::""
         : (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: remove_n::(|(args.\0), args.\1, args.\2) )
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::member_plus::Relational ::= function
+    member_plus::Relational : function
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         is associative
         : (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) member_plus |(args.\1) )
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::except::Relational ::= function
+    except::Relational : function
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         : (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) except |(args.\1) )
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::intersect::Relational ::= function
+    intersect::Relational : function
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         is {associative,idempotent}
         : (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) intersect |(args.\1) )
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::union::Relational ::= function
+    union::Relational : function
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         is idempotent
         : (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) union |(args.\1) )
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::exclusive::Relational ::= function
+    exclusive::Relational : function
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
         is {associative,commutative}
         : (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) exclusive |(args.\1) )
-            else Excuse::Not_Same_Heading);
+            else Excuse::Not_Same_Heading),
 
-    ::MD::nest::Relational ::= function returns Relational matches (Relational)
+    nest::Relational : function returns Relational matches (Relational)
         implements 1::""
         accepts (...)
-        : (...);
+        : (...),
 
-    ::MD::unnest::Relational ::= function returns Relational matches (Relational)
+    unnest::Relational : function returns Relational matches (Relational)
         implements 1::""
         accepts (...)
-        : (...);
+        : (...),
 
-    ::MD::where::Relational ::= function
+    where::Relational : function
         returns Relational matches (Relational, Signature)
         implements 1::""
-        : (select_Relational::( like: args.\0, heading: @(args.\0), body: |(args.\0) where args.\1 ));
+        : (select_Relational::( like: args.\0, heading: @(args.\0), body: |(args.\0) where args.\1 )),
 
-    ::MD::map::Relational ::= function
+    map::Relational : function
         returns Relational matches (Relational, Function_Call_But_0)
         implements 1::""
-        : (...);
+        : (...),
 
-    ::MD::reduce::Relational ::= function
+    reduce::Relational : function
         returns Any matches (Relational, Function_Call_But_0_1)
         implements 1::""
-        : (|(args.\0) reduce args.\1);
+        : (|(args.\0) reduce args.\1),
 
-    ::MD::has_any_attrs::Relational ::= function returns Boolean matches (Relational)
+    has_any_attrs::Relational : function returns Boolean matches (Relational)
         implements 1::""
-        : (@(args.\0) != ());
+        : (@(args.\0) != ()),
 
-    ::MD::nullary::Relational ::= function returns Relational matches (Relational)
+    nullary::Relational : function returns Relational matches (Relational)
         implements 1::""
-        : (args.\0 on ());
+        : (args.\0 on ()),
 
-    ::MD::is_unary::Relational ::= function returns Boolean matches (Relational)
+    is_unary::Relational : function returns Boolean matches (Relational)
         implements 1::""
-        : (is_unary @(args.\0));
+        : (is_unary @(args.\0)),
 
-    ::MD::degree::Relational ::= function returns Integer_NN matches (Relational)
+    degree::Relational : function returns Integer_NN matches (Relational)
         implements 1::""
-        : (degree @(args.\0));
+        : (degree @(args.\0)),
 
-    ::MD::rename::Relational ::= function
+    rename::Relational : function
         returns Relational matches (Relational, Renaming)
         implements 1::""
         accepts (...)
         : (select_Relational::( like: args.\0, heading: @(args.\0) rename args.\1,
-            body: |(args.\0) map \rename::( 1: args.\1 ) ));
+            body: |(args.\0) map \rename::( 1: args.\1 ) )),
 
-    ::MD::can_project_matching::Relational ::= function
+    can_project_matching::Relational : function
         returns Boolean matches (Relational, Structural)
         implements 1::""
         : (if args.\0 @? (args.\1)
             then |(args.\0) all \(args.\0 %= @(args.\1) = (args.\1)) \<-- (1 : args.\1,)
-            else False);
+            else False),
 
-    ::MD::on::Relational ::= function
+    on::Relational : function
         returns Relational matches (Relational, Heading)
         implements 1::""
         accepts (args.\0 @? (args.\1))
         : (select_Relational::( like: args.\0, heading: @(args.\0) on args.\1,
-            body: |(args.\0) map \on::( 1: args.\1 ) ));
+            body: |(args.\0) map \on::( 1: args.\1 ) )),
 
-    ::MD::update::Relational ::= function
+    update::Relational : function
         returns Relational matches (Relational, Structural)
         implements 1::""
         accepts (args.\0 @? (args.\1))
         : (select_Relational::( like: args.\0, heading: @(args.\0),
-            body: |(args.\0) map \update::( 1: args.\1 ) ));
+            body: |(args.\0) map \update::( 1: args.\1 ) )),
 
-    ::MD::extend::Relational ::= function
+    extend::Relational : function
         returns Relational matches (Relational, Structural)
         implements 1::""
         accepts (args.\0 disjoint_heading args.\1)
         : (select_Relational::( like: args.\0, heading: @(args.\0) extend args.\1,
-            body: |(args.\0) map \extend::( 1: args.\1 ) ));
+            body: |(args.\0) map \extend::( 1: args.\1 ) )),
 
-    ::MD::body::"" ::= function virtual returns Unionable matches (Relational);
+    body::"" : function virtual returns Unionable matches (Relational),
 
-    ::MD::"|" ::= alias of body;
+    "|" : alias of body,
 
-    ::MD::select_Relational::"" ::= function virtual
+    select_Relational::"" : function virtual
         returns {Relational, Excuse::...}
-        matches (like : Relational, heading : Heading, body : Unionable);
+        matches (like : Relational, heading : Heading, body : Unionable),
 
 `#########################################################################`
 
-    ::MD::Tuple_Array ::= selection of Capsule
+    Tuple_Array : selection of Capsule
         where (has_wrapped::( args.\0, \Tuple_Array, \(
             if args.\0 is_a ( heading : \Heading::(), body : \Array::() ) then
                 if args.\0.\body all \Tuple::() then
@@ -2589,29 +2589,29 @@ package
                 False
         ) ))
         default (~%@())
-        composes {Relational, Positional};
+        composes {Relational, Positional},
 
-    ::MD::Tuple_Array_D0C0 ::= constant (~%@());
+    Tuple_Array_D0C0 : constant (~%@()),
 
-    ::MD::Tuple_Array_D0C1 ::= constant (~%[()]);
+    Tuple_Array_D0C1 : constant (~%[()]),
 
-    ::MD::heading::Tuple_Array ::= function returns Heading matches (Tuple_Array)
+    heading::Tuple_Array : function returns Heading matches (Tuple_Array)
         implements 1::""
-        : (unwrap::(args.\0).\heading);
+        : (unwrap::(args.\0).\heading),
 
-    ::MD::body::Tuple_Array ::= function returns Array matches (Tuple_Array)
+    body::Tuple_Array : function returns Array matches (Tuple_Array)
         implements 1::""
-        : (unwrap::(args.\0).\body);
+        : (unwrap::(args.\0).\body),
 
-    ::MD::select_Relational::Tuple_Array ::= function
+    select_Relational::Tuple_Array : function
         returns {Relational, Excuse::...}
         matches (like : Tuple_Array, heading : Heading, body : Array)
         implements 1::""
-        : (\Tuple_Array wrap args %= \@(heading,body));
+        : (\Tuple_Array wrap args %= \@(heading,body)),
 
 `#########################################################################`
 
-    ::MD::Relation ::= selection of Capsule
+    Relation : selection of Capsule
         where (has_wrapped::( args.\0, \Relation, \(
             if args.\0 is_a ( heading : \Heading::(), body : \Set::() ) then
                 if args.\0.\body all \Tuple::() then
@@ -2622,33 +2622,33 @@ package
                 False
         ) ))
         default (?%@())
-        composes {Relational and_provides_its_default, Discrete, Setty};
+        composes {Relational and_provides_its_default, Discrete, Setty},
 
-    ::MD::Relation_D0C0 ::= constant (?%@());
+    Relation_D0C0 : constant (?%@()),
 
-    ::MD::D0C0 ::= alias of Relation_D0C0;
+    D0C0 : alias of Relation_D0C0,
 
-    ::MD::Relation_D0C1 ::= constant (?%{()});
+    Relation_D0C1 : constant (?%{()}),
 
-    ::MD::D0C1 ::= alias of Relation_D0C1;
+    D0C1 : alias of Relation_D0C1,
 
-    ::MD::heading::Relation ::= function returns Heading matches (Relation)
+    heading::Relation : function returns Heading matches (Relation)
         implements 1::""
-        : (unwrap::(args.\0).\heading);
+        : (unwrap::(args.\0).\heading),
 
-    ::MD::body::Relation ::= function returns Set matches (Relation)
+    body::Relation : function returns Set matches (Relation)
         implements 1::""
-        : (unwrap::(args.\0).\body);
+        : (unwrap::(args.\0).\body),
 
-    ::MD::select_Relational::Relation ::= function
+    select_Relational::Relation : function
         returns {Relational, Excuse::...}
         matches (like : Relation, heading : Heading, body : Set)
         implements 1::""
-        : (\Relation wrap args %= \@(heading,body));
+        : (\Relation wrap args %= \@(heading,body)),
 
 `#########################################################################`
 
-    ::MD::Tuple_Bag ::= selection of Capsule
+    Tuple_Bag : selection of Capsule
         where (has_wrapped::( args.\0, \Tuple_Bag, \(
             if args.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then
                 if args.\0.\body all \Tuple::() then
@@ -2659,115 +2659,115 @@ package
                 False
         ) ))
         default (+%@())
-        composes {Relational, Discrete};
+        composes {Relational, Discrete},
 
-    ::MD::Tuple_Bag_D0C0 ::= constant (+%@());
+    Tuple_Bag_D0C0 : constant (+%@()),
 
-    ::MD::Tuple_Bag_D0C1 ::= constant (+%{()});
+    Tuple_Bag_D0C1 : constant (+%{()}),
 
-    ::MD::heading::Tuple_Bag ::= function returns Heading matches (Tuple_Bag)
+    heading::Tuple_Bag : function returns Heading matches (Tuple_Bag)
         implements 1::""
-        : (unwrap::(args.\0).\heading);
+        : (unwrap::(args.\0).\heading),
 
-    ::MD::body::Tuple_Bag ::= function returns Bag matches (Tuple_Bag)
+    body::Tuple_Bag : function returns Bag matches (Tuple_Bag)
         implements 1::""
-        : (unwrap::(args.\0).\body);
+        : (unwrap::(args.\0).\body),
 
-    ::MD::select_Relational::Tuple_Bag ::= function
+    select_Relational::Tuple_Bag : function
         returns {Relational, Excuse::...}
         matches (like : Tuple_Bag, heading : Heading, body : Bag)
         implements 1::""
-        : (\Tuple_Bag wrap args %= \@(heading,body));
+        : (\Tuple_Bag wrap args %= \@(heading,body)),
 
 `#########################################################################`
 
-    ::MD::Intervalish ::= interface
+    Intervalish : interface
         composes Homogeneous
-        requires_implements {...};
+        requires_implements {...},
 
 `#########################################################################`
 
-    ::MD::Interval ::= selection of Capsule
+    Interval : selection of Capsule
         where (has_wrapped::( args.\0, \Interval, \Tuple::Interval() ))
         default ((-∞)..(+∞))
-        composes {Intervalish, Setty};
+        composes {Intervalish, Setty},
 
-    ::MD::Tuple::Interval ::= selection of Tuple
-        where (...);
+    Tuple::Interval : selection of Tuple
+        where (...),
 
 `#########################################################################`
 
-    ::MD::Unionable_Intervalish ::= interface
+    Unionable_Intervalish : interface
         composes {Intervalish, Unionable}
-        requires_implements {...};
+        requires_implements {...},
 
 `#########################################################################`
 
-    ::MD::Interval_Set ::= selection of Capsule
+    Interval_Set : selection of Capsule
         where (has_wrapped::( args.\0, \Interval_Set,
             \(if Interval_Bag args.\0 then all_unique args.\0 else False) ))
         default (...)
-        composes {Unionable_Intervalish, Setty};
+        composes {Unionable_Intervalish, Setty},
 
 `#########################################################################`
 
-    ::MD::Interval_Bag ::= selection of Capsule
+    Interval_Bag : selection of Capsule
         where (has_wrapped::( args.\0, \Interval_Bag, \(
             if Tuple_Bag args.\0 then ... else False
         ) ))
         default (...)
-        composes Unionable_Intervalish;
+        composes Unionable_Intervalish,
 
 `#########################################################################`
 
-    ::MD::Quantitative ::= interface
+    Quantitative : interface
         composes Numerical
-        requires_implements {...};
+        requires_implements {...},
 
 `#########################################################################`
 
-    ::MD::Quantity ::= selection of Capsule
+    Quantity : selection of Capsule
         where (has_wrapped::( args.\0, \Quantity, \(
             if Relation args.\0 then ... else False
         ) ))
         default (...)
-        composes Quantitative;
+        composes Quantitative,
 
 `#########################################################################`
 
-    ::MD::Capsule::"" ::= selection where (args -->^ FDN__is_a_Capsule)
-        default (False wrap False);
+    Capsule::"" : selection where (args -->^ FDN__is_a_Capsule)
+        default (False wrap False),
 
-    ::MD::Capsule::wrap ::= function returns Capsule matches (Any, Any)
-        : (args -->^ FDN__Capsule_wrap);
+    Capsule::wrap : function returns Capsule matches (Any, Any)
+        : (args -->^ FDN__Capsule_wrap),
 
-    ::MD::Capsule::wrapper ::= function returns Any matches (Capsule)
-        : (args -->^ FDN__Capsule_wrapper);
+    Capsule::wrapper : function returns Any matches (Capsule)
+        : (args -->^ FDN__Capsule_wrapper),
 
-    ::MD::Capsule::unwrap ::= function returns Any matches (Capsule)
-        : (args -->^ FDN__Capsule_unwrap);
+    Capsule::unwrap : function returns Any matches (Capsule)
+        : (args -->^ FDN__Capsule_unwrap),
 
-    ::MD::Capsule::has_wrapped ::= function
+    Capsule::has_wrapped : function
         returns Boolean matches (Capsule, Any, Signature)
         : ((wrapper args.\0) = (args.\1) and
-            (unwrap args.\0,) --> Signature_to_Function_Call_But_0::(args.\2));
+            (unwrap args.\0,) --> Signature_to_Function_Call_But_0::(args.\2)),
 
 `#########################################################################`
 
-    ::MD::Reference::"" ::= selection where (args -->^ FDN__is_a_Reference)
-        default (() -->^ FDN__default_Reference);
+    Reference::"" : selection where (args -->^ FDN__is_a_Reference)
+        default (() -->^ FDN__default_Reference),
 
 `#########################################################################`
 
-    ::MD::External::"" ::= selection where (args -->^ FDN__is_a_External)
-        default (() -->^ FDN__default_External);
+    External::"" : selection where (args -->^ FDN__is_a_External)
+        default (() -->^ FDN__default_External),
 
-    ::MD::External::call_function ::= function returns Any matches (Any)
-        : (FDN__External_call_function ^<-- args);
+    External::call_function : function returns Any matches (Any)
+        : (FDN__External_call_function ^<-- args),
 
 `#########################################################################`
 
-    ::MD::Source_Code::Package ::= selection of Capsule
+    Source_Code::Package : selection of Capsule
         where (has_wrapped::( args.\0, \Package, \(
             if
                 args.\0 is_a (
@@ -2783,12 +2783,12 @@ package
             else
                 False
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Pkg_Decl_Map ::= selection of Tuple
-        where (args.\0 .!? \"" and args.\0 all_attr_assets \Pkg_Canon_Name::());
+    Source_Code::Pkg_Decl_Map : selection of Tuple
+        where (args.\0 .!? \"" and args.\0 all_attr_assets \Pkg_Canon_Name::()),
 
-    ::MD::Source_Code::Pkg_Canon_Name ::= selection of Tuple where
+    Source_Code::Pkg_Canon_Name : selection of Tuple where
     (
         if
             args.\0 is_a (
@@ -2802,35 +2802,35 @@ package
             and #@(args.\0.\pkg_name_ext)  >= 2 and args.\0.\pkg_name_ext  ∌ \""
         else
             False
-    );
+    ),
 
-    ::MD::Source_Code::Fdn_Canon_Name ::= selection of Attr_Name_List
-        where (#(args.\0) >= 2 and args.\0 ∌ \"");
+    Source_Code::Fdn_Canon_Name : selection of Attr_Name_List
+        where (#(args.\0) >= 2 and args.\0 ∌ \""),
             `Element 0 is the Foundation authority.`
             `Element 1 is the Foundation version number.`
 
-    ::MD::Source_Code::Entry_Point ::= selection of Absolute_Name;
+    Source_Code::Entry_Point : selection of Absolute_Name,
 
-    ::MD::Source_Code::Floating ::= selection of Set
-        where (args.\0 all \Absolute_Name::());
+    Source_Code::Floating : selection of Set
+        where (args.\0 all \Absolute_Name::()),
 
-    ::MD::Source_Code::Absolute_Name ::= selection of Attr_Name_List
-        where (#(args.\0) >= 1 and args.\0.0 != \"");
+    Source_Code::Absolute_Name : selection of Attr_Name_List
+        where (#(args.\0) >= 1 and args.\0.0 != \""),
             `Element 0 is the package local alias.`
             `Elements 1+ are the folder or material names nested beneath it.`
 
-    ::MD::Source_Code::Folder ::= selection of Tuple
-        where (args.\0 all_attr_assets {\Folder::(), \Material::()});
+    Source_Code::Folder : selection of Tuple
+        where (args.\0 all_attr_assets {\Folder::(), \Material::()}),
 
-    ::MD::Source_Code::Material ::= selection
+    Source_Code::Material : selection
         union {Alias, Constant, Selection, Interface, Function, Procedure}
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Alias ::= selection of Capsule
+    Source_Code::Alias : selection of Capsule
         where (has_wrapped::( args.\0, \Alias, \Identity_Identifier::() ))
-        default (\Alias wrap Identity_Identifier::());
+        default (\Alias wrap Identity_Identifier::()),
 
-    ::MD::Source_Code::Constant ::= selection of Capsule
+    Source_Code::Constant : selection of Capsule
         where (has_wrapped::( args.\0, \Constant, \(
             args.\0 is_a (
                 folded : \Boolean::(),
@@ -2838,9 +2838,9 @@ package
                 value : \Function_Body::(),  `Defaults to \@0 if omitted.`
             )
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Selection ::= selection of Capsule
+    Source_Code::Selection : selection of Capsule
         where (has_wrapped::( args.\0, \Selection, \(
             args.\0 is_a (
                 of : ...,
@@ -2849,18 +2849,18 @@ package
                 composes : ...,
             )
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Interface ::= selection of Capsule
+    Source_Code::Interface : selection of Capsule
         where (has_wrapped::( args.\0, \Interface, \(
             args.\0 is_a (
                 composes : ...,
                 requires_implements : ...,
             )
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Function ::= selection of Capsule
+    Source_Code::Function : selection of Capsule
         where (has_wrapped::( args.\0, \Function, \(
             args.\0 is_a (
                 virtual : \Boolean::(),
@@ -2880,18 +2880,18 @@ package
                 map : \Function_Body::(),  `Aka ":" or "via".`
             )
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Function_Body ::= selection of Capsule
+    Source_Code::Function_Body : selection of Capsule
         where (has_wrapped::( args.\0, \Function_Body, \(
             args.\0 is_a (
                 root_expr : \Expression::(),
                 named_exprs : \Named_Expr_List::(),
             )
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Procedure ::= selection of Capsule
+    Source_Code::Procedure : selection of Capsule
         where (has_wrapped::( args.\0, \Procedure, \(
             args.\0 is_a (
                 virtual : \Boolean::(),
@@ -2905,9 +2905,9 @@ package
                 performs : \Procedure_Body::(),
             )
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Procedure_Body ::= selection of Capsule
+    Source_Code::Procedure_Body : selection of Capsule
         where (has_wrapped::( args.\0, \Procedure_Body, \(
             args.\0 is_a (
                 root_stmt : \Statement::(),
@@ -2915,49 +2915,49 @@ package
                 named_exprs : \Named_Expr_List::(),
             )
         ) ))
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Signature::"" ::= selection
+    Source_Code::Signature::"" : selection
         union {Function_Call_But_0, 1::Set, 1::Tuple}
-        default (\Any::());
+        default (\Any::()),
 
-    ::MD::Source_Code::Signature::Set ::= selection of Set
-        where (args.\0 all \Signature::());
+    Source_Code::Signature::Set : selection of Set
+        where (args.\0 all \Signature::()),
 
-    ::MD::Source_Code::Signature::Tuple ::= selection of Tuple
-        where (args.\0 all_attr_assets \Signature::());
+    Source_Code::Signature::Tuple : selection of Tuple
+        where (args.\0 all_attr_assets \Signature::()),
 
-    ::MD::Source_Code::Heading ::= selection of Tuple
-        where (args.\0 all_attr_assets \False::());
+    Source_Code::Heading : selection of Tuple
+        where (args.\0 all_attr_assets \False::()),
 
-    ::MD::Source_Code::Attr_Name ::= selection of Heading
-        where (is_unary args.\0);
+    Source_Code::Attr_Name : selection of Heading
+        where (is_unary args.\0),
 
-    ::MD::Source_Code::Attr_Name_List ::= selection of Array
-        where (args.\0 all \Attr_Name::());
+    Source_Code::Attr_Name_List : selection of Array
+        where (args.\0 all \Attr_Name::()),
 
-    ::MD::Source_Code::Named_Expr_List ::= selection of Tuple
-        where (args.\0 .!? \"" and args.\0 all_attr_assets \Expression::());
+    Source_Code::Named_Expr_List : selection of Tuple
+        where (args.\0 .!? \"" and args.\0 all_attr_assets \Expression::()),
 
-    ::MD::Source_Code::Expression ::= selection
+    Source_Code::Expression : selection
         union {Expr_Name_Expr, Naming_Expr, Annotating_Expr
             , ...
             , delimiting_expr, source_expr
             , opaque_literal_expr, collection_selector_expr
             , invocation_expr, conditional_expr, fail_expr, ...}
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Named_Stmt_List ::= selection of Tuple
-        where (args.\0 .!? \"" and args.\0 all_attr_assets \Statement::());
+    Source_Code::Named_Stmt_List : selection of Tuple
+        where (args.\0 .!? \"" and args.\0 all_attr_assets \Statement::()),
 
-    ::MD::Source_Code::Statement ::= selection
+    Source_Code::Statement : selection
         union {...}
-        default (...);
+        default (...),
 
-    ::MD::Source_Code::Key_Asset_Pair ::= selection of Tuple
-        where (@(args.\0) = \@(key,asset));
+    Source_Code::Key_Asset_Pair : selection of Tuple
+        where (@(args.\0) = \@(key,asset)),
 
-    ::MD::Source_Code::Signature_to_Function_Call_But_0 ::= function
+    Source_Code::Signature_to_Function_Call_But_0 : function
         returns Function_Call_But_0 matches (Signature)
     : (
         if Function_Call_But_0 args.\0 then
@@ -2978,19 +2978,20 @@ package
             ) \<-- (1 : args.\0)
         else
             fail  `We should never get here.`
-    );
+    ),
 
 `#########################################################################`
 
-    ::MD::Source_Code::Annotation::"" ::= interface;
+    Source_Code::Annotation::"" : interface,
 
 `#########################################################################`
 
-    ::MD::Source_Code::Decoration::"" ::= interface;
+    Source_Code::Decoration::"" : interface,
 
 `#########################################################################`
 
-};
+    ),
+);
 
 `#########################################################################`
 `#########################################################################`
