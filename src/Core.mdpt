@@ -7,7 +7,7 @@ script Unicode:9.0:UTF-8;
 package (
     identity : (MD : Core:"http://muldis.com":"0.201.0.-9"),
     foundation : "http://muldis.com":"0.201.0.-9",
-    floating : {::MD, ::MD::Round_Meth, ::MD::Capsule, ::MD::Source_Code},
+    floating : {::MD, ::MD::Round_Meth, ::MD::Source_Code},
     materials : (
 
 `#########################################################################`
@@ -509,15 +509,15 @@ package (
         returns {Fraction, Excuse::Div_By_Zero} matches (Integer, Integer)
         implements 1::""
     map (
-        n ::= (args.\0);
-        d ::= (args.\1);
+        n ::= args.\0;
+        d ::= args.\1;
 
         returns if d = 0 then Excuse::Div_By_Zero() else q;
 
-        q ::= (\Fraction wrap (
+        q ::= \Fraction >:< (
             numerator   : div::((d > 0 :? n :! -n), gcd, To_Zero::()),
             denominator : div::((d > 0 :? d :! -d), gcd, To_Zero::()),
-        ));
+        );
 
         gcd ::= gcd::(abs::(n), abs::(d));
     ),
@@ -527,30 +527,29 @@ package (
         matches (Integer, Integer, Round_Meth)
         implements 1::""
     map (
-        dividend   ::= (args.\0);
-        divisor    ::= (args.\1);
-        round_meth ::= (args.\2);
+        dividend   ::= args.\0;
+        divisor    ::= args.\1;
+        round_meth ::= args.\2;
 
         returns if divisor = 0 then Excuse::Div_By_Zero() else e1;
 
         e1 ::?= 'This is the case where we are dividing by a non-zero.';
 
-        e1 ::= (
-               dividend = 0       :? 0
+        e1 ::= dividend = 0       :? 0
             :! divisor  = 1       :? dividend
             :! dividend = divisor :? 1
             :! divisor  = -1      :? -dividend
             :!                       e2
-        );
+        ;
 
         e2 ::?= 'This is the case where the divisor and dividend do not'
             ' equal each other and neither of them is a zero or a one.';
 
         e2 ::= (
-            real_q_is_neg ::= (dividend < 0 xor divisor < 0);
-            rtz_quotient  ::= (FDN__Integer_divided_by_rtz
-                ^<-- (dividend, divisor));
-            rtz_remainder ::= (dividend - (divisor * rtz_quotient));
+            real_q_is_neg ::= dividend < 0 xor divisor < 0;
+            rtz_quotient  ::= FDN__Integer_divided_by_rtz
+                ^<-- (dividend, divisor);
+            rtz_remainder ::= dividend - (divisor * rtz_quotient);
 
             returns rtz_remainder = 0 :? rtz_quotient :! e3;
         );
@@ -560,9 +559,9 @@ package (
             ' have a fractional part, so we decide how to round that.';
 
         e3 ::= (
-            rti_quotient ::= (rtz_quotient + (real_q_is_neg :? -1 :! 1));
-            rdn_quotient ::= (rtz_quotient + (real_q_is_neg :? -1 :! 0));
-            rup_quotient ::= (rtz_quotient + (real_q_is_neg :?  0 :! 1));
+            rti_quotient ::= rtz_quotient + (real_q_is_neg :? -1 :! 1);
+            rdn_quotient ::= rtz_quotient + (real_q_is_neg :? -1 :! 0);
+            rup_quotient ::= rtz_quotient + (real_q_is_neg :?  0 :! 1);
 
             returns round_meth :?? {
                 Down::()    : rdn_quotient,
@@ -580,9 +579,9 @@ package (
             ' exactly one-half so we decide how to round that.';
 
         e4 ::= (
-            q ::= (FDN__Integer_divided_by_rtz ^<-- (abs::(rtz_quotient),2))
-            r ::= (abs::(rtz_quotient) - (2 * q));
-            rtz_quotient_is_even ::= (r = 0);
+            q ::= FDN__Integer_divided_by_rtz ^<-- (abs::(rtz_quotient),2)
+            r ::= abs::(rtz_quotient) - (2 * q);
+            rtz_quotient_is_even ::= r = 0;
 
             returns round_meth :?? {
                 Half_Down::()    : rdn_quotient,
@@ -745,8 +744,8 @@ package (
         implements 1::""
     map (
         d ::= lcm::(denominator args.\0, denominator args.\1);
-        n0 ::= ((numerator args.\0) * div::(d, denominator args.\0, To_Zero::()));
-        n1 ::= ((numerator args.\1) * div::(d, denominator args.\1, To_Zero::()));
+        n0 ::= (numerator args.\0) * div::(d, denominator args.\0, To_Zero::());
+        n1 ::= (numerator args.\1) * div::(d, denominator args.\1, To_Zero::());
         returns if args.\1 = 0.0 then Excuse::Div_By_Zero()
             else div::(n0 * d, n1 * d, args.\2) / 1;
     ),
@@ -768,10 +767,10 @@ package (
         map (args.\0),
 
     numerator::Fraction : function returns Integer matches (Fraction)
-        map (unwrap::(args.\0).\numerator),
+        map (args.\0:>.\numerator),
 
     denominator::Fraction : function returns Integer_P matches (Fraction)
-        map (unwrap::(args.\0).\denominator),
+        map (args.\0:>.\denominator),
 
 `#########################################################################`
 
@@ -888,10 +887,10 @@ package (
         map (Bits_from_String_Bits::((Bits_to_String_Bits args.\0) ~# (args.\1))),
 
     Bits_from_String_Bits : function returns Bits matches (String::Bits)
-        map (\Bits wrap args.\0),
+        map (\Bits >:< (args.\0)),
 
     Bits_to_String_Bits : function returns String::Bits matches (Bits)
-        map (unwrap::(args.\0)),
+        map (args.\0:>),
 
 `#########################################################################`
 
@@ -940,10 +939,10 @@ package (
         map (Blob_from_Octets::((Blob_to_Octets args.\0) ~# (args.\1))),
 
     Blob_from_Octets : function returns Blob matches (String::Octets)
-        map (\Blob wrap args.\0),
+        map (\Blob >:< (args.\0)),
 
     Blob_to_Octets : function returns String::Octets matches (Blob)
-        map (unwrap::(args.\0)),
+        map (args.\0:>),
 
 `#########################################################################`
 
@@ -1023,11 +1022,11 @@ package (
 
     Text_from_Maximal_Chars : function
         returns Text matches (String::Maximal_Chars)
-        map (\Text wrap args.\0),
+        map (\Text >:< (args.\0)),
 
     Text_to_Maximal_Chars : function
         returns String::Maximal_Chars matches (Text)
-        map (unwrap::(args.\0)),
+        map (args.\0:>),
 
     Text_from_Unicode_Codes : function
         returns Text::Unicode matches (String::Unicode_Codes)
@@ -1069,7 +1068,7 @@ package (
     Text_from_ASCII_Blob : function
         returns {Text::ASCII, Excuse::ASCII::High_Bit_Not_Zero} matches (Blob)
     map (
-        octets ::= (Blob_to_Octets args.\0);
+        octets ::= Blob_to_Octets args.\0;
         returns if String::ASCII_Chars(octets)
             then Text_from_ASCII_Chars octets
             else Excuse::ASCII::High_Bit_Not_Zero();
@@ -1078,9 +1077,9 @@ package (
     Text_from_ASCII_Blob_with_repl_Text : function
         returns Text::ASCII matches (Blob, Text::ASCII)
     map (
-        src_octets ::= (Blob_to_Octets args.\0);
-        repl_chars ::= (Text_to_ASCII_Chars args.\1);
-        result_chars ::= (
+        src_octets ::= Blob_to_Octets args.\0;
+        repl_chars ::= Text_to_ASCII_Chars args.\1;
+        result_chars ::=
             given #repl_chars
                 when 0 then
                     src_octets where \in::( 1: 0..127 )
@@ -1093,7 +1092,7 @@ package (
                         map \(args.\0 in 0..127 :? [args.\0] :! args.\1)
                             \<-- (1 : repl_chars,)
                         reduce \catenate::()
-        );
+            ;
         returns Text_from_ASCII_Chars result_chars;
     ),
 
@@ -1491,9 +1490,9 @@ package (
         implements 1::""
         accepts (args.\0 .? (args.\1.\0))
     map (
-        src ::= (args.\0);
-        ri ::= (args.\1.\0);
-        repl_member ::= (args.\1.\1);
+        src ::= args.\0;
+        ri ::= args.\1.\0;
+        repl_member ::= args.\1.\1;
         fi ::= first_index src;
         li ::= last_index src;
         emp ::= empty src;
@@ -1597,14 +1596,14 @@ package (
     in_order::Array : function returns Boolean matches (Array, Array)
         implements 1::""
     map (
-        i ::= (args.\0 index_succ_all_matches args.\1);
+        i ::= args.\0 index_succ_all_matches args.\1;
       returns
         if not args.\0 .? i then
             e1 ::= True
         else if not args.\1 .? i then
             False
         else
-            e2 ::= (args.\0.i in_order args.\1.i);
+            e2 ::= args.\0.i in_order args.\1.i;
 
         e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
         e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
@@ -1779,20 +1778,20 @@ package (
 
     singular::Set : function returns Boolean matches (Set)
         implements 1::""
-        map (singular unwrap::(args.\0)),
+        map (singular args.\0:>),
 
     only_member::Set : function returns Any matches (Set)
         implements 1::""
         accepts (singular args.\0)
-        map (only_member unwrap::(args.\0)),
+        map (only_member args.\0:>),
 
     has_n::Set : function returns Boolean matches (Set, Any, Integer_NN)
         implements 1::""
-        map (has_n::(unwrap::(args.\0), args.\1, args.\2)),
+        map (has_n::(args.\0:>, args.\1, args.\2)),
 
     multiplicity::Set : function returns Integer_NN matches (Set, Any)
         implements 1::""
-        map (unwrap::(args.\0) multiplicity args.\1),
+        map (args.\0:> multiplicity args.\1),
 
     all_unique::Set : function returns Boolean matches (Set)
         implements 1::""
@@ -1804,7 +1803,7 @@ package (
 
     subset_of::Set : function returns Boolean matches (Set, Set)
         implements 1::""
-        map (unwrap::(args.\0) subset_of unwrap::(args.\1)),
+        map (args.\0:> subset_of args.\1:>),
 
     same_members::Set : function returns Boolean matches (Set, Set)
         implements 1::""
@@ -1814,25 +1813,25 @@ package (
     overlaps_members::Set : function returns Boolean matches (Set, Set)
         implements 1::""
         is_commutative
-        map (unwrap::(args.\0) overlaps_members unwrap::(args.\1)),
+        map (args.\0:> overlaps_members args.\1:>),
 
     disjoint_members::Set : function returns Boolean matches (Set, Set)
         implements 1::""
         is_commutative
-        map (unwrap::(args.\0) disjoint_members unwrap::(args.\1)),
+        map (args.\0:> disjoint_members args.\1:>),
 
     any::Set : function returns Boolean matches (Set, Signature)
         implements 1::""
-        map (unwrap::(args.\0) any args.\1),
+        map (args.\0:> any args.\1),
 
     insert_n::Set : function returns Set matches (Set, Any, Integer_NN)
         implements 1::""
         map (args.\0 has args.\1 or args.\2 = 0 :? args.\0
-            :! \Set wrap insert_n::(unwrap::(args.\0), args.\1, 1)),
+            :! \Set >:< insert_n::(args.\0:>, args.\1, 1)),
 
     remove_n::Set : function returns Set matches (Set, Any, Integer_NN)
         implements 1::""
-        map (\Set wrap remove_n::(unwrap::(args.\0), args.\1, args.\2)),
+        map (\Set >:< remove_n::(args.\0:>, args.\1, args.\2)),
 
     member_plus::Set : function returns Set matches (Set, Set)
         implements 1::""
@@ -1841,44 +1840,44 @@ package (
 
     except::Set : function returns Set matches (Set, Set)
         implements 1::""
-        map (\Set wrap (unwrap::(args.\0) except unwrap::(args.\1))),
+        map (\Set >:< (args.\0:> except args.\1:>)),
 
     intersect::Set : function returns Set matches (Set, Set)
         implements 1::""
         is_associative is_commutative is_idempotent
-        map (\Set wrap (unwrap::(args.\0) intersect unwrap::(args.\1))),
+        map (\Set >:< (args.\0:> intersect args.\1:>)),
 
     union::Set : function returns Set matches (Set, Set)
         implements 1::""
         is_associative is_commutative is_idempotent identity ({})
-        map (\Set wrap (unwrap::(args.\0) union unwrap::(args.\1))),
+        map (\Set >:< (args.\0:> union args.\1:>)),
 
     exclusive::Set : function returns Set matches (Set, Set)
         implements 1::""
         is_associative is_commutative identity ({})
-        map (\Set wrap (unwrap::(args.\0) exclusive unwrap::(args.\1))),
+        map (\Set >:< (args.\0:> exclusive args.\1:>)),
 
     nest::Set : function returns Set matches (Set)
         implements 1::""
         accepts (...)
-        map (\Set wrap (nest unwrap::(args.\0))),
+        map (\Set >:< (nest args.\0:>)),
 
     unnest::Set : function returns Set matches (Set)
         implements 1::""
         accepts (...)
-        map (\Set wrap (unnest unwrap::(args.\0))),
+        map (\Set >:< (unnest args.\0:>)),
 
     where::Set : function returns Set matches (Set, Signature)
         implements 1::""
-        map (\Set wrap (unwrap::(args.\0) where args.\1)),
+        map (\Set >:< (args.\0:> where args.\1)),
 
     map::Set : function returns Set matches (Set, Function_Call_But_0)
         implements 1::""
-        map (\Set wrap (unwrap::(args.\0) map args.\1)),
+        map (\Set >:< (args.\0:> map args.\1)),
 
     reduce::Set : function returns Any matches (Set, Function_Call_But_0_1)
         implements 1::""
-        map (\Set wrap (unwrap::(args.\0) reduce args.\1)),
+        map (\Set >:< (args.\0:> reduce args.\1)),
 
     to_Set::Set : function returns Set matches (Set)
         implements 1::""
@@ -1886,11 +1885,11 @@ package (
 
     to_Bag::Set : function returns Bag matches (Set)
         implements 1::""
-        map (unwrap::(args.\0)),
+        map (args.\0:>),
 
     count::Set : function returns Integer_NN matches (Set)
         implements 1::""
-        map (count unwrap::(args.\0)),
+        map (count args.\0:>),
 
     unique_count::Set : function returns Integer_NN matches (Set)
         implements 1::""
@@ -1898,7 +1897,7 @@ package (
 
     order_using::Set : function returns Array matches (Set, Function_Call_But_0_1)
         implements 1::""
-        map (\Set wrap (unwrap::(args.\0) order_using args.\1)),
+        map (\Set >:< (args.\0:> order_using args.\1)),
 
 `#########################################################################`
 
@@ -2022,7 +2021,7 @@ package (
 
     to_Set::Bag : function returns Set matches (Bag)
         implements 1::""
-        map (\Set wrap (unique args.\0)),
+        map (\Set >:< (unique args.\0)),
 
     to_Bag::Bag : function returns Bag matches (Bag)
         implements 1::""
@@ -2597,17 +2596,17 @@ package (
 
     heading::Tuple_Array : function returns Heading matches (Tuple_Array)
         implements 1::""
-        map (unwrap::(args.\0).\heading),
+        map (args.\0:>.\heading),
 
     body::Tuple_Array : function returns Array matches (Tuple_Array)
         implements 1::""
-        map (unwrap::(args.\0).\body),
+        map (args.\0:>.\body),
 
     select_Relational::Tuple_Array : function
         returns {Relational, Excuse::...}
         matches (like : Tuple_Array, heading : Heading, body : Array)
         implements 1::""
-        map (\Tuple_Array wrap args %= \@(heading,body)),
+        map (\Tuple_Array >:< (args %= \@(heading,body))),
 
 `#########################################################################`
 
@@ -2634,17 +2633,17 @@ package (
 
     heading::Relation : function returns Heading matches (Relation)
         implements 1::""
-        map (unwrap::(args.\0).\heading),
+        map (args.\0:>.\heading),
 
     body::Relation : function returns Set matches (Relation)
         implements 1::""
-        map (unwrap::(args.\0).\body),
+        map (args.\0:>.\body),
 
     select_Relational::Relation : function
         returns {Relational, Excuse::...}
         matches (like : Relation, heading : Heading, body : Set)
         implements 1::""
-        map (\Relation wrap args %= \@(heading,body)),
+        map (\Relation >:< (args %= \@(heading,body))),
 
 `#########################################################################`
 
@@ -2667,17 +2666,17 @@ package (
 
     heading::Tuple_Bag : function returns Heading matches (Tuple_Bag)
         implements 1::""
-        map (unwrap::(args.\0).\heading),
+        map (args.\0:>.\heading),
 
     body::Tuple_Bag : function returns Bag matches (Tuple_Bag)
         implements 1::""
-        map (unwrap::(args.\0).\body),
+        map (args.\0:>.\body),
 
     select_Relational::Tuple_Bag : function
         returns {Relational, Excuse::...}
         matches (like : Tuple_Bag, heading : Heading, body : Bag)
         implements 1::""
-        map (\Tuple_Bag wrap args %= \@(heading,body)),
+        map (\Tuple_Bag >:< (args %= \@(heading,body))),
 
 `#########################################################################`
 
@@ -2735,22 +2734,28 @@ package (
 
 `#########################################################################`
 
-    Capsule::"" : selection where (args -->^ FDN__is_a_Capsule)
-        default (False wrap False),
+    Capsule : selection where (args -->^ FDN__is_a_Capsule)
+        default (False >:< False),
 
-    Capsule::wrap : function returns Capsule matches (Any, Any)
+    wrap : function returns Capsule matches (Any, Any)
         map (args -->^ FDN__Capsule_wrap),
 
-    Capsule::wrapper : function returns Any matches (Capsule)
+    ">:<" : alias of wrap,
+
+    wrapper : function returns Any matches (Capsule)
         map (args -->^ FDN__Capsule_wrapper),
 
-    Capsule::unwrap : function returns Any matches (Capsule)
+    "<:" : alias of wrapper,
+
+    unwrap : function returns Any matches (Capsule)
         map (args -->^ FDN__Capsule_unwrap),
 
-    Capsule::has_wrapped : function
+    ":>" : alias of unwrap,
+
+    has_wrapped : function
         returns Boolean matches (Capsule, Any, Signature)
-        map ((wrapper args.\0) = (args.\1) and
-            (unwrap args.\0,) --> Signature_to_Function_Call_But_0::(args.\2)),
+        map (<:(args.\0) = (args.\1) and
+            (args.\0:>,) --> Signature_to_Function_Call_But_0::(args.\2)),
 
 `#########################################################################`
 
@@ -2828,7 +2833,7 @@ package (
 
     Source_Code::Alias : selection of Capsule
         where (has_wrapped::( args.\0, \Alias, \Identity_Identifier::() ))
-        default (\Alias wrap Identity_Identifier::()),
+        default (\Alias >:< Identity_Identifier::()),
 
     Source_Code::Constant : selection of Capsule
         where (has_wrapped::( args.\0, \Constant, \(
