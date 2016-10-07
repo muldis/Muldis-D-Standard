@@ -17,13 +17,13 @@ package (
     None : selection ( of {} ),
 
     same : function ( returns Boolean matches (Any, Any)
-        is_commutative
+        is_commutative True
         map (args -->^ FDN__same) ),
 
     "=" : alias ( of same ),
 
     not_same : function ( negates same
-        is_commutative ),
+        is_commutative True ),
 
     "!=" : alias ( of not_same ),
 
@@ -42,13 +42,13 @@ package (
         composes Excuse and_provides_its_default ),
 
     or_else : function ( returns Any matches (Any, Any)
-        is_associative is_idempotent
+        is_associative True is_idempotent True
         map (Excuse args.\0 :? args.\1 :! args.\0) ),
 
     coalesce : alias ( of or_else ),
 
     and_then : function ( returns Any matches (Any, Any)
-        is_associative is_idempotent
+        is_associative True is_idempotent True
         map (Excuse args.\0 :? args.\0 :! args.\1) ),
 
 `#########################################################################`
@@ -64,7 +64,7 @@ package (
 
     Unicode_Aliases::"+∞" : alias ( of Pos_Inf ),
 
-    in_order::"" : function ( virtual
+    in_order::"" : function ( virtual True
         returns Boolean matches (Orderable, Orderable) ),
 
     in_order::Neg_Inf_L : function ( returns Boolean matches (Neg_Inf, Orderable)
@@ -104,16 +104,16 @@ package (
     Unicode_Aliases::"≥" : alias ( of after_or_same ),
 
     min : function ( returns Orderable matches (Orderable, Orderable)
-        is_associative is_commutative is_idempotent identity (+∞)
+        is_associative True is_commutative True is_idempotent True identity (+∞)
         map (args.\0 in_order args.\1 :? args.\0 :! args.\1) ),
 
     max : function ( returns Orderable matches (Orderable, Orderable)
-        is_associative is_commutative is_idempotent identity (-∞)
+        is_associative True is_commutative True is_idempotent True identity (-∞)
         map (args.\0 in_order args.\1 :? args.\1 :! args.\0) ),
 
     minmax : function (
         returns (Orderable, Orderable) matches (Orderable, Orderable)
-        is_commutative
+        is_commutative True
         map (args.\0 in_order args.\1 :? args :! (args.\1, args.\0)) ),
 
 `#########################################################################`
@@ -121,12 +121,12 @@ package (
     Successable : interface (
         requires_implements {asset,nth_succ} ),
 
-    asset::"" : function ( virtual returns Any matches (Successable) ),
+    asset::"" : function ( virtual True returns Any matches (Successable) ),
 
     succ : function ( returns {Successable, Pos_Inf} matches (Successable)
         map (args.\0 nth_succ 1) ),
 
-    nth_succ::"" : function ( virtual
+    nth_succ::"" : function ( virtual True
         returns {Successable, Pos_Inf} matches (Successable, Integer_NN) ),
 
 `#########################################################################`
@@ -139,14 +139,14 @@ package (
     pred : function ( returns {Bicessable, Neg_Inf} matches (Bicessable)
         map (args.\0 nth_pred 1) ),
 
-    nth_pred::"" : function ( virtual
+    nth_pred::"" : function ( virtual True
         returns {Bicessable, Neg_Inf} matches (Bicessable, Integer_NN) ),
 
 `#########################################################################`
 
     Boolable : interface ( requires_implements to_Boolean ),
 
-    to_Boolean::"" : function ( virtual returns Boolean matches (Boolable) ),
+    to_Boolean::"" : function ( virtual True returns Boolean matches (Boolable) ),
 
     so  : alias ( of to_Boolean ),
     "?" : alias ( of to_Boolean ),
@@ -200,13 +200,13 @@ package (
     Unicode_Aliases::"¬" : alias ( of not ),
 
     and : function ( returns Boolean matches (Boolean, Boolean)
-        is_associative is_commutative is_idempotent identity (True)
+        is_associative True is_commutative True is_idempotent True identity (True)
         map (args.\0 :? args.\1 :! False) ),
 
     Unicode_Aliases::"∧" : alias ( of and ),
 
     nand : function ( negates and
-        is_commutative ),
+        is_commutative True ),
 
     not_and : alias ( of nand ),
 
@@ -214,13 +214,13 @@ package (
     Unicode_Aliases::"↑" : alias ( of nand ),
 
     or : function ( returns Boolean matches (Boolean, Boolean)
-        is_associative is_commutative is_idempotent identity (False)
+        is_associative True is_commutative True is_idempotent True identity (False)
         map (args.\0 :? True :! args.\1) ),
 
     Unicode_Aliases::"∨" : alias ( of or ),
 
     nor : function ( negates or
-        is_commutative ),
+        is_commutative True ),
 
     not_or : alias ( of nor ),
 
@@ -228,7 +228,7 @@ package (
     Unicode_Aliases::"↓" : alias ( of nor ),
 
     xnor : function ( returns Boolean matches (Boolean, Boolean)
-        is_associative is_commutative identity (True)
+        is_associative True is_commutative True identity (True)
         map (args.\0 = (args.\1)) ),
 
     iff : alias ( of xnor ),
@@ -236,7 +236,7 @@ package (
     Unicode_Aliases::"↔" : alias ( of xnor ),
 
     xor : function ( negates xnor
-        is_associative is_commutative identity (False) ),
+        is_associative True is_commutative True identity (False) ),
 
     Unicode_Aliases::"⊻" : alias ( of xor ),
     Unicode_Aliases::"↮" : alias ( of xor ),
@@ -286,34 +286,34 @@ package (
 
     Excuse::Zero_To_The_Zero : constant ( composes Excuse ),
 
-    to_Boolean::Numerical : function ( virtual returns Boolean matches (Numerical)
+    to_Boolean::Numerical : function ( virtual True returns Boolean matches (Numerical)
         implements 1::"" ),
 
     is_zero : function ( negates to_Boolean::Numerical ),
 
-    zero::"" : function ( virtual returns Numerical matches (Numerical) ),
+    zero::"" : function ( virtual True returns Numerical matches (Numerical) ),
 
-    opposite::"" : function ( virtual returns Numerical matches (Numerical) ),
+    opposite::"" : function ( virtual True returns Numerical matches (Numerical) ),
 
     additive_inverse : alias ( of opposite ),
 
-    reciprocal::"" : function ( virtual
+    reciprocal::"" : function ( virtual True
         returns {Numerical, Excuse::Div_By_Zero} matches (Numerical) ),
 
     multiplicative_inverse : alias ( of reciprocal ),
 
-    modulus::"" : function ( virtual returns Numerical matches (Numerical) ),
+    modulus::"" : function ( virtual True returns Numerical matches (Numerical) ),
 
     abs : alias ( of modulus ),
 
-    plus::"" : function ( virtual
+    plus::"" : function ( virtual True
         returns Numerical matches (Numerical, Numerical)
-        is_associative is_commutative
+        is_associative True is_commutative True
         repeater times ),
 
     "+" : alias ( of plus ),
 
-    minus::"" : function ( virtual
+    minus::"" : function ( virtual True
         returns Numerical matches (Numerical, Numerical) ),
 
     "-" : function (
@@ -324,7 +324,7 @@ package (
 
     modulus_minus : function (
         returns Numerical matches (Numerical, Numerical)
-        is_commutative
+        is_commutative True
         map (modulus args.\0 - (args.\1)) ),
 
     abs_minus : alias ( of modulus_minus ),
@@ -332,16 +332,16 @@ package (
 
     Unicode_Aliases::"|−|" : alias ( of modulus_minus ),
 
-    times::"" : function ( virtual
+    times::"" : function ( virtual True
         returns Numerical matches (Numerical, Numerical)
-        is_associative is_commutative
+        is_associative True is_commutative True
         repeater integral_nn_power ),
 
     "*" : alias ( of times ),
 
     Unicode_Aliases::"×" : alias ( of times ),
 
-    multiple_of::"" : function ( virtual
+    multiple_of::"" : function ( virtual True
         returns {Boolean, Excuse::Div_By_Zero} matches (Numerical, Numerical) ),
 
     nearest_multiple_of : function (
@@ -352,7 +352,7 @@ package (
 
     round : alias ( of nearest_multiple_of ),
 
-    fractional_divided_by::"" : function ( virtual
+    fractional_divided_by::"" : function ( virtual True
         returns {Numerical, Excuse::Div_By_Zero} matches (Numerical, Numerical) ),
 
     "/" : alias ( of fractional_divided_by ),
@@ -360,7 +360,7 @@ package (
     Unicode_Aliases::"÷" : alias ( of fractional_divided_by ),
     Unicode_Aliases::"∕" : alias ( of fractional_divided_by ),
 
-    integral_divided_by::"" : function ( virtual
+    integral_divided_by::"" : function ( virtual True
         returns {Numerical, Excuse::Div_By_Zero}
         matches (Numerical, Numerical, Round_Meth) ),
 
@@ -379,12 +379,12 @@ package (
         matches (Numerical, Numerical, Round_Meth)
         map ((args.\0 div args.\1, args.\0 mod args.\1)) ),
 
-    integral_power::"" : function ( virtual
+    integral_power::"" : function ( virtual True
         returns {Numerical, Excuse::Zero_To_The_Zero} matches (Numerical, Integral) ),
 
     "**" : alias ( of integral_power ),
 
-    integral_nn_power::"" : function ( virtual
+    integral_nn_power::"" : function ( virtual True
         returns {Numerical, Excuse::Zero_To_The_Zero} matches (Numerical, Integral_NN) ),
 
     power : alias ( of integral_nn_power ),
@@ -414,19 +414,19 @@ package (
     "++" : function ( returns {Integral, Pos_Inf} matches (Integral)
         map (succ args.\0) ),
 
-    to_Integer::"" : function ( virtual returns Integer matches (Integral) ),
+    to_Integer::"" : function ( virtual True returns Integer matches (Integral) ),
 
-    factorial::"" : function ( virtual returns Integral_P matches (Integral_NN) ),
+    factorial::"" : function ( virtual True returns Integral_P matches (Integral_NN) ),
 
     gcd : function ( returns Integral_P matches (Integral_NN, Integral_NN)
-        is_associative is_commutative is_idempotent
+        is_associative True is_commutative True is_idempotent True
         map ((if is_zero args.\1 then args.\0 else 0::(args.\1, mod::(args.\0, args.\1, To_Zero::())))
             ::?= 'Calculate using the Euclidean algorithm.') ),
 
     greatest_common_divisor : alias ( of gcd ),
 
     lcm : function ( returns Integral_NN matches (Integral_NN, Integral_NN)
-        is_associative is_commutative is_idempotent
+        is_associative True is_commutative True is_idempotent True
         map (if is_zero args.\0 or is_zero args.\1 then zero args.\0
             else div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::())) ),
 
@@ -485,7 +485,7 @@ package (
 
     plus::Integer : function ( returns Integer matches (Integer, Integer)
         implements 1::""
-        is_associative is_commutative identity (0)
+        is_associative True is_commutative True identity (0)
         repeater times::Integer
         map (args -->^ FDN__Integer_plus) ),
 
@@ -495,7 +495,7 @@ package (
 
     times::Integer : function ( returns Integer matches (Integer, Integer)
         implements 1::""
-        is_associative is_commutative identity (1)
+        is_associative True is_commutative True identity (1)
         repeater integral_nn_power::Integer
         map (args -->^ FDN__Integer_times) ),
 
@@ -632,11 +632,11 @@ package (
     Fractional_NN : selection ( of Fractional
         where (args.\0 >= zero::(args.\0)) ),
 
-    to_Fraction::"" : function ( virtual returns Fraction matches (Fractional) ),
+    to_Fraction::"" : function ( virtual True returns Fraction matches (Fractional) ),
 
-    numerator::"" : function ( virtual returns Integral matches (Fractional) ),
+    numerator::"" : function ( virtual True returns Integral matches (Fractional) ),
 
-    denominator::"" : function ( virtual returns Integral_P matches (Fractional) ),
+    denominator::"" : function ( virtual True returns Integral_P matches (Fractional) ),
 
 `#########################################################################`
 
@@ -696,7 +696,7 @@ package (
 
     plus::Fraction : function ( returns Fraction matches (Fraction, Fraction)
         implements 1::""
-        is_associative is_commutative identity (0.0)
+        is_associative True is_commutative True identity (0.0)
         repeater times::Fraction_Integer
     map (
         <-- (denominator args.\0) = (denominator args.\1)
@@ -716,7 +716,7 @@ package (
 
     times::Fraction : function ( returns Fraction matches (Fraction, Fraction)
         implements 1::""
-        is_associative is_commutative identity (1.0)
+        is_associative True is_commutative True identity (1.0)
         repeater integral_nn_power::Fraction
         map (((numerator args.\0) * (numerator args.\1))
             / ((denominator args.\0) * (denominator args.\1))) ),
@@ -780,7 +780,7 @@ package (
 
     Excuse::No_Empty_Value : constant ( composes Excuse ),
 
-    to_Boolean::Emptyable : function ( virtual returns Boolean matches (Emptyable)
+    to_Boolean::Emptyable : function ( virtual True returns Boolean matches (Emptyable)
         implements 1::"" ),
 
     has_any_members : alias ( of to_Boolean::Emptyable ),
@@ -789,7 +789,7 @@ package (
 
     Unicode_Aliases::"∅?" : alias ( of is_empty ),
 
-    empty::"" : function ( virtual
+    empty::"" : function ( virtual True
         returns {Emptyable, Excuse::No_Empty_Value} matches (Emptyable) ),
 
     Unicode_Aliases::"∅" : alias ( of empty ),
@@ -802,37 +802,37 @@ package (
             ,substring_of,overlaps_string,disjoint_string
             ,catenate,replicate} ),
 
-    substring_of::"" : function ( virtual
+    substring_of::"" : function ( virtual True
         returns Boolean matches (Stringy, Stringy) ),
 
     superstring_of : function ( commutes substring_of ),
 
     proper_substring_or_superstring : function (
         returns Boolean matches (String, String)
-        is_commutative
+        is_commutative True
         map (args.\0 != (args.\1) and (args.\0 substring_or_superstring args.\1)) ),
 
     substring_or_superstring : function (
         returns Boolean matches (String, String)
-        is_commutative
+        is_commutative True
         map ((args.\0 substring_of args.\1) or (args.\0 superstring_of args.\1)) ),
 
-    overlaps_string::"" : function ( virtual
+    overlaps_string::"" : function ( virtual True
         returns Boolean matches (String, String)
-        is_commutative ),
+        is_commutative True ),
 
-    disjoint_string::"" : function ( virtual
+    disjoint_string::"" : function ( virtual True
         returns Boolean matches (String, String)
-        is_commutative ),
+        is_commutative True ),
 
-    catenate::"" : function ( virtual
+    catenate::"" : function ( virtual True
         returns Stringy matches (Stringy, Stringy)
-        is_associative
+        is_associative True
         repeater replicate ),
 
     "~" : alias ( of catenate ),
 
-    replicate::"" : function ( virtual
+    replicate::"" : function ( virtual True
         returns Stringy matches (Stringy, Integer_NN) ),
 
     "~#" : alias ( of replicate ),
@@ -865,19 +865,19 @@ package (
 
     overlaps_string::Bits : function ( returns Boolean matches (Bits, Bits)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((Bits_to_String_Bits args.\0)
             overlaps_string (Bits_to_String_Bits args.\1)) ),
 
     disjoint_string::Bits : function ( returns Boolean matches (Bits, Bits)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((Bits_to_String_Bits args.\0)
             disjoint_string (Bits_to_String_Bits args.\1)) ),
 
     catenate::Bits : function ( returns Bits matches (Bits, Bits)
         implements 1::""
-        is_associative identity (\~?'')
+        is_associative True identity (\~?'')
         repeater replicate::Bits
         map (Bits_from_String_Bits::((Bits_to_String_Bits args.\0)
             ~ (Bits_to_String_Bits args.\1))) ),
@@ -920,17 +920,17 @@ package (
 
     overlaps_string::Blob : function ( returns Boolean matches (Blob, Blob)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((Blob_to_Octets args.\0) overlaps_string (Blob_to_Octets args.\1)) ),
 
     disjoint_string::Blob : function ( returns Boolean matches (Blob, Blob)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((Blob_to_Octets args.\0) disjoint_string (Blob_to_Octets args.\1)) ),
 
     catenate::Blob : function ( returns Blob matches (Blob, Blob)
         implements 1::""
-        is_associative identity (\~+'')
+        is_associative True identity (\~+'')
         repeater replicate::Blob
         map (Blob_from_Octets::((Blob_to_Octets args.\0) ~ (Blob_to_Octets args.\1))) ),
 
@@ -953,7 +953,7 @@ package (
             ,catenate,replicate
             ,to_Text} ),
 
-    to_Text::"" : function ( virtual returns Text matches (Textual) ),
+    to_Text::"" : function ( virtual True returns Text matches (Textual) ),
 
 `#########################################################################`
 
@@ -995,19 +995,19 @@ package (
 
     overlaps_string::Text : function ( returns Boolean matches (Text, Text)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((Text_to_Maximal_Chars args.\0)
             overlaps_string (Text_to_Maximal_Chars args.\1)) ),
 
     disjoint_string::Text : function ( returns Boolean matches (Text, Text)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((Text_to_Maximal_Chars args.\0)
             disjoint_string (Text_to_Maximal_Chars args.\1)) ),
 
     catenate::Text : function ( returns Text matches (Text, Text)
         implements 1::""
-        is_associative identity ('')
+        is_associative True identity ('')
         repeater replicate::Text
         map (Text_from_Maximal_Chars::((Text_to_Maximal_Chars args.\0)
             ~ (Text_to_Maximal_Chars args.\1))) ),
@@ -1107,7 +1107,7 @@ package (
             ,replace_at,shiftless_insert_at,shiftless_remove_at
             ,replace_or_insert_at,shiftless_maybe_remove_at} ),
 
-    has_any_at::"" : function ( virtual
+    has_any_at::"" : function ( virtual True
         returns Boolean matches (Accessible, Any) ),
 
     ".?" : alias ( of has_any_at ),
@@ -1116,50 +1116,50 @@ package (
 
     ".!?" : alias ( of not_has_any_at ),
 
-    has_mapping_at::"" : function ( virtual
+    has_mapping_at::"" : function ( virtual True
         returns Boolean matches (Accessible, (Any, Any)) ),
 
     ".:?" : alias ( of has_mapping_at ),
 
-    mapping_at::"" : function ( virtual
+    mapping_at::"" : function ( virtual True
         returns (Any, Any) matches (Accessible, Any)
         accepts (args.\0 .? (args.\1)) ),
 
     ".:" : alias ( of mapping_at ),
 
-    at::"" : function ( virtual returns Any matches (Accessible, Any)
+    at::"" : function ( virtual True returns Any matches (Accessible, Any)
         accepts (args.\0 .? (args.\1)) ),
 
     "." : alias ( of at ),
 
-    maybe_at::"" : function ( virtual returns Any matches (Accessible, Any) ),
+    maybe_at::"" : function ( virtual True returns Any matches (Accessible, Any) ),
 
     ".!" : alias ( of maybe_at ),
 
-    replace_at::"" : function ( virtual
+    replace_at::"" : function ( virtual True
         returns Accessible matches (Accessible, (Any, Any))
         accepts (args.\0 .? (args.\1.\0)) ),
 
     ".:=" : alias ( of replace_at ),
 
-    shiftless_insert_at::"" : function ( virtual
+    shiftless_insert_at::"" : function ( virtual True
         returns Accessible matches (Accessible, (Any, Any))
         accepts (not args.\0 .? (args.\1.\0)) ),
 
     ".+" : alias ( of shiftless_insert_at ),
 
-    shiftless_remove_at::"" : function ( virtual
+    shiftless_remove_at::"" : function ( virtual True
         returns Accessible matches (Accessible, Any)
         accepts (args.\0 .? (args.\1)) ),
 
     ".-" : alias ( of shiftless_remove_at ),
 
-    replace_or_insert_at::"" : function ( virtual
+    replace_or_insert_at::"" : function ( virtual True
         returns Accessible matches (Accessible, (Any, Any)) ),
 
     ".=+" : alias ( of replace_or_insert_at ),
 
-    shiftless_maybe_remove_at::"" : function ( virtual
+    shiftless_maybe_remove_at::"" : function ( virtual True
         returns Accessible matches (Accessible, Any) ),
 
     ".?-" : alias ( of shiftless_maybe_remove_at ),
@@ -1175,9 +1175,9 @@ package (
             ,subset_of,same_members,overlaps_members,disjoint_members
             ,any} ),
 
-    singular::"" : function ( virtual returns Boolean matches (Homogeneous) ),
+    singular::"" : function ( virtual True returns Boolean matches (Homogeneous) ),
 
-    only_member::"" : function ( virtual returns Any matches (Homogeneous)
+    only_member::"" : function ( virtual True returns Any matches (Homogeneous)
         accepts (singular args.\0) ),
 
     in : function ( commutes has ),
@@ -1197,15 +1197,15 @@ package (
 
     Unicode_Aliases::"∌" : alias ( of not_has ),
 
-    has_n::"" : function ( virtual
+    has_n::"" : function ( virtual True
         returns Boolean matches (Homogeneous, Any, Integer_NN) ),
 
-    multiplicity::"" : function ( virtual
+    multiplicity::"" : function ( virtual True
         returns Integer_NN matches (Homogeneous, Any) ),
 
-    all_unique::"" : function ( virtual returns Boolean matches (Homogeneous) ),
+    all_unique::"" : function ( virtual True returns Boolean matches (Homogeneous) ),
 
-    unique::"" : function ( virtual returns Homogeneous matches (Homogeneous) ),
+    unique::"" : function ( virtual True returns Homogeneous matches (Homogeneous) ),
 
     proper_subset_of : function (
         returns Boolean matches (Homogeneous, Homogeneous)
@@ -1225,7 +1225,7 @@ package (
 
     Unicode_Aliases::"⊅" : alias ( of not_proper_superset_of ),
 
-    subset_of::"" : function ( virtual
+    subset_of::"" : function ( virtual True
         returns Boolean matches (Homogeneous, Homogeneous) ),
 
     Unicode_Aliases::"⊆" : alias ( of subset_of ),
@@ -1242,29 +1242,29 @@ package (
 
     Unicode_Aliases::"⊉" : alias ( of not_superset_of ),
 
-    same_members::"" : function ( virtual
+    same_members::"" : function ( virtual True
         returns Boolean matches (Homogeneous, Homogeneous)
-        is_commutative ),
+        is_commutative True ),
 
     proper_subset_or_superset : function (
         returns Boolean matches (Homogeneous, Homogeneous)
-        is_commutative
+        is_commutative True
         map (not (args.\0 same_members args.\1) and (args.\0 subset_or_superset args.\1)) ),
 
     subset_or_superset : function (
         returns Boolean matches (Homogeneous, Homogeneous)
-        is_commutative
+        is_commutative True
         map ((args.\0 subset_of args.\1) or (args.\0 superset_of args.\1)) ),
 
-    overlaps_members::"" : function ( virtual
+    overlaps_members::"" : function ( virtual True
         returns Boolean matches (Homogeneous, Homogeneous)
-        is_commutative ),
+        is_commutative True ),
 
-    disjoint_members::"" : function ( virtual
+    disjoint_members::"" : function ( virtual True
         returns Boolean matches (Homogeneous, Homogeneous)
-        is_commutative ),
+        is_commutative True ),
 
-    any::"" : function ( virtual
+    any::"" : function ( virtual True
         returns Boolean matches (Homogeneous, Signature) ),
 
     there_exists : alias ( of any ),
@@ -1303,66 +1303,66 @@ package (
     insert : function ( returns Unionable matches (Unionable, Any)
         map (insert_n::(args.\0, args.\1, 1)) ),
 
-    insert_n::"" : function ( virtual
+    insert_n::"" : function ( virtual True
         returns Unionable matches (Unionable, Any, Integer_NN) ),
 
     remove : function ( returns Unionable matches (Unionable, Any)
         map (remove_n::(args.\0, args.\1, 1)) ),
 
-    remove_n::"" : function ( virtual
+    remove_n::"" : function ( virtual True
         returns Unionable matches (Unionable, Any, Integer_NN) ),
 
-    member_plus::"" : function ( virtual
+    member_plus::"" : function ( virtual True
         returns Unionable matches (Unionable, Unionable)
-        is_associative ),
+        is_associative True ),
 
     Unicode_Aliases::"⊎" : alias ( of member_plus ),
 
-    except::"" : function ( virtual
+    except::"" : function ( virtual True
         returns Unionable matches (Unionable, Unionable) ),
 
     Unicode_Aliases::"∖" : alias ( of except ),
 
-    intersect::"" : function ( virtual
+    intersect::"" : function ( virtual True
         returns Unionable matches (Unionable, Unionable)
-        is_associative is_idempotent ),
+        is_associative True is_idempotent True ),
 
     Unicode_Aliases::"∩" : alias ( of intersect ),
 
-    union::"" : function ( virtual
+    union::"" : function ( virtual True
         returns Unionable matches (Unionable, Unionable)
-        is_idempotent ),
+        is_idempotent True ),
 
     Unicode_Aliases::"∪" : alias ( of union ),
 
-    exclusive::"" : function ( virtual
+    exclusive::"" : function ( virtual True
         returns Unionable matches (Unionable, Unionable) ),
 
     symm_diff : alias ( of exclusive ),
 
     Unicode_Aliases::"∆" : alias ( of exclusive ),
 
-    nest::"" : function ( virtual returns Unionable matches (Unionable)
+    nest::"" : function ( virtual True returns Unionable matches (Unionable)
         accepts (...) ),
 
     group : alias ( of nest ),
 
-    unnest::"" : function ( virtual returns Unionable matches (Unionable)
+    unnest::"" : function ( virtual True returns Unionable matches (Unionable)
         accepts (...) ),
 
     ungroup : alias ( of unnest ),
 
-    where::"" : function ( virtual
+    where::"" : function ( virtual True
         returns Unionable matches (Unionable, Signature) ),
 
     Unicode_Aliases::"σ" : alias ( of where ),
 
     filtering : function ( commutes where ),
 
-    map::"" : function ( virtual
+    map::"" : function ( virtual True
         returns Unionable matches (Unionable, Function_Call_But_0) ),
 
-    reduce::"" : function ( virtual
+    reduce::"" : function ( virtual True
         returns Any matches (Unionable, Function_Call_But_0_1) ),
 
 `#########################################################################`
@@ -1380,25 +1380,25 @@ package (
             ,nest,unnest,where,map,reduce,...
             ,to_Set,to_Bag,count,unique_count,order_using} ),
 
-    to_Set::"" : function ( virtual returns Set matches (Discrete) ),
+    to_Set::"" : function ( virtual True returns Set matches (Discrete) ),
 
     "?|" : alias ( of to_Set ),
 
-    to_Bag::"" : function ( virtual returns Bag matches (Discrete) ),
+    to_Bag::"" : function ( virtual True returns Bag matches (Discrete) ),
 
     "+|" : alias ( of to_Bag ),
 
-    count::"" : function ( virtual returns Integer_NN matches (Discrete) ),
+    count::"" : function ( virtual True returns Integer_NN matches (Discrete) ),
 
     cardinality : alias ( of count ),
     "#"         : alias ( of count ),
 
-    unique_count::"" : function ( virtual returns Integer_NN matches (Discrete) ),
+    unique_count::"" : function ( virtual True returns Integer_NN matches (Discrete) ),
 
     order : function ( returns Positional matches (Discrete)
         map (args.\0 order_using \in_order::()) ),
 
-    order_using::"" : function ( virtual
+    order_using::"" : function ( virtual True
         returns Positional matches (Discrete, Function_Call_But_0_1) ),
 
 `#########################################################################`
@@ -1438,25 +1438,25 @@ package (
     same_members::Positional : function (
         returns Boolean matches (Positional, Positional)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((to_Bag args.\0) same_members (to_Bag args.\1)) ),
 
     overlaps_members::Positional : function (
         returns Boolean matches (Positional, Positional)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((to_Bag args.\0) overlaps_members (to_Bag args.\1)) ),
 
     disjoint_members::Positional : function (
         returns Boolean matches (Positional, Positional)
         implements 1::""
-        is_commutative
+        is_commutative True
         map ((to_Bag args.\0) disjoint_members (to_Bag args.\1)) ),
 
     member_plus::Positional : function (
         returns Positional matches (Positional, Positional)
         implements 1::""
-        is_associative
+        is_associative True
         map (args.\0 ~ (args.\1)) ),
 
     unique_count::Positional : function ( returns Integer_NN matches (Positional)
@@ -1528,7 +1528,7 @@ package (
             and args.\1 >= --first_unused_index::(args.\0))
         map (if args.\1 = --first_unused_index::(args.\0) then nonlast args.\0 else args.\0) ),
 
-    to_Array::"" : function ( virtual returns Array matches (Positional) ),
+    to_Array::"" : function ( virtual True returns Array matches (Positional) ),
 
     "~|" : alias ( of to_Array ),
 
@@ -1536,7 +1536,7 @@ package (
         map (args.\0 map \(( group : args.\0, member : False ))
             pipe nest map \(args.\0.\group)) ),
 
-    first_possible_index::"" : function ( virtual
+    first_possible_index::"" : function ( virtual True
         returns Integer matches (Positional) ),
 
     first_unused_index : function ( returns Integer matches (Positional)
@@ -1550,7 +1550,7 @@ package (
         accepts (?(args.\0))
         map (--first_unused_index::(args.\0)) ),
 
-    slice_n::"" : function ( virtual
+    slice_n::"" : function ( virtual True
         returns Positional matches (Positional, Integer, NN_Integer)
         accepts (args.\1 >= first_possible_index::(args.\0)
             and args.\1 + (args.\2) <= first_unused_index::(args.\0)) ),
@@ -1577,9 +1577,9 @@ package (
         accepts (?(args.\0))
         map (slice_range::(args.\0, first_index::(args.\0), --last_index::(args.\0))) ),
 
-    index_succ_all_matches::"" : function ( virtual
+    index_succ_all_matches::"" : function ( virtual True
         returns Integer matches (Positional, Positional)
-        is_commutative ),
+        is_commutative True ),
 
 `#########################################################################`
 
@@ -1623,17 +1623,17 @@ package (
 
     overlaps_string::Array : function ( returns Boolean matches (Array, Array)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args -->^ FDN__Array_overlaps_string) ),
 
     disjoint_string::Array : function ( returns Boolean matches (Array, Array)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args -->^ FDN__Array_disjoint_string) ),
 
     catenate::Array : function ( returns Array matches (Array, Array)
         implements 1::""
-        is_associative identity ([])
+        is_associative True identity ([])
         repeater replicate::Array
         map (args -->^ FDN__Array_catenate) ),
 
@@ -1675,12 +1675,12 @@ package (
 
     intersect::Array : function ( returns Array matches (Array, Array)
         implements 1::""
-        is_associative is_idempotent
+        is_associative True is_idempotent True
         map (args -->^ FDN__Array_intersect) ),
 
     union::Array : function ( returns Array matches (Array, Array)
         implements 1::""
-        is_idempotent identity ([])
+        is_idempotent True identity ([])
         map (args -->^ FDN__Array_union) ),
 
     exclusive::Array : function ( returns Array matches (Array, Array)
@@ -1749,7 +1749,7 @@ package (
     index_succ_all_matches::Array : function (
         returns Integer_NN matches (Array, Array)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args -->^ FDN__Array_index_succ_all_matches) ),
 
 `#########################################################################`
@@ -1807,17 +1807,17 @@ package (
 
     same_members::Set : function ( returns Boolean matches (Set, Set)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args.\0 = (args.\1)) ),
 
     overlaps_members::Set : function ( returns Boolean matches (Set, Set)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args.\0:> overlaps_members args.\1:>) ),
 
     disjoint_members::Set : function ( returns Boolean matches (Set, Set)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args.\0:> disjoint_members args.\1:>) ),
 
     any::Set : function ( returns Boolean matches (Set, Signature)
@@ -1835,7 +1835,7 @@ package (
 
     member_plus::Set : function ( returns Set matches (Set, Set)
         implements 1::""
-        is_associative is_commutative is_idempotent identity ({})
+        is_associative True is_commutative True is_idempotent True identity ({})
         map (args.\0 union args.\1) ),
 
     except::Set : function ( returns Set matches (Set, Set)
@@ -1844,17 +1844,17 @@ package (
 
     intersect::Set : function ( returns Set matches (Set, Set)
         implements 1::""
-        is_associative is_commutative is_idempotent
+        is_associative True is_commutative True is_idempotent True
         map (\Set >:< (args.\0:> intersect args.\1:>)) ),
 
     union::Set : function ( returns Set matches (Set, Set)
         implements 1::""
-        is_associative is_commutative is_idempotent identity ({})
+        is_associative True is_commutative True is_idempotent True identity ({})
         map (\Set >:< (args.\0:> union args.\1:>)) ),
 
     exclusive::Set : function ( returns Set matches (Set, Set)
         implements 1::""
-        is_associative is_commutative identity ({})
+        is_associative True is_commutative True identity ({})
         map (\Set >:< (args.\0:> exclusive args.\1:>)) ),
 
     nest::Set : function ( returns Set matches (Set)
@@ -1948,17 +1948,17 @@ package (
 
     same_members::Bag : function ( returns Boolean matches (Bag, Bag)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args.\0 = (args.\1)) ),
 
     overlaps_members::Bag : function ( returns Boolean matches (Bag, Bag)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args -->^ FDN__Bag_overlaps_members) ),
 
     disjoint_members::Bag : function ( returns Boolean matches (Bag, Bag)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (args -->^ FDN__Bag_disjoint_members) ),
 
     any::Bag : function ( returns Boolean matches (Bag, Signature)
@@ -1975,7 +1975,7 @@ package (
 
     member_plus::Bag : function ( returns Bag matches (Bag, Bag)
         implements 1::""
-        is_associative is_commutative identity (\+{})
+        is_associative True is_commutative True identity (\+{})
         map (args -->^ FDN__Bag_member_plus) ),
 
     except::Bag : function ( returns Bag matches (Bag, Bag)
@@ -1984,17 +1984,17 @@ package (
 
     intersect::Bag : function ( returns Bag matches (Bag, Bag)
         implements 1::""
-        is_associative is_commutative is_idempotent
+        is_associative True is_commutative True is_idempotent True
         map (args -->^ FDN__Bag_intersect) ),
 
     union::Bag : function ( returns Bag matches (Bag, Bag)
         implements 1::""
-        is_associative is_commutative is_idempotent identity (\+{})
+        is_associative True is_commutative True is_idempotent True identity (\+{})
         map (args -->^ FDN__Bag_union) ),
 
     exclusive::Bag : function ( returns Bag matches (Bag, Bag)
         implements 1::""
-        is_associative is_commutative identity (\+{})
+        is_associative True is_commutative True identity (\+{})
         map (args -->^ FDN__Bag_exclusive) ),
 
     nest::Bag : function ( returns Bag matches (Bag)
@@ -2050,7 +2050,7 @@ package (
 
     Excuse::Not_Same_Heading : constant ( composes Excuse ),
 
-    has_any_attrs::"" : function ( virtual returns Boolean matches (Attributive) ),
+    has_any_attrs::"" : function ( virtual True returns Boolean matches (Attributive) ),
 
     "?@" : alias ( of has_any_attrs ),
 
@@ -2058,15 +2058,15 @@ package (
 
     "!?@" : alias ( of is_nullary ),
 
-    nullary::"" : function ( virtual returns Attributive matches (Attributive) ),
+    nullary::"" : function ( virtual True returns Attributive matches (Attributive) ),
 
-    is_unary::"" : function ( virtual returns Boolean matches (Attributive) ),
+    is_unary::"" : function ( virtual True returns Boolean matches (Attributive) ),
 
-    degree::"" : function ( virtual returns Integer_NN matches (Attributive) ),
+    degree::"" : function ( virtual True returns Integer_NN matches (Attributive) ),
 
     "#@" : alias ( of degree ),
 
-    heading::"" : function ( virtual returns Heading matches (Attributive) ),
+    heading::"" : function ( virtual True returns Heading matches (Attributive) ),
 
     "@" : alias ( of heading ),
 
@@ -2085,29 +2085,29 @@ package (
 
     same_heading : function (
         returns Boolean matches (Attributive, Attributive)
-        is_commutative
+        is_commutative True
         map (@(args.\0) = @(args.\1)) ),
 
     "=@" : alias ( of same_heading ),
 
     proper_subheading_or_superheading : function (
         returns Boolean matches (Attributive, Attributive)
-        is_commutative
+        is_commutative True
         map (@(args.\0) != @(args.\1) and (args.\0 subheading_or_superheading args.\1)) ),
 
     subheading_or_superheading : function (
         returns Boolean matches (Attributive, Attributive)
-        is_commutative
+        is_commutative True
         map ((args.\0 subheading_of args.\1) or (args.\0 superheading_of args.\1)) ),
 
     overlaps_heading : function (
         returns Boolean matches (Attributive, Attributive)
-        is_commutative
+        is_commutative True
         map ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_overlaps_heading) ),
 
     disjoint_heading : function (
         returns Boolean matches (Attributive, Attributive)
-        is_commutative
+        is_commutative True
         map ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_disjoint_heading) ),
 
     except_heading : function (
@@ -2118,28 +2118,28 @@ package (
 
     intersect_heading : function (
         returns Heading matches (Attributive, Attributive)
-        is_associative is_commutative is_idempotent
+        is_associative True is_commutative True is_idempotent True
         map ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_intersect_heading) ),
 
     Unicode_Aliases::"∩@" : alias ( of intersect_heading ),
 
     union_heading : function (
         returns Heading matches (Attributive, Attributive)
-        is_associative is_commutative is_idempotent identity (())
+        is_associative True is_commutative True is_idempotent True identity (())
         map ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_union_heading) ),
 
     Unicode_Aliases::"∪@" : alias ( of union_heading ),
 
     exclusive : function (
         returns Heading matches (Attributive, Attributive)
-        is_associative is_commutative identity (())
+        is_associative True is_commutative True identity (())
         map ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_exclusive_heading) ),
 
     symm_diff_heading : alias ( of exclusive_heading ),
 
     Unicode_Aliases::"∆@" : alias ( of exclusive_heading ),
 
-    rename::"" : function ( virtual
+    rename::"" : function ( virtual True
         returns Attributive matches (Attributive, Renaming)
         accepts (...) ),
 
@@ -2149,12 +2149,12 @@ package (
 
     renaming : function ( commutes rename ),
 
-    can_project_matching::"" : function ( virtual
+    can_project_matching::"" : function ( virtual True
         returns Boolean matches (Attributive, Structural) ),
 
     "%=?" : alias ( of can_project_matching ),
 
-    on::"" : function ( virtual
+    on::"" : function ( virtual True
         returns Attributive matches (Attributive, Heading)
         accepts (args.\0 @? (args.\1)) ),
 
@@ -2170,13 +2170,13 @@ package (
 
     "%!" : alias ( of maybe_on ),
 
-    update::"" : function ( virtual
+    update::"" : function ( virtual True
         returns Attributive matches (Attributive, Structural)
         accepts (args.\0 @? (args.\1)) ),
 
     "%:=" : alias ( of update ),
 
-    extend::"" : function ( virtual
+    extend::"" : function ( virtual True
         returns Attributive matches (Attributive, Structural)
         accepts (args.\0 disjoint_heading args.\1) ),
 
@@ -2265,7 +2265,7 @@ package (
         implements 1::""
         map (args.\0 maybe_but args.\1) ),
 
-    to_Tuple::"" : function ( virtual returns Tuple matches (Structural) ),
+    to_Tuple::"" : function ( virtual True returns Tuple matches (Structural) ),
 
     "%" : alias ( of to_Tuple ),
 
@@ -2324,7 +2324,7 @@ package (
     extend::Tuple : function ( returns Tuple matches (Tuple, Tuple)
         implements 1::""
         accepts (args.\0 disjoint_heading args.\1)
-        is_associative is_commutative identity (())
+        is_associative True is_commutative True identity (())
         map (args -->^ FDN__Tuple_extend) ),
 
     at::Tuple : function ( returns Any matches (Tuple, Attr_Name)
@@ -2413,21 +2413,21 @@ package (
     same_members::Relational : function (
         returns {Boolean, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (if args.\0 =@ (args.\1) then |(args.\0) same_members |(args.\1)
             else Excuse::Not_Same_Heading) ),
 
     overlaps_members::Relational : function (
         returns {Boolean, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (if args.\0 =@ (args.\1) then |(args.\0) overlaps_members |(args.\1)
             else Excuse::Not_Same_Heading) ),
 
     disjoint_members::Relational : function (
         returns {Boolean, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
-        is_commutative
+        is_commutative True
         map (if args.\0 =@ (args.\1) then |(args.\0) disjoint_members |(args.\1)
             else Excuse::Not_Same_Heading) ),
 
@@ -2455,7 +2455,7 @@ package (
     member_plus::Relational : function (
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
-        is_associative
+        is_associative True
         map (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) member_plus |(args.\1) )
             else Excuse::Not_Same_Heading) ),
@@ -2470,7 +2470,7 @@ package (
     intersect::Relational : function (
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
-        is_associative is_idempotent
+        is_associative True is_idempotent True
         map (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) intersect |(args.\1) )
             else Excuse::Not_Same_Heading) ),
@@ -2478,7 +2478,7 @@ package (
     union::Relational : function (
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
-        is_idempotent
+        is_idempotent True
         map (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) union |(args.\1) )
             else Excuse::Not_Same_Heading) ),
@@ -2486,7 +2486,7 @@ package (
     exclusive::Relational : function (
         returns {Relational, Excuse::Not_Same_Heading} matches (Relational, Relational)
         implements 1::""
-        is_associative is_commutative
+        is_associative True is_commutative True
         map (if args.\0 =@ (args.\1) then select_Relational::
                 ( like: args.\0, heading: @(args.\0), body: |(args.\0) exclusive |(args.\1) )
             else Excuse::Not_Same_Heading) ),
@@ -2567,11 +2567,11 @@ package (
         map (select_Relational::( like: args.\0, heading: @(args.\0) extend args.\1,
             body: |(args.\0) map \extend::( 1: args.\1 ) )) ),
 
-    body::"" : function ( virtual returns Unionable matches (Relational) ),
+    body::"" : function ( virtual True returns Unionable matches (Relational) ),
 
     "|" : alias ( of body ),
 
-    select_Relational::"" : function ( virtual
+    select_Relational::"" : function ( virtual True
         returns {Relational, Excuse::...}
         matches (like : Relational, heading : Heading, body : Unionable) ),
 
