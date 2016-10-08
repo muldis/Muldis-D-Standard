@@ -16,21 +16,27 @@ package (
 
         None : selection ( of : {} ),
 
-        same : function ( returns : Boolean, matches : (Any, Any),
+        same : function (
+            returns : Boolean, matches : (Any, Any),
             is_commutative : True,
-            map : (args -->^ FDN__same) ),
+            map : (args -->^ FDN__same),
+        ),
 
         "=" : alias ( of : same ),
 
-        not_same : function ( negates : same,
-            is_commutative : True ),
+        not_same : function (
+            negates : same,
+            is_commutative : True,
+        ),
 
         "!=" : alias ( of : not_same ),
 
         Unicode_Aliases::"≠" : alias ( of : not_same ),
 
-        is_a : function ( returns : Boolean, matches : (Any, Signature),
-            map : ((args.\0) --> Signature_to_Function_Call_But_0::(args.\1)) ),
+        is_a : function (
+            returns : Boolean, matches : (Any, Signature),
+            map : ((args.\0) --> Signature_to_Function_Call_But_0::(args.\1)),
+        ),
 
         not_is_a : function ( negates : is_a ),
 
@@ -39,22 +45,28 @@ package (
         Excuse::"" : interface (),
 
         Excuse::No_Reason : constant (
-            composes : Excuse and_provides_its_default ),
+            composes : Excuse and_provides_its_default,
+        ),
 
-        or_else : function ( returns : Any, matches : (Any, Any),
+        or_else : function (
+            returns : Any, matches : (Any, Any),
             is_associative : True, is_idempotent : True,
-            map : (Excuse args.\0 :? args.\1 :! args.\0) ),
+            map : (Excuse args.\0 :? args.\1 :! args.\0),
+        ),
 
         coalesce : alias ( of : or_else ),
 
-        and_then : function ( returns : Any, matches : (Any, Any),
+        and_then : function (
+            returns : Any, matches : (Any, Any),
             is_associative : True, is_idempotent : True,
-            map : (Excuse args.\0 :? args.\0 :! args.\1) ),
+            map : (Excuse args.\0 :? args.\0 :! args.\1),
+        ),
 
 `#########################################################################`
 
         Orderable : interface (
-            requires_implements : in_order ),
+            requires_implements : in_order,
+        ),
 
         Neg_Inf : constant ( composes : {Orderable, Excuse} ),
 
@@ -64,24 +76,34 @@ package (
 
         Unicode_Aliases::"+∞" : alias ( of : Pos_Inf ),
 
-        in_order::"" : function ( virtual : True,
-            returns : Boolean, matches : (Orderable, Orderable) ),
+        in_order::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Orderable, Orderable),
+        ),
 
-        in_order::Neg_Inf_L : function ( returns : Boolean, matches : (Neg_Inf, Orderable),
+        in_order::Neg_Inf_L : function (
+            returns : Boolean, matches : (Neg_Inf, Orderable),
             implements : 1::"",
-            map : (True) ),
+            map : (True),
+        ),
 
-        in_order::Neg_Inf_R : function ( returns : Boolean, matches : (Orderable, Neg_Inf),
+        in_order::Neg_Inf_R : function (
+            returns : Boolean, matches : (Orderable, Neg_Inf),
             implements : 1::"",
-            map : (args.\0 = (args.\1)) ),
+            map : (args.\0 = (args.\1)),
+        ),
 
-        in_order::Pos_Inf_L : function ( returns : Boolean, matches : (Pos_Inf, Orderable),
+        in_order::Pos_Inf_L : function (
+            returns : Boolean, matches : (Pos_Inf, Orderable),
             implements : 1::"",
-            map : (args.\0 = (args.\1)) ),
+            map : (args.\0 = (args.\1)),
+        ),
 
-        in_order::Pos_Inf_R : function ( returns : Boolean, matches : (Orderable, Pos_Inf),
+        in_order::Pos_Inf_R : function (
+            returns : Boolean, matches : (Orderable, Pos_Inf),
             implements : 1::"",
-            map : (True) ),
+            map : (True),
+        ),
 
         before : function ( commutes : after ),
 
@@ -103,44 +125,59 @@ package (
 
         Unicode_Aliases::"≥" : alias ( of : after_or_same ),
 
-        min : function ( returns : Orderable, matches : (Orderable, Orderable),
+        min : function (
+            returns : Orderable, matches : (Orderable, Orderable),
             is_associative : True, is_commutative : True, is_idempotent : True, identity : (+∞),
-            map : (args.\0 in_order args.\1 :? args.\0 :! args.\1) ),
+            map : (args.\0 in_order args.\1 :? args.\0 :! args.\1),
+        ),
 
-        max : function ( returns : Orderable, matches : (Orderable, Orderable),
+        max : function (
+            returns : Orderable, matches : (Orderable, Orderable),
             is_associative : True, is_commutative : True, is_idempotent : True, identity : (-∞),
-            map : (args.\0 in_order args.\1 :? args.\1 :! args.\0) ),
+            map : (args.\0 in_order args.\1 :? args.\1 :! args.\0),
+        ),
 
         minmax : function (
             returns : (Orderable, Orderable), matches : (Orderable, Orderable),
             is_commutative : True,
-            map : (args.\0 in_order args.\1 :? args :! (args.\1, args.\0)) ),
+            map : (args.\0 in_order args.\1 :? args :! (args.\1, args.\0)),
+        ),
 
 `#########################################################################`
 
         Successable : interface (
-            requires_implements : {asset,nth_succ} ),
+            requires_implements : {asset,nth_succ},
+        ),
 
         asset::"" : function ( virtual : True, returns : Any, matches : (Successable) ),
 
-        succ : function ( returns : {Successable, Pos_Inf}, matches : (Successable),
-            map : (args.\0 nth_succ 1) ),
+        succ : function (
+            returns : {Successable, Pos_Inf}, matches : (Successable),
+            map : (args.\0 nth_succ 1),
+        ),
 
-        nth_succ::"" : function ( virtual : True,
-            returns : {Successable, Pos_Inf}, matches : (Successable, Integer_NN) ),
+        nth_succ::"" : function (
+            virtual : True,
+            returns : {Successable, Pos_Inf}, matches : (Successable, Integer_NN),
+        ),
 
 `#########################################################################`
 
         Bicessable : interface (
             composes : {Orderable and_provides_its_default,
                 Successable and_provides_its_default},
-            requires_implements : {in_order,asset,nth_pred,nth_succ} ),
+            requires_implements : {in_order,asset,nth_pred,nth_succ},
+        ),
 
-        pred : function ( returns : {Bicessable, Neg_Inf}, matches : (Bicessable),
-            map : (args.\0 nth_pred 1) ),
+        pred : function (
+            returns : {Bicessable, Neg_Inf}, matches : (Bicessable),
+            map : (args.\0 nth_pred 1),
+        ),
 
-        nth_pred::"" : function ( virtual : True,
-            returns : {Bicessable, Neg_Inf}, matches : (Bicessable, Integer_NN) ),
+        nth_pred::"" : function (
+            virtual : True,
+            returns : {Bicessable, Neg_Inf}, matches : (Bicessable, Integer_NN),
+        ),
 
 `#########################################################################`
 
@@ -157,9 +194,11 @@ package (
 
 `#########################################################################`
 
-        Boolean : selection ( where : (args -->^ FDN__is_a_Boolean),
+        Boolean : selection (
+            where : (args -->^ FDN__is_a_Boolean),
             default : (False),
-            composes : {Bicessable, Boolable and_provides_its_default} ),
+            composes : {Bicessable, Boolable and_provides_its_default},
+        ),
 
         Bool : alias ( of : Boolean ),
 
@@ -171,27 +210,35 @@ package (
 
         Unicode_Aliases::"⊤" : alias ( of : True ),
 
-        in_order::Boolean : function ( returns : Boolean, matches : (Boolean, Boolean),
+        in_order::Boolean : function (
+            returns : Boolean, matches : (Boolean, Boolean),
             implements : 1::"",
-            map : (!(args.\0) or args.\1) ),
+            map : (!(args.\0) or args.\1),
+        ),
 
-        asset::Boolean : function ( returns : Boolean, matches : (Boolean),
+        asset::Boolean : function (
+            returns : Boolean, matches : (Boolean),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
         nth_pred::Boolean : function (
             returns : {False, Neg_Inf}, matches : (Boolean, Integer_NN),
             implements : 1::"",
-            map : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! -∞) ),
+            map : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! -∞),
+        ),
 
         nth_succ::Boolean : function (
             returns : {True, Pos_Inf}, matches : (Boolean, Integer_NN),
             implements : 1::"",
-            map : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! +∞) ),
+            map : (args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! +∞),
+        ),
 
-        to_Boolean::Boolean : function ( returns : Boolean, matches : (Boolean),
+        to_Boolean::Boolean : function (
+            returns : Boolean, matches : (Boolean),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
         not : function ( negates : to_Boolean::Boolean ),
 
@@ -199,50 +246,64 @@ package (
 
         Unicode_Aliases::"¬" : alias ( of : not ),
 
-        and : function ( returns : Boolean, matches : (Boolean, Boolean),
+        and : function (
+            returns : Boolean, matches : (Boolean, Boolean),
             is_associative : True, is_commutative : True, is_idempotent : True, identity : (True),
-            map : (args.\0 :? args.\1 :! False) ),
+            map : (args.\0 :? args.\1 :! False),
+        ),
 
         Unicode_Aliases::"∧" : alias ( of : and ),
 
-        nand : function ( negates : and,
-            is_commutative : True ),
+        nand : function (
+            negates : and,
+            is_commutative : True,
+        ),
 
         not_and : alias ( of : nand ),
 
         Unicode_Aliases::"⊼" : alias ( of : nand ),
         Unicode_Aliases::"↑" : alias ( of : nand ),
 
-        or : function ( returns : Boolean, matches : (Boolean, Boolean),
+        or : function (
+            returns : Boolean, matches : (Boolean, Boolean),
             is_associative : True, is_commutative : True, is_idempotent : True, identity : (False),
-            map : (args.\0 :? True :! args.\1) ),
+            map : (args.\0 :? True :! args.\1),
+        ),
 
         Unicode_Aliases::"∨" : alias ( of : or ),
 
-        nor : function ( negates : or,
-            is_commutative : True ),
+        nor : function (
+            negates : or,
+            is_commutative : True,
+        ),
 
         not_or : alias ( of : nor ),
 
         Unicode_Aliases::"⊽" : alias ( of : nor ),
         Unicode_Aliases::"↓" : alias ( of : nor ),
 
-        xnor : function ( returns : Boolean, matches : (Boolean, Boolean),
+        xnor : function (
+            returns : Boolean, matches : (Boolean, Boolean),
             is_associative : True, is_commutative : True, identity : (True),
-            map : (args.\0 = (args.\1)) ),
+            map : (args.\0 = (args.\1)),
+        ),
 
         iff : alias ( of : xnor ),
 
         Unicode_Aliases::"↔" : alias ( of : xnor ),
 
-        xor : function ( negates : xnor,
-            is_associative : True, is_commutative : True, identity : (False) ),
+        xor : function (
+            negates : xnor,
+            is_associative : True, is_commutative : True, identity : (False),
+        ),
 
         Unicode_Aliases::"⊻" : alias ( of : xor ),
         Unicode_Aliases::"↮" : alias ( of : xor ),
 
-        imp : function ( returns : Boolean, matches : (Boolean, Boolean),
-            map : (args.\0 :? args.\1 :! True) ),
+        imp : function (
+            returns : Boolean, matches : (Boolean, Boolean),
+            map : (args.\0 :? args.\1 :! True),
+        ),
 
         implies : alias ( of : imp ),
 
@@ -270,7 +331,8 @@ package (
             union : {Down,Up,To_Zero,To_Inf
                 ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
                 ,Half_Even,Half_Odd},
-            default : To_Zero ),
+            default : To_Zero,
+        ),
 
 `#########################################################################`
 
@@ -280,14 +342,17 @@ package (
                 ,zero,opposite,reciprocal,modulus
                 ,plus,minus,times,multiple_of
                 ,fractional_divided_by,integral_divided_by
-                ,integral_power,integral_nn_power} ),
+                ,integral_power,integral_nn_power},
+        ),
 
         Excuse::Div_By_Zero : constant ( composes : Excuse ),
 
         Excuse::Zero_To_The_Zero : constant ( composes : Excuse ),
 
-        to_Boolean::Numerical : function ( virtual : True, returns : Boolean, matches : (Numerical),
-            implements : 1::"" ),
+        to_Boolean::Numerical : function (
+            virtual : True, returns : Boolean, matches : (Numerical),
+            implements : 1::"",
+        ),
 
         is_zero : function ( negates : to_Boolean::Numerical ),
 
@@ -297,8 +362,10 @@ package (
 
         additive_inverse : alias ( of : opposite ),
 
-        reciprocal::"" : function ( virtual : True,
-            returns : {Numerical, Excuse::Div_By_Zero}, matches : (Numerical) ),
+        reciprocal::"" : function (
+            virtual : True,
+            returns : {Numerical, Excuse::Div_By_Zero}, matches : (Numerical),
+        ),
 
         multiplicative_inverse : alias ( of : reciprocal ),
 
@@ -306,63 +373,78 @@ package (
 
         abs : alias ( of : modulus ),
 
-        plus::"" : function ( virtual : True,
+        plus::"" : function (
+            virtual : True,
             returns : Numerical, matches : (Numerical, Numerical),
             is_associative : True, is_commutative : True,
-            repeater : times ),
+            repeater : times,
+        ),
 
         "+" : alias ( of : plus ),
 
-        minus::"" : function ( virtual : True,
-            returns : Numerical, matches : (Numerical, Numerical) ),
+        minus::"" : function (
+            virtual : True,
+            returns : Numerical, matches : (Numerical, Numerical),
+        ),
 
         "-" : function (
             returns : Numerical, matches : {(Numerical), (Numerical, Numerical)},
-            map : (args --> (degree::(args) = 1 :? \opposite::() :! \minus::())) ),
+            map : (args --> (degree::(args) = 1 :? \opposite::() :! \minus::())),
+        ),
 
         Unicode_Aliases::"−" : alias ( of : "-" ),
 
         modulus_minus : function (
             returns : Numerical, matches : (Numerical, Numerical),
             is_commutative : True,
-            map : (modulus args.\0 - (args.\1)) ),
+            map : (modulus args.\0 - (args.\1)),
+        ),
 
         abs_minus : alias ( of : modulus_minus ),
         "|-|"     : alias ( of : modulus_minus ),
 
         Unicode_Aliases::"|−|" : alias ( of : modulus_minus ),
 
-        times::"" : function ( virtual : True,
+        times::"" : function (
+            virtual : True,
             returns : Numerical, matches : (Numerical, Numerical),
             is_associative : True, is_commutative : True,
-            repeater : integral_nn_power ),
+            repeater : integral_nn_power,
+        ),
 
         "*" : alias ( of : times ),
 
         Unicode_Aliases::"×" : alias ( of : times ),
 
-        multiple_of::"" : function ( virtual : True,
-            returns : {Boolean, Excuse::Div_By_Zero}, matches : (Numerical, Numerical) ),
+        multiple_of::"" : function (
+            virtual : True,
+            returns : {Boolean, Excuse::Div_By_Zero}, matches : (Numerical, Numerical),
+        ),
 
         nearest_multiple_of : function (
             returns : {Numerical, Excuse::Div_By_Zero},
             matches : (Numerical, Numerical, Round_Meth),
             map : (if is_zero args.\1 then Excuse::Div_By_Zero()
-                else args.\1 * (args.\0 div args.\1)) ),
+                else args.\1 * (args.\0 div args.\1)),
+        ),
 
         round : alias ( of : nearest_multiple_of ),
 
-        fractional_divided_by::"" : function ( virtual : True,
-            returns : {Numerical, Excuse::Div_By_Zero}, matches : (Numerical, Numerical) ),
+        fractional_divided_by::"" : function (
+            virtual : True,
+            returns : {Numerical, Excuse::Div_By_Zero}, matches : (Numerical, Numerical),
+        ),
 
         "/" : alias ( of : fractional_divided_by ),
 
         Unicode_Aliases::"÷" : alias ( of : fractional_divided_by ),
         Unicode_Aliases::"∕" : alias ( of : fractional_divided_by ),
 
-        integral_divided_by::"" : function ( virtual : True,
+        integral_divided_by::"" : function (
+            virtual : True,
             returns : {Numerical, Excuse::Div_By_Zero},
-            matches : (Numerical, Numerical, Round_Meth) ),
+            matches : (Numerical, Numerical, Round_Meth),
+        ),
 
         div : alias ( of : integral_divided_by ),
 
@@ -370,22 +452,28 @@ package (
             returns : {Numerical, Excuse::Div_By_Zero},
             matches : (Numerical, Numerical, Round_Meth),
             map : (if is_zero args.\1 then Excuse::Div_By_Zero()
-                else args.\0 - (args.\0 nearest_multiple_of args.\1)) ),
+                else args.\0 - (args.\0 nearest_multiple_of args.\1)),
+        ),
 
         mod : alias ( of : modulo ),
 
         divided_by_and_modulo::"" : function (
             returns : ({Numerical, Excuse::Div_By_Zero}, {Numerical, Excuse::Div_By_Zero}),
             matches : (Numerical, Numerical, Round_Meth),
-            map : ((args.\0 div args.\1, args.\0 mod args.\1)) ),
+            map : ((args.\0 div args.\1, args.\0 mod args.\1)),
+        ),
 
-        integral_power::"" : function ( virtual : True,
-            returns : {Numerical, Excuse::Zero_To_The_Zero}, matches : (Numerical, Integral) ),
+        integral_power::"" : function (
+            virtual : True,
+            returns : {Numerical, Excuse::Zero_To_The_Zero}, matches : (Numerical, Integral),
+        ),
 
         "**" : alias ( of : integral_power ),
 
-        integral_nn_power::"" : function ( virtual : True,
-            returns : {Numerical, Excuse::Zero_To_The_Zero}, matches : (Numerical, Integral_NN) ),
+        integral_nn_power::"" : function (
+            virtual : True,
+            returns : {Numerical, Excuse::Zero_To_The_Zero}, matches : (Numerical, Integral_NN),
+        ),
 
         power : alias ( of : integral_nn_power ),
 
@@ -400,110 +488,151 @@ package (
                 ,plus,minus,times,multiple_of
                 ,fractional_divided_by,integral_divided_by
                 ,integral_power,integral_nn_power
-                ,to_Integer,factorial} ),
+                ,to_Integer,factorial},
+        ),
 
-        Integral_NN : selection ( of : Integral,
-            where : (args.\0 >= zero::(args.\0)) ),
+        Integral_NN : selection (
+            of : Integral,
+            where : (args.\0 >= zero::(args.\0)),
+        ),
 
-        Integral_P : selection ( of : Integral_NN,
-            where : (args.\0 > zero::(args.\0)), default : (succ::(Integral::())) ),
+        Integral_P : selection (
+            of : Integral_NN,
+            where : (args.\0 > zero::(args.\0)), default : (succ::(Integral::())),
+        ),
 
-        "--" : function ( returns : {Integral, Neg_Inf}, matches : (Integral),
-            map : (pred args.\0) ),
+        "--" : function (
+            returns : {Integral, Neg_Inf}, matches : (Integral),
+            map : (pred args.\0),
+        ),
 
-        "++" : function ( returns : {Integral, Pos_Inf}, matches : (Integral),
-            map : (succ args.\0) ),
+        "++" : function (
+            returns : {Integral, Pos_Inf}, matches : (Integral),
+            map : (succ args.\0),
+        ),
 
         to_Integer::"" : function ( virtual : True, returns : Integer, matches : (Integral) ),
 
         factorial::"" : function ( virtual : True, returns : Integral_P, matches : (Integral_NN) ),
 
-        gcd : function ( returns : Integral_P, matches : (Integral_NN, Integral_NN),
+        gcd : function (
+            returns : Integral_P, matches : (Integral_NN, Integral_NN),
             is_associative : True, is_commutative : True, is_idempotent : True,
             map : ((if is_zero args.\1 then args.\0 else 0::(args.\1, mod::(args.\0, args.\1, To_Zero::())))
-                ::?= 'Calculate using the Euclidean algorithm.') ),
+                ::?= 'Calculate using the Euclidean algorithm.'),
+        ),
 
         greatest_common_divisor : alias ( of : gcd ),
 
-        lcm : function ( returns : Integral_NN, matches : (Integral_NN, Integral_NN),
+        lcm : function (
+            returns : Integral_NN, matches : (Integral_NN, Integral_NN),
             is_associative : True, is_commutative : True, is_idempotent : True,
             map : (if is_zero args.\0 or is_zero args.\1 then zero args.\0
-                else div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::())) ),
+                else div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::())),
+        ),
 
         least_common_multiple : alias ( of : lcm ),
 
-        coprime : function ( returns : Boolean, matches : (Integral, Integral),
-            map : ((abs::(args.\0) gcd abs::(args.\1)) = succ::(zero args.\0)) ),
+        coprime : function (
+            returns : Boolean, matches : (Integral, Integral),
+            map : ((abs::(args.\0) gcd abs::(args.\1)) = succ::(zero args.\0)),
+        ),
 
 `#########################################################################`
 
-        Integer : selection ( where : (args -->^ FDN__is_a_Integer),
+        Integer : selection (
+            where : (args -->^ FDN__is_a_Integer),
             default : (0),
-            composes : Integral and_provides_its_default ),
+            composes : Integral and_provides_its_default,
+        ),
 
         Integer_NN : selection ( of : Integer, where : (args.\0 >= 0) ),
 
         Integer_P : selection ( of : Integer_NN, where : (args.\0 > 0), default : (1) ),
 
-        in_order::Integer : function ( returns : Boolean, matches : (Integer, Integer),
+        in_order::Integer : function (
+            returns : Boolean, matches : (Integer, Integer),
             implements : 1::"",
-            map : (args -->^ FDN__Integer_in_order) ),
+            map : (args -->^ FDN__Integer_in_order),
+        ),
 
-        asset::Integer : function ( returns : Integer, matches : (Integer),
+        asset::Integer : function (
+            returns : Integer, matches : (Integer),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        nth_pred::Integer : function ( returns : Integer, matches : (Integer, Integer_NN),
+        nth_pred::Integer : function (
+            returns : Integer, matches : (Integer, Integer_NN),
             implements : 1::Integral,
-            map : (args.\0 - (args.\1)) ),
+            map : (args.\0 - (args.\1)),
+        ),
 
-        nth_succ::Integer : function ( returns : Integer, matches : (Integer, Integer_NN),
+        nth_succ::Integer : function (
+            returns : Integer, matches : (Integer, Integer_NN),
             implements : 1::Integral,
             repeater : plus::Integer,
-            map : (args.\0 + (args.\1)) ),
+            map : (args.\0 + (args.\1)),
+        ),
 
-        to_Boolean::Integer : function ( returns : Boolean, matches : (Integer),
+        to_Boolean::Integer : function (
+            returns : Boolean, matches : (Integer),
             implements : 1::"",
-            map : (args.\0 != 0) ),
+            map : (args.\0 != 0),
+        ),
 
-        zero::Integer : function ( returns : Integer, matches : (Integer),
+        zero::Integer : function (
+            returns : Integer, matches : (Integer),
             implements : 1::"",
-            map : (0) ),
+            map : (0),
+        ),
 
-        opposite::Integer : function ( returns : Integer, matches : (Integer),
+        opposite::Integer : function (
+            returns : Integer, matches : (Integer),
             implements : 1::"",
-            map : (args -->^ FDN__Integer_opposite) ),
+            map : (args -->^ FDN__Integer_opposite),
+        ),
 
         reciprocal::Integer : function (
             returns : {Fraction, Excuse::Div_By_Zero}, matches : (Integer),
             implements : 1::"",
-            map : (1 / (args.\0)) ),
+            map : (1 / (args.\0)),
+        ),
 
-        modulus::Integer : function ( returns : Integer_NN, matches : (Integer),
+        modulus::Integer : function (
+            returns : Integer_NN, matches : (Integer),
             implements : 1::"",
-            map : (args -->^ FDN__Integer_modulus) ),
+            map : (args -->^ FDN__Integer_modulus),
+        ),
 
-        plus::Integer : function ( returns : Integer, matches : (Integer, Integer),
+        plus::Integer : function (
+            returns : Integer, matches : (Integer, Integer),
             implements : 1::"",
             is_associative : True, is_commutative : True, identity : (0),
             repeater : times::Integer,
-            map : (args -->^ FDN__Integer_plus) ),
+            map : (args -->^ FDN__Integer_plus),
+        ),
 
-        minus::Integer : function ( returns : Integer, matches : (Integer, Integer),
+        minus::Integer : function (
+            returns : Integer, matches : (Integer, Integer),
             implements : 1::"",
-            map : (args -->^ FDN__Integer_minus) ),
+            map : (args -->^ FDN__Integer_minus),
+        ),
 
-        times::Integer : function ( returns : Integer, matches : (Integer, Integer),
+        times::Integer : function (
+            returns : Integer, matches : (Integer, Integer),
             implements : 1::"",
             is_associative : True, is_commutative : True, identity : (1),
             repeater : integral_nn_power::Integer,
-            map : (args -->^ FDN__Integer_times) ),
+            map : (args -->^ FDN__Integer_times),
+        ),
 
         multiple_of::Integer : function (
             returns : {Boolean, Excuse::Div_By_Zero}, matches : (Integer, Integer),
             implements : 1::"",
             map : (if args.\1 = 0 then Excuse::Div_By_Zero()
-                else args -->^ FDN__Integer_multiple_of) ),
+                else args -->^ FDN__Integer_multiple_of),
+        ),
 
         fractional_divided_by::Integer : function (
             returns : {Fraction, Excuse::Div_By_Zero}, matches : (Integer, Integer),
@@ -520,7 +649,8 @@ package (
                 );
 
                 gcd ::= gcd::(abs::(n), abs::(d));
-            ) ),
+            ),
+        ),
 
         integral_divided_by::Integer : function (
             returns : {Integer, Excuse::Div_By_Zero},
@@ -594,27 +724,34 @@ package (
                           (rtz_quotient_is_even :? rti_quotient :! rtz_quotient),
                     } :!! fail  `oops, an unhandled case`
                 );
-            ) ),
+            ),
+        ),
 
         integral_power::Integer : function (
             returns : {Fraction, Excuse::Zero_To_The_Zero}, matches : (Integer, Integer),
             implements : 1::"",
             map : (if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else args.\0 / 1 ** (args.\1)) ),
+                else args.\0 / 1 ** (args.\1)),
+        ),
 
         integral_nn_power::Integer : function (
             returns : {Integer, Excuse::Zero_To_The_Zero}, matches : (Integer, Integer_NN),
             implements : 1::"",
             map : (if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else args -->^ FDN__Integer_nn_power) ),
+                else args -->^ FDN__Integer_nn_power),
+        ),
 
-        to_Integer::Integer : function ( returns : Integer, matches : (Integer),
+        to_Integer::Integer : function (
+            returns : Integer, matches : (Integer),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        factorial::Integer : function ( returns : Integer_P, matches : (Integer_NN),
+        factorial::Integer : function (
+            returns : Integer_P, matches : (Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Integer_factorial) ),
+            map : (args -->^ FDN__Integer_factorial),
+        ),
 
 `#########################################################################`
 
@@ -627,10 +764,13 @@ package (
                 ,plus,minus,times,multiple_of
                 ,fractional_divided_by,integral_divided_by
                 ,integral_power,integral_nn_power
-                ,to_Fraction,numerator,denominator} ),
+                ,to_Fraction,numerator,denominator},
+        ),
 
-        Fractional_NN : selection ( of : Fractional,
-            where : (args.\0 >= zero::(args.\0)) ),
+        Fractional_NN : selection (
+            of : Fractional,
+            where : (args.\0 >= zero::(args.\0)),
+        ),
 
         to_Fraction::"" : function ( virtual : True, returns : Fraction, matches : (Fractional) ),
 
@@ -640,7 +780,8 @@ package (
 
 `#########################################################################`
 
-        Fraction : selection ( of : Capsule,
+        Fraction : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Fraction, \(
                 if
                     args.\0 is_a (
@@ -653,11 +794,13 @@ package (
                     False
             ) )),
             default : (0.0),
-            composes : Fractional and_provides_its_default ),
+            composes : Fractional and_provides_its_default,
+        ),
 
         Fraction_NN : selection ( of : Fraction, where : (args.\0 >= 0.0) ),
 
-        in_order::Fraction : function ( returns : Boolean, matches : (Fraction, Fraction),
+        in_order::Fraction : function (
+            returns : Boolean, matches : (Fraction, Fraction),
             implements : 1::"",
             map : (
                 <-- (denominator args.\0) = (denominator args.\1)
@@ -670,31 +813,42 @@ package (
                         (numerator args.\1) * div::(common_d, denominator args.\1, To_Zero::()),
                     );
                   )
-            ) ),
+            ),
+        ),
 
-        to_Boolean::Fraction : function ( returns : Boolean, matches : (Fraction),
+        to_Boolean::Fraction : function (
+            returns : Boolean, matches : (Fraction),
             implements : 1::"",
-            map : (args.\0 != 0.0) ),
+            map : (args.\0 != 0.0),
+        ),
 
-        zero::Fraction : function ( returns : Fraction, matches : (Fraction),
+        zero::Fraction : function (
+            returns : Fraction, matches : (Fraction),
             implements : 1::"",
-            map : (0.0) ),
+            map : (0.0),
+        ),
 
-        opposite::Fraction : function ( returns : Fraction, matches : (Fraction),
+        opposite::Fraction : function (
+            returns : Fraction, matches : (Fraction),
             implements : 1::"",
-            map : (-(numerator args.\0) / (denominator args.\0)) ),
+            map : (-(numerator args.\0) / (denominator args.\0)),
+        ),
 
         reciprocal::Fraction : function (
             returns : {Fraction, Excuse::Div_By_Zero}, matches : (Fraction),
             implements : 1::"",
             map : (if args.\0 = 0.0 then Excuse::Div_By_Zero()
-                else (denominator args.\0) / (numerator args.\0)) ),
+                else (denominator args.\0) / (numerator args.\0)),
+        ),
 
-        modulus::Fraction : function ( returns : Fraction_NN, matches : (Fraction),
+        modulus::Fraction : function (
+            returns : Fraction_NN, matches : (Fraction),
             implements : 1::"",
-            map : (abs::(numerator args.\0) / (denominator args.\0)) ),
+            map : (abs::(numerator args.\0) / (denominator args.\0)),
+        ),
 
-        plus::Fraction : function ( returns : Fraction, matches : (Fraction, Fraction),
+        plus::Fraction : function (
+            returns : Fraction, matches : (Fraction, Fraction),
             implements : 1::"",
             is_associative : True, is_commutative : True, identity : (0.0),
             repeater : times::Fraction_Integer,
@@ -708,35 +862,43 @@ package (
                         + ((numerator args.\1) * div::(common_d, denominator args.\1, To_Zero::()))
                         / common_d;
                   )
-            ) ),
+            ),
+        ),
 
-        minus::Fraction : function ( returns : Fraction, matches : (Fraction, Fraction),
+        minus::Fraction : function (
+            returns : Fraction, matches : (Fraction, Fraction),
             implements : 1::"",
-            map : (args.\0 + -(args.\1)) ),
+            map : (args.\0 + -(args.\1)),
+        ),
 
-        times::Fraction : function ( returns : Fraction, matches : (Fraction, Fraction),
+        times::Fraction : function (
+            returns : Fraction, matches : (Fraction, Fraction),
             implements : 1::"",
             is_associative : True, is_commutative : True, identity : (1.0),
             repeater : integral_nn_power::Fraction,
             map : (((numerator args.\0) * (numerator args.\1))
-                / ((denominator args.\0) * (denominator args.\1))) ),
+                / ((denominator args.\0) * (denominator args.\1))),
+        ),
 
         times::Fraction_Integer : function (
             returns : Fraction, matches : (Fraction, Integer),
             implements : 1::"",
-            map : (((numerator args.\0) * (args.\1)) / (denominator args.\0)) ),
+            map : (((numerator args.\0) * (args.\1)) / (denominator args.\0)),
+        ),
 
         multiple_of::Fraction : function (
             returns : {Boolean, Excuse::Div_By_Zero}, matches : (Fraction, Fraction),
             implements : 1::"",
             map : (if args.\1 = 0.0 then Excuse::Div_By_Zero()
-                else (args.\0 mod args.\1) = 0.0) ),
+                else (args.\0 mod args.\1) = 0.0),
+        ),
 
         fractional_divided_by::Fraction : function (
             returns : {Fraction, Excuse::Div_By_Zero}, matches : (Fraction, Fraction),
             implements : 1::"",
             map : (if args.\1 = 0.0 then Excuse::Div_By_Zero()
-                else args.\0 * reciprocal::(args.\1)) ),
+                else args.\0 * reciprocal::(args.\1)),
+        ),
 
         integral_divided_by::Fraction : function (
             returns : {Fraction, Excuse::Div_By_Zero},
@@ -748,40 +910,52 @@ package (
                 n1 ::= (numerator args.\1) * div::(d, denominator args.\1, To_Zero::());
                 returns if args.\1 = 0.0 then Excuse::Div_By_Zero()
                     else div::(n0 * d, n1 * d, args.\2) / 1;
-            ) ),
+            ),
+        ),
 
         integral_power::Fraction : function (
             returns : {Fraction, Excuse::Zero_To_The_Zero}, matches : (Fraction, Integer),
             implements : 1::"",
             map : (\integral_nn_power::()
-                <-- (args.\1 >= 0 :? args :! (reciprocal::(args.\0), -(args.\1)))) ),
+                <-- (args.\1 >= 0 :? args :! (reciprocal::(args.\0), -(args.\1)))),
+        ),
 
         integral_nn_power::Fraction : function (
             returns : {Fraction, Excuse::Zero_To_The_Zero}, matches : (Fraction, Integer_NN),
             implements : 1::"",
             map : (if args.\0 = 0.0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else ((numerator args.\0) ** (args.\1)) / ((denominator args.\0) ** (args.\1))) ),
+                else ((numerator args.\0) ** (args.\1)) / ((denominator args.\0) ** (args.\1))),
+        ),
 
-        to_Fraction::Fraction : function ( returns : Fraction, matches : (Fraction),
+        to_Fraction::Fraction : function (
+            returns : Fraction, matches : (Fraction),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        numerator::Fraction : function ( returns : Integer, matches : (Fraction),
-            map : (args.\0:>.\numerator) ),
+        numerator::Fraction : function (
+            returns : Integer, matches : (Fraction),
+            map : (args.\0:>.\numerator),
+        ),
 
-        denominator::Fraction : function ( returns : Integer_P, matches : (Fraction),
-            map : (args.\0:>.\denominator) ),
+        denominator::Fraction : function (
+            returns : Integer_P, matches : (Fraction),
+            map : (args.\0:>.\denominator),
+        ),
 
 `#########################################################################`
 
         Emptyable : interface (
             composes : Boolable,
-            requires_implements : {to_Boolean,empty} ),
+            requires_implements : {to_Boolean,empty},
+        ),
 
         Excuse::No_Empty_Value : constant ( composes : Excuse ),
 
-        to_Boolean::Emptyable : function ( virtual : True, returns : Boolean, matches : (Emptyable),
-            implements : 1::"" ),
+        to_Boolean::Emptyable : function (
+            virtual : True, returns : Boolean, matches : (Emptyable),
+            implements : 1::"",
+        ),
 
         has_any_members : alias ( of : to_Boolean::Emptyable ),
 
@@ -789,8 +963,10 @@ package (
 
         Unicode_Aliases::"∅?" : alias ( of : is_empty ),
 
-        empty::"" : function ( virtual : True,
-            returns : {Emptyable, Excuse::No_Empty_Value}, matches : (Emptyable) ),
+        empty::"" : function (
+            virtual : True,
+            returns : {Emptyable, Excuse::No_Empty_Value}, matches : (Emptyable),
+        ),
 
         Unicode_Aliases::"∅" : alias ( of : empty ),
 
@@ -800,149 +976,210 @@ package (
             composes : {Orderable, Emptyable and_provides_its_default},
             requires_implements : {in_order,to_Boolean,empty
                 ,substring_of,overlaps_string,disjoint_string
-                ,catenate,replicate} ),
+                ,catenate,replicate},
+        ),
 
-        substring_of::"" : function ( virtual : True,
-            returns : Boolean, matches : (Stringy, Stringy) ),
+        substring_of::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Stringy, Stringy),
+        ),
 
         superstring_of : function ( commutes : substring_of ),
 
         proper_substring_or_superstring : function (
             returns : Boolean, matches : (String, String),
             is_commutative : True,
-            map : (args.\0 != (args.\1) and (args.\0 substring_or_superstring args.\1)) ),
+            map : (args.\0 != (args.\1) and (args.\0 substring_or_superstring args.\1)),
+        ),
 
         substring_or_superstring : function (
             returns : Boolean, matches : (String, String),
             is_commutative : True,
-            map : ((args.\0 substring_of args.\1) or (args.\0 superstring_of args.\1)) ),
+            map : ((args.\0 substring_of args.\1) or (args.\0 superstring_of args.\1)),
+        ),
 
-        overlaps_string::"" : function ( virtual : True,
+        overlaps_string::"" : function (
+            virtual : True,
             returns : Boolean, matches : (String, String),
-            is_commutative : True ),
+            is_commutative : True,
+        ),
 
-        disjoint_string::"" : function ( virtual : True,
+        disjoint_string::"" : function (
+            virtual : True,
             returns : Boolean, matches : (String, String),
-            is_commutative : True ),
+            is_commutative : True,
+        ),
 
-        catenate::"" : function ( virtual : True,
+        catenate::"" : function (
+            virtual : True,
             returns : Stringy, matches : (Stringy, Stringy),
             is_associative : True,
-            repeater : replicate ),
+            repeater : replicate,
+        ),
 
         "~" : alias ( of : catenate ),
 
-        replicate::"" : function ( virtual : True,
-            returns : Stringy, matches : (Stringy, Integer_NN) ),
+        replicate::"" : function (
+            virtual : True,
+            returns : Stringy, matches : (Stringy, Integer_NN),
+        ),
 
         "~#" : alias ( of : replicate ),
 
 `#########################################################################`
 
-        Bits::"" : selection ( of : Capsule,
+        Bits::"" : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Bits, \String::Bits() )),
             default : (\~?''),
-            composes : {Stringy and_provides_its_default} ),
+            composes : {Stringy and_provides_its_default},
+        ),
 
-        String::Bits : selection ( of : String,
-            where : (args.\0 all \in::( 1: 0..1 )) ),
+        String::Bits : selection (
+            of : String,
+            where : (args.\0 all \in::( 1: 0..1 )),
+        ),
 
-        in_order::Bits : function ( returns : Boolean, matches : (Bits, Bits),
+        in_order::Bits : function (
+            returns : Boolean, matches : (Bits, Bits),
             implements : 1::"",
-            map : ((Bits_to_String_Bits args.\0) in_order (Bits_to_String_Bits args.\1)) ),
+            map : ((Bits_to_String_Bits args.\0) in_order (Bits_to_String_Bits args.\1)),
+        ),
 
-        to_Boolean::Bits : function ( returns : Boolean, matches : (Bits),
+        to_Boolean::Bits : function (
+            returns : Boolean, matches : (Bits),
             implements : 1::"",
-            map : (args.\0 != \~?'') ),
+            map : (args.\0 != \~?''),
+        ),
 
-        empty::Bits : function ( returns : Bits, matches : (Bits),
+        empty::Bits : function (
+            returns : Bits, matches : (Bits),
             implements : 1::"",
-            map : (\~?'') ),
+            map : (\~?''),
+        ),
 
-        substring_of::Bits : function ( returns : Boolean, matches : (Bits, Bits),
+        substring_of::Bits : function (
+            returns : Boolean, matches : (Bits, Bits),
             implements : 1::"",
-            map : ((Bits_to_String_Bits args.\0) substring_of (Bits_to_String_Bits args.\1)) ),
+            map : ((Bits_to_String_Bits args.\0) substring_of (Bits_to_String_Bits args.\1)),
+        ),
 
-        overlaps_string::Bits : function ( returns : Boolean, matches : (Bits, Bits),
+        overlaps_string::Bits : function (
+            returns : Boolean, matches : (Bits, Bits),
             implements : 1::"",
             is_commutative : True,
             map : ((Bits_to_String_Bits args.\0)
-                overlaps_string (Bits_to_String_Bits args.\1)) ),
+                overlaps_string (Bits_to_String_Bits args.\1)),
+        ),
 
-        disjoint_string::Bits : function ( returns : Boolean, matches : (Bits, Bits),
+        disjoint_string::Bits : function (
+            returns : Boolean, matches : (Bits, Bits),
             implements : 1::"",
             is_commutative : True,
             map : ((Bits_to_String_Bits args.\0)
-                disjoint_string (Bits_to_String_Bits args.\1)) ),
+                disjoint_string (Bits_to_String_Bits args.\1)),
+        ),
 
-        catenate::Bits : function ( returns : Bits, matches : (Bits, Bits),
+        catenate::Bits : function (
+            returns : Bits, matches : (Bits, Bits),
             implements : 1::"",
             is_associative : True, identity : (\~?''),
             repeater : replicate::Bits,
             map : (Bits_from_String_Bits::((Bits_to_String_Bits args.\0)
-                ~ (Bits_to_String_Bits args.\1))) ),
+                ~ (Bits_to_String_Bits args.\1))),
+        ),
 
-        replicate::Bits : function ( returns : Bits, matches : (Bits, Integer_NN),
+        replicate::Bits : function (
+            returns : Bits, matches : (Bits, Integer_NN),
             implements : 1::"",
-            map : (Bits_from_String_Bits::((Bits_to_String_Bits args.\0) ~# (args.\1))) ),
+            map : (Bits_from_String_Bits::((Bits_to_String_Bits args.\0) ~# (args.\1))),
+        ),
 
-        Bits_from_String_Bits : function ( returns : Bits, matches : (String::Bits),
-            map : (\Bits >:< (args.\0)) ),
+        Bits_from_String_Bits : function (
+            returns : Bits, matches : (String::Bits),
+            map : (\Bits >:< (args.\0)),
+        ),
 
-        Bits_to_String_Bits : function ( returns : String::Bits, matches : (Bits),
-            map : (args.\0:>) ),
+        Bits_to_String_Bits : function (
+            returns : String::Bits, matches : (Bits),
+            map : (args.\0:>),
+        ),
 
 `#########################################################################`
 
-        Blob::"" : selection ( of : Capsule,
+        Blob::"" : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Blob, \String::Octets() )),
             default : (\~+''),
-            composes : Stringy ),
+            composes : Stringy,
+        ),
 
-        String::Octets : selection ( of : String,
-            where : (args.\0 all \in::( 1: 0..255 )) ),
+        String::Octets : selection (
+            of : String,
+            where : (args.\0 all \in::( 1: 0..255 )),
+        ),
 
-        in_order::Blob : function ( returns : Boolean, matches : (Blob, Blob),
+        in_order::Blob : function (
+            returns : Boolean, matches : (Blob, Blob),
             implements : 1::"",
-            map : ((Blob_to_Octets args.\0) in_order (Blob_to_Octets args.\1)) ),
+            map : ((Blob_to_Octets args.\0) in_order (Blob_to_Octets args.\1)),
+        ),
 
-        to_Boolean::Blob : function ( returns : Boolean, matches : (Blob),
+        to_Boolean::Blob : function (
+            returns : Boolean, matches : (Blob),
             implements : 1::"",
-            map : (args.\0 != \~+'') ),
+            map : (args.\0 != \~+''),
+        ),
 
-        empty::Blob : function ( returns : Blob, matches : (Blob),
+        empty::Blob : function (
+            returns : Blob, matches : (Blob),
             implements : 1::"",
-            map : (\~+'') ),
+            map : (\~+''),
+        ),
 
-        substring_of::Blob : function ( returns : Boolean, matches : (Blob, Blob),
+        substring_of::Blob : function (
+            returns : Boolean, matches : (Blob, Blob),
             implements : 1::"",
-            map : ((Blob_to_Octets args.\0) substring_of (Blob_to_Octets args.\1)) ),
+            map : ((Blob_to_Octets args.\0) substring_of (Blob_to_Octets args.\1)),
+        ),
 
-        overlaps_string::Blob : function ( returns : Boolean, matches : (Blob, Blob),
+        overlaps_string::Blob : function (
+            returns : Boolean, matches : (Blob, Blob),
             implements : 1::"",
             is_commutative : True,
-            map : ((Blob_to_Octets args.\0) overlaps_string (Blob_to_Octets args.\1)) ),
+            map : ((Blob_to_Octets args.\0) overlaps_string (Blob_to_Octets args.\1)),
+        ),
 
-        disjoint_string::Blob : function ( returns : Boolean, matches : (Blob, Blob),
+        disjoint_string::Blob : function (
+            returns : Boolean, matches : (Blob, Blob),
             implements : 1::"",
             is_commutative : True,
-            map : ((Blob_to_Octets args.\0) disjoint_string (Blob_to_Octets args.\1)) ),
+            map : ((Blob_to_Octets args.\0) disjoint_string (Blob_to_Octets args.\1)),
+        ),
 
-        catenate::Blob : function ( returns : Blob, matches : (Blob, Blob),
+        catenate::Blob : function (
+            returns : Blob, matches : (Blob, Blob),
             implements : 1::"",
             is_associative : True, identity : (\~+''),
             repeater : replicate::Blob,
-            map : (Blob_from_Octets::((Blob_to_Octets args.\0) ~ (Blob_to_Octets args.\1))) ),
+            map : (Blob_from_Octets::((Blob_to_Octets args.\0) ~ (Blob_to_Octets args.\1))),
+        ),
 
-        replicate::Blob : function ( returns : Blob, matches : (Blob, Integer_NN),
+        replicate::Blob : function (
+            returns : Blob, matches : (Blob, Integer_NN),
             implements : 1::"",
-            map : (Blob_from_Octets::((Blob_to_Octets args.\0) ~# (args.\1))) ),
+            map : (Blob_from_Octets::((Blob_to_Octets args.\0) ~# (args.\1))),
+        ),
 
-        Blob_from_Octets : function ( returns : Blob, matches : (String::Octets),
-            map : (\Blob >:< (args.\0)) ),
+        Blob_from_Octets : function (
+            returns : Blob, matches : (String::Octets),
+            map : (\Blob >:< (args.\0)),
+        ),
 
-        Blob_to_Octets : function ( returns : String::Octets, matches : (Blob),
-            map : (args.\0:>) ),
+        Blob_to_Octets : function (
+            returns : String::Octets, matches : (Blob),
+            map : (args.\0:>),
+        ),
 
 `#########################################################################`
 
@@ -951,119 +1188,163 @@ package (
             requires_implements : {in_order,to_Boolean,empty
                 ,substring_of,overlaps_string,disjoint_string
                 ,catenate,replicate
-                ,to_Text} ),
+                ,to_Text},
+        ),
 
         to_Text::"" : function ( virtual : True, returns : Text, matches : (Textual) ),
 
 `#########################################################################`
 
-        Text::"" : selection ( of : Capsule,
+        Text::"" : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Text, \String::Maximal_Chars() )),
             default : (''),
-            composes : {Textual and_provides_its_default} ),
+            composes : {Textual and_provides_its_default},
+        ),
 
         String::Maximal_Chars : alias ( of : String ),
 
-        Text::Unicode : selection ( of : Text,
-            where : (String::Unicode_Codes::(Text_from_Maximal_Chars args.\0)) ),
+        Text::Unicode : selection (
+            of : Text,
+            where : (String::Unicode_Codes::(Text_from_Maximal_Chars args.\0)),
+        ),
 
-        String::Unicode_Codes : selection ( of : String::Maximal_Chars,
-            where : (args.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )) ),
+        String::Unicode_Codes : selection (
+            of : String::Maximal_Chars,
+            where : (args.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )),
+        ),
 
-        Text::ASCII : selection ( of : Text::Unicode,
-            where : (String::ASCII_Chars::(Text_from_Unicode_Codes args.\0)) ),
+        Text::ASCII : selection (
+            of : Text::Unicode,
+            where : (String::ASCII_Chars::(Text_from_Unicode_Codes args.\0)),
+        ),
 
-        String::ASCII_Chars : selection ( of : String::Unicode_Codes,
-            where : (args.\0 all \in::( 1: 0..127 )) ),
+        String::ASCII_Chars : selection (
+            of : String::Unicode_Codes,
+            where : (args.\0 all \in::( 1: 0..127 )),
+        ),
 
-        in_order::Text : function ( returns : Boolean, matches : (Text, Text),
+        in_order::Text : function (
+            returns : Boolean, matches : (Text, Text),
             implements : 1::"",
-            map : ((Text_to_Maximal_Chars args.\0) in_order (Text_to_Maximal_Chars args.\1)) ),
+            map : ((Text_to_Maximal_Chars args.\0) in_order (Text_to_Maximal_Chars args.\1)),
+        ),
 
-        to_Boolean::Text : function ( returns : Boolean, matches : (Text),
+        to_Boolean::Text : function (
+            returns : Boolean, matches : (Text),
             implements : 1::"",
-            map : (args.\0 != '') ),
+            map : (args.\0 != ''),
+        ),
 
-        empty::Text : function ( returns : Text, matches : (Text),
+        empty::Text : function (
+            returns : Text, matches : (Text),
             implements : 1::"",
-            map : ('') ),
+            map : (''),
+        ),
 
-        substring_of::Text : function ( returns : Boolean, matches : (Text, Text),
+        substring_of::Text : function (
+            returns : Boolean, matches : (Text, Text),
             implements : 1::"",
             map : ((Text_to_Maximal_Chars args.\0)
-                substring_of (Text_to_Maximal_Chars args.\1)) ),
+                substring_of (Text_to_Maximal_Chars args.\1)),
+        ),
 
-        overlaps_string::Text : function ( returns : Boolean, matches : (Text, Text),
+        overlaps_string::Text : function (
+            returns : Boolean, matches : (Text, Text),
             implements : 1::"",
             is_commutative : True,
             map : ((Text_to_Maximal_Chars args.\0)
-                overlaps_string (Text_to_Maximal_Chars args.\1)) ),
+                overlaps_string (Text_to_Maximal_Chars args.\1)),
+        ),
 
-        disjoint_string::Text : function ( returns : Boolean, matches : (Text, Text),
+        disjoint_string::Text : function (
+            returns : Boolean, matches : (Text, Text),
             implements : 1::"",
             is_commutative : True,
             map : ((Text_to_Maximal_Chars args.\0)
-                disjoint_string (Text_to_Maximal_Chars args.\1)) ),
+                disjoint_string (Text_to_Maximal_Chars args.\1)),
+        ),
 
-        catenate::Text : function ( returns : Text, matches : (Text, Text),
+        catenate::Text : function (
+            returns : Text, matches : (Text, Text),
             implements : 1::"",
             is_associative : True, identity : (''),
             repeater : replicate::Text,
             map : (Text_from_Maximal_Chars::((Text_to_Maximal_Chars args.\0)
-                ~ (Text_to_Maximal_Chars args.\1))) ),
+                ~ (Text_to_Maximal_Chars args.\1))),
+        ),
 
-        replicate::Text : function ( returns : Text, matches : (Text, Integer_NN),
+        replicate::Text : function (
+            returns : Text, matches : (Text, Integer_NN),
             implements : 1::"",
-            map : (Text_from_Maximal_Chars::((Text_to_Maximal_Chars args.\0) ~# (args.\1))) ),
+            map : (Text_from_Maximal_Chars::((Text_to_Maximal_Chars args.\0) ~# (args.\1))),
+        ),
 
-        to_Text::Text : function ( returns : Text, matches : (Text),
+        to_Text::Text : function (
+            returns : Text, matches : (Text),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
         Text_from_Maximal_Chars : function (
             returns : Text, matches : (String::Maximal_Chars),
-            map : (\Text >:< (args.\0)) ),
+            map : (\Text >:< (args.\0)),
+        ),
 
         Text_to_Maximal_Chars : function (
             returns : String::Maximal_Chars, matches : (Text),
-            map : (args.\0:>) ),
+            map : (args.\0:>),
+        ),
 
         Text_from_Unicode_Codes : function (
             returns : Text::Unicode, matches : (String::Unicode_Codes),
-            map : (Text_from_Maximal_Chars args.\0) ),
+            map : (Text_from_Maximal_Chars args.\0),
+        ),
 
         Text_to_Unicode_Codes : function (
             returns : String::Unicode_Codes, matches : (Text::Unicode),
-            map : (Text_to_Maximal_Chars args.\0) ),
+            map : (Text_to_Maximal_Chars args.\0),
+        ),
 
         Text_from_ASCII_Chars : function (
             returns : Text::ASCII, matches : (String::ASCII_Chars),
-            map : (Text_from_Unicode_Codes args.\0) ),
+            map : (Text_from_Unicode_Codes args.\0),
+        ),
 
         Text_to_ASCII_Chars : function (
             returns : String::ASCII_Chars, matches : (Text::ASCII),
-            map : (Text_to_Unicode_Codes args.\0) ),
+            map : (Text_to_Unicode_Codes args.\0),
+        ),
 
-        Blob_is_UTF_8 : function ( returns : Boolean, matches : (Blob),
-            map : (...) ),
+        Blob_is_UTF_8 : function (
+            returns : Boolean, matches : (Blob),
+            map : (...),
+        ),
 
         Text_from_UTF_8_Blob : function (
             returns : {Text::Unicode, Excuse::Unicode::..., ...}, matches : (Blob),
-            map : (...) ),
+            map : (...),
+        ),
 
         Text_from_UTF_8_Blob_with_repl_Text : function (
             returns : Text::Unicode, matches : (Blob, Text::Unicode),
-            map : (...) ),
+            map : (...),
+        ),
 
         Text_from_UTF_8_Blob_with_repl_char : function (
             returns : Text::Unicode, matches : (Blob),
-            map : (Text_from_UTF_8_Blob_with_repl_Text::(args.\0,'\\c<0xFFFD>')) ),
+            map : (Text_from_UTF_8_Blob_with_repl_Text::(args.\0,'\\c<0xFFFD>')),
+        ),
 
-        Text_to_UTF_8_Blob : function ( returns : Blob, matches : (Text::Unicode),
-            map : (...) ),
+        Text_to_UTF_8_Blob : function (
+            returns : Blob, matches : (Text::Unicode),
+            map : (...),
+        ),
 
-        Blob_is_ASCII : function ( returns : Boolean, matches : (Blob),
-            map : (String::ASCII_Chars(Blob_to_Octets args.\0)) ),
+        Blob_is_ASCII : function (
+            returns : Boolean, matches : (Blob),
+            map : (String::ASCII_Chars(Blob_to_Octets args.\0)),
+        ),
 
         Text_from_ASCII_Blob : function (
             returns : {Text::ASCII, Excuse::ASCII::High_Bit_Not_Zero}, matches : (Blob),
@@ -1072,7 +1353,8 @@ package (
                 returns if String::ASCII_Chars(octets)
                     then Text_from_ASCII_Chars octets
                     else Excuse::ASCII::High_Bit_Not_Zero();
-            ) ),
+            ),
+        ),
 
         Text_from_ASCII_Blob_with_repl_Text : function (
             returns : Text::ASCII, matches : (Blob, Text::ASCII),
@@ -1094,10 +1376,13 @@ package (
                                 reduce \catenate::()
                     ;
                 returns Text_from_ASCII_Chars result_chars;
-            ) ),
+            ),
+        ),
 
-        Text_to_ASCII_Blob : function ( returns : Blob, matches : (Text::ASCII),
-            map : (Blob_from_Octets::(Text_to_ASCII_Chars args.\0)) ),
+        Text_to_ASCII_Blob : function (
+            returns : Blob, matches : (Text::ASCII),
+            map : (Blob_from_Octets::(Text_to_ASCII_Chars args.\0)),
+        ),
 
 `#########################################################################`
 
@@ -1105,10 +1390,13 @@ package (
             requires_implements : {has_any_at,has_mapping_at
                 ,mapping_at,at,maybe_at
                 ,replace_at,shiftless_insert_at,shiftless_remove_at
-                ,replace_or_insert_at,shiftless_maybe_remove_at} ),
+                ,replace_or_insert_at,shiftless_maybe_remove_at},
+        ),
 
-        has_any_at::"" : function ( virtual : True,
-            returns : Boolean, matches : (Accessible, Any) ),
+        has_any_at::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Accessible, Any),
+        ),
 
         ".?" : alias ( of : has_any_at ),
 
@@ -1116,19 +1404,25 @@ package (
 
         ".!?" : alias ( of : not_has_any_at ),
 
-        has_mapping_at::"" : function ( virtual : True,
-            returns : Boolean, matches : (Accessible, (Any, Any)) ),
+        has_mapping_at::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Accessible, (Any, Any)),
+        ),
 
         ".:?" : alias ( of : has_mapping_at ),
 
-        mapping_at::"" : function ( virtual : True,
+        mapping_at::"" : function (
+            virtual : True,
             returns : (Any, Any), matches : (Accessible, Any),
-            accepts : (args.\0 .? (args.\1)) ),
+            accepts : (args.\0 .? (args.\1)),
+        ),
 
         ".:" : alias ( of : mapping_at ),
 
-        at::"" : function ( virtual : True, returns : Any, matches : (Accessible, Any),
-            accepts : (args.\0 .? (args.\1)) ),
+        at::"" : function (
+            virtual : True, returns : Any, matches : (Accessible, Any),
+            accepts : (args.\0 .? (args.\1)),
+        ),
 
         "." : alias ( of : at ),
 
@@ -1136,31 +1430,41 @@ package (
 
         ".!" : alias ( of : maybe_at ),
 
-        replace_at::"" : function ( virtual : True,
+        replace_at::"" : function (
+            virtual : True,
             returns : Accessible, matches : (Accessible, (Any, Any)),
-            accepts : (args.\0 .? (args.\1.\0)) ),
+            accepts : (args.\0 .? (args.\1.\0)),
+        ),
 
         ".:=" : alias ( of : replace_at ),
 
-        shiftless_insert_at::"" : function ( virtual : True,
+        shiftless_insert_at::"" : function (
+            virtual : True,
             returns : Accessible, matches : (Accessible, (Any, Any)),
-            accepts : (not args.\0 .? (args.\1.\0)) ),
+            accepts : (not args.\0 .? (args.\1.\0)),
+        ),
 
         ".+" : alias ( of : shiftless_insert_at ),
 
-        shiftless_remove_at::"" : function ( virtual : True,
+        shiftless_remove_at::"" : function (
+            virtual : True,
             returns : Accessible, matches : (Accessible, Any),
-            accepts : (args.\0 .? (args.\1)) ),
+            accepts : (args.\0 .? (args.\1)),
+        ),
 
         ".-" : alias ( of : shiftless_remove_at ),
 
-        replace_or_insert_at::"" : function ( virtual : True,
-            returns : Accessible, matches : (Accessible, (Any, Any)) ),
+        replace_or_insert_at::"" : function (
+            virtual : True,
+            returns : Accessible, matches : (Accessible, (Any, Any)),
+        ),
 
         ".=+" : alias ( of : replace_or_insert_at ),
 
-        shiftless_maybe_remove_at::"" : function ( virtual : True,
-            returns : Accessible, matches : (Accessible, Any) ),
+        shiftless_maybe_remove_at::"" : function (
+            virtual : True,
+            returns : Accessible, matches : (Accessible, Any),
+        ),
 
         ".?-" : alias ( of : shiftless_maybe_remove_at ),
 
@@ -1173,12 +1477,15 @@ package (
                 ,has_n,multiplicity
                 ,all_unique,unique
                 ,subset_of,same_members,overlaps_members,disjoint_members
-                ,any} ),
+                ,any},
+        ),
 
         singular::"" : function ( virtual : True, returns : Boolean, matches : (Homogeneous) ),
 
-        only_member::"" : function ( virtual : True, returns : Any, matches : (Homogeneous),
-            accepts : (singular args.\0) ),
+        only_member::"" : function (
+            virtual : True, returns : Any, matches : (Homogeneous),
+            accepts : (singular args.\0),
+        ),
 
         in : function ( commutes : has ),
 
@@ -1188,8 +1495,10 @@ package (
 
         Unicode_Aliases::"∉" : alias ( of : not_in ),
 
-        has : function ( returns : Boolean, matches : (Homogeneous, Any),
-            map : (has_n::(args.\0, args.\1, 1)) ),
+        has : function (
+            returns : Boolean, matches : (Homogeneous, Any),
+            map : (has_n::(args.\0, args.\1, 1)),
+        ),
 
         Unicode_Aliases::"∋" : alias ( of : has ),
 
@@ -1197,11 +1506,15 @@ package (
 
         Unicode_Aliases::"∌" : alias ( of : not_has ),
 
-        has_n::"" : function ( virtual : True,
-            returns : Boolean, matches : (Homogeneous, Any, Integer_NN) ),
+        has_n::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Homogeneous, Any, Integer_NN),
+        ),
 
-        multiplicity::"" : function ( virtual : True,
-            returns : Integer_NN, matches : (Homogeneous, Any) ),
+        multiplicity::"" : function (
+            virtual : True,
+            returns : Integer_NN, matches : (Homogeneous, Any),
+        ),
 
         all_unique::"" : function ( virtual : True, returns : Boolean, matches : (Homogeneous) ),
 
@@ -1209,7 +1522,8 @@ package (
 
         proper_subset_of : function (
             returns : Boolean, matches : (Homogeneous, Homogeneous),
-            map : (args.\0 != (args.\1) and (args.\0 subset_of args.\1)) ),
+            map : (args.\0 != (args.\1) and (args.\0 subset_of args.\1)),
+        ),
 
         Unicode_Aliases::"⊂" : alias ( of : proper_subset_of ),
 
@@ -1225,8 +1539,10 @@ package (
 
         Unicode_Aliases::"⊅" : alias ( of : not_proper_superset_of ),
 
-        subset_of::"" : function ( virtual : True,
-            returns : Boolean, matches : (Homogeneous, Homogeneous) ),
+        subset_of::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Homogeneous, Homogeneous),
+        ),
 
         Unicode_Aliases::"⊆" : alias ( of : subset_of ),
 
@@ -1242,30 +1558,40 @@ package (
 
         Unicode_Aliases::"⊉" : alias ( of : not_superset_of ),
 
-        same_members::"" : function ( virtual : True,
+        same_members::"" : function (
+            virtual : True,
             returns : Boolean, matches : (Homogeneous, Homogeneous),
-            is_commutative : True ),
+            is_commutative : True,
+        ),
 
         proper_subset_or_superset : function (
             returns : Boolean, matches : (Homogeneous, Homogeneous),
             is_commutative : True,
-            map : (not (args.\0 same_members args.\1) and (args.\0 subset_or_superset args.\1)) ),
+            map : (not (args.\0 same_members args.\1) and (args.\0 subset_or_superset args.\1)),
+        ),
 
         subset_or_superset : function (
             returns : Boolean, matches : (Homogeneous, Homogeneous),
             is_commutative : True,
-            map : ((args.\0 subset_of args.\1) or (args.\0 superset_of args.\1)) ),
+            map : ((args.\0 subset_of args.\1) or (args.\0 superset_of args.\1)),
+        ),
 
-        overlaps_members::"" : function ( virtual : True,
+        overlaps_members::"" : function (
+            virtual : True,
             returns : Boolean, matches : (Homogeneous, Homogeneous),
-            is_commutative : True ),
+            is_commutative : True,
+        ),
 
-        disjoint_members::"" : function ( virtual : True,
+        disjoint_members::"" : function (
+            virtual : True,
             returns : Boolean, matches : (Homogeneous, Homogeneous),
-            is_commutative : True ),
+            is_commutative : True,
+        ),
 
-        any::"" : function ( virtual : True,
-            returns : Boolean, matches : (Homogeneous, Signature) ),
+        any::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Homogeneous, Signature),
+        ),
 
         there_exists : alias ( of : any ),
 
@@ -1277,8 +1603,10 @@ package (
 
         Unicode_Aliases::"∄" : alias ( of : none ),
 
-        all : function ( returns : Boolean, matches : (Homogeneous, Signature),
-            map : (args.\0 none \not_is_a::( 1: args.\1 )) ),
+        all : function (
+            returns : Boolean, matches : (Homogeneous, Signature),
+            map : (args.\0 none \not_is_a::( 1: args.\1 )),
+        ),
 
         for_all : alias ( of : all ),
 
@@ -1298,72 +1626,101 @@ package (
                 ,any
                 ,insert_n,remove_n
                 ,member_plus,except,intersect,union,exclusive
-                ,nest,unnest,where,map,reduce,...} ),
+                ,nest,unnest,where,map,reduce,...},
+        ),
 
-        insert : function ( returns : Unionable, matches : (Unionable, Any),
-            map : (insert_n::(args.\0, args.\1, 1)) ),
+        insert : function (
+            returns : Unionable, matches : (Unionable, Any),
+            map : (insert_n::(args.\0, args.\1, 1)),
+        ),
 
-        insert_n::"" : function ( virtual : True,
-            returns : Unionable, matches : (Unionable, Any, Integer_NN) ),
+        insert_n::"" : function (
+            virtual : True,
+            returns : Unionable, matches : (Unionable, Any, Integer_NN),
+        ),
 
-        remove : function ( returns : Unionable, matches : (Unionable, Any),
-            map : (remove_n::(args.\0, args.\1, 1)) ),
+        remove : function (
+            returns : Unionable, matches : (Unionable, Any),
+            map : (remove_n::(args.\0, args.\1, 1)),
+        ),
 
-        remove_n::"" : function ( virtual : True,
-            returns : Unionable, matches : (Unionable, Any, Integer_NN) ),
+        remove_n::"" : function (
+            virtual : True,
+            returns : Unionable, matches : (Unionable, Any, Integer_NN),
+        ),
 
-        member_plus::"" : function ( virtual : True,
+        member_plus::"" : function (
+            virtual : True,
             returns : Unionable, matches : (Unionable, Unionable),
-            is_associative : True ),
+            is_associative : True,
+        ),
 
         Unicode_Aliases::"⊎" : alias ( of : member_plus ),
 
-        except::"" : function ( virtual : True,
-            returns : Unionable, matches : (Unionable, Unionable) ),
+        except::"" : function (
+            virtual : True,
+            returns : Unionable, matches : (Unionable, Unionable),
+        ),
 
         Unicode_Aliases::"∖" : alias ( of : except ),
 
-        intersect::"" : function ( virtual : True,
+        intersect::"" : function (
+            virtual : True,
             returns : Unionable, matches : (Unionable, Unionable),
-            is_associative : True, is_idempotent : True ),
+            is_associative : True, is_idempotent : True,
+        ),
 
         Unicode_Aliases::"∩" : alias ( of : intersect ),
 
-        union::"" : function ( virtual : True,
+        union::"" : function (
+            virtual : True,
             returns : Unionable, matches : (Unionable, Unionable),
-            is_idempotent : True ),
+            is_idempotent : True,
+        ),
 
         Unicode_Aliases::"∪" : alias ( of : union ),
 
-        exclusive::"" : function ( virtual : True,
-            returns : Unionable, matches : (Unionable, Unionable) ),
+        exclusive::"" : function (
+            virtual : True,
+            returns : Unionable, matches : (Unionable, Unionable),
+        ),
 
         symm_diff : alias ( of : exclusive ),
 
         Unicode_Aliases::"∆" : alias ( of : exclusive ),
 
-        nest::"" : function ( virtual : True, returns : Unionable, matches : (Unionable),
-            accepts : (...) ),
+        nest::"" : function (
+            virtual : True, returns : Unionable, matches : (Unionable),
+            accepts : (...),
+        ),
 
         group : alias ( of : nest ),
 
-        unnest::"" : function ( virtual : True, returns : Unionable, matches : (Unionable),
-            accepts : (...) ),
+        unnest::"" : function (
+            virtual : True, returns : Unionable, matches : (Unionable),
+            accepts : (...),
+        ),
 
         ungroup : alias ( of : unnest ),
 
-        where::"" : function ( virtual : True,
-            returns : Unionable, matches : (Unionable, Signature) ),
+        where::"" : function (
+            virtual : True,
+            returns : Unionable, matches : (Unionable, Signature),
+        ),
 
         Unicode_Aliases::"σ" : alias ( of : where ),
 
         filtering : function ( commutes : where ),
 
-        map::"" : function ( virtual : True,
-            returns : Unionable, matches : (Unionable, Function_Call_But_0) ),
+        map::"" : function (
+            virtual : True,
+            returns : Unionable, matches : (Unionable, Function_Call_But_0),
+        ),
 
-        reduce::"" : function ( virtual : True,
-            returns : Any, matches : (Unionable, Function_Call_But_0_1) ),
+        reduce::"" : function (
+            virtual : True,
+            returns : Any, matches : (Unionable, Function_Call_But_0_1),
+        ),
 
 `#########################################################################`
 
@@ -1378,7 +1735,8 @@ package (
                 ,insert_n,remove_n
                 ,member_plus,except,intersect,union,exclusive
                 ,nest,unnest,where,map,reduce,...
-                ,to_Set,to_Bag,count,unique_count,order_using} ),
+                ,to_Set,to_Bag,count,unique_count,order_using},
+        ),
 
         to_Set::"" : function ( virtual : True, returns : Set, matches : (Discrete) ),
 
@@ -1395,11 +1753,15 @@ package (
 
         unique_count::"" : function ( virtual : True, returns : Integer_NN, matches : (Discrete) ),
 
-        order : function ( returns : Positional, matches : (Discrete),
-            map : (args.\0 order_using \in_order::()) ),
+        order : function (
+            returns : Positional, matches : (Discrete),
+            map : (args.\0 order_using \in_order::()),
+        ),
 
-        order_using::"" : function ( virtual : True,
-            returns : Positional, matches : (Discrete, Function_Call_But_0_1) ),
+        order_using::"" : function (
+            virtual : True,
+            returns : Positional, matches : (Discrete, Function_Call_But_0_1),
+        ),
 
 `#########################################################################`
 
@@ -1417,73 +1779,89 @@ package (
                 ,to_Set,to_Bag,count,order_using
                 ,at
                 ,to_Array
-                ,first_possible_index,slice_n,index_succ_all_matches,...} ),
+                ,first_possible_index,slice_n,index_succ_all_matches,...},
+        ),
 
         Excuse::No_Such_Index : constant ( composes : Excuse ),
 
-        singular::Positional : function ( returns : Boolean, matches : (Positional),
+        singular::Positional : function (
+            returns : Boolean, matches : (Positional),
             implements : 1::"",
-            map : ((unique_count args.\0) = 1) ),
+            map : ((unique_count args.\0) = 1),
+        ),
 
-        only_member::Positional : function ( returns : Any, matches : (Positional),
+        only_member::Positional : function (
+            returns : Any, matches : (Positional),
             implements : 1::"",
             accepts : (singular args.\0),
-            map : (first args.\0) ),
+            map : (first args.\0),
+        ),
 
         subset_of::Positional : function (
             returns : Boolean, matches : (Positional, Positional),
             implements : 1::"",
-            map : ((to_Bag args.\0) subset_of (to_Bag args.\1)) ),
+            map : ((to_Bag args.\0) subset_of (to_Bag args.\1)),
+        ),
 
         same_members::Positional : function (
             returns : Boolean, matches : (Positional, Positional),
             implements : 1::"",
             is_commutative : True,
-            map : ((to_Bag args.\0) same_members (to_Bag args.\1)) ),
+            map : ((to_Bag args.\0) same_members (to_Bag args.\1)),
+        ),
 
         overlaps_members::Positional : function (
             returns : Boolean, matches : (Positional, Positional),
             implements : 1::"",
             is_commutative : True,
-            map : ((to_Bag args.\0) overlaps_members (to_Bag args.\1)) ),
+            map : ((to_Bag args.\0) overlaps_members (to_Bag args.\1)),
+        ),
 
         disjoint_members::Positional : function (
             returns : Boolean, matches : (Positional, Positional),
             implements : 1::"",
             is_commutative : True,
-            map : ((to_Bag args.\0) disjoint_members (to_Bag args.\1)) ),
+            map : ((to_Bag args.\0) disjoint_members (to_Bag args.\1)),
+        ),
 
         member_plus::Positional : function (
             returns : Positional, matches : (Positional, Positional),
             implements : 1::"",
             is_associative : True,
-            map : (args.\0 ~ (args.\1)) ),
+            map : (args.\0 ~ (args.\1)),
+        ),
 
-        unique_count::Positional : function ( returns : Integer_NN, matches : (Positional),
+        unique_count::Positional : function (
+            returns : Integer_NN, matches : (Positional),
             implements : 1::"",
-            map : (count::(to_Set args.\0)) ),
+            map : (count::(to_Set args.\0)),
+        ),
 
         has_any_at::Positional : function (
             returns : Boolean, matches : (Positional, Integer),
             implements : 1::"",
             map : (args.\1 >= first_possible_index::(args.\0)
-                and args.\1 < first_unused_index::(args.\0)) ),
+                and args.\1 < first_unused_index::(args.\0)),
+        ),
 
         has_mapping_at::Positional : function (
             returns : Boolean, matches : (Positional, (Integer, Any)),
             implements : 1::"",
-            map : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False) ),
+            map : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
+        ),
 
         mapping_at::Positional : function (
             returns : (Integer, Any), matches : (Positional, Integer),
             implements : 1::"",
             accepts : (args.\0 .? (args.\1)),
-            map : ((args.\1, args.\0.(args.\1))) ),
+            map : ((args.\1, args.\0.(args.\1))),
+        ),
 
         maybe_at::Positional : function (
             returns : Any, matches : (Positional, Integer),
             implements : 1::"",
-            map : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Index()) ),
+            map : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Index()),
+        ),
 
         replace_at::Positional : function (
             returns : Positional, matches : (Positional, (Integer, Any)),
@@ -1499,93 +1877,123 @@ package (
                 returns (if ri > fi then slice_range::(src, fi, --ri) else emp)
                     insert repl_member
                     catenate (if ri < li then slice_range::(src, ++ri, li) else emp);
-            ) ),
+            ),
+        ),
 
         shiftless_insert_at::Positional : function (
             returns : Positional, matches : (Positional, (Integer, Any)),
             implements : 1::"",
             accepts : (args.\1.\0 = first_unused_index::(args.\0)),
-            map : (args.\0 insert args.\1.\1) ),
+            map : (args.\0 insert args.\1.\1),
+        ),
 
         shiftless_remove_at::Positional : function (
             returns : Positional, matches : (Positional, Integer),
             implements : 1::"",
             accepts : (args.\1 >= first_possible_index::(args.\0)
                 and args.\1 = --first_unused_index::(args.\0)),
-            map : (nonlast args.\0) ),
+            map : (nonlast args.\0),
+        ),
 
         replace_or_insert_at::Positional : function (
             returns : Positional, matches : (Positional, (Integer, Any)),
             implements : 1::"",
             accepts : (args.\1 >= first_possible_index::(args.\0)
                 and args.\1 <= first_unused_index::(args.\0)),
-            map : (if args.\0 .? (args.\1.\0) then args.\0 .:= (args.\1.\0) else args.\0 .+ (args.\1.\0)) ),
+            map : (if args.\0 .? (args.\1.\0) then args.\0 .:= (args.\1.\0) else args.\0 .+ (args.\1.\0)),
+        ),
 
         shiftless_maybe_remove_at::Positional : function (
             returns : Positional, matches : (Positional, Integer),
             implements : 1::"",
             accepts : (args.\1 >= first_possible_index::(args.\0)
                 and args.\1 >= --first_unused_index::(args.\0)),
-            map : (if args.\1 = --first_unused_index::(args.\0) then nonlast args.\0 else args.\0) ),
+            map : (if args.\1 = --first_unused_index::(args.\0) then nonlast args.\0 else args.\0),
+        ),
 
         to_Array::"" : function ( virtual : True, returns : Array, matches : (Positional) ),
 
         "~|" : alias ( of : to_Array ),
 
-        squish : function ( returns : Positional, matches : (Positional),
+        squish : function (
+            returns : Positional, matches : (Positional),
             map : (args.\0 map \(( group : args.\0, member : False ))
-                pipe nest map \(args.\0.\group)) ),
+                pipe nest map \(args.\0.\group)),
+        ),
 
-        first_possible_index::"" : function ( virtual : True,
-            returns : Integer, matches : (Positional) ),
+        first_possible_index::"" : function (
+            virtual : True,
+            returns : Integer, matches : (Positional),
+        ),
 
-        first_unused_index : function ( returns : Integer, matches : (Positional),
-            map : (first_possible_index::(args.\0) + #(args.\0)) ),
+        first_unused_index : function (
+            returns : Integer, matches : (Positional),
+            map : (first_possible_index::(args.\0) + #(args.\0)),
+        ),
 
-        first_index : function ( returns : Integer, matches : (Positional),
+        first_index : function (
+            returns : Integer, matches : (Positional),
             accepts : (?(args.\0)),
-            map : (first_possible_index::(args.\0)) ),
+            map : (first_possible_index::(args.\0)),
+        ),
 
-        last_index : function ( returns : Integer, matches : (Positional),
+        last_index : function (
+            returns : Integer, matches : (Positional),
             accepts : (?(args.\0)),
-            map : (--first_unused_index::(args.\0)) ),
+            map : (--first_unused_index::(args.\0)),
+        ),
 
-        slice_n::"" : function ( virtual : True,
+        slice_n::"" : function (
+            virtual : True,
             returns : Positional, matches : (Positional, Integer, NN_Integer),
             accepts : (args.\1 >= first_possible_index::(args.\0)
-                and args.\1 + (args.\2) <= first_unused_index::(args.\0)) ),
+                and args.\1 + (args.\2) <= first_unused_index::(args.\0)),
+        ),
 
         slice_range : function (
             returns : Positional, matches : (Positional, Integer, Integer),
             accepts : (?(args.\0) and args.\1 >= first_possible_index::(args.\0)
                 and args.\2 < first_unused_index::(args.\0)),
-            map : (slice_n::(args.\0, args.\1, (args.\2) - (args.\1) + 1)) ),
+            map : (slice_n::(args.\0, args.\1, (args.\2) - (args.\1) + 1)),
+        ),
 
-        first : function ( returns : Any, matches : (Positional),
+        first : function (
+            returns : Any, matches : (Positional),
             accepts : (?(args.\0)),
-            map : (args.\0 . first_index::(args.\0)) ),
+            map : (args.\0 . first_index::(args.\0)),
+        ),
 
-        nonfirst : function ( returns : Positional, matches : (Positional),
+        nonfirst : function (
+            returns : Positional, matches : (Positional),
             accepts : (?(args.\0)),
-            map : (slice_range::(args.\0, ++first_index::(args.\0), last_index::(args.\0))) ),
+            map : (slice_range::(args.\0, ++first_index::(args.\0), last_index::(args.\0))),
+        ),
 
-        last : function ( returns : Any, matches : (Positional),
+        last : function (
+            returns : Any, matches : (Positional),
             accepts : (?(args.\0)),
-            map : (args.\0 . last_index::(args.\0)) ),
+            map : (args.\0 . last_index::(args.\0)),
+        ),
 
-        nonlast : function ( returns : Positional, matches : (Positional),
+        nonlast : function (
+            returns : Positional, matches : (Positional),
             accepts : (?(args.\0)),
-            map : (slice_range::(args.\0, first_index::(args.\0), --last_index::(args.\0))) ),
+            map : (slice_range::(args.\0, first_index::(args.\0), --last_index::(args.\0))),
+        ),
 
-        index_succ_all_matches::"" : function ( virtual : True,
+        index_succ_all_matches::"" : function (
+            virtual : True,
             returns : Integer, matches : (Positional, Positional),
-            is_commutative : True ),
+            is_commutative : True,
+        ),
 
 `#########################################################################`
 
-        Array : selection ( where : (args -->^ FDN__is_a_Array),
+        Array : selection (
+            where : (args -->^ FDN__is_a_Array),
             default : ([]),
-            composes : Positional and_provides_its_default ),
+            composes : Positional and_provides_its_default,
+        ),
 
         String::"" : selection ( of : Array, where : (args.\0 all \Integer::()) ),
 
@@ -1593,7 +2001,8 @@ package (
 
         Unicode_Aliases::"~∅" : alias ( of : empty_Array ),
 
-        in_order::Array : function ( returns : Boolean, matches : (Array, Array),
+        in_order::Array : function (
+            returns : Boolean, matches : (Array, Array),
             implements : 1::"",
             map : (
                 i ::= args.\0 index_succ_all_matches args.\1;
@@ -1607,150 +2016,213 @@ package (
 
                 e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
                 e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
-            ) ),
+            ),
+        ),
 
-        to_Boolean::Array : function ( returns : Boolean, matches : (Array),
+        to_Boolean::Array : function (
+            returns : Boolean, matches : (Array),
             implements : 1::"",
-            map : (args.\0 != []) ),
+            map : (args.\0 != []),
+        ),
 
-        empty::Array : function ( returns : Array, matches : (Array),
+        empty::Array : function (
+            returns : Array, matches : (Array),
             implements : 1::"",
-            map : ([]) ),
+            map : ([]),
+        ),
 
-        substring_of::Array : function ( returns : Boolean, matches : (Array, Array),
+        substring_of::Array : function (
+            returns : Boolean, matches : (Array, Array),
             implements : 1::"",
-            map : (args -->^ FDN__Array_substring_of) ),
+            map : (args -->^ FDN__Array_substring_of),
+        ),
 
-        overlaps_string::Array : function ( returns : Boolean, matches : (Array, Array),
+        overlaps_string::Array : function (
+            returns : Boolean, matches : (Array, Array),
             implements : 1::"",
             is_commutative : True,
-            map : (args -->^ FDN__Array_overlaps_string) ),
+            map : (args -->^ FDN__Array_overlaps_string),
+        ),
 
-        disjoint_string::Array : function ( returns : Boolean, matches : (Array, Array),
+        disjoint_string::Array : function (
+            returns : Boolean, matches : (Array, Array),
             implements : 1::"",
             is_commutative : True,
-            map : (args -->^ FDN__Array_disjoint_string) ),
+            map : (args -->^ FDN__Array_disjoint_string),
+        ),
 
-        catenate::Array : function ( returns : Array, matches : (Array, Array),
+        catenate::Array : function (
+            returns : Array, matches : (Array, Array),
             implements : 1::"",
             is_associative : True, identity : ([]),
             repeater : replicate::Array,
-            map : (args -->^ FDN__Array_catenate) ),
+            map : (args -->^ FDN__Array_catenate),
+        ),
 
-        replicate::Array : function ( returns : Array, matches : (Array, Integer_NN),
+        replicate::Array : function (
+            returns : Array, matches : (Array, Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Array_replicate) ),
+            map : (args -->^ FDN__Array_replicate),
+        ),
 
-        has_n::Array : function ( returns : Boolean, matches : (Array, Any, Integer_NN),
+        has_n::Array : function (
+            returns : Boolean, matches : (Array, Any, Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Array_has_n) ),
+            map : (args -->^ FDN__Array_has_n),
+        ),
 
-        multiplicity::Array : function ( returns : Integer_NN, matches : (Array, Any),
+        multiplicity::Array : function (
+            returns : Integer_NN, matches : (Array, Any),
             implements : 1::"",
-            map : (args -->^ FDN__Array_multiplicity) ),
+            map : (args -->^ FDN__Array_multiplicity),
+        ),
 
-        all_unique::Array : function ( returns : Boolean, matches : (Array),
+        all_unique::Array : function (
+            returns : Boolean, matches : (Array),
             implements : 1::"",
-            map : (args -->^ FDN__Array_all_unique) ),
+            map : (args -->^ FDN__Array_all_unique),
+        ),
 
-        unique::Array : function ( returns : Array, matches : (Array),
+        unique::Array : function (
+            returns : Array, matches : (Array),
             implements : 1::"",
-            map : (args -->^ FDN__Array_unique) ),
+            map : (args -->^ FDN__Array_unique),
+        ),
 
-        any::Array : function ( returns : Boolean, matches : (Array, Signature),
+        any::Array : function (
+            returns : Boolean, matches : (Array, Signature),
             implements : 1::"",
-            map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Array_any) ),
+            map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Array_any),
+        ),
 
-        insert_n::Array : function ( returns : Array, matches : (Array, Any, Integer_NN),
+        insert_n::Array : function (
+            returns : Array, matches : (Array, Any, Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Array_insert_n) ),
+            map : (args -->^ FDN__Array_insert_n),
+        ),
 
-        remove_n::Array : function ( returns : Array, matches : (Array, Any, Integer_NN),
+        remove_n::Array : function (
+            returns : Array, matches : (Array, Any, Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Array_remove_n) ),
+            map : (args -->^ FDN__Array_remove_n),
+        ),
 
-        except::Array : function ( returns : Array, matches : (Array, Array),
+        except::Array : function (
+            returns : Array, matches : (Array, Array),
             implements : 1::"",
-            map : (args -->^ FDN__Array_except) ),
+            map : (args -->^ FDN__Array_except),
+        ),
 
-        intersect::Array : function ( returns : Array, matches : (Array, Array),
+        intersect::Array : function (
+            returns : Array, matches : (Array, Array),
             implements : 1::"",
             is_associative : True, is_idempotent : True,
-            map : (args -->^ FDN__Array_intersect) ),
+            map : (args -->^ FDN__Array_intersect),
+        ),
 
-        union::Array : function ( returns : Array, matches : (Array, Array),
+        union::Array : function (
+            returns : Array, matches : (Array, Array),
             implements : 1::"",
             is_idempotent : True, identity : ([]),
-            map : (args -->^ FDN__Array_union) ),
+            map : (args -->^ FDN__Array_union),
+        ),
 
-        exclusive::Array : function ( returns : Array, matches : (Array, Array),
+        exclusive::Array : function (
+            returns : Array, matches : (Array, Array),
             implements : 1::"",
             identity : ([]),
-            map : (args -->^ FDN__Array_exclusive) ),
+            map : (args -->^ FDN__Array_exclusive),
+        ),
 
-        nest::Array : function ( returns : Array, matches : (Array),
+        nest::Array : function (
+            returns : Array, matches : (Array),
             implements : 1::"",
             accepts : (...),
-            map : (args -->^ FDN__Array_nest) ),
+            map : (args -->^ FDN__Array_nest),
+        ),
 
-        unnest::Array : function ( returns : Array, matches : (Array),
+        unnest::Array : function (
+            returns : Array, matches : (Array),
             implements : 1::"",
             accepts : (...),
-            map : (args -->^ FDN__Array_unnest) ),
+            map : (args -->^ FDN__Array_unnest),
+        ),
 
-        where::Array : function ( returns : Array, matches : (Array, Signature),
+        where::Array : function (
+            returns : Array, matches : (Array, Signature),
             implements : 1::"",
             map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-                -->^ FDN__Array_where) ),
+                -->^ FDN__Array_where),
+        ),
 
-        map::Array : function ( returns : Array, matches : (Array, Function_Call_But_0),
+        map::Array : function (
+            returns : Array, matches : (Array, Function_Call_But_0),
             implements : 1::"",
-            map : (args -->^ FDN__Array_map) ),
+            map : (args -->^ FDN__Array_map),
+        ),
 
-        reduce::Array : function ( returns : Any, matches : (Array, Function_Call_But_0_1),
+        reduce::Array : function (
+            returns : Any, matches : (Array, Function_Call_But_0_1),
             implements : 1::"",
-            map : (args -->^ FDN__Array_reduce) ),
+            map : (args -->^ FDN__Array_reduce),
+        ),
 
-        to_Set::Array : function ( returns : Set, matches : (Array),
+        to_Set::Array : function (
+            returns : Set, matches : (Array),
             implements : 1::"",
-            map : (to_Set::(to_Bag args.\0)) ),
+            map : (to_Set::(to_Bag args.\0)),
+        ),
 
-        to_Bag::Array : function ( returns : Bag, matches : (Array),
+        to_Bag::Array : function (
+            returns : Bag, matches : (Array),
             implements : 1::"",
-            map : (args -->^ FDN__Array_to_Bag) ),
+            map : (args -->^ FDN__Array_to_Bag),
+        ),
 
-        count::Array : function ( returns : Integer_NN, matches : (Array),
+        count::Array : function (
+            returns : Integer_NN, matches : (Array),
             implements : 1::"",
-            map : (args -->^ FDN__Array_count) ),
+            map : (args -->^ FDN__Array_count),
+        ),
 
-        order_using::Array : function ( returns : Array, matches : (Array, Function_Call_But_0_1),
+        order_using::Array : function (
+            returns : Array, matches : (Array, Function_Call_But_0_1),
             implements : 1::"",
-            map : (args -->^ FDN__Array_order_using) ),
+            map : (args -->^ FDN__Array_order_using),
+        ),
 
-        at::Array : function ( returns : Any, matches : (Array, Integer_NN),
+        at::Array : function (
+            returns : Any, matches : (Array, Integer_NN),
             implements : 1::"",
             accepts : (args.\0 .? (args.\1)),
-            map : (args -->^ FDN__Array_at) ),
+            map : (args -->^ FDN__Array_at),
+        ),
 
-        to_Array::Array : function ( returns : Array, matches : (Array),
+        to_Array::Array : function (
+            returns : Array, matches : (Array),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        first_possible_index::Array : function ( returns : Integer_NN, matches : (Array),
+        first_possible_index::Array : function (
+            returns : Integer_NN, matches : (Array),
             implements : 1::"",
-            map : (0) ),
+            map : (0),
+        ),
 
         slice_n::Array : function (
             returns : Array, matches : (Array, NN_Integer, NN_Integer),
             implements : 1::"",
             accepts : (args.\1 + (args.\2) <= #(args.\0)),
-            map : (args -->^ FDN__Array_slice_n) ),
+            map : (args -->^ FDN__Array_slice_n),
+        ),
 
         index_succ_all_matches::Array : function (
             returns : Integer_NN, matches : (Array, Array),
             implements : 1::"",
             is_commutative : True,
-            map : (args -->^ FDN__Array_index_succ_all_matches) ),
+            map : (args -->^ FDN__Array_index_succ_all_matches),
+        ),
 
 `#########################################################################`
 
@@ -1758,293 +2230,418 @@ package (
 
 `#########################################################################`
 
-        Set : selection ( of : Capsule,
+        Set : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Set,
                 \(if Bag args.\0 then all_unique args.\0 else False) )),
             default : ({}),
-            composes : {Discrete, Setty and_provides_its_default} ),
+            composes : {Discrete, Setty and_provides_its_default},
+        ),
 
         empty_Set : constant ( ({}) ),
 
         Unicode_Aliases::"?∅" : alias ( of : empty_Set ),
 
-        to_Boolean::Set : function ( returns : Boolean, matches : (Set),
+        to_Boolean::Set : function (
+            returns : Boolean, matches : (Set),
             implements : 1::"",
-            map : (args.\0 != {}) ),
+            map : (args.\0 != {}),
+        ),
 
-        empty::Set : function ( returns : Set, matches : (Set),
+        empty::Set : function (
+            returns : Set, matches : (Set),
             implements : 1::"",
-            map : ({}) ),
+            map : ({}),
+        ),
 
-        singular::Set : function ( returns : Boolean, matches : (Set),
+        singular::Set : function (
+            returns : Boolean, matches : (Set),
             implements : 1::"",
-            map : (singular args.\0:>) ),
+            map : (singular args.\0:>),
+        ),
 
-        only_member::Set : function ( returns : Any, matches : (Set),
+        only_member::Set : function (
+            returns : Any, matches : (Set),
             implements : 1::"",
             accepts : (singular args.\0),
-            map : (only_member args.\0:>) ),
+            map : (only_member args.\0:>),
+        ),
 
-        has_n::Set : function ( returns : Boolean, matches : (Set, Any, Integer_NN),
+        has_n::Set : function (
+            returns : Boolean, matches : (Set, Any, Integer_NN),
             implements : 1::"",
-            map : (has_n::(args.\0:>, args.\1, args.\2)) ),
+            map : (has_n::(args.\0:>, args.\1, args.\2)),
+        ),
 
-        multiplicity::Set : function ( returns : Integer_NN, matches : (Set, Any),
+        multiplicity::Set : function (
+            returns : Integer_NN, matches : (Set, Any),
             implements : 1::"",
-            map : (args.\0:> multiplicity args.\1) ),
+            map : (args.\0:> multiplicity args.\1),
+        ),
 
-        all_unique::Set : function ( returns : Boolean, matches : (Set),
+        all_unique::Set : function (
+            returns : Boolean, matches : (Set),
             implements : 1::"",
-            map : (True) ),
+            map : (True),
+        ),
 
-        unique::Set : function ( returns : Set, matches : (Set),
+        unique::Set : function (
+            returns : Set, matches : (Set),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        subset_of::Set : function ( returns : Boolean, matches : (Set, Set),
+        subset_of::Set : function (
+            returns : Boolean, matches : (Set, Set),
             implements : 1::"",
-            map : (args.\0:> subset_of args.\1:>) ),
+            map : (args.\0:> subset_of args.\1:>),
+        ),
 
-        same_members::Set : function ( returns : Boolean, matches : (Set, Set),
+        same_members::Set : function (
+            returns : Boolean, matches : (Set, Set),
             implements : 1::"",
             is_commutative : True,
-            map : (args.\0 = (args.\1)) ),
+            map : (args.\0 = (args.\1)),
+        ),
 
-        overlaps_members::Set : function ( returns : Boolean, matches : (Set, Set),
+        overlaps_members::Set : function (
+            returns : Boolean, matches : (Set, Set),
             implements : 1::"",
             is_commutative : True,
-            map : (args.\0:> overlaps_members args.\1:>) ),
+            map : (args.\0:> overlaps_members args.\1:>),
+        ),
 
-        disjoint_members::Set : function ( returns : Boolean, matches : (Set, Set),
+        disjoint_members::Set : function (
+            returns : Boolean, matches : (Set, Set),
             implements : 1::"",
             is_commutative : True,
-            map : (args.\0:> disjoint_members args.\1:>) ),
+            map : (args.\0:> disjoint_members args.\1:>),
+        ),
 
-        any::Set : function ( returns : Boolean, matches : (Set, Signature),
+        any::Set : function (
+            returns : Boolean, matches : (Set, Signature),
             implements : 1::"",
-            map : (args.\0:> any args.\1) ),
+            map : (args.\0:> any args.\1),
+        ),
 
-        insert_n::Set : function ( returns : Set, matches : (Set, Any, Integer_NN),
+        insert_n::Set : function (
+            returns : Set, matches : (Set, Any, Integer_NN),
             implements : 1::"",
             map : (args.\0 has args.\1 or args.\2 = 0 :? args.\0
-                :! \Set >:< insert_n::(args.\0:>, args.\1, 1)) ),
+                :! \Set >:< insert_n::(args.\0:>, args.\1, 1)),
+        ),
 
-        remove_n::Set : function ( returns : Set, matches : (Set, Any, Integer_NN),
+        remove_n::Set : function (
+            returns : Set, matches : (Set, Any, Integer_NN),
             implements : 1::"",
-            map : (\Set >:< remove_n::(args.\0:>, args.\1, args.\2)) ),
+            map : (\Set >:< remove_n::(args.\0:>, args.\1, args.\2)),
+        ),
 
-        member_plus::Set : function ( returns : Set, matches : (Set, Set),
+        member_plus::Set : function (
+            returns : Set, matches : (Set, Set),
             implements : 1::"",
             is_associative : True, is_commutative : True, is_idempotent : True, identity : ({}),
-            map : (args.\0 union args.\1) ),
+            map : (args.\0 union args.\1),
+        ),
 
-        except::Set : function ( returns : Set, matches : (Set, Set),
+        except::Set : function (
+            returns : Set, matches : (Set, Set),
             implements : 1::"",
-            map : (\Set >:< (args.\0:> except args.\1:>)) ),
+            map : (\Set >:< (args.\0:> except args.\1:>)),
+        ),
 
-        intersect::Set : function ( returns : Set, matches : (Set, Set),
+        intersect::Set : function (
+            returns : Set, matches : (Set, Set),
             implements : 1::"",
             is_associative : True, is_commutative : True, is_idempotent : True,
-            map : (\Set >:< (args.\0:> intersect args.\1:>)) ),
+            map : (\Set >:< (args.\0:> intersect args.\1:>)),
+        ),
 
-        union::Set : function ( returns : Set, matches : (Set, Set),
+        union::Set : function (
+            returns : Set, matches : (Set, Set),
             implements : 1::"",
             is_associative : True, is_commutative : True, is_idempotent : True, identity : ({}),
-            map : (\Set >:< (args.\0:> union args.\1:>)) ),
+            map : (\Set >:< (args.\0:> union args.\1:>)),
+        ),
 
-        exclusive::Set : function ( returns : Set, matches : (Set, Set),
+        exclusive::Set : function (
+            returns : Set, matches : (Set, Set),
             implements : 1::"",
             is_associative : True, is_commutative : True, identity : ({}),
-            map : (\Set >:< (args.\0:> exclusive args.\1:>)) ),
+            map : (\Set >:< (args.\0:> exclusive args.\1:>)),
+        ),
 
-        nest::Set : function ( returns : Set, matches : (Set),
+        nest::Set : function (
+            returns : Set, matches : (Set),
             implements : 1::"",
             accepts : (...),
-            map : (\Set >:< (nest args.\0:>)) ),
+            map : (\Set >:< (nest args.\0:>)),
+        ),
 
-        unnest::Set : function ( returns : Set, matches : (Set),
+        unnest::Set : function (
+            returns : Set, matches : (Set),
             implements : 1::"",
             accepts : (...),
-            map : (\Set >:< (unnest args.\0:>)) ),
+            map : (\Set >:< (unnest args.\0:>)),
+        ),
 
-        where::Set : function ( returns : Set, matches : (Set, Signature),
+        where::Set : function (
+            returns : Set, matches : (Set, Signature),
             implements : 1::"",
-            map : (\Set >:< (args.\0:> where args.\1)) ),
+            map : (\Set >:< (args.\0:> where args.\1)),
+        ),
 
-        map::Set : function ( returns : Set, matches : (Set, Function_Call_But_0),
+        map::Set : function (
+            returns : Set, matches : (Set, Function_Call_But_0),
             implements : 1::"",
-            map : (\Set >:< (args.\0:> map args.\1)) ),
+            map : (\Set >:< (args.\0:> map args.\1)),
+        ),
 
-        reduce::Set : function ( returns : Any, matches : (Set, Function_Call_But_0_1),
+        reduce::Set : function (
+            returns : Any, matches : (Set, Function_Call_But_0_1),
             implements : 1::"",
-            map : (\Set >:< (args.\0:> reduce args.\1)) ),
+            map : (\Set >:< (args.\0:> reduce args.\1)),
+        ),
 
-        to_Set::Set : function ( returns : Set, matches : (Set),
+        to_Set::Set : function (
+            returns : Set, matches : (Set),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        to_Bag::Set : function ( returns : Bag, matches : (Set),
+        to_Bag::Set : function (
+            returns : Bag, matches : (Set),
             implements : 1::"",
-            map : (args.\0:>) ),
+            map : (args.\0:>),
+        ),
 
-        count::Set : function ( returns : Integer_NN, matches : (Set),
+        count::Set : function (
+            returns : Integer_NN, matches : (Set),
             implements : 1::"",
-            map : (count args.\0:>) ),
+            map : (count args.\0:>),
+        ),
 
-        unique_count::Set : function ( returns : Integer_NN, matches : (Set),
+        unique_count::Set : function (
+            returns : Integer_NN, matches : (Set),
             implements : 1::"",
-            map : (count args.\0) ),
+            map : (count args.\0),
+        ),
 
-        order_using::Set : function ( returns : Array, matches : (Set, Function_Call_But_0_1),
+        order_using::Set : function (
+            returns : Array, matches : (Set, Function_Call_But_0_1),
             implements : 1::"",
-            map : (\Set >:< (args.\0:> order_using args.\1)) ),
+            map : (\Set >:< (args.\0:> order_using args.\1)),
+        ),
 
 `#########################################################################`
 
-        Bag : selection ( where : (args -->^ FDN__is_a_Bag),
+        Bag : selection (
+            where : (args -->^ FDN__is_a_Bag),
             default : (\+{}),
-            composes : Discrete ),
+            composes : Discrete,
+        ),
 
         empty_Bag : constant ( (\+{}) ),
 
         Unicode_Aliases::"+∅" : alias ( of : empty_Bag ),
 
-        to_Boolean::Bag : function ( returns : Boolean, matches : (Bag),
+        to_Boolean::Bag : function (
+            returns : Boolean, matches : (Bag),
             implements : 1::"",
-            map : (args.\0 != \+{}) ),
+            map : (args.\0 != \+{}),
+        ),
 
-        empty::Bag : function ( returns : Bag, matches : (Bag),
+        empty::Bag : function (
+            returns : Bag, matches : (Bag),
             implements : 1::"",
-            map : (\+{}) ),
+            map : (\+{}),
+        ),
 
-        singular::Bag : function ( returns : Boolean, matches : (Bag),
+        singular::Bag : function (
+            returns : Boolean, matches : (Bag),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_singular) ),
+            map : (args -->^ FDN__Bag_singular),
+        ),
 
-        only_member::Bag : function ( returns : Any, matches : (Bag),
+        only_member::Bag : function (
+            returns : Any, matches : (Bag),
             implements : 1::"",
             accepts : (singular args.\0),
-            map : (args -->^ FDN__Bag_only_member) ),
+            map : (args -->^ FDN__Bag_only_member),
+        ),
 
-        has_n::Bag : function ( returns : Boolean, matches : (Bag, Any, Integer_NN),
+        has_n::Bag : function (
+            returns : Boolean, matches : (Bag, Any, Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_has_n) ),
+            map : (args -->^ FDN__Bag_has_n),
+        ),
 
-        multiplicity::Bag : function ( returns : Integer_NN, matches : (Bag, Any),
+        multiplicity::Bag : function (
+            returns : Integer_NN, matches : (Bag, Any),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_multiplicity) ),
+            map : (args -->^ FDN__Bag_multiplicity),
+        ),
 
-        all_unique::Bag : function ( returns : Boolean, matches : (Bag),
+        all_unique::Bag : function (
+            returns : Boolean, matches : (Bag),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_all_unique) ),
+            map : (args -->^ FDN__Bag_all_unique),
+        ),
 
-        unique::Bag : function ( returns : Bag, matches : (Bag),
+        unique::Bag : function (
+            returns : Bag, matches : (Bag),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_unique) ),
+            map : (args -->^ FDN__Bag_unique),
+        ),
 
-        subset_of::Bag : function ( returns : Boolean, matches : (Bag, Bag),
+        subset_of::Bag : function (
+            returns : Boolean, matches : (Bag, Bag),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_subset_of) ),
+            map : (args -->^ FDN__Bag_subset_of),
+        ),
 
-        same_members::Bag : function ( returns : Boolean, matches : (Bag, Bag),
+        same_members::Bag : function (
+            returns : Boolean, matches : (Bag, Bag),
             implements : 1::"",
             is_commutative : True,
-            map : (args.\0 = (args.\1)) ),
+            map : (args.\0 = (args.\1)),
+        ),
 
-        overlaps_members::Bag : function ( returns : Boolean, matches : (Bag, Bag),
+        overlaps_members::Bag : function (
+            returns : Boolean, matches : (Bag, Bag),
             implements : 1::"",
             is_commutative : True,
-            map : (args -->^ FDN__Bag_overlaps_members) ),
+            map : (args -->^ FDN__Bag_overlaps_members),
+        ),
 
-        disjoint_members::Bag : function ( returns : Boolean, matches : (Bag, Bag),
+        disjoint_members::Bag : function (
+            returns : Boolean, matches : (Bag, Bag),
             implements : 1::"",
             is_commutative : True,
-            map : (args -->^ FDN__Bag_disjoint_members) ),
+            map : (args -->^ FDN__Bag_disjoint_members),
+        ),
 
-        any::Bag : function ( returns : Boolean, matches : (Bag, Signature),
+        any::Bag : function (
+            returns : Boolean, matches : (Bag, Signature),
             implements : 1::"",
-            map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_any) ),
+            map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_any),
+        ),
 
-        insert_n::Bag : function ( returns : Bag, matches : (Bag, Any, Integer_NN),
+        insert_n::Bag : function (
+            returns : Bag, matches : (Bag, Any, Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_insert_n) ),
+            map : (args -->^ FDN__Bag_insert_n),
+        ),
 
-        remove_n::Bag : function ( returns : Bag, matches : (Bag, Any, Integer_NN),
+        remove_n::Bag : function (
+            returns : Bag, matches : (Bag, Any, Integer_NN),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_remove_n) ),
+            map : (args -->^ FDN__Bag_remove_n),
+        ),
 
-        member_plus::Bag : function ( returns : Bag, matches : (Bag, Bag),
+        member_plus::Bag : function (
+            returns : Bag, matches : (Bag, Bag),
             implements : 1::"",
             is_associative : True, is_commutative : True, identity : (\+{}),
-            map : (args -->^ FDN__Bag_member_plus) ),
+            map : (args -->^ FDN__Bag_member_plus),
+        ),
 
-        except::Bag : function ( returns : Bag, matches : (Bag, Bag),
+        except::Bag : function (
+            returns : Bag, matches : (Bag, Bag),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_except) ),
+            map : (args -->^ FDN__Bag_except),
+        ),
 
-        intersect::Bag : function ( returns : Bag, matches : (Bag, Bag),
+        intersect::Bag : function (
+            returns : Bag, matches : (Bag, Bag),
             implements : 1::"",
             is_associative : True, is_commutative : True, is_idempotent : True,
-            map : (args -->^ FDN__Bag_intersect) ),
+            map : (args -->^ FDN__Bag_intersect),
+        ),
 
-        union::Bag : function ( returns : Bag, matches : (Bag, Bag),
+        union::Bag : function (
+            returns : Bag, matches : (Bag, Bag),
             implements : 1::"",
             is_associative : True, is_commutative : True, is_idempotent : True, identity : (\+{}),
-            map : (args -->^ FDN__Bag_union) ),
+            map : (args -->^ FDN__Bag_union),
+        ),
 
-        exclusive::Bag : function ( returns : Bag, matches : (Bag, Bag),
+        exclusive::Bag : function (
+            returns : Bag, matches : (Bag, Bag),
             implements : 1::"",
             is_associative : True, is_commutative : True, identity : (\+{}),
-            map : (args -->^ FDN__Bag_exclusive) ),
+            map : (args -->^ FDN__Bag_exclusive),
+        ),
 
-        nest::Bag : function ( returns : Bag, matches : (Bag),
+        nest::Bag : function (
+            returns : Bag, matches : (Bag),
             implements : 1::"",
             accepts : (...),
-            map : (args -->^ FDN__Bag_nest) ),
+            map : (args -->^ FDN__Bag_nest),
+        ),
 
-        unnest::Bag : function ( returns : Bag, matches : (Bag),
+        unnest::Bag : function (
+            returns : Bag, matches : (Bag),
             implements : 1::"",
             accepts : (...),
-            map : (args -->^ FDN__Bag_unnest) ),
+            map : (args -->^ FDN__Bag_unnest),
+        ),
 
-        where::Bag : function ( returns : Bag, matches : (Bag, Signature),
+        where::Bag : function (
+            returns : Bag, matches : (Bag, Signature),
             implements : 1::"",
-            map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_where) ),
+            map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_where),
+        ),
 
-        map::Bag : function ( returns : Bag, matches : (Bag, Function_Call_But_0),
+        map::Bag : function (
+            returns : Bag, matches : (Bag, Function_Call_But_0),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_map) ),
+            map : (args -->^ FDN__Bag_map),
+        ),
 
-        reduce::Bag : function ( returns : Any, matches : (Bag, Function_Call_But_0_1),
+        reduce::Bag : function (
+            returns : Any, matches : (Bag, Function_Call_But_0_1),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_reduce) ),
+            map : (args -->^ FDN__Bag_reduce),
+        ),
 
-        to_Set::Bag : function ( returns : Set, matches : (Bag),
+        to_Set::Bag : function (
+            returns : Set, matches : (Bag),
             implements : 1::"",
-            map : (\Set >:< (unique args.\0)) ),
+            map : (\Set >:< (unique args.\0)),
+        ),
 
-        to_Bag::Bag : function ( returns : Bag, matches : (Bag),
+        to_Bag::Bag : function (
+            returns : Bag, matches : (Bag),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        count::Bag : function ( returns : Integer_NN, matches : (Bag),
+        count::Bag : function (
+            returns : Integer_NN, matches : (Bag),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_count) ),
+            map : (args -->^ FDN__Bag_count),
+        ),
 
-        unique_count::Bag : function ( returns : Integer_NN, matches : (Bag),
+        unique_count::Bag : function (
+            returns : Integer_NN, matches : (Bag),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_unique_count) ),
+            map : (args -->^ FDN__Bag_unique_count),
+        ),
 
-        order_using::Bag : function ( returns : Array, matches : (Bag, Function_Call_But_0_1),
+        order_using::Bag : function (
+            returns : Array, matches : (Bag, Function_Call_But_0_1),
             implements : 1::"",
-            map : (args -->^ FDN__Bag_order_using) ),
+            map : (args -->^ FDN__Bag_order_using),
+        ),
 
 `#########################################################################`
 
         Attributive : interface (
             requires_implements : {has_any_attrs,nullary
                 ,is_unary,degree,heading,rename
-                ,can_project_matching,on,update,extend} ),
+                ,can_project_matching,on,update,extend},
+        ),
 
         Excuse::No_Such_Attr_Name : constant ( composes : Excuse ),
 
@@ -2072,7 +2669,8 @@ package (
 
         subheading_of : function (
             returns : Boolean, matches : (Attributive, Attributive),
-            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_subheading_of) ),
+            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_subheading_of),
+        ),
 
         Unicode_Aliases::"⊆@" : alias ( of : subheading_of ),
 
@@ -2086,62 +2684,73 @@ package (
         same_heading : function (
             returns : Boolean, matches : (Attributive, Attributive),
             is_commutative : True,
-            map : (@(args.\0) = @(args.\1)) ),
+            map : (@(args.\0) = @(args.\1)),
+        ),
 
         "=@" : alias ( of : same_heading ),
 
         proper_subheading_or_superheading : function (
             returns : Boolean, matches : (Attributive, Attributive),
             is_commutative : True,
-            map : (@(args.\0) != @(args.\1) and (args.\0 subheading_or_superheading args.\1)) ),
+            map : (@(args.\0) != @(args.\1) and (args.\0 subheading_or_superheading args.\1)),
+        ),
 
         subheading_or_superheading : function (
             returns : Boolean, matches : (Attributive, Attributive),
             is_commutative : True,
-            map : ((args.\0 subheading_of args.\1) or (args.\0 superheading_of args.\1)) ),
+            map : ((args.\0 subheading_of args.\1) or (args.\0 superheading_of args.\1)),
+        ),
 
         overlaps_heading : function (
             returns : Boolean, matches : (Attributive, Attributive),
             is_commutative : True,
-            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_overlaps_heading) ),
+            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_overlaps_heading),
+        ),
 
         disjoint_heading : function (
             returns : Boolean, matches : (Attributive, Attributive),
             is_commutative : True,
-            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_disjoint_heading) ),
+            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_disjoint_heading),
+        ),
 
         except_heading : function (
             returns : Heading, matches : (Attributive, Attributive),
-            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_except_heading) ),
+            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_except_heading),
+        ),
 
         Unicode_Aliases::"∖@" : alias ( of : except_heading ),
 
         intersect_heading : function (
             returns : Heading, matches : (Attributive, Attributive),
             is_associative : True, is_commutative : True, is_idempotent : True,
-            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_intersect_heading) ),
+            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_intersect_heading),
+        ),
 
         Unicode_Aliases::"∩@" : alias ( of : intersect_heading ),
 
         union_heading : function (
             returns : Heading, matches : (Attributive, Attributive),
             is_associative : True, is_commutative : True, is_idempotent : True, identity : (()),
-            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_union_heading) ),
+            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_union_heading),
+        ),
 
         Unicode_Aliases::"∪@" : alias ( of : union_heading ),
 
         exclusive : function (
             returns : Heading, matches : (Attributive, Attributive),
             is_associative : True, is_commutative : True, identity : (()),
-            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_exclusive_heading) ),
+            map : ((@(args.\0), @(args.\1)) -->^ FDN__Tuple_exclusive_heading),
+        ),
 
         symm_diff_heading : alias ( of : exclusive_heading ),
 
         Unicode_Aliases::"∆@" : alias ( of : exclusive_heading ),
 
-        rename::"" : function ( virtual : True,
+        rename::"" : function (
+            virtual : True,
             returns : Attributive, matches : (Attributive, Renaming),
-            accepts : (...) ),
+            accepts : (...),
+        ),
 
         "@:=" : alias ( of : rename ),
 
@@ -2149,14 +2758,18 @@ package (
 
         renaming : function ( commutes : rename ),
 
-        can_project_matching::"" : function ( virtual : True,
-            returns : Boolean, matches : (Attributive, Structural) ),
+        can_project_matching::"" : function (
+            virtual : True,
+            returns : Boolean, matches : (Attributive, Structural),
+        ),
 
         "%=?" : alias ( of : can_project_matching ),
 
-        on::"" : function ( virtual : True,
+        on::"" : function (
+            virtual : True,
             returns : Attributive, matches : (Attributive, Heading),
-            accepts : (args.\0 @? (args.\1)) ),
+            accepts : (args.\0 @? (args.\1)),
+        ),
 
         project : alias ( of : on ),
         "%="    : alias ( of : on ),
@@ -2165,38 +2778,49 @@ package (
 
         from : function ( commutes : on ),
 
-        maybe_on : function ( returns : Attributive, matches : (Attributive, Heading),
-            map : (args.\0 on (args.\0 intersect_heading args.\1)) ),
+        maybe_on : function (
+            returns : Attributive, matches : (Attributive, Heading),
+            map : (args.\0 on (args.\0 intersect_heading args.\1)),
+        ),
 
         "%!" : alias ( of : maybe_on ),
 
-        update::"" : function ( virtual : True,
+        update::"" : function (
+            virtual : True,
             returns : Attributive, matches : (Attributive, Structural),
-            accepts : (args.\0 @? (args.\1)) ),
+            accepts : (args.\0 @? (args.\1)),
+        ),
 
         "%:=" : alias ( of : update ),
 
-        extend::"" : function ( virtual : True,
+        extend::"" : function (
+            virtual : True,
             returns : Attributive, matches : (Attributive, Structural),
-            accepts : (args.\0 disjoint_heading args.\1) ),
+            accepts : (args.\0 disjoint_heading args.\1),
+        ),
 
         "%+" : alias ( of : extend ),
 
-        but : function ( returns : Attributive, matches : (Attributive, Heading),
+        but : function (
+            returns : Attributive, matches : (Attributive, Heading),
             accepts : (args.\0 @? (args.\1)),
-            map : (args.\0 on (args.\0 except_heading args.\1)) ),
+            map : (args.\0 on (args.\0 except_heading args.\1)),
+        ),
 
         project_all_but : alias ( of : but ),
         "%-"            : alias ( of : but ),
 
         update_or_extend : function (
             returns : Attributive, matches : (Attributive, Structural),
-            map : (args.\0 on (args.\0 except_heading args.\1) extend args.\1) ),
+            map : (args.\0 on (args.\0 except_heading args.\1) extend args.\1),
+        ),
 
         "%=+" : alias ( of : update_or_extend ),
 
-        maybe_but : function ( returns : Attributive, matches : (Attributive, Heading),
-            map : (args.\0 but (args.\0 intersect_heading args.\1)) ),
+        maybe_but : function (
+            returns : Attributive, matches : (Attributive, Heading),
+            map : (args.\0 but (args.\0 intersect_heading args.\1)),
+        ),
 
         "%?-" : alias ( of : maybe_but ),
 
@@ -2209,61 +2833,72 @@ package (
                 ,is_unary,degree,heading,rename
                 ,on,update,extend
                 ,at
-                ,to_Tuple} ),
+                ,to_Tuple},
+        ),
 
         can_project_matching::Structural : function (
             returns : Boolean, matches : (Structural, Structural),
             implements : 1::"",
-            map : (if args.\0 @? (args.\1) then args.\0 %= @(args.\1) = (args.\1) else False) ),
+            map : (if args.\0 @? (args.\1) then args.\0 %= @(args.\1) = (args.\1) else False),
+        ),
 
         has_any_at::Structure : function (
             returns : Boolean, matches : (Structure, Attr_Name),
             implements : 1::"",
-            map : (args.\0 @? (args.\1)) ),
+            map : (args.\0 @? (args.\1)),
+        ),
 
         has_mapping_at::Structural : function (
             returns : Boolean, matches : (Structural, (Attr_Name, Any)),
             implements : 1::"",
-            map : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False) ),
+            map : (if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
+        ),
 
         mapping_at::Structural : function (
             returns : (Attr_Name, Any), matches : (Structural, Attr_Name),
             implements : 1::"",
             accepts : (args.\0 .? (args.\1)),
-            map : ((args.\1, args.\0.(args.\1))) ),
+            map : ((args.\1, args.\0.(args.\1))),
+        ),
 
         maybe_at::Structural : function (
             returns : Any, matches : (Structural, Attr_Name),
             implements : 1::"",
-            map : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Attr_Name()) ),
+            map : (if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Attr_Name()),
+        ),
 
         replace_at::Structure : function (
             returns : Structure, matches : (Structure, (Attr_Name, Any)),
             implements : 1::"",
             accepts : (args.\0 .? (args.\1.\0)),
-            map : (args.\0 update D1::(args.\1)) ),
+            map : (args.\0 update D1::(args.\1)),
+        ),
 
         shiftless_insert_at::Structure : function (
             returns : Structure, matches : (Structure, (Attr_Name, Any)),
             implements : 1::"",
             accepts : (not args.\0 .? (args.\1.\0)),
-            map : (args.\0 extend D1::(args.\1)) ),
+            map : (args.\0 extend D1::(args.\1)),
+        ),
 
         shiftless_remove_at::Structure : function (
             returns : Structure, matches : (Structure, Attr_Name),
             implements : 1::"",
             accepts : (args.\0 .? (args.\1)),
-            map : (args.\0 but args.\1) ),
+            map : (args.\0 but args.\1),
+        ),
 
         replace_or_insert_at::Structural : function (
             returns : Structural, matches : (Structural, (Attr_Name, Any)),
             implements : 1::"",
-            map : (args.\0 update_or_extend D1::(args.\1)) ),
+            map : (args.\0 update_or_extend D1::(args.\1)),
+        ),
 
         shiftless_maybe_remove_at::Structural : function (
             returns : Structural, matches : (Structural, Attr_Name),
             implements : 1::"",
-            map : (args.\0 maybe_but args.\1) ),
+            map : (args.\0 maybe_but args.\1),
+        ),
 
         to_Tuple::"" : function ( virtual : True, returns : Tuple, matches : (Structural) ),
 
@@ -2271,170 +2906,230 @@ package (
 
 `#########################################################################`
 
-        Tuple::"" : selection ( where : (args -->^ FDN__is_a_Tuple),
+        Tuple::"" : selection (
+            where : (args -->^ FDN__is_a_Tuple),
             default : (()),
-            composes : Structural and_provides_its_default ),
+            composes : Structural and_provides_its_default,
+        ),
 
         Tuple_D0 : constant ( (()) ),
 
         D0 : alias ( of : Tuple_D0 ),
 
-        Tuple_D1 : selection ( of : Tuple,
+        Tuple_D1 : selection (
+            of : Tuple,
             where : (is_unary args.\0),
-            default : ((False)) ),
+            default : ((False)),
+        ),
 
-        D1 : function ( returns : Tuple_D1, matches : (Attr_Name, Any),
-            map : (args -->^ FDN__Tuple_D1_select) ),
+        D1 : function (
+            returns : Tuple_D1, matches : (Attr_Name, Any),
+            map : (args -->^ FDN__Tuple_D1_select),
+        ),
 
-        has_any_attrs::Tuple : function ( returns : Boolean, matches : (Tuple),
+        has_any_attrs::Tuple : function (
+            returns : Boolean, matches : (Tuple),
             implements : 1::"",
-            map : (args.\0 != ()) ),
+            map : (args.\0 != ()),
+        ),
 
-        nullary::Tuple : function ( returns : Tuple, matches : (Tuple),
+        nullary::Tuple : function (
+            returns : Tuple, matches : (Tuple),
             implements : 1::"",
-            map : (()) ),
+            map : (()),
+        ),
 
-        is_unary::Tuple : function ( returns : Boolean, matches : (Tuple),
+        is_unary::Tuple : function (
+            returns : Boolean, matches : (Tuple),
             implements : 1::"",
-            map : (degree::(args.\0) = 1) ),
+            map : (degree::(args.\0) = 1),
+        ),
 
-        degree::Tuple : function ( returns : Integer_NN, matches : (Tuple),
+        degree::Tuple : function (
+            returns : Integer_NN, matches : (Tuple),
             implements : 1::"",
-            map : (args -->^ FDN__Tuple_degree) ),
+            map : (args -->^ FDN__Tuple_degree),
+        ),
 
-        heading::Tuple : function ( returns : Heading, matches : (Tuple),
+        heading::Tuple : function (
+            returns : Heading, matches : (Tuple),
             implements : 1::"",
-            map : (args -->^ FDN__Tuple_heading) ),
+            map : (args -->^ FDN__Tuple_heading),
+        ),
 
-        rename::Tuple : function ( returns : Tuple, matches : (Tuple, Renaming),
+        rename::Tuple : function (
+            returns : Tuple, matches : (Tuple, Renaming),
             implements : 1::"",
             accepts : (...),
-            map : (args -->^ FDN__Tuple_rename) ),
+            map : (args -->^ FDN__Tuple_rename),
+        ),
 
-        on::Tuple : function ( returns : Tuple, matches : (Tuple, Heading),
+        on::Tuple : function (
+            returns : Tuple, matches : (Tuple, Heading),
             implements : 1::"",
             accepts : (args.\0 @? (args.\1)),
-            map : (args -->^ FDN__Tuple_on) ),
+            map : (args -->^ FDN__Tuple_on),
+        ),
 
-        update::Tuple : function ( returns : Tuple, matches : (Tuple, Tuple),
+        update::Tuple : function (
+            returns : Tuple, matches : (Tuple, Tuple),
             implements : 1::"",
             accepts : (args.\0 @? (args.\1)),
-            map : (args -->^ FDN__Tuple_update) ),
+            map : (args -->^ FDN__Tuple_update),
+        ),
 
-        extend::Tuple : function ( returns : Tuple, matches : (Tuple, Tuple),
+        extend::Tuple : function (
+            returns : Tuple, matches : (Tuple, Tuple),
             implements : 1::"",
             accepts : (args.\0 disjoint_heading args.\1),
             is_associative : True, is_commutative : True, identity : (()),
-            map : (args -->^ FDN__Tuple_extend) ),
+            map : (args -->^ FDN__Tuple_extend),
+        ),
 
-        at::Tuple : function ( returns : Any, matches : (Tuple, Attr_Name),
+        at::Tuple : function (
+            returns : Any, matches : (Tuple, Attr_Name),
             implements : 1::"",
             accepts : (args.\0 .? (args.\1)),
-            map : (args -->^ FDN__Tuple_at) ),
+            map : (args -->^ FDN__Tuple_at),
+        ),
 
-        to_Tuple::Tuple : function ( returns : Tuple, matches : (Tuple),
+        to_Tuple::Tuple : function (
+            returns : Tuple, matches : (Tuple),
             implements : 1::"",
-            map : (args.\0) ),
+            map : (args.\0),
+        ),
 
-        any_attrs : function ( returns : Boolean, matches : (Tuple, Signature),
+        any_attrs : function (
+            returns : Boolean, matches : (Tuple, Signature),
             map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-                -->^ FDN__Tuple_any_attrs) ),
+                -->^ FDN__Tuple_any_attrs),
+        ),
 
         none_of_attrs : function ( negates : any_attrs ),
 
-        all_attrs : function ( returns : Boolean, matches : (Tuple, Signature),
-            map : (args.\0 none_of_attrs \not_is_a::( 1: args.\1 )) ),
+        all_attrs : function (
+            returns : Boolean, matches : (Tuple, Signature),
+            map : (args.\0 none_of_attrs \not_is_a::( 1: args.\1 )),
+        ),
 
         not_all_attrs : function ( negates : all_attrs ),
 
-        all_attr_assets : function ( returns : Boolean, matches : (Tuple, Signature),
+        all_attr_assets : function (
+            returns : Boolean, matches : (Tuple, Signature),
             map : (args.\0 all_attrs \((args.\1) <-- (args.\0.\asset,))
-                \<-- (1 : Signature_to_Function_Call_But_0::(args.\1))) ),
+                \<-- (1 : Signature_to_Function_Call_But_0::(args.\1))),
+        ),
 
-        attrs_where : function ( returns : Tuple, matches : (Tuple, Signature),
+        attrs_where : function (
+            returns : Tuple, matches : (Tuple, Signature),
             map : ((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-                -->^ FDN__Tuple_attrs_where) ),
+                -->^ FDN__Tuple_attrs_where),
+        ),
 
-        attrs_map : function ( returns : Tuple, matches : (Tuple, Function_Call_But_0),
-            map : (args -->^ FDN__Tuple_attrs_map) ),
+        attrs_map : function (
+            returns : Tuple, matches : (Tuple, Function_Call_But_0),
+            map : (args -->^ FDN__Tuple_attrs_map),
+        ),
 
-        attrs_reduce : function ( returns : Any, matches : (Tuple, Function_Call_But_0_1),
-            map : (args -->^ FDN__Tuple_attrs_reduce) ),
+        attrs_reduce : function (
+            returns : Any, matches : (Tuple, Function_Call_But_0_1),
+            map : (args -->^ FDN__Tuple_attrs_reduce),
+        ),
 
 `#########################################################################`
 
         Relational : interface (
             composes : {Unionable, Attributive},
-            requires_implements : {heading,body,select_Relational} ),
+            requires_implements : {heading,body,select_Relational},
+        ),
 
-        to_Boolean::Relational : function ( returns : Boolean, matches : (Relational),
+        to_Boolean::Relational : function (
+            returns : Boolean, matches : (Relational),
             implements : 1::"",
-            map : (? |(args.\0)) ),
+            map : (? |(args.\0)),
+        ),
 
-        empty::Relational : function ( returns : Relational, matches : (Relational),
+        empty::Relational : function (
+            returns : Relational, matches : (Relational),
             implements : 1::"",
-            map : (select_Relational::( like: args.\0, heading: @(args.\0), body: empty |(args.\0) )) ),
+            map : (select_Relational::( like: args.\0, heading: @(args.\0), body: empty |(args.\0) )),
+        ),
 
-        singular::Relational : function ( returns : Boolean, matches : (Relational),
+        singular::Relational : function (
+            returns : Boolean, matches : (Relational),
             implements : 1::"",
-            map : (singular |(args.\0)) ),
+            map : (singular |(args.\0)),
+        ),
 
-        only_member::Relational : function ( returns : Structural, matches : (Relational),
+        only_member::Relational : function (
+            returns : Structural, matches : (Relational),
             implements : 1::"",
             accepts : (singular args.\0),
-            map : (only_member |(args.\0)) ),
+            map : (only_member |(args.\0)),
+        ),
 
         has_n::Relational : function (
             returns : {Boolean, Excuse::Not_Same_Heading},
             matches : (Relational, Structural, Integer_NN),
             implements : 1::"",
             map : (if args.\0 =@ (args.\1) then has_n::(|(args.\0), args.\1, args.\2)
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         multiplicity::Relational : function (
             returns : Integer_NN, matches : (Relational, Structural),
             implements : 1::"",
-            map : (|(args.\0) multiplicity args.\1) ),
+            map : (|(args.\0) multiplicity args.\1),
+        ),
 
-        all_unique::Relational : function ( returns : Boolean, matches : (Relational),
+        all_unique::Relational : function (
+            returns : Boolean, matches : (Relational),
             implements : 1::"",
-            map : (all_unique |(args.\0)) ),
+            map : (all_unique |(args.\0)),
+        ),
 
-        unique::Relational : function ( returns : Relational, matches : (Relational),
+        unique::Relational : function (
+            returns : Relational, matches : (Relational),
             implements : 1::"",
-            map : (select_Relational::( like: args.\0, heading: @(args.\0), body: unique |(args.\0) )) ),
+            map : (select_Relational::( like: args.\0, heading: @(args.\0), body: unique |(args.\0) )),
+        ),
 
         subset_of::Relational : function (
             returns : {Boolean, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
             implements : 1::"",
             map : (if args.\0 =@ (args.\1) then |(args.\0) subset_of |(args.\1)
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         same_members::Relational : function (
             returns : {Boolean, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
             implements : 1::"",
             is_commutative : True,
             map : (if args.\0 =@ (args.\1) then |(args.\0) same_members |(args.\1)
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         overlaps_members::Relational : function (
             returns : {Boolean, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
             implements : 1::"",
             is_commutative : True,
             map : (if args.\0 =@ (args.\1) then |(args.\0) overlaps_members |(args.\1)
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         disjoint_members::Relational : function (
             returns : {Boolean, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
             implements : 1::"",
             is_commutative : True,
             map : (if args.\0 =@ (args.\1) then |(args.\0) disjoint_members |(args.\1)
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         any::Relational : function (
             returns : Boolean, matches : (Relational, Signature),
             implements : 1::"",
-            map : (|(args.\0) any args.\1) ),
+            map : (|(args.\0) any args.\1),
+        ),
 
         insert_n::Relational : function (
             returns : {Relational, Excuse::Not_Same_Heading},
@@ -2442,7 +3137,8 @@ package (
             implements : 1::"",
             map : (if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: insert_n::(|(args.\0), args.\1, args.\2) )
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         remove_n::Relational : function (
             returns : {Relational, Excuse::Not_Same_Heading},
@@ -2450,7 +3146,8 @@ package (
             implements : 1::"",
             map : (if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: remove_n::(|(args.\0), args.\1, args.\2) )
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         member_plus::Relational : function (
             returns : {Relational, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
@@ -2458,14 +3155,16 @@ package (
             is_associative : True,
             map : (if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) member_plus |(args.\1) )
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         except::Relational : function (
             returns : {Relational, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
             implements : 1::"",
             map : (if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) except |(args.\1) )
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         intersect::Relational : function (
             returns : {Relational, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
@@ -2473,7 +3172,8 @@ package (
             is_associative : True, is_idempotent : True,
             map : (if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) intersect |(args.\1) )
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         union::Relational : function (
             returns : {Relational, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
@@ -2481,7 +3181,8 @@ package (
             is_idempotent : True,
             map : (if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) union |(args.\1) )
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
         exclusive::Relational : function (
             returns : {Relational, Excuse::Not_Same_Heading}, matches : (Relational, Relational),
@@ -2489,95 +3190,119 @@ package (
             is_associative : True, is_commutative : True,
             map : (if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) exclusive |(args.\1) )
-                else Excuse::Not_Same_Heading) ),
+                else Excuse::Not_Same_Heading),
+        ),
 
-        nest::Relational : function ( returns : Relational, matches : (Relational),
+        nest::Relational : function (
+            returns : Relational, matches : (Relational),
             implements : 1::"",
             accepts : (...),
-            map : (...) ),
+            map : (...),
+        ),
 
-        unnest::Relational : function ( returns : Relational, matches : (Relational),
+        unnest::Relational : function (
+            returns : Relational, matches : (Relational),
             implements : 1::"",
             accepts : (...),
-            map : (...) ),
+            map : (...),
+        ),
 
         where::Relational : function (
             returns : Relational, matches : (Relational, Signature),
             implements : 1::"",
-            map : (select_Relational::( like: args.\0, heading: @(args.\0), body: |(args.\0) where args.\1 )) ),
+            map : (select_Relational::( like: args.\0, heading: @(args.\0), body: |(args.\0) where args.\1 )),
+        ),
 
         map::Relational : function (
             returns : Relational, matches : (Relational, Function_Call_But_0),
             implements : 1::"",
-            map : (...) ),
+            map : (...),
+        ),
 
         reduce::Relational : function (
             returns : Any, matches : (Relational, Function_Call_But_0_1),
             implements : 1::"",
-            map : (|(args.\0) reduce args.\1) ),
+            map : (|(args.\0) reduce args.\1),
+        ),
 
-        has_any_attrs::Relational : function ( returns : Boolean, matches : (Relational),
+        has_any_attrs::Relational : function (
+            returns : Boolean, matches : (Relational),
             implements : 1::"",
-            map : (@(args.\0) != ()) ),
+            map : (@(args.\0) != ()),
+        ),
 
-        nullary::Relational : function ( returns : Relational, matches : (Relational),
+        nullary::Relational : function (
+            returns : Relational, matches : (Relational),
             implements : 1::"",
-            map : (args.\0 on ()) ),
+            map : (args.\0 on ()),
+        ),
 
-        is_unary::Relational : function ( returns : Boolean, matches : (Relational),
+        is_unary::Relational : function (
+            returns : Boolean, matches : (Relational),
             implements : 1::"",
-            map : (is_unary @(args.\0)) ),
+            map : (is_unary @(args.\0)),
+        ),
 
-        degree::Relational : function ( returns : Integer_NN, matches : (Relational),
+        degree::Relational : function (
+            returns : Integer_NN, matches : (Relational),
             implements : 1::"",
-            map : (degree @(args.\0)) ),
+            map : (degree @(args.\0)),
+        ),
 
         rename::Relational : function (
             returns : Relational, matches : (Relational, Renaming),
             implements : 1::"",
             accepts : (...),
             map : (select_Relational::( like: args.\0, heading: @(args.\0) rename args.\1,
-                body: |(args.\0) map \rename::( 1: args.\1 ) )) ),
+                body: |(args.\0) map \rename::( 1: args.\1 ) )),
+        ),
 
         can_project_matching::Relational : function (
             returns : Boolean, matches : (Relational, Structural),
             implements : 1::"",
             map : (if args.\0 @? (args.\1)
                 then |(args.\0) all \(args.\0 %= @(args.\1) = (args.\1)) \<-- (1 : args.\1,)
-                else False) ),
+                else False),
+        ),
 
         on::Relational : function (
             returns : Relational, matches : (Relational, Heading),
             implements : 1::"",
             accepts : (args.\0 @? (args.\1)),
             map : (select_Relational::( like: args.\0, heading: @(args.\0) on args.\1,
-                body: |(args.\0) map \on::( 1: args.\1 ) )) ),
+                body: |(args.\0) map \on::( 1: args.\1 ) )),
+        ),
 
         update::Relational : function (
             returns : Relational, matches : (Relational, Structural),
             implements : 1::"",
             accepts : (args.\0 @? (args.\1)),
             map : (select_Relational::( like: args.\0, heading: @(args.\0),
-                body: |(args.\0) map \update::( 1: args.\1 ) )) ),
+                body: |(args.\0) map \update::( 1: args.\1 ) )),
+        ),
 
         extend::Relational : function (
             returns : Relational, matches : (Relational, Structural),
             implements : 1::"",
             accepts : (args.\0 disjoint_heading args.\1),
             map : (select_Relational::( like: args.\0, heading: @(args.\0) extend args.\1,
-                body: |(args.\0) map \extend::( 1: args.\1 ) )) ),
+                body: |(args.\0) map \extend::( 1: args.\1 ) )),
+        ),
 
         body::"" : function ( virtual : True, returns : Unionable, matches : (Relational) ),
 
         "|" : alias ( of : body ),
 
-        select_Relational::"" : function ( virtual : True,
+        select_Relational::"" : function (
+            virtual : True,
             returns : {Relational, Excuse::...},
-            matches : (like : Relational, heading : Heading, body : Unionable) ),
+            matches : (like : Relational, heading : Heading, body : Unionable),
+        ),
 
 `#########################################################################`
 
-        Tuple_Array : selection ( of : Capsule,
+        Tuple_Array : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Tuple_Array, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Array::() ) then
                     if args.\0.\body all \Tuple::() then
@@ -2588,29 +3313,36 @@ package (
                     False
             ) )),
             default : (~%@()),
-            composes : {Relational, Positional} ),
+            composes : {Relational, Positional},
+        ),
 
         Tuple_Array_D0C0 : constant ( (~%@()) ),
 
         Tuple_Array_D0C1 : constant ( (~%[()]) ),
 
-        heading::Tuple_Array : function ( returns : Heading, matches : (Tuple_Array),
+        heading::Tuple_Array : function (
+            returns : Heading, matches : (Tuple_Array),
             implements : 1::"",
-            map : (args.\0:>.\heading) ),
+            map : (args.\0:>.\heading),
+        ),
 
-        body::Tuple_Array : function ( returns : Array, matches : (Tuple_Array),
+        body::Tuple_Array : function (
+            returns : Array, matches : (Tuple_Array),
             implements : 1::"",
-            map : (args.\0:>.\body) ),
+            map : (args.\0:>.\body),
+        ),
 
         select_Relational::Tuple_Array : function (
             returns : {Relational, Excuse::...},
             matches : (like : Tuple_Array, heading : Heading, body : Array),
             implements : 1::"",
-            map : (\Tuple_Array >:< (args %= \@(heading,body))) ),
+            map : (\Tuple_Array >:< (args %= \@(heading,body))),
+        ),
 
 `#########################################################################`
 
-        Relation : selection ( of : Capsule,
+        Relation : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Relation, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Set::() ) then
                     if args.\0.\body all \Tuple::() then
@@ -2621,7 +3353,8 @@ package (
                     False
             ) )),
             default : (?%@()),
-            composes : {Relational and_provides_its_default, Discrete, Setty} ),
+            composes : {Relational and_provides_its_default, Discrete, Setty},
+        ),
 
         Relation_D0C0 : constant ( (?%@()) ),
 
@@ -2631,23 +3364,29 @@ package (
 
         D0C1 : alias ( of : Relation_D0C1 ),
 
-        heading::Relation : function ( returns : Heading, matches : (Relation),
+        heading::Relation : function (
+            returns : Heading, matches : (Relation),
             implements : 1::"",
-            map : (args.\0:>.\heading) ),
+            map : (args.\0:>.\heading),
+        ),
 
-        body::Relation : function ( returns : Set, matches : (Relation),
+        body::Relation : function (
+            returns : Set, matches : (Relation),
             implements : 1::"",
-            map : (args.\0:>.\body) ),
+            map : (args.\0:>.\body),
+        ),
 
         select_Relational::Relation : function (
             returns : {Relational, Excuse::...},
             matches : (like : Relation, heading : Heading, body : Set),
             implements : 1::"",
-            map : (\Relation >:< (args %= \@(heading,body))) ),
+            map : (\Relation >:< (args %= \@(heading,body))),
+        ),
 
 `#########################################################################`
 
-        Tuple_Bag : selection ( of : Capsule,
+        Tuple_Bag : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Tuple_Bag, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then
                     if args.\0.\body all \Tuple::() then
@@ -2658,121 +3397,156 @@ package (
                     False
             ) )),
             default : (+%@()),
-            composes : {Relational, Discrete} ),
+            composes : {Relational, Discrete},
+        ),
 
         Tuple_Bag_D0C0 : constant ( (+%@()) ),
 
         Tuple_Bag_D0C1 : constant ( (+%{()}) ),
 
-        heading::Tuple_Bag : function ( returns : Heading, matches : (Tuple_Bag),
+        heading::Tuple_Bag : function (
+            returns : Heading, matches : (Tuple_Bag),
             implements : 1::"",
-            map : (args.\0:>.\heading) ),
+            map : (args.\0:>.\heading),
+        ),
 
-        body::Tuple_Bag : function ( returns : Bag, matches : (Tuple_Bag),
+        body::Tuple_Bag : function (
+            returns : Bag, matches : (Tuple_Bag),
             implements : 1::"",
-            map : (args.\0:>.\body) ),
+            map : (args.\0:>.\body),
+        ),
 
         select_Relational::Tuple_Bag : function (
             returns : {Relational, Excuse::...},
             matches : (like : Tuple_Bag, heading : Heading, body : Bag),
             implements : 1::"",
-            map : (\Tuple_Bag >:< (args %= \@(heading,body))) ),
+            map : (\Tuple_Bag >:< (args %= \@(heading,body))),
+        ),
 
 `#########################################################################`
 
         Intervalish : interface (
             composes : Homogeneous,
-            requires_implements : {...} ),
+            requires_implements : {...},
+        ),
 
 `#########################################################################`
 
-        Interval : selection ( of : Capsule,
+        Interval : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Interval, \Tuple::Interval() )),
             default : ((-∞)..(+∞)),
-            composes : {Intervalish, Setty} ),
+            composes : {Intervalish, Setty},
+        ),
 
-        Tuple::Interval : selection ( of : Tuple,
-            where : (...) ),
+        Tuple::Interval : selection (
+            of : Tuple,
+            where : (...),
+        ),
 
 `#########################################################################`
 
         Unionable_Intervalish : interface (
             composes : {Intervalish, Unionable},
-            requires_implements : {...} ),
+            requires_implements : {...},
+        ),
 
 `#########################################################################`
 
-        Interval_Set : selection ( of : Capsule,
+        Interval_Set : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Interval_Set,
                 \(if Interval_Bag args.\0 then all_unique args.\0 else False) )),
             default : (...),
-            composes : {Unionable_Intervalish, Setty} ),
+            composes : {Unionable_Intervalish, Setty},
+        ),
 
 `#########################################################################`
 
-        Interval_Bag : selection ( of : Capsule,
+        Interval_Bag : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Interval_Bag, \(
                 if Tuple_Bag args.\0 then ... else False
             ) )),
             default : (...),
-            composes : Unionable_Intervalish ),
+            composes : Unionable_Intervalish,
+        ),
 
 `#########################################################################`
 
         Quantitative : interface (
             composes : Numerical,
-            requires_implements : {...} ),
+            requires_implements : {...},
+        ),
 
 `#########################################################################`
 
-        Quantity : selection ( of : Capsule,
+        Quantity : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Quantity, \(
                 if Relation args.\0 then ... else False
             ) )),
             default : (...),
-            composes : Quantitative ),
+            composes : Quantitative,
+        ),
 
 `#########################################################################`
 
-        Capsule : selection ( where : (args -->^ FDN__is_a_Capsule),
-            default : (False >:< False) ),
+        Capsule : selection (
+            where : (args -->^ FDN__is_a_Capsule),
+            default : (False >:< False),
+        ),
 
-        wrap : function ( returns : Capsule, matches : (Any, Any),
-            map : (args -->^ FDN__Capsule_wrap) ),
+        wrap : function (
+            returns : Capsule, matches : (Any, Any),
+            map : (args -->^ FDN__Capsule_wrap),
+        ),
 
         ">:<" : alias ( of : wrap ),
 
-        wrapper : function ( returns : Any, matches : (Capsule),
-            map : (args -->^ FDN__Capsule_wrapper) ),
+        wrapper : function (
+            returns : Any, matches : (Capsule),
+            map : (args -->^ FDN__Capsule_wrapper),
+        ),
 
         "<:" : alias ( of : wrapper ),
 
-        unwrap : function ( returns : Any, matches : (Capsule),
-            map : (args -->^ FDN__Capsule_unwrap) ),
+        unwrap : function (
+            returns : Any, matches : (Capsule),
+            map : (args -->^ FDN__Capsule_unwrap),
+        ),
 
         ":>" : alias ( of : unwrap ),
 
         has_wrapped : function (
             returns : Boolean, matches : (Capsule, Any, Signature),
             map : (<:(args.\0) = (args.\1) and
-                (args.\0:>,) --> Signature_to_Function_Call_But_0::(args.\2)) ),
+                (args.\0:>,) --> Signature_to_Function_Call_But_0::(args.\2)),
+        ),
 
 `#########################################################################`
 
-        Reference::"" : selection ( where : (args -->^ FDN__is_a_Reference),
-            default : (() -->^ FDN__default_Reference) ),
+        Reference::"" : selection (
+            where : (args -->^ FDN__is_a_Reference),
+            default : (() -->^ FDN__default_Reference),
+        ),
 
 `#########################################################################`
 
-        External::"" : selection ( where : (args -->^ FDN__is_a_External),
-            default : (() -->^ FDN__default_External) ),
+        External::"" : selection (
+            where : (args -->^ FDN__is_a_External),
+            default : (() -->^ FDN__default_External),
+        ),
 
-        External::call_function : function ( returns : Any, matches : (Any),
-            map : (FDN__External_call_function ^<-- args) ),
+        External::call_function : function (
+            returns : Any, matches : (Any),
+            map : (FDN__External_call_function ^<-- args),
+        ),
 
 `#########################################################################`
 
-        Source_Code::Package : selection ( of : Capsule,
+        Source_Code::Package : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Package, \(
                 if
                     args.\0 is_a (
@@ -2788,10 +3562,13 @@ package (
                 else
                     False
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Pkg_Decl_Map : selection ( of : Tuple,
-            where : (args.\0 .!? \"" and args.\0 all_attr_assets \Pkg_Canon_Name::()) ),
+        Source_Code::Pkg_Decl_Map : selection (
+            of : Tuple,
+            where : (args.\0 .!? \"" and args.\0 all_attr_assets \Pkg_Canon_Name::()),
+        ),
 
         Source_Code::Pkg_Canon_Name : selection ( of : Tuple, where :
         (
@@ -2809,33 +3586,45 @@ package (
                 False
         ) ),
 
-        Source_Code::Fdn_Canon_Name : selection ( of : Attr_Name_List,
-            where : (#(args.\0) >= 2 and args.\0 ∌ \"") ),
+        Source_Code::Fdn_Canon_Name : selection (
+            of : Attr_Name_List,
+            where : (#(args.\0) >= 2 and args.\0 ∌ \""),
+        ),
                 `Element 0 is the Foundation authority.`
                 `Element 1 is the Foundation version number.`
 
         Source_Code::Entry_Point : selection ( of : Absolute_Name ),
 
-        Source_Code::Floating : selection ( of : Set,
-            where : (args.\0 all \Absolute_Name::()) ),
+        Source_Code::Floating : selection (
+            of : Set,
+            where : (args.\0 all \Absolute_Name::()),
+        ),
 
-        Source_Code::Absolute_Name : selection ( of : Attr_Name_List,
-            where : (#(args.\0) >= 1 and args.\0.0 != \"") ),
+        Source_Code::Absolute_Name : selection (
+            of : Attr_Name_List,
+            where : (#(args.\0) >= 1 and args.\0.0 != \""),
+        ),
                 `Element 0 is the package local alias.`
                 `Elements 1+ are the folder or material names nested beneath it.`
 
-        Source_Code::Folder : selection ( of : Tuple,
-            where : (args.\0 all_attr_assets {\Folder::(), \Material::()}) ),
+        Source_Code::Folder : selection (
+            of : Tuple,
+            where : (args.\0 all_attr_assets {\Folder::(), \Material::()}),
+        ),
 
         Source_Code::Material : selection (
             union : {Alias, Constant, Selection, Interface, Function, Procedure},
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Alias : selection ( of : Capsule,
+        Source_Code::Alias : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Alias, \Identity_Identifier::() )),
-            default : (\Alias >:< Identity_Identifier::()) ),
+            default : (\Alias >:< Identity_Identifier::()),
+        ),
 
-        Source_Code::Constant : selection ( of : Capsule,
+        Source_Code::Constant : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Constant, \(
                 args.\0 is_a (
                     folded : \Boolean::(),
@@ -2843,9 +3632,11 @@ package (
                     value : \Function_Body::(),  `Defaults to \@0 if omitted.`
                 )
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Selection : selection ( of : Capsule,
+        Source_Code::Selection : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Selection, \(
                 args.\0 is_a (
                     of : ...,
@@ -2854,18 +3645,22 @@ package (
                     composes : ...,
                 )
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Interface : selection ( of : Capsule,
+        Source_Code::Interface : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Interface, \(
                 args.\0 is_a (
                     composes : ...,
                     requires_implements : ...,
                 )
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Function : selection ( of : Capsule,
+        Source_Code::Function : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Function, \(
                 args.\0 is_a (
                     virtual : \Boolean::(),
@@ -2885,18 +3680,22 @@ package (
                     map : \Function_Body::(),
                 )
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Function_Body : selection ( of : Capsule,
+        Source_Code::Function_Body : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Function_Body, \(
                 args.\0 is_a (
                     root_expr : \Expression::(),
                     named_exprs : \Named_Expr_List::(),
                 )
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Procedure : selection ( of : Capsule,
+        Source_Code::Procedure : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Procedure, \(
                 args.\0 is_a (
                     virtual : \Boolean::(),
@@ -2910,9 +3709,11 @@ package (
                     performs : \Procedure_Body::(),
                 )
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Procedure_Body : selection ( of : Capsule,
+        Source_Code::Procedure_Body : selection (
+            of : Capsule,
             where : (has_wrapped::( args.\0, \Procedure_Body, \(
                 args.\0 is_a (
                     root_stmt : \Statement::(),
@@ -2920,29 +3721,43 @@ package (
                     named_exprs : \Named_Expr_List::(),
                 )
             ) )),
-            default : (...) ),
+            default : (...),
+        ),
 
         Source_Code::Signature::"" : selection (
             union : {Function_Call_But_0, 1::Set, 1::Tuple},
-            default : (\Any::()) ),
+            default : (\Any::()),
+        ),
 
-        Source_Code::Signature::Set : selection ( of : Set,
-            where : (args.\0 all \Signature::()) ),
+        Source_Code::Signature::Set : selection (
+            of : Set,
+            where : (args.\0 all \Signature::()),
+        ),
 
-        Source_Code::Signature::Tuple : selection ( of : Tuple,
-            where : (args.\0 all_attr_assets \Signature::()) ),
+        Source_Code::Signature::Tuple : selection (
+            of : Tuple,
+            where : (args.\0 all_attr_assets \Signature::()),
+        ),
 
-        Source_Code::Heading : selection ( of : Tuple,
-            where : (args.\0 all_attr_assets \False::()) ),
+        Source_Code::Heading : selection (
+            of : Tuple,
+            where : (args.\0 all_attr_assets \False::()),
+        ),
 
-        Source_Code::Attr_Name : selection ( of : Heading,
-            where : (is_unary args.\0) ),
+        Source_Code::Attr_Name : selection (
+            of : Heading,
+            where : (is_unary args.\0),
+        ),
 
-        Source_Code::Attr_Name_List : selection ( of : Array,
-            where : (args.\0 all \Attr_Name::()) ),
+        Source_Code::Attr_Name_List : selection (
+            of : Array,
+            where : (args.\0 all \Attr_Name::()),
+        ),
 
-        Source_Code::Named_Expr_List : selection ( of : Tuple,
-            where : (args.\0 .!? \"" and args.\0 all_attr_assets \Expression::()) ),
+        Source_Code::Named_Expr_List : selection (
+            of : Tuple,
+            where : (args.\0 .!? \"" and args.\0 all_attr_assets \Expression::()),
+        ),
 
         Source_Code::Expression : selection (
             union : {Expr_Name_Expr, Naming_Expr, Annotating_Expr
@@ -2950,17 +3765,23 @@ package (
                 , delimiting_expr, source_expr
                 , opaque_literal_expr, collection_selector_expr
                 , invocation_expr, conditional_expr, fail_expr, ...},
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Named_Stmt_List : selection ( of : Tuple,
-            where : (args.\0 .!? \"" and args.\0 all_attr_assets \Statement::()) ),
+        Source_Code::Named_Stmt_List : selection (
+            of : Tuple,
+            where : (args.\0 .!? \"" and args.\0 all_attr_assets \Statement::()),
+        ),
 
         Source_Code::Statement : selection (
             union : {...},
-            default : (...) ),
+            default : (...),
+        ),
 
-        Source_Code::Key_Asset_Pair : selection ( of : Tuple,
-            where : (@(args.\0) = \@(key,asset)) ),
+        Source_Code::Key_Asset_Pair : selection (
+            of : Tuple,
+            where : (@(args.\0) = \@(key,asset)),
+        ),
 
         Source_Code::Signature_to_Function_Call_But_0 : function (
             returns : Function_Call_But_0, matches : (Signature),
@@ -2983,7 +3804,8 @@ package (
                     ) \<-- (1 : args.\0)
                 else
                     fail  `We should never get here.`
-            ) ),
+            ),
+        ),
 
 `#########################################################################`
 
