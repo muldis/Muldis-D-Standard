@@ -1,12 +1,12 @@
-Muldis_D:Plain_Text:"http://muldis.com":"0.201.0.-9";
-script Unicode:9.0:UTF-8;
+Muldis_D;;Plain_Text;;"http://muldis.com";;"0.201.0.-9";
+script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 `#########################################################################`
 
 \Package >:< (
-    identity : (MD : Core:"http://muldis.com":"0.201.0.-9"),
-    foundation : "http://muldis.com":"0.201.0.-9",
+    identity : (MD : Core;;"http://muldis.com";;"0.201.0.-9"),
+    foundation : "http://muldis.com";;"0.201.0.-9",
     floating : {::MD, ::MD::Round_Meth, ::MD::Source_Code},
     materials : (
 
