@@ -75,17 +75,17 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Orderable : \Interface >:< (
+        Orderable::"" : \Interface >:< (
             requires_implements : in_order,
         ),
 
-        Neg_Inf : \Constant >:< ( composes : {\@Orderable, \@Excuse} ),
+        Orderable::Neg_Inf : \Constant >:< ( composes : {\@Orderable, \@Excuse} ),
 
-        Unicode_Aliases::"-∞" : \Alias >:< ( of : \@Neg_Inf ),
+        Unicode_Aliases::"-∞" : \Alias >:< ( of : \@Orderable::Neg_Inf ),
 
-        Pos_Inf : \Constant >:< ( composes : {\@Orderable, \@Excuse} ),
+        Orderable::Pos_Inf : \Constant >:< ( composes : {\@Orderable, \@Excuse} ),
 
-        Unicode_Aliases::"+∞" : \Alias >:< ( of : \@Pos_Inf ),
+        Unicode_Aliases::"+∞" : \Alias >:< ( of : \@Orderable::Pos_Inf ),
 
         in_order::"" : \Function >:< (
             virtual : True,
@@ -95,28 +95,28 @@ script Unicode;;9.0;;UTF-8;
 
         in_order::Neg_Inf_L : \Function >:< (
             returns : \@Boolean,
-            matches : (\@Neg_Inf, \@Orderable),
+            matches : (\@Orderable::Neg_Inf, \@Orderable),
             implements : \@folder::"",
             map : \(True),
         ),
 
         in_order::Neg_Inf_R : \Function >:< (
             returns : \@Boolean,
-            matches : (\@Orderable, \@Neg_Inf),
+            matches : (\@Orderable, \@Orderable::Neg_Inf),
             implements : \@folder::"",
             map : \(args.\0 = (args.\1)),
         ),
 
         in_order::Pos_Inf_L : \Function >:< (
             returns : \@Boolean,
-            matches : (\@Pos_Inf, \@Orderable),
+            matches : (\@Orderable::Pos_Inf, \@Orderable),
             implements : \@folder::"",
             map : \(args.\0 = (args.\1)),
         ),
 
         in_order::Pos_Inf_R : \Function >:< (
             returns : \@Boolean,
-            matches : (\@Orderable, \@Pos_Inf),
+            matches : (\@Orderable, \@Orderable::Pos_Inf),
             implements : \@folder::"",
             map : \(True),
         ),
@@ -177,15 +177,15 @@ script Unicode;;9.0;;UTF-8;
         asset::"" : \Function >:< ( virtual : True, returns : \@Any, matches : (\@Successable) ),
 
         succ : \Function >:< (
-            returns : {\@Successable, \@Pos_Inf},
+            returns : {\@Successable, \@Orderable::Pos_Inf},
             matches : (\@Successable),
             map : \(args.\0 nth_succ 1),
         ),
 
         nth_succ::"" : \Function >:< (
             virtual : True,
-            returns : {\@Successable, \@Pos_Inf},
-            matches : (\@Successable, \@Integer_NN),
+            returns : {\@Successable, \@Orderable::Pos_Inf},
+            matches : (\@Successable, \@Integer::NN),
         ),
 
 `#########################################################################`
@@ -197,15 +197,15 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         pred : \Function >:< (
-            returns : {\@Bicessable, \@Neg_Inf},
+            returns : {\@Bicessable, \@Orderable::Neg_Inf},
             matches : (\@Bicessable),
             map : \(args.\0 nth_pred 1),
         ),
 
         nth_pred::"" : \Function >:< (
             virtual : True,
-            returns : {\@Bicessable, \@Neg_Inf},
-            matches : (\@Bicessable, \@Integer_NN),
+            returns : {\@Bicessable, \@Orderable::Neg_Inf},
+            matches : (\@Bicessable, \@Integer::NN),
         ),
 
 `#########################################################################`
@@ -231,11 +231,11 @@ script Unicode;;9.0;;UTF-8;
 
         Bool : \Alias >:< ( of : \@Boolean ),
 
-        False : \Constant >:< ( (False) ),
+        False : \Constant >:< ( value : False ),
 
         Unicode_Aliases::"⊥" : \Alias >:< ( of : \@False ),
 
-        True : \Constant >:< ( (True) ),
+        True : \Constant >:< ( value : True ),
 
         Unicode_Aliases::"⊤" : \Alias >:< ( of : \@True ),
 
@@ -254,15 +254,15 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         nth_pred::Boolean : \Function >:< (
-            returns : {\@False, \@Neg_Inf},
-            matches : (\@Boolean, \@Integer_NN),
+            returns : {\@False, \@Orderable::Neg_Inf},
+            matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
             map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! -∞),
         ),
 
         nth_succ::Boolean : \Function >:< (
-            returns : {\@True, \@Pos_Inf},
-            matches : (\@Boolean, \@Integer_NN),
+            returns : {\@True, \@Orderable::Pos_Inf},
+            matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
             map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! +∞),
         ),
@@ -534,14 +534,14 @@ script Unicode;;9.0;;UTF-8;
         integral_nn_power::"" : \Function >:< (
             virtual : True,
             returns : {\@Numerical, \@Excuse::Zero_To_The_Zero},
-            matches : (\@Numerical, \@Integral_NN),
+            matches : (\@Numerical, \@Integral::NN),
         ),
 
         power : \Alias >:< ( of : \@integral_nn_power ),
 
 `#########################################################################`
 
-        Integral : \Interface >:< (
+        Integral::"" : \Interface >:< (
             composes : {\@Bicessable and_provides_its_default,
                 \@Numerical and_provides_its_default},
             requires_implements : {in_order,asset,nth_pred,nth_succ
@@ -553,36 +553,36 @@ script Unicode;;9.0;;UTF-8;
                 ,to_Integer,factorial},
         ),
 
-        Integral_NN : \Selection >:< (
+        Integral::NN : \Selection >:< (
             of : \@Integral,
             where : \(args.\0 >= zero::(args.\0)),
         ),
 
-        Integral_P : \Selection >:< (
-            of : \@Integral_NN,
+        Integral::P : \Selection >:< (
+            of : \@Integral::NN,
             where : \(args.\0 > zero::(args.\0)),
             default : \(succ::(Integral::())),
         ),
 
         "--" : \Function >:< (
-            returns : {\@Integral, \@Neg_Inf},
+            returns : {\@Integral, \@Orderable::Neg_Inf},
             matches : (\@Integral),
             map : \(pred args.\0),
         ),
 
         "++" : \Function >:< (
-            returns : {\@Integral, \@Pos_Inf},
+            returns : {\@Integral, \@Orderable::Pos_Inf},
             matches : (\@Integral),
             map : \(succ args.\0),
         ),
 
         to_Integer::"" : \Function >:< ( virtual : True, returns : \@Integer, matches : (\@Integral) ),
 
-        factorial::"" : \Function >:< ( virtual : True, returns : \@Integral_P, matches : (\@Integral_NN) ),
+        factorial::"" : \Function >:< ( virtual : True, returns : \@Integral::P, matches : (\@Integral::NN) ),
 
         gcd : \Function >:< (
-            returns : \@Integral_P,
-            matches : (\@Integral_NN, \@Integral_NN),
+            returns : \@Integral::P,
+            matches : (\@Integral::NN, \@Integral::NN),
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -593,8 +593,8 @@ script Unicode;;9.0;;UTF-8;
         greatest_common_divisor : \Alias >:< ( of : \@gcd ),
 
         lcm : \Function >:< (
-            returns : \@Integral_NN,
-            matches : (\@Integral_NN, \@Integral_NN),
+            returns : \@Integral::NN,
+            matches : (\@Integral::NN, \@Integral::NN),
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -612,15 +612,15 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Integer : \Selection >:< (
+        Integer::"" : \Selection >:< (
             where : \(args -->^ FDN__is_a_Integer),
             default : 0,
             composes : \@Integral and_provides_its_default,
         ),
 
-        Integer_NN : \Selection >:< ( of : \@Integer, where : \(args.\0 >= 0) ),
+        Integer::NN : \Selection >:< ( of : \@Integer, where : \(args.\0 >= 0) ),
 
-        Integer_P : \Selection >:< ( of : \@Integer_NN, where : \(args.\0 > 0), default : 1 ),
+        Integer::P : \Selection >:< ( of : \@Integer::NN, where : \(args.\0 > 0), default : 1 ),
 
         in_order::Integer : \Function >:< (
             returns : \@Boolean,
@@ -638,14 +638,14 @@ script Unicode;;9.0;;UTF-8;
 
         nth_pred::Integer : \Function >:< (
             returns : \@Integer,
-            matches : (\@Integer, \@Integer_NN),
+            matches : (\@Integer, \@Integer::NN),
             implements : \@folder::Integral,
             map : \(args.\0 - (args.\1)),
         ),
 
         nth_succ::Integer : \Function >:< (
             returns : \@Integer,
-            matches : (\@Integer, \@Integer_NN),
+            matches : (\@Integer, \@Integer::NN),
             implements : \@folder::Integral,
             repeater : plus::Integer,
             map : \(args.\0 + (args.\1)),
@@ -680,7 +680,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         modulus::Integer : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(args -->^ FDN__Integer_modulus),
@@ -827,7 +827,7 @@ script Unicode;;9.0;;UTF-8;
 
         integral_nn_power::Integer : \Function >:< (
             returns : {\@Integer, \@Excuse::Zero_To_The_Zero},
-            matches : (\@Integer, \@Integer_NN),
+            matches : (\@Integer, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
                 else args -->^ FDN__Integer_nn_power),
@@ -841,15 +841,15 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         factorial::Integer : \Function >:< (
-            returns : \@Integer_P,
-            matches : (\@Integer_NN),
+            returns : \@Integer::P,
+            matches : (\@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Integer_factorial),
         ),
 
 `#########################################################################`
 
-        Fractional : \Interface >:< (
+        Fractional::"" : \Interface >:< (
             composes : {\@Orderable and_provides_its_default,
                 \@Numerical and_provides_its_default},
             requires_implements : {in_order
@@ -861,7 +861,7 @@ script Unicode;;9.0;;UTF-8;
                 ,to_Fraction,numerator,denominator},
         ),
 
-        Fractional_NN : \Selection >:< (
+        Fractional::NN : \Selection >:< (
             of : \@Fractional,
             where : \(args.\0 >= zero::(args.\0)),
         ),
@@ -870,17 +870,17 @@ script Unicode;;9.0;;UTF-8;
 
         numerator::"" : \Function >:< ( virtual : True, returns : \@Integral, matches : (\@Fractional) ),
 
-        denominator::"" : \Function >:< ( virtual : True, returns : \@Integral_P, matches : (\@Fractional) ),
+        denominator::"" : \Function >:< ( virtual : True, returns : \@Integral::P, matches : (\@Fractional) ),
 
 `#########################################################################`
 
-        Fraction : \Selection >:< (
+        Fraction::"" : \Selection >:< (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Fraction, \(
                 if
                     args.\0 is_a (
                         numerator : \Integer::(),
-                        denominator : \Integer_P::(),
+                        denominator : \Integer::P::(),
                     )
                 then
                     args.\0.\numerator coprime args.\0.\denominator
@@ -891,7 +891,7 @@ script Unicode;;9.0;;UTF-8;
             composes : \@Fractional and_provides_its_default,
         ),
 
-        Fraction_NN : \Selection >:< ( of : \@Fraction, where : \(args.\0 >= 0.0) ),
+        Fraction::NN : \Selection >:< ( of : \@Fraction, where : \(args.\0 >= 0.0) ),
 
         in_order::Fraction : \Function >:< (
             returns : \@Boolean,
@@ -941,7 +941,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         modulus::Fraction : \Function >:< (
-            returns : \@Fraction_NN,
+            returns : \@Fraction::NN,
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(abs::(numerator args.\0) / (denominator args.\0)),
@@ -1033,7 +1033,7 @@ script Unicode;;9.0;;UTF-8;
 
         integral_nn_power::Fraction : \Function >:< (
             returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
-            matches : (\@Fraction, \@Integer_NN),
+            matches : (\@Fraction, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 = 0.0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
                 else ((numerator args.\0) ** (args.\1)) / ((denominator args.\0) ** (args.\1))),
@@ -1053,7 +1053,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         denominator::Fraction : \Function >:< (
-            returns : \@Integer_P,
+            returns : \@Integer::P,
             matches : (\@Fraction),
             map : \(args.\0:>.\denominator),
         ),
@@ -1146,14 +1146,14 @@ script Unicode;;9.0;;UTF-8;
         replicate::"" : \Function >:< (
             virtual : True,
             returns : \@Stringy,
-            matches : (\@Stringy, \@Integer_NN),
+            matches : (\@Stringy, \@Integer::NN),
         ),
 
         "~#" : \Alias >:< ( of : \@replicate ),
 
 `#########################################################################`
 
-        Bits::"" : \Selection >:< (
+        Bits : \Selection >:< (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Bits, \String::Bits() )),
             default : \~?'',
@@ -1224,7 +1224,7 @@ script Unicode;;9.0;;UTF-8;
 
         replicate::Bits : \Function >:< (
             returns : \@Bits,
-            matches : (\@Bits, \@Integer_NN),
+            matches : (\@Bits, \@Integer::NN),
             implements : \@folder::"",
             map : \(Bits_from_String_Bits::((Bits_to_String_Bits args.\0) ~# (args.\1))),
         ),
@@ -1243,7 +1243,7 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Blob::"" : \Selection >:< (
+        Blob : \Selection >:< (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Blob, \String::Octets() )),
             default : \~+'',
@@ -1311,7 +1311,7 @@ script Unicode;;9.0;;UTF-8;
 
         replicate::Blob : \Function >:< (
             returns : \@Blob,
-            matches : (\@Blob, \@Integer_NN),
+            matches : (\@Blob, \@Integer::NN),
             implements : \@folder::"",
             map : \(Blob_from_Octets::((Blob_to_Octets args.\0) ~# (args.\1))),
         ),
@@ -1431,7 +1431,7 @@ script Unicode;;9.0;;UTF-8;
 
         replicate::Text : \Function >:< (
             returns : \@Text,
-            matches : (\@Text, \@Integer_NN),
+            matches : (\@Text, \@Integer::NN),
             implements : \@folder::"",
             map : \(Text_from_Maximal_Chars::((Text_to_Maximal_Chars args.\0) ~# (args.\1))),
         ),
@@ -1694,12 +1694,12 @@ script Unicode;;9.0;;UTF-8;
         has_n::"" : \Function >:< (
             virtual : True,
             returns : \@Boolean,
-            matches : (\@Homogeneous, \@Any, \@Integer_NN),
+            matches : (\@Homogeneous, \@Any, \@Integer::NN),
         ),
 
         multiplicity::"" : \Function >:< (
             virtual : True,
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Homogeneous, \@Any),
         ),
 
@@ -1834,7 +1834,7 @@ script Unicode;;9.0;;UTF-8;
         insert_n::"" : \Function >:< (
             virtual : True,
             returns : \@Unionable,
-            matches : (\@Unionable, \@Any, \@Integer_NN),
+            matches : (\@Unionable, \@Any, \@Integer::NN),
         ),
 
         remove : \Function >:< (
@@ -1846,7 +1846,7 @@ script Unicode;;9.0;;UTF-8;
         remove_n::"" : \Function >:< (
             virtual : True,
             returns : \@Unionable,
-            matches : (\@Unionable, \@Any, \@Integer_NN),
+            matches : (\@Unionable, \@Any, \@Integer::NN),
         ),
 
         member_plus::"" : \Function >:< (
@@ -1959,12 +1959,12 @@ script Unicode;;9.0;;UTF-8;
 
         "+|" : \Alias >:< ( of : \@to_Bag ),
 
-        count::"" : \Function >:< ( virtual : True, returns : \@Integer_NN, matches : (\@Discrete) ),
+        count::"" : \Function >:< ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) ),
 
         cardinality : \Alias >:< ( of : \@count ),
         "#"         : \Alias >:< ( of : \@count ),
 
-        unique_count::"" : \Function >:< ( virtual : True, returns : \@Integer_NN, matches : (\@Discrete) ),
+        unique_count::"" : \Function >:< ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) ),
 
         order : \Function >:< (
             returns : \@Positional,
@@ -2054,7 +2054,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         unique_count::Positional : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Positional),
             implements : \@folder::"",
             map : \(count::(to_Set args.\0)),
@@ -2233,7 +2233,7 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Array : \Selection >:< (
+        Array::"" : \Selection >:< (
             where : \(args -->^ FDN__is_a_Array),
             default : [],
             composes : \@Positional and_provides_its_default,
@@ -2241,9 +2241,9 @@ script Unicode;;9.0;;UTF-8;
 
         String::"" : \Selection >:< ( of : \@Array, where : \(args.\0 all \Integer::()) ),
 
-        empty_Array : \Constant >:< ( ([]) ),
+        Array::Empty : \Constant >:< ( value : [] ),
 
-        Unicode_Aliases::"~∅" : \Alias >:< ( of : \@empty_Array ),
+        Unicode_Aliases::"~∅" : \Alias >:< ( of : \@Array::Empty ),
 
         in_order::Array : \Function >:< (
             returns : \@Boolean,
@@ -2313,20 +2313,20 @@ script Unicode;;9.0;;UTF-8;
 
         replicate::Array : \Function >:< (
             returns : \@Array,
-            matches : (\@Array, \@Integer_NN),
+            matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Array_replicate),
         ),
 
         has_n::Array : \Function >:< (
             returns : \@Boolean,
-            matches : (\@Array, \@Any, \@Integer_NN),
+            matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Array_has_n),
         ),
 
         multiplicity::Array : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Array, \@Any),
             implements : \@folder::"",
             map : \(args -->^ FDN__Array_multiplicity),
@@ -2355,14 +2355,14 @@ script Unicode;;9.0;;UTF-8;
 
         insert_n::Array : \Function >:< (
             returns : \@Array,
-            matches : (\@Array, \@Any, \@Integer_NN),
+            matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Array_insert_n),
         ),
 
         remove_n::Array : \Function >:< (
             returns : \@Array,
-            matches : (\@Array, \@Any, \@Integer_NN),
+            matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Array_remove_n),
         ),
@@ -2453,7 +2453,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         count::Array : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(args -->^ FDN__Array_count),
@@ -2468,7 +2468,7 @@ script Unicode;;9.0;;UTF-8;
 
         at::Array : \Function >:< (
             returns : \@Any,
-            matches : (\@Array, \@Integer_NN),
+            matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
             map : \(args -->^ FDN__Array_at),
@@ -2482,7 +2482,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         first_possible_index::Array : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(0),
@@ -2497,7 +2497,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         index_succ_all_matches::Array : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
@@ -2510,7 +2510,7 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Set : \Selection >:< (
+        Set::"" : \Selection >:< (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Set,
                 \(if Bag args.\0 then all_unique args.\0 else False) )),
@@ -2518,9 +2518,9 @@ script Unicode;;9.0;;UTF-8;
             composes : {\@Discrete, \@Setty and_provides_its_default},
         ),
 
-        empty_Set : \Constant >:< ( ({}) ),
+        Set::Empty : \Constant >:< ( value : {} ),
 
-        Unicode_Aliases::"?∅" : \Alias >:< ( of : \@empty_Set ),
+        Unicode_Aliases::"?∅" : \Alias >:< ( of : \@Set::Empty ),
 
         to_Boolean::Set : \Function >:< (
             returns : \@Boolean,
@@ -2553,13 +2553,13 @@ script Unicode;;9.0;;UTF-8;
 
         has_n::Set : \Function >:< (
             returns : \@Boolean,
-            matches : (\@Set, \@Any, \@Integer_NN),
+            matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(has_n::(args.\0:>, args.\1, args.\2)),
         ),
 
         multiplicity::Set : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Set, \@Any),
             implements : \@folder::"",
             map : \(args.\0:> multiplicity args.\1),
@@ -2619,7 +2619,7 @@ script Unicode;;9.0;;UTF-8;
 
         insert_n::Set : \Function >:< (
             returns : \@Set,
-            matches : (\@Set, \@Any, \@Integer_NN),
+            matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args.\0 has args.\1 or args.\2 = 0 :? args.\0
                 :! \Set >:< insert_n::(args.\0:>, args.\1, 1)),
@@ -2627,7 +2627,7 @@ script Unicode;;9.0;;UTF-8;
 
         remove_n::Set : \Function >:< (
             returns : \@Set,
-            matches : (\@Set, \@Any, \@Integer_NN),
+            matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(\Set >:< remove_n::(args.\0:>, args.\1, args.\2)),
         ),
@@ -2733,14 +2733,14 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         count::Set : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(count args.\0:>),
         ),
 
         unique_count::Set : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(count args.\0),
@@ -2755,15 +2755,15 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Bag : \Selection >:< (
+        Bag::"" : \Selection >:< (
             where : \(args -->^ FDN__is_a_Bag),
             default : \+{},
             composes : \@Discrete,
         ),
 
-        empty_Bag : \Constant >:< ( (\+{}) ),
+        Bag::Empty : \Constant >:< ( value : \+{} ),
 
-        Unicode_Aliases::"+∅" : \Alias >:< ( of : \@empty_Bag ),
+        Unicode_Aliases::"+∅" : \Alias >:< ( of : \@Bag::Empty ),
 
         to_Boolean::Bag : \Function >:< (
             returns : \@Boolean,
@@ -2796,13 +2796,13 @@ script Unicode;;9.0;;UTF-8;
 
         has_n::Bag : \Function >:< (
             returns : \@Boolean,
-            matches : (\@Bag, \@Any, \@Integer_NN),
+            matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Bag_has_n),
         ),
 
         multiplicity::Bag : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Bag, \@Any),
             implements : \@folder::"",
             map : \(args -->^ FDN__Bag_multiplicity),
@@ -2862,14 +2862,14 @@ script Unicode;;9.0;;UTF-8;
 
         insert_n::Bag : \Function >:< (
             returns : \@Bag,
-            matches : (\@Bag, \@Any, \@Integer_NN),
+            matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Bag_insert_n),
         ),
 
         remove_n::Bag : \Function >:< (
             returns : \@Bag,
-            matches : (\@Bag, \@Any, \@Integer_NN),
+            matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args -->^ FDN__Bag_remove_n),
         ),
@@ -2974,14 +2974,14 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         count::Bag : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args -->^ FDN__Bag_count),
         ),
 
         unique_count::Bag : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args -->^ FDN__Bag_unique_count),
@@ -3018,7 +3018,7 @@ script Unicode;;9.0;;UTF-8;
 
         is_unary::"" : \Function >:< ( virtual : True, returns : \@Boolean, matches : (\@Attributive) ),
 
-        degree::"" : \Function >:< ( virtual : True, returns : \@Integer_NN, matches : (\@Attributive) ),
+        degree::"" : \Function >:< ( virtual : True, returns : \@Integer::NN, matches : (\@Attributive) ),
 
         "#@" : \Alias >:< ( of : \@degree ),
 
@@ -3307,18 +3307,16 @@ script Unicode;;9.0;;UTF-8;
             composes : \@Structural and_provides_its_default,
         ),
 
-        Tuple_D0 : \Constant >:< ( (()) ),
+        Tuple::D0 : \Constant >:< ( value : () ),
 
-        D0 : \Alias >:< ( of : \@Tuple_D0 ),
-
-        Tuple_D1 : \Selection >:< (
+        Tuple::D1 : \Selection >:< (
             of : \@Tuple,
             where : \(is_unary args.\0),
             default : (False,),
         ),
 
         D1 : \Function >:< (
-            returns : \@Tuple_D1,
+            returns : \@Tuple::D1,
             matches : (\@Attr_Name, \@Any),
             map : \(args -->^ FDN__Tuple_D1_select),
         ),
@@ -3345,7 +3343,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         degree::Tuple : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Tuple),
             implements : \@folder::"",
             map : \(args -->^ FDN__Tuple_degree),
@@ -3489,14 +3487,14 @@ script Unicode;;9.0;;UTF-8;
 
         has_n::Relational : \Function >:< (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
-            matches : (\@Relational, \@Structural, \@Integer_NN),
+            matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then has_n::(|(args.\0), args.\1, args.\2)
                 else Excuse::Not_Same_Heading),
         ),
 
         multiplicity::Relational : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             map : \(|(args.\0) multiplicity args.\1),
@@ -3560,7 +3558,7 @@ script Unicode;;9.0;;UTF-8;
 
         insert_n::Relational : \Function >:< (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
-            matches : (\@Relational, \@Structural, \@Integer_NN),
+            matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: insert_n::(|(args.\0), args.\1, args.\2) )
@@ -3569,7 +3567,7 @@ script Unicode;;9.0;;UTF-8;
 
         remove_n::Relational : \Function >:< (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
-            matches : (\@Relational, \@Structural, \@Integer_NN),
+            matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: remove_n::(|(args.\0), args.\1, args.\2) )
@@ -3686,7 +3684,7 @@ script Unicode;;9.0;;UTF-8;
         ),
 
         degree::Relational : \Function >:< (
-            returns : \@Integer_NN,
+            returns : \@Integer::NN,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(degree @(args.\0)),
@@ -3749,7 +3747,7 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Tuple_Array : \Selection >:< (
+        Tuple_Array::"" : \Selection >:< (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Tuple_Array, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Array::() ) then
@@ -3764,9 +3762,9 @@ script Unicode;;9.0;;UTF-8;
             composes : {\@Relational, \@Positional},
         ),
 
-        Tuple_Array_D0C0 : \Constant >:< ( (~%@()) ),
+        Tuple_Array::D0C0 : \Constant >:< ( value : ~%@() ),
 
-        Tuple_Array_D0C1 : \Constant >:< ( (~%[()]) ),
+        Tuple_Array::D0C1 : \Constant >:< ( value : ~%[()] ),
 
         heading::Tuple_Array : \Function >:< (
             returns : \@Heading,
@@ -3791,7 +3789,7 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Relation : \Selection >:< (
+        Relation::"" : \Selection >:< (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Relation, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Set::() ) then
@@ -3806,13 +3804,9 @@ script Unicode;;9.0;;UTF-8;
             composes : {\@Relational and_provides_its_default, \@Discrete, \@Setty},
         ),
 
-        Relation_D0C0 : \Constant >:< ( (?%@()) ),
+        Relation::D0C0 : \Constant >:< ( value : ?%@() ),
 
-        D0C0 : \Alias >:< ( of : \@Relation_D0C0 ),
-
-        Relation_D0C1 : \Constant >:< ( (?%{()}) ),
-
-        D0C1 : \Alias >:< ( of : \@Relation_D0C1 ),
+        Relation::D0C1 : \Constant >:< ( value : ?%{()} ),
 
         heading::Relation : \Function >:< (
             returns : \@Heading,
@@ -3837,7 +3831,7 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Tuple_Bag : \Selection >:< (
+        Tuple_Bag::"" : \Selection >:< (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Tuple_Bag, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then
@@ -3852,9 +3846,9 @@ script Unicode;;9.0;;UTF-8;
             composes : {\@Relational, \@Discrete},
         ),
 
-        Tuple_Bag_D0C0 : \Constant >:< ( (+%@()) ),
+        Tuple_Bag::D0C0 : \Constant >:< ( value : +%@() ),
 
-        Tuple_Bag_D0C1 : \Constant >:< ( (+%{()}) ),
+        Tuple_Bag::D0C1 : \Constant >:< ( value : +%{()} ),
 
         heading::Tuple_Bag : \Function >:< (
             returns : \@Heading,
@@ -3886,14 +3880,14 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Interval : \Selection >:< (
+        Interval::"" : \Selection >:< (
             of : \@Capsule,
-            where : \(has_wrapped::( args.\0, \Interval, \Tuple::Interval() )),
+            where : \(has_wrapped::( args.\0, \Interval, \Interval::Attrs() )),
             default : \((-∞)..(+∞)),
             composes : {\@Intervalish, \@Setty},
         ),
 
-        Tuple::Interval : \Selection >:< (
+        Interval::Attrs : \Selection >:< (
             of : \@Tuple,
             where : \(...),
         ),
