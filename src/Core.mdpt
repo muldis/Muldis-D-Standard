@@ -27,7 +27,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Boolean,
             matches : (\@Any, \@Any),
             is_commutative : True,
-            map : \(args -->^ FDN__same),
+            map : \(args --> \foundation::same::()),
         ),
 
         "=" : \Alias >:< ( of : \@same ),
@@ -224,7 +224,7 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 
         Boolean : \Selection >:< (
-            where : \(args -->^ FDN__is_a_Boolean),
+            where : \(args --> \foundation::is_a_Boolean::()),
             default : False,
             composes : {\@Bicessable, \@Boolable and_provides_its_default},
         ),
@@ -613,7 +613,7 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 
         Integer::"" : \Selection >:< (
-            where : \(args -->^ FDN__is_a_Integer),
+            where : \(args --> \foundation::is_a_Integer::()),
             default : 0,
             composes : \@Integral and_provides_its_default,
         ),
@@ -626,7 +626,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Boolean,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Integer_in_order),
+            map : \(args --> \foundation::Integer_in_order::()),
         ),
 
         asset::Integer : \Function >:< (
@@ -669,7 +669,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Integer,
             matches : (\@Integer),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Integer_opposite),
+            map : \(args --> \foundation::Integer_opposite::()),
         ),
 
         reciprocal::Integer : \Function >:< (
@@ -683,7 +683,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Integer::NN,
             matches : (\@Integer),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Integer_modulus),
+            map : \(args --> \foundation::Integer_modulus::()),
         ),
 
         plus::Integer : \Function >:< (
@@ -694,14 +694,14 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             identity : 0,
             repeater : times::Integer,
-            map : \(args -->^ FDN__Integer_plus),
+            map : \(args --> \foundation::Integer_plus::()),
         ),
 
         minus::Integer : \Function >:< (
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Integer_minus),
+            map : \(args --> \foundation::Integer_minus::()),
         ),
 
         times::Integer : \Function >:< (
@@ -712,7 +712,7 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             identity : 1,
             repeater : integral_nn_power::Integer,
-            map : \(args -->^ FDN__Integer_times),
+            map : \(args --> \foundation::Integer_times::()),
         ),
 
         multiple_of::Integer : \Function >:< (
@@ -720,7 +720,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(if args.\1 = 0 then Excuse::Div_By_Zero()
-                else args -->^ FDN__Integer_multiple_of),
+                else args --> \foundation::Integer_multiple_of::()),
         ),
 
         fractional_divided_by::Integer : \Function >:< (
@@ -767,8 +767,8 @@ script Unicode;;9.0;;UTF-8;
 
                 e2 ::= (
                     real_q_is_neg ::= dividend < 0 xor divisor < 0;
-                    rtz_quotient  ::= FDN__Integer_divided_by_rtz
-                        ^<-- (dividend, divisor);
+                    rtz_quotient  ::= \foundation::Integer_divided_by_rtz::()
+                        <-- (dividend, divisor);
                     rtz_remainder ::= dividend - (divisor * rtz_quotient);
 
                     returns rtz_remainder = 0 :? rtz_quotient :! e3;
@@ -799,7 +799,7 @@ script Unicode;;9.0;;UTF-8;
                     ' exactly one-half so we decide how to round that.';
 
                 e4 ::= (
-                    q ::= FDN__Integer_divided_by_rtz ^<-- (abs::(rtz_quotient),2)
+                    q ::= \foundation::Integer_divided_by_rtz::() <-- (abs::(rtz_quotient),2)
                     r ::= abs::(rtz_quotient) - (2 * q);
                     rtz_quotient_is_even ::= r = 0;
 
@@ -830,7 +830,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else args -->^ FDN__Integer_nn_power),
+                else args --> \foundation::Integer_nn_power::()),
         ),
 
         to_Integer::Integer : \Function >:< (
@@ -844,7 +844,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Integer::P,
             matches : (\@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Integer_factorial),
+            map : \(args --> \foundation::Integer_factorial::()),
         ),
 
 `#########################################################################`
@@ -2234,7 +2234,7 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 
         Array::"" : \Selection >:< (
-            where : \(args -->^ FDN__is_a_Array),
+            where : \(args --> \foundation::is_a_Array::()),
             default : [],
             composes : \@Positional and_provides_its_default,
         ),
@@ -2282,7 +2282,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Boolean,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_substring_of),
+            map : \(args --> \foundation::Array_substring_of::()),
         ),
 
         overlaps_string::Array : \Function >:< (
@@ -2290,7 +2290,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args -->^ FDN__Array_overlaps_string),
+            map : \(args --> \foundation::Array_overlaps_string::()),
         ),
 
         disjoint_string::Array : \Function >:< (
@@ -2298,7 +2298,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args -->^ FDN__Array_disjoint_string),
+            map : \(args --> \foundation::Array_disjoint_string::()),
         ),
 
         catenate::Array : \Function >:< (
@@ -2308,70 +2308,70 @@ script Unicode;;9.0;;UTF-8;
             is_associative : True,
             identity : [],
             repeater : replicate::Array,
-            map : \(args -->^ FDN__Array_catenate),
+            map : \(args --> \foundation::Array_catenate::()),
         ),
 
         replicate::Array : \Function >:< (
             returns : \@Array,
             matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_replicate),
+            map : \(args --> \foundation::Array_replicate::()),
         ),
 
         has_n::Array : \Function >:< (
             returns : \@Boolean,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_has_n),
+            map : \(args --> \foundation::Array_has_n::()),
         ),
 
         multiplicity::Array : \Function >:< (
             returns : \@Integer::NN,
             matches : (\@Array, \@Any),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_multiplicity),
+            map : \(args --> \foundation::Array_multiplicity::()),
         ),
 
         all_unique::Array : \Function >:< (
             returns : \@Boolean,
             matches : (\@Array),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_all_unique),
+            map : \(args --> \foundation::Array_all_unique::()),
         ),
 
         unique::Array : \Function >:< (
             returns : \@Array,
             matches : (\@Array),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_unique),
+            map : \(args --> \foundation::Array_unique::()),
         ),
 
         any::Array : \Function >:< (
             returns : \@Boolean,
             matches : (\@Array, \@Signature),
             implements : \@folder::"",
-            map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Array_any),
+            map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) --> \foundation::Array_any::()),
         ),
 
         insert_n::Array : \Function >:< (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_insert_n),
+            map : \(args --> \foundation::Array_insert_n::()),
         ),
 
         remove_n::Array : \Function >:< (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_remove_n),
+            map : \(args --> \foundation::Array_remove_n::()),
         ),
 
         except::Array : \Function >:< (
             returns : \@Array,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_except),
+            map : \(args --> \foundation::Array_except::()),
         ),
 
         intersect::Array : \Function >:< (
@@ -2380,7 +2380,7 @@ script Unicode;;9.0;;UTF-8;
             implements : \@folder::"",
             is_associative : True,
             is_idempotent : True,
-            map : \(args -->^ FDN__Array_intersect),
+            map : \(args --> \foundation::Array_intersect::()),
         ),
 
         union::Array : \Function >:< (
@@ -2389,7 +2389,7 @@ script Unicode;;9.0;;UTF-8;
             implements : \@folder::"",
             is_idempotent : True,
             identity : [],
-            map : \(args -->^ FDN__Array_union),
+            map : \(args --> \foundation::Array_union::()),
         ),
 
         exclusive::Array : \Function >:< (
@@ -2397,7 +2397,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             identity : [],
-            map : \(args -->^ FDN__Array_exclusive),
+            map : \(args --> \foundation::Array_exclusive::()),
         ),
 
         nest::Array : \Function >:< (
@@ -2405,7 +2405,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array),
             implements : \@folder::"",
             accepts : \(...),
-            map : \(args -->^ FDN__Array_nest),
+            map : \(args --> \foundation::Array_nest::()),
         ),
 
         unnest::Array : \Function >:< (
@@ -2413,7 +2413,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array),
             implements : \@folder::"",
             accepts : \(...),
-            map : \(args -->^ FDN__Array_unnest),
+            map : \(args --> \foundation::Array_unnest::()),
         ),
 
         where::Array : \Function >:< (
@@ -2421,21 +2421,21 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array, \@Signature),
             implements : \@folder::"",
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-                -->^ FDN__Array_where),
+                --> \foundation::Array_where::()),
         ),
 
         map::Array : \Function >:< (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_map),
+            map : \(args --> \foundation::Array_map::()),
         ),
 
         reduce::Array : \Function >:< (
             returns : \@Any,
             matches : (\@Array, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_reduce),
+            map : \(args --> \foundation::Array_reduce::()),
         ),
 
         to_Set::Array : \Function >:< (
@@ -2449,21 +2449,21 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Bag,
             matches : (\@Array),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_to_Bag),
+            map : \(args --> \foundation::Array_to_Bag::()),
         ),
 
         count::Array : \Function >:< (
             returns : \@Integer::NN,
             matches : (\@Array),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_count),
+            map : \(args --> \foundation::Array_count::()),
         ),
 
         order_using::Array : \Function >:< (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Array_order_using),
+            map : \(args --> \foundation::Array_order_using::()),
         ),
 
         at::Array : \Function >:< (
@@ -2471,7 +2471,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
-            map : \(args -->^ FDN__Array_at),
+            map : \(args --> \foundation::Array_at::()),
         ),
 
         to_Array::Array : \Function >:< (
@@ -2493,7 +2493,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array, \@NN_Integer, \@NN_Integer),
             implements : \@folder::"",
             accepts : \(args.\1 + (args.\2) <= #(args.\0)),
-            map : \(args -->^ FDN__Array_slice_n),
+            map : \(args --> \foundation::Array_slice_n::()),
         ),
 
         index_succ_all_matches::Array : \Function >:< (
@@ -2501,7 +2501,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args -->^ FDN__Array_index_succ_all_matches),
+            map : \(args --> \foundation::Array_index_succ_all_matches::()),
         ),
 
 `#########################################################################`
@@ -2756,7 +2756,7 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 
         Bag::"" : \Selection >:< (
-            where : \(args -->^ FDN__is_a_Bag),
+            where : \(args --> \foundation::is_a_Bag::()),
             default : \+{},
             composes : \@Discrete,
         ),
@@ -2783,7 +2783,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Boolean,
             matches : (\@Bag),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_singular),
+            map : \(args --> \foundation::Bag_singular::()),
         ),
 
         only_member::Bag : \Function >:< (
@@ -2791,42 +2791,42 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : \(singular args.\0),
-            map : \(args -->^ FDN__Bag_only_member),
+            map : \(args --> \foundation::Bag_only_member::()),
         ),
 
         has_n::Bag : \Function >:< (
             returns : \@Boolean,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_has_n),
+            map : \(args --> \foundation::Bag_has_n::()),
         ),
 
         multiplicity::Bag : \Function >:< (
             returns : \@Integer::NN,
             matches : (\@Bag, \@Any),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_multiplicity),
+            map : \(args --> \foundation::Bag_multiplicity::()),
         ),
 
         all_unique::Bag : \Function >:< (
             returns : \@Boolean,
             matches : (\@Bag),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_all_unique),
+            map : \(args --> \foundation::Bag_all_unique::()),
         ),
 
         unique::Bag : \Function >:< (
             returns : \@Bag,
             matches : (\@Bag),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_unique),
+            map : \(args --> \foundation::Bag_unique::()),
         ),
 
         subset_of::Bag : \Function >:< (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_subset_of),
+            map : \(args --> \foundation::Bag_subset_of::()),
         ),
 
         same_members::Bag : \Function >:< (
@@ -2842,7 +2842,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args -->^ FDN__Bag_overlaps_members),
+            map : \(args --> \foundation::Bag_overlaps_members::()),
         ),
 
         disjoint_members::Bag : \Function >:< (
@@ -2850,28 +2850,28 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args -->^ FDN__Bag_disjoint_members),
+            map : \(args --> \foundation::Bag_disjoint_members::()),
         ),
 
         any::Bag : \Function >:< (
             returns : \@Boolean,
             matches : (\@Bag, \@Signature),
             implements : \@folder::"",
-            map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_any),
+            map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) --> \foundation::Bag_any::()),
         ),
 
         insert_n::Bag : \Function >:< (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_insert_n),
+            map : \(args --> \foundation::Bag_insert_n::()),
         ),
 
         remove_n::Bag : \Function >:< (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_remove_n),
+            map : \(args --> \foundation::Bag_remove_n::()),
         ),
 
         member_plus::Bag : \Function >:< (
@@ -2881,14 +2881,14 @@ script Unicode;;9.0;;UTF-8;
             is_associative : True,
             is_commutative : True,
             identity : \+{},
-            map : \(args -->^ FDN__Bag_member_plus),
+            map : \(args --> \foundation::Bag_member_plus::()),
         ),
 
         except::Bag : \Function >:< (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_except),
+            map : \(args --> \foundation::Bag_except::()),
         ),
 
         intersect::Bag : \Function >:< (
@@ -2898,7 +2898,7 @@ script Unicode;;9.0;;UTF-8;
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            map : \(args -->^ FDN__Bag_intersect),
+            map : \(args --> \foundation::Bag_intersect::()),
         ),
 
         union::Bag : \Function >:< (
@@ -2909,7 +2909,7 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             is_idempotent : True,
             identity : \+{},
-            map : \(args -->^ FDN__Bag_union),
+            map : \(args --> \foundation::Bag_union::()),
         ),
 
         exclusive::Bag : \Function >:< (
@@ -2919,7 +2919,7 @@ script Unicode;;9.0;;UTF-8;
             is_associative : True,
             is_commutative : True,
             identity : \+{},
-            map : \(args -->^ FDN__Bag_exclusive),
+            map : \(args --> \foundation::Bag_exclusive::()),
         ),
 
         nest::Bag : \Function >:< (
@@ -2927,7 +2927,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : \(...),
-            map : \(args -->^ FDN__Bag_nest),
+            map : \(args --> \foundation::Bag_nest::()),
         ),
 
         unnest::Bag : \Function >:< (
@@ -2935,28 +2935,28 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : \(...),
-            map : \(args -->^ FDN__Bag_unnest),
+            map : \(args --> \foundation::Bag_unnest::()),
         ),
 
         where::Bag : \Function >:< (
             returns : \@Bag,
             matches : (\@Bag, \@Signature),
             implements : \@folder::"",
-            map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) -->^ FDN__Bag_where),
+            map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) --> \foundation::Bag_where::()),
         ),
 
         map::Bag : \Function >:< (
             returns : \@Bag,
             matches : (\@Bag, \@Function_Call_But_0),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_map),
+            map : \(args --> \foundation::Bag_map::()),
         ),
 
         reduce::Bag : \Function >:< (
             returns : \@Any,
             matches : (\@Bag, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_reduce),
+            map : \(args --> \foundation::Bag_reduce::()),
         ),
 
         to_Set::Bag : \Function >:< (
@@ -2977,21 +2977,21 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_count),
+            map : \(args --> \foundation::Bag_count::()),
         ),
 
         unique_count::Bag : \Function >:< (
             returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_unique_count),
+            map : \(args --> \foundation::Bag_unique_count::()),
         ),
 
         order_using::Bag : \Function >:< (
             returns : \@Array,
             matches : (\@Bag, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Bag_order_using),
+            map : \(args --> \foundation::Bag_order_using::()),
         ),
 
 `#########################################################################`
@@ -3029,7 +3029,7 @@ script Unicode;;9.0;;UTF-8;
         subheading_of : \Function >:< (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
-            map : \((@(args.\0), @(args.\1)) -->^ FDN__Tuple_subheading_of),
+            map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_subheading_of::()),
         ),
 
         Unicode_Aliases::"⊆@" : \Alias >:< ( of : \@subheading_of ),
@@ -3068,20 +3068,20 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            map : \((@(args.\0), @(args.\1)) -->^ FDN__Tuple_overlaps_heading),
+            map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_overlaps_heading::()),
         ),
 
         disjoint_heading : \Function >:< (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            map : \((@(args.\0), @(args.\1)) -->^ FDN__Tuple_disjoint_heading),
+            map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_disjoint_heading::()),
         ),
 
         except_heading : \Function >:< (
             returns : \@Heading,
             matches : (\@Attributive, \@Attributive),
-            map : \((@(args.\0), @(args.\1)) -->^ FDN__Tuple_except_heading),
+            map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_except_heading::()),
         ),
 
         Unicode_Aliases::"∖@" : \Alias >:< ( of : \@except_heading ),
@@ -3092,7 +3092,7 @@ script Unicode;;9.0;;UTF-8;
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            map : \((@(args.\0), @(args.\1)) -->^ FDN__Tuple_intersect_heading),
+            map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_intersect_heading::()),
         ),
 
         Unicode_Aliases::"∩@" : \Alias >:< ( of : \@intersect_heading ),
@@ -3104,7 +3104,7 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             is_idempotent : True,
             identity : (),
-            map : \((@(args.\0), @(args.\1)) -->^ FDN__Tuple_union_heading),
+            map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_union_heading::()),
         ),
 
         Unicode_Aliases::"∪@" : \Alias >:< ( of : \@union_heading ),
@@ -3115,7 +3115,7 @@ script Unicode;;9.0;;UTF-8;
             is_associative : True,
             is_commutative : True,
             identity : (),
-            map : \((@(args.\0), @(args.\1)) -->^ FDN__Tuple_exclusive_heading),
+            map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_exclusive_heading::()),
         ),
 
         symm_diff_heading : \Alias >:< ( of : \@exclusive_heading ),
@@ -3302,7 +3302,7 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 
         Tuple::"" : \Selection >:< (
-            where : \(args -->^ FDN__is_a_Tuple),
+            where : \(args --> \foundation::is_a_Tuple::()),
             default : (),
             composes : \@Structural and_provides_its_default,
         ),
@@ -3318,7 +3318,7 @@ script Unicode;;9.0;;UTF-8;
         D1 : \Function >:< (
             returns : \@Tuple::D1,
             matches : (\@Attr_Name, \@Any),
-            map : \(args -->^ FDN__Tuple_D1_select),
+            map : \(args --> \foundation::Tuple_D1_select::()),
         ),
 
         has_any_attrs::Tuple : \Function >:< (
@@ -3346,14 +3346,14 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Integer::NN,
             matches : (\@Tuple),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Tuple_degree),
+            map : \(args --> \foundation::Tuple_degree::()),
         ),
 
         heading::Tuple : \Function >:< (
             returns : \@Heading,
             matches : (\@Tuple),
             implements : \@folder::"",
-            map : \(args -->^ FDN__Tuple_heading),
+            map : \(args --> \foundation::Tuple_heading::()),
         ),
 
         rename::Tuple : \Function >:< (
@@ -3361,7 +3361,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Tuple, \@Renaming),
             implements : \@folder::"",
             accepts : \(...),
-            map : \(args -->^ FDN__Tuple_rename),
+            map : \(args --> \foundation::Tuple_rename::()),
         ),
 
         on::Tuple : \Function >:< (
@@ -3369,7 +3369,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Tuple, \@Heading),
             implements : \@folder::"",
             accepts : \(args.\0 @? (args.\1)),
-            map : \(args -->^ FDN__Tuple_on),
+            map : \(args --> \foundation::Tuple_on::()),
         ),
 
         update::Tuple : \Function >:< (
@@ -3377,7 +3377,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Tuple, \@Tuple),
             implements : \@folder::"",
             accepts : \(args.\0 @? (args.\1)),
-            map : \(args -->^ FDN__Tuple_update),
+            map : \(args --> \foundation::Tuple_update::()),
         ),
 
         extend::Tuple : \Function >:< (
@@ -3388,7 +3388,7 @@ script Unicode;;9.0;;UTF-8;
             is_associative : True,
             is_commutative : True,
             identity : (),
-            map : \(args -->^ FDN__Tuple_extend),
+            map : \(args --> \foundation::Tuple_extend::()),
         ),
 
         at::Tuple : \Function >:< (
@@ -3396,7 +3396,7 @@ script Unicode;;9.0;;UTF-8;
             matches : (\@Tuple, \@Attr_Name),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
-            map : \(args -->^ FDN__Tuple_at),
+            map : \(args --> \foundation::Tuple_at::()),
         ),
 
         to_Tuple::Tuple : \Function >:< (
@@ -3410,7 +3410,7 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Boolean,
             matches : (\@Tuple, \@Signature),
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-                -->^ FDN__Tuple_any_attrs),
+                --> \foundation::Tuple_any_attrs::()),
         ),
 
         none_of_attrs : \Function >:< ( negates : \@any_attrs ),
@@ -3434,19 +3434,19 @@ script Unicode;;9.0;;UTF-8;
             returns : \@Tuple,
             matches : (\@Tuple, \@Signature),
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1))
-                -->^ FDN__Tuple_attrs_where),
+                --> \foundation::Tuple_attrs_where::()),
         ),
 
         attrs_map : \Function >:< (
             returns : \@Tuple,
             matches : (\@Tuple, \@Function_Call_But_0),
-            map : \(args -->^ FDN__Tuple_attrs_map),
+            map : \(args --> \foundation::Tuple_attrs_map::()),
         ),
 
         attrs_reduce : \Function >:< (
             returns : \@Any,
             matches : (\@Tuple, \@Function_Call_But_0_1),
-            map : \(args -->^ FDN__Tuple_attrs_reduce),
+            map : \(args --> \foundation::Tuple_attrs_reduce::()),
         ),
 
 `#########################################################################`
@@ -3941,14 +3941,14 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 
         Capsule : \Selection >:< (
-            where : \(args -->^ FDN__is_a_Capsule),
+            where : \(args --> \foundation::is_a_Capsule::()),
             default : False >:< False,
         ),
 
         wrap : \Function >:< (
             returns : \@Capsule,
             matches : (\@Any, \@Any),
-            map : \(args -->^ FDN__Capsule_wrap),
+            map : \(args --> \foundation::Capsule_wrap::()),
         ),
 
         ">:<" : \Alias >:< ( of : \@wrap ),
@@ -3956,7 +3956,7 @@ script Unicode;;9.0;;UTF-8;
         wrapper : \Function >:< (
             returns : \@Any,
             matches : (\@Capsule),
-            map : \(args -->^ FDN__Capsule_wrapper),
+            map : \(args --> \foundation::Capsule_wrapper::()),
         ),
 
         "<:" : \Alias >:< ( of : \@wrapper ),
@@ -3964,7 +3964,7 @@ script Unicode;;9.0;;UTF-8;
         unwrap : \Function >:< (
             returns : \@Any,
             matches : (\@Capsule),
-            map : \(args -->^ FDN__Capsule_unwrap),
+            map : \(args --> \foundation::Capsule_unwrap::()),
         ),
 
         ":>" : \Alias >:< ( of : \@unwrap ),
@@ -3979,21 +3979,21 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 
         Reference::"" : \Selection >:< (
-            where : \(args -->^ FDN__is_a_Reference),
-            default : () -->^ FDN__default_Reference,
+            where : \(args --> \foundation::is_a_Reference::()),
+            default : () --> \foundation::default_Reference::(),
         ),
 
 `#########################################################################`
 
         External::"" : \Selection >:< (
-            where : \(args -->^ FDN__is_a_External),
-            default : () -->^ FDN__default_External,
+            where : \(args --> \foundation::is_a_External::()),
+            default : () --> \foundation::default_External::(),
         ),
 
         External::call_function : \Function >:< (
             returns : \@Any,
             matches : (\@Any),
-            map : \(FDN__External_call_function ^<-- args),
+            map : \(\foundation::External_call_function::() <-- args),
         ),
 
 `#########################################################################`
