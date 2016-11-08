@@ -4,7 +4,7 @@ script Unicode;;9.0;;UTF-8;
 `#########################################################################`
 `#########################################################################`
 
-\Package >:< (
+(\Package : (
     identity : (
         package_base_name : [\Core],
         authority : \"http://muldis.com",
@@ -19,129 +19,129 @@ script Unicode;;9.0;;UTF-8;
 
 `#########################################################################`
 
-        Any : \Selection >:< ( default : False ),
+        Any : (\Selection : ( default : False )),
 
-        None : \Selection >:< ( of : {} ),
+        None : (\Selection : ( of : {} )),
 
-        same : \Function >:< (
+        same : (\Function : (
             returns : \@Boolean,
             matches : (\@Any, \@Any),
             is_commutative : True,
             map : \(args --> \foundation::same::()),
-        ),
+        )),
 
-        "=" : \Alias >:< ( of : \@same ),
+        "=" : (\Alias : ( of : \@same )),
 
-        not_same : \Function >:< (
+        not_same : (\Function : (
             negates : \@same,
             is_commutative : True,
-        ),
+        )),
 
-        "!=" : \Alias >:< ( of : \@not_same ),
+        "!=" : (\Alias : ( of : \@not_same )),
 
-        Unicode_Aliases::"≠" : \Alias >:< ( of : \@not_same ),
+        Unicode_Aliases::"≠" : (\Alias : ( of : \@not_same )),
 
-        is_a : \Function >:< (
+        is_a : (\Function : (
             returns : \@Boolean,
             matches : (\@Any, \@Signature),
             map : \((args.\0) --> Signature_to_Function_Call_But_0::(args.\1)),
-        ),
+        )),
 
-        not_is_a : \Function >:< ( negates : \@is_a ),
+        not_is_a : (\Function : ( negates : \@is_a )),
 
 `#########################################################################`
 
-        Excuse::"" : \Interface >:< (),
+        Excuse::"" : (\Interface : ()),
 
-        Excuse::No_Reason : \Constant >:< ( composes : \@Excuse and_provides_its_default ),
+        Excuse::No_Reason : (\Constant : ( composes : \@Excuse and_provides_its_default )),
 
-        or_else : \Function >:< (
+        or_else : (\Function : (
             returns : \@Any,
             matches : (\@Any, \@Any),
             is_associative : True,
             is_idempotent : True,
             map : \(Excuse args.\0 :? args.\1 :! args.\0),
-        ),
+        )),
 
-        coalesce : \Alias >:< ( of : \@or_else ),
+        coalesce : (\Alias : ( of : \@or_else )),
 
-        and_then : \Function >:< (
+        and_then : (\Function : (
             returns : \@Any,
             matches : (\@Any, \@Any),
             is_associative : True,
             is_idempotent : True,
             map : \(Excuse args.\0 :? args.\0 :! args.\1),
-        ),
+        )),
 
 `#########################################################################`
 
-        Orderable::"" : \Interface >:< (
+        Orderable::"" : (\Interface : (
             requires_implements : in_order,
-        ),
+        )),
 
-        Orderable::Neg_Inf : \Constant >:< ( composes : {\@Orderable, \@Excuse} ),
+        Orderable::Neg_Inf : (\Constant : ( composes : {\@Orderable, \@Excuse} )),
 
-        Unicode_Aliases::"-∞" : \Alias >:< ( of : \@Orderable::Neg_Inf ),
+        Unicode_Aliases::"-∞" : (\Alias : ( of : \@Orderable::Neg_Inf )),
 
-        Orderable::Pos_Inf : \Constant >:< ( composes : {\@Orderable, \@Excuse} ),
+        Orderable::Pos_Inf : (\Constant : ( composes : {\@Orderable, \@Excuse} )),
 
-        Unicode_Aliases::"+∞" : \Alias >:< ( of : \@Orderable::Pos_Inf ),
+        Unicode_Aliases::"+∞" : (\Alias : ( of : \@Orderable::Pos_Inf )),
 
-        in_order::"" : \Function >:< (
+        in_order::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Orderable, \@Orderable),
-        ),
+        )),
 
-        in_order::Neg_Inf_L : \Function >:< (
+        in_order::Neg_Inf_L : (\Function : (
             returns : \@Boolean,
             matches : (\@Orderable::Neg_Inf, \@Orderable),
             implements : \@folder::"",
             map : \(True),
-        ),
+        )),
 
-        in_order::Neg_Inf_R : \Function >:< (
+        in_order::Neg_Inf_R : (\Function : (
             returns : \@Boolean,
             matches : (\@Orderable, \@Orderable::Neg_Inf),
             implements : \@folder::"",
             map : \(args.\0 = (args.\1)),
-        ),
+        )),
 
-        in_order::Pos_Inf_L : \Function >:< (
+        in_order::Pos_Inf_L : (\Function : (
             returns : \@Boolean,
             matches : (\@Orderable::Pos_Inf, \@Orderable),
             implements : \@folder::"",
             map : \(args.\0 = (args.\1)),
-        ),
+        )),
 
-        in_order::Pos_Inf_R : \Function >:< (
+        in_order::Pos_Inf_R : (\Function : (
             returns : \@Boolean,
             matches : (\@Orderable, \@Orderable::Pos_Inf),
             implements : \@folder::"",
             map : \(True),
-        ),
+        )),
 
-        before : \Function >:< ( commutes : \@after ),
+        before : (\Function : ( commutes : \@after )),
 
-        "<" : \Alias >:< ( of : \@before ),
+        "<" : (\Alias : ( of : \@before )),
 
-        after : \Function >:< ( negates : \@before_or_same ),
+        after : (\Function : ( negates : \@before_or_same )),
 
-        ">" : \Alias >:< ( of : \@after ),
+        ">" : (\Alias : ( of : \@after )),
 
-        before_or_same : \Alias >:< ( of : \@in_order ),
+        before_or_same : (\Alias : ( of : \@in_order )),
 
-        "<=" : \Alias >:< ( of : \@before_or_same ),
+        "<=" : (\Alias : ( of : \@before_or_same )),
 
-        Unicode_Aliases::"≤" : \Alias >:< ( of : \@before_or_same ),
+        Unicode_Aliases::"≤" : (\Alias : ( of : \@before_or_same )),
 
-        after_or_same : \Function >:< ( commutes : \@before_or_same ),
+        after_or_same : (\Function : ( commutes : \@before_or_same )),
 
-        ">=" : \Alias >:< ( of : \@after_or_same ),
+        ">=" : (\Alias : ( of : \@after_or_same )),
 
-        Unicode_Aliases::"≥" : \Alias >:< ( of : \@after_or_same ),
+        Unicode_Aliases::"≥" : (\Alias : ( of : \@after_or_same )),
 
-        min : \Function >:< (
+        min : (\Function : (
             returns : \@Orderable,
             matches : (\@Orderable, \@Orderable),
             is_associative : True,
@@ -149,9 +149,9 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : \(+∞),
             map : \(args.\0 in_order args.\1 :? args.\0 :! args.\1),
-        ),
+        )),
 
-        max : \Function >:< (
+        max : (\Function : (
             returns : \@Orderable,
             matches : (\@Orderable, \@Orderable),
             is_associative : True,
@@ -159,128 +159,126 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : \(-∞),
             map : \(args.\0 in_order args.\1 :? args.\1 :! args.\0),
-        ),
+        )),
 
-        minmax : \Function >:< (
+        minmax : (\Function : (
             returns : (\@Orderable, \@Orderable),
             matches : (\@Orderable, \@Orderable),
             is_commutative : True,
             map : \(args.\0 in_order args.\1 :? args :! (args.\1, args.\0)),
-        ),
+        )),
 
 `#########################################################################`
 
-        Successable : \Interface >:< (
+        Successable : (\Interface : (
             requires_implements : {asset,nth_succ},
-        ),
+        )),
 
-        asset::"" : \Function >:< ( virtual : True, returns : \@Any, matches : (\@Successable) ),
+        asset::"" : (\Function : ( virtual : True, returns : \@Any, matches : (\@Successable) )),
 
-        succ : \Function >:< (
+        succ : (\Function : (
             returns : {\@Successable, \@Orderable::Pos_Inf},
             matches : (\@Successable),
             map : \(args.\0 nth_succ 1),
-        ),
+        )),
 
-        nth_succ::"" : \Function >:< (
+        nth_succ::"" : (\Function : (
             virtual : True,
             returns : {\@Successable, \@Orderable::Pos_Inf},
             matches : (\@Successable, \@Integer::NN),
-        ),
+        )),
 
 `#########################################################################`
 
-        Bicessable : \Interface >:< (
+        Bicessable : (\Interface : (
             composes : {\@Orderable and_provides_its_default,
                 \@Successable and_provides_its_default},
             requires_implements : {in_order,asset,nth_pred,nth_succ},
-        ),
+        )),
 
-        pred : \Function >:< (
+        pred : (\Function : (
             returns : {\@Bicessable, \@Orderable::Neg_Inf},
             matches : (\@Bicessable),
             map : \(args.\0 nth_pred 1),
-        ),
+        )),
 
-        nth_pred::"" : \Function >:< (
+        nth_pred::"" : (\Function : (
             virtual : True,
             returns : {\@Bicessable, \@Orderable::Neg_Inf},
             matches : (\@Bicessable, \@Integer::NN),
-        ),
+        )),
 
 `#########################################################################`
 
-        Boolable : \Interface >:< ( requires_implements : to_Boolean ),
+        Boolable : (\Interface : ( requires_implements : to_Boolean )),
 
-        to_Boolean::"" : \Function >:< ( virtual : True, returns : \@Boolean, matches : (\@Boolable) ),
+        to_Boolean::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Boolable) )),
 
-        so  : \Alias >:< ( of : \@to_Boolean ),
-        "?" : \Alias >:< ( of : \@to_Boolean ),
+        so  : (\Alias : ( of : \@to_Boolean )),
+        "?" : (\Alias : ( of : \@to_Boolean )),
 
-        not_so : \Function >:< ( negates : \@to_Boolean ),
+        not_so : (\Function : ( negates : \@to_Boolean )),
 
-        "!?" : \Alias >:< ( of : \@not_so ),
+        "!?" : (\Alias : ( of : \@not_so )),
 
 `#########################################################################`
 
-        Boolean : \Selection >:< (
+        Boolean : (\Selection : (
             where : \(args --> \foundation::is_a_Boolean::()),
             default : False,
             composes : {\@Bicessable, \@Boolable and_provides_its_default},
-        ),
+        )),
 
-        Bool : \Alias >:< ( of : \@Boolean ),
+        False : (\Constant : ( value : False )),
 
-        False : \Constant >:< ( value : False ),
+        Unicode_Aliases::"⊥" : (\Alias : ( of : \@False )),
 
-        Unicode_Aliases::"⊥" : \Alias >:< ( of : \@False ),
+        True : (\Constant : ( value : True )),
 
-        True : \Constant >:< ( value : True ),
+        Unicode_Aliases::"⊤" : (\Alias : ( of : \@True )),
 
-        Unicode_Aliases::"⊤" : \Alias >:< ( of : \@True ),
-
-        in_order::Boolean : \Function >:< (
+        in_order::Boolean : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
             implements : \@folder::"",
             map : \(!(args.\0) or args.\1),
-        ),
+        )),
 
-        asset::Boolean : \Function >:< (
+        asset::Boolean : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        nth_pred::Boolean : \Function >:< (
+        nth_pred::Boolean : (\Function : (
             returns : {\@False, \@Orderable::Neg_Inf},
             matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
             map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! -∞),
-        ),
+        )),
 
-        nth_succ::Boolean : \Function >:< (
+        nth_succ::Boolean : (\Function : (
             returns : {\@True, \@Orderable::Pos_Inf},
             matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
             map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! +∞),
-        ),
+        )),
 
-        to_Boolean::Boolean : \Function >:< (
+        to_Boolean::Boolean : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        not : \Function >:< ( negates : \@to_Boolean::Boolean ),
+        not : (\Function : ( negates : \@to_Boolean::Boolean )),
 
-        "!" : \Alias >:< ( of : \@not ),
+        "!" : (\Alias : ( of : \@not )),
 
-        Unicode_Aliases::"¬" : \Alias >:< ( of : \@not ),
+        Unicode_Aliases::"¬" : (\Alias : ( of : \@not )),
 
-        and : \Function >:< (
+        and : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
             is_associative : True,
@@ -288,21 +286,21 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : True,
             map : \(args.\0 :? args.\1 :! False),
-        ),
+        )),
 
-        Unicode_Aliases::"∧" : \Alias >:< ( of : \@and ),
+        Unicode_Aliases::"∧" : (\Alias : ( of : \@and )),
 
-        nand : \Function >:< (
+        nand : (\Function : (
             negates : \@and,
             is_commutative : True,
-        ),
+        )),
 
-        not_and : \Alias >:< ( of : \@nand ),
+        not_and : (\Alias : ( of : \@nand )),
 
-        Unicode_Aliases::"⊼" : \Alias >:< ( of : \@nand ),
-        Unicode_Aliases::"↑" : \Alias >:< ( of : \@nand ),
+        Unicode_Aliases::"⊼" : (\Alias : ( of : \@nand )),
+        Unicode_Aliases::"↑" : (\Alias : ( of : \@nand )),
 
-        or : \Function >:< (
+        or : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
             is_associative : True,
@@ -310,238 +308,238 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : False,
             map : \(args.\0 :? True :! args.\1),
-        ),
+        )),
 
-        Unicode_Aliases::"∨" : \Alias >:< ( of : \@or ),
+        Unicode_Aliases::"∨" : (\Alias : ( of : \@or )),
 
-        nor : \Function >:< (
+        nor : (\Function : (
             negates : \@or,
             is_commutative : True,
-        ),
+        )),
 
-        not_or : \Alias >:< ( of : \@nor ),
+        not_or : (\Alias : ( of : \@nor )),
 
-        Unicode_Aliases::"⊽" : \Alias >:< ( of : \@nor ),
-        Unicode_Aliases::"↓" : \Alias >:< ( of : \@nor ),
+        Unicode_Aliases::"⊽" : (\Alias : ( of : \@nor )),
+        Unicode_Aliases::"↓" : (\Alias : ( of : \@nor )),
 
-        xnor : \Function >:< (
+        xnor : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
             is_associative : True,
             is_commutative : True,
             identity : True,
             map : \(args.\0 = (args.\1)),
-        ),
+        )),
 
-        iff : \Alias >:< ( of : \@xnor ),
+        iff : (\Alias : ( of : \@xnor )),
 
-        Unicode_Aliases::"↔" : \Alias >:< ( of : \@xnor ),
+        Unicode_Aliases::"↔" : (\Alias : ( of : \@xnor )),
 
-        xor : \Function >:< (
+        xor : (\Function : (
             negates : \@xnor,
             is_associative : True,
             is_commutative : True,
             identity : False,
-        ),
+        )),
 
-        Unicode_Aliases::"⊻" : \Alias >:< ( of : \@xor ),
-        Unicode_Aliases::"↮" : \Alias >:< ( of : \@xor ),
+        Unicode_Aliases::"⊻" : (\Alias : ( of : \@xor )),
+        Unicode_Aliases::"↮" : (\Alias : ( of : \@xor )),
 
-        imp : \Function >:< (
+        imp : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
             map : \(args.\0 :? args.\1 :! True),
-        ),
+        )),
 
-        implies : \Alias >:< ( of : \@imp ),
+        implies : (\Alias : ( of : \@imp )),
 
-        Unicode_Aliases::"→" : \Alias >:< ( of : \@imp ),
+        Unicode_Aliases::"→" : (\Alias : ( of : \@imp )),
 
-        nimp : \Function >:< ( negates : \@imp ),
+        nimp : (\Function : ( negates : \@imp )),
 
-        not_implies : \Alias >:< ( of : \@nimp ),
+        not_implies : (\Alias : ( of : \@nimp )),
 
-        Unicode_Aliases::"↛" : \Alias >:< ( of : \@nimp ),
+        Unicode_Aliases::"↛" : (\Alias : ( of : \@nimp )),
 
-        if : \Function >:< ( commutes : \@imp ),
+        if : (\Function : ( commutes : \@imp )),
 
-        Unicode_Aliases::"←" : \Alias >:< ( of : \@if ),
+        Unicode_Aliases::"←" : (\Alias : ( of : \@if )),
 
-        nif : \Function >:< ( commutes : \@nimp ),
+        nif : (\Function : ( commutes : \@nimp )),
 
-        not_if : \Alias >:< ( of : \@nif ),
+        not_if : (\Alias : ( of : \@nif )),
 
-        Unicode_Aliases::"↚" : \Alias >:< ( of : \@nif ),
+        Unicode_Aliases::"↚" : (\Alias : ( of : \@nif )),
 
 `#########################################################################`
 
-        Round_Meth : \Enumeration >:< (
+        Round_Meth : (\Enumeration : (
             union : \@(Down,Up,To_Zero,To_Inf
                 ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
                 ,Half_Even,Half_Odd),
             default : \To_Zero,
-        ),
+        )),
 
 `#########################################################################`
 
-        Numerical : \Interface >:< (
+        Numerical : (\Interface : (
             composes : \@Boolable,
             requires_implements : {to_Boolean
                 ,zero,opposite,reciprocal,modulus
                 ,plus,minus,times,multiple_of
                 ,fractional_divided_by,integral_divided_by
                 ,integral_power,integral_nn_power},
-        ),
+        )),
 
-        Excuse::Div_By_Zero : \Constant >:< ( composes : \@Excuse ),
+        Excuse::Div_By_Zero : (\Constant : ( composes : \@Excuse )),
 
-        Excuse::Zero_To_The_Zero : \Constant >:< ( composes : \@Excuse ),
+        Excuse::Zero_To_The_Zero : (\Constant : ( composes : \@Excuse )),
 
-        to_Boolean::Numerical : \Function >:< (
+        to_Boolean::Numerical : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Numerical),
             implements : \@folder::"",
-        ),
+        )),
 
-        is_zero : \Function >:< ( negates : \@to_Boolean::Numerical ),
+        is_zero : (\Function : ( negates : \@to_Boolean::Numerical )),
 
-        zero::"" : \Function >:< ( virtual : True, returns : \@Numerical, matches : (\@Numerical) ),
+        zero::"" : (\Function : ( virtual : True, returns : \@Numerical, matches : (\@Numerical) )),
 
-        opposite::"" : \Function >:< ( virtual : True, returns : \@Numerical, matches : (\@Numerical) ),
+        opposite::"" : (\Function : ( virtual : True, returns : \@Numerical, matches : (\@Numerical) )),
 
-        additive_inverse : \Alias >:< ( of : \@opposite ),
+        additive_inverse : (\Alias : ( of : \@opposite )),
 
-        reciprocal::"" : \Function >:< (
+        reciprocal::"" : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Excuse::Div_By_Zero},
             matches : (\@Numerical),
-        ),
+        )),
 
-        multiplicative_inverse : \Alias >:< ( of : \@reciprocal ),
+        multiplicative_inverse : (\Alias : ( of : \@reciprocal )),
 
-        modulus::"" : \Function >:< ( virtual : True, returns : \@Numerical, matches : (\@Numerical) ),
+        modulus::"" : (\Function : ( virtual : True, returns : \@Numerical, matches : (\@Numerical) )),
 
-        abs : \Alias >:< ( of : \@modulus ),
+        abs : (\Alias : ( of : \@modulus )),
 
-        plus::"" : \Function >:< (
+        plus::"" : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
             is_associative : True,
             is_commutative : True,
             repeater : times,
-        ),
+        )),
 
-        "+" : \Alias >:< ( of : \@plus ),
+        "+" : (\Alias : ( of : \@plus )),
 
-        minus::"" : \Function >:< (
+        minus::"" : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
-        ),
+        )),
 
-        "-" : \Function >:< (
+        "-" : (\Function : (
             returns : \@Numerical,
             matches : {(Numerical), (Numerical, Numerical)},
             map : \(args --> (degree::(args) = 1 :? \opposite::() :! \minus::())),
-        ),
+        )),
 
-        Unicode_Aliases::"−" : \Alias >:< ( of : "-" ),
+        Unicode_Aliases::"−" : (\Alias : ( of : "-" )),
 
-        modulus_minus : \Function >:< (
+        modulus_minus : (\Function : (
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
             is_commutative : True,
             map : \(modulus args.\0 - (args.\1)),
-        ),
+        )),
 
-        abs_minus : \Alias >:< ( of : \@modulus_minus ),
-        "|-|"     : \Alias >:< ( of : \@modulus_minus ),
+        abs_minus : (\Alias : ( of : \@modulus_minus )),
+        "|-|"     : (\Alias : ( of : \@modulus_minus )),
 
-        Unicode_Aliases::"|−|" : \Alias >:< ( of : \@modulus_minus ),
+        Unicode_Aliases::"|−|" : (\Alias : ( of : \@modulus_minus )),
 
-        times::"" : \Function >:< (
+        times::"" : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
             is_associative : True,
             is_commutative : True,
             repeater : integral_nn_power,
-        ),
+        )),
 
-        "*" : \Alias >:< ( of : \@times ),
+        "*" : (\Alias : ( of : \@times )),
 
-        Unicode_Aliases::"×" : \Alias >:< ( of : \@times ),
+        Unicode_Aliases::"×" : (\Alias : ( of : \@times )),
 
-        multiple_of::"" : \Function >:< (
+        multiple_of::"" : (\Function : (
             virtual : True,
             returns : {\@Boolean, \@Excuse::Div_By_Zero},
             matches : (\@Numerical, \@Numerical),
-        ),
+        )),
 
-        nearest_multiple_of : \Function >:< (
+        nearest_multiple_of : (\Function : (
             returns : {\@Numerical, \@Excuse::Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
             map : \(if is_zero args.\1 then Excuse::Div_By_Zero()
                 else args.\1 * (args.\0 div args.\1)),
-        ),
+        )),
 
-        round : \Alias >:< ( of : \@nearest_multiple_of ),
+        round : (\Alias : ( of : \@nearest_multiple_of )),
 
-        fractional_divided_by::"" : \Function >:< (
+        fractional_divided_by::"" : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Excuse::Div_By_Zero},
             matches : (\@Numerical, \@Numerical),
-        ),
+        )),
 
-        "/" : \Alias >:< ( of : \@fractional_divided_by ),
+        "/" : (\Alias : ( of : \@fractional_divided_by )),
 
-        Unicode_Aliases::"÷" : \Alias >:< ( of : \@fractional_divided_by ),
-        Unicode_Aliases::"∕" : \Alias >:< ( of : \@fractional_divided_by ),
+        Unicode_Aliases::"÷" : (\Alias : ( of : \@fractional_divided_by )),
+        Unicode_Aliases::"∕" : (\Alias : ( of : \@fractional_divided_by )),
 
-        integral_divided_by::"" : \Function >:< (
+        integral_divided_by::"" : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Excuse::Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
-        ),
+        )),
 
-        div : \Alias >:< ( of : \@integral_divided_by ),
+        div : (\Alias : ( of : \@integral_divided_by )),
 
-        modulo : \Function >:< (
+        modulo : (\Function : (
             returns : {\@Numerical, \@Excuse::Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
             map : \(if is_zero args.\1 then Excuse::Div_By_Zero()
                 else args.\0 - (args.\0 nearest_multiple_of args.\1)),
-        ),
+        )),
 
-        mod : \Alias >:< ( of : \@modulo ),
+        mod : (\Alias : ( of : \@modulo )),
 
-        divided_by_and_modulo::"" : \Function >:< (
+        divided_by_and_modulo::"" : (\Function : (
             returns : ({Numerical, Excuse::Div_By_Zero}, {Numerical, Excuse::Div_By_Zero}),
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
             map : \((args.\0 div args.\1, args.\0 mod args.\1)),
-        ),
+        )),
 
-        integral_power::"" : \Function >:< (
+        integral_power::"" : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Excuse::Zero_To_The_Zero},
             matches : (\@Numerical, \@Integral),
-        ),
+        )),
 
-        "**" : \Alias >:< ( of : \@integral_power ),
+        "**" : (\Alias : ( of : \@integral_power )),
 
-        integral_nn_power::"" : \Function >:< (
+        integral_nn_power::"" : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Excuse::Zero_To_The_Zero},
             matches : (\@Numerical, \@Integral::NN),
-        ),
+        )),
 
-        power : \Alias >:< ( of : \@integral_nn_power ),
+        power : (\Alias : ( of : \@integral_nn_power )),
 
 `#########################################################################`
 
-        Integral::"" : \Interface >:< (
+        Integral::"" : (\Interface : (
             composes : {\@Bicessable and_provides_its_default,
                 \@Numerical and_provides_its_default},
             requires_implements : {in_order,asset,nth_pred,nth_succ
@@ -551,36 +549,36 @@ script Unicode;;9.0;;UTF-8;
                 ,fractional_divided_by,integral_divided_by
                 ,integral_power,integral_nn_power
                 ,to_Integer,factorial},
-        ),
+        )),
 
-        Integral::NN : \Selection >:< (
+        Integral::NN : (\Selection : (
             of : \@Integral,
             where : \(args.\0 >= zero::(args.\0)),
-        ),
+        )),
 
-        Integral::P : \Selection >:< (
+        Integral::P : (\Selection : (
             of : \@Integral::NN,
             where : \(args.\0 > zero::(args.\0)),
             default : \(succ::(Integral::())),
-        ),
+        )),
 
-        "--" : \Function >:< (
+        "--" : (\Function : (
             returns : {\@Integral, \@Orderable::Neg_Inf},
             matches : (\@Integral),
             map : \(pred args.\0),
-        ),
+        )),
 
-        "++" : \Function >:< (
+        "++" : (\Function : (
             returns : {\@Integral, \@Orderable::Pos_Inf},
             matches : (\@Integral),
             map : \(succ args.\0),
-        ),
+        )),
 
-        to_Integer::"" : \Function >:< ( virtual : True, returns : \@Integer, matches : (\@Integral) ),
+        to_Integer::"" : (\Function : ( virtual : True, returns : \@Integer, matches : (\@Integral) )),
 
-        factorial::"" : \Function >:< ( virtual : True, returns : \@Integral::P, matches : (\@Integral::NN) ),
+        factorial::"" : (\Function : ( virtual : True, returns : \@Integral::P, matches : (\@Integral::NN) )),
 
-        gcd : \Function >:< (
+        gcd : (\Function : (
             returns : \@Integral::P,
             matches : (\@Integral::NN, \@Integral::NN),
             is_associative : True,
@@ -588,11 +586,11 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             map : \((if is_zero args.\1 then args.\0 else material::(args.\1, mod::(args.\0, args.\1, To_Zero::())))
                 ::?= 'Calculate using the Euclidean algorithm.'),
-        ),
+        )),
 
-        greatest_common_divisor : \Alias >:< ( of : \@gcd ),
+        greatest_common_divisor : (\Alias : ( of : \@gcd )),
 
-        lcm : \Function >:< (
+        lcm : (\Function : (
             returns : \@Integral::NN,
             matches : (\@Integral::NN, \@Integral::NN),
             is_associative : True,
@@ -600,93 +598,93 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             map : \(if is_zero args.\0 or is_zero args.\1 then zero args.\0
                 else div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::())),
-        ),
+        )),
 
-        least_common_multiple : \Alias >:< ( of : \@lcm ),
+        least_common_multiple : (\Alias : ( of : \@lcm )),
 
-        coprime : \Function >:< (
+        coprime : (\Function : (
             returns : \@Boolean,
             matches : (\@Integral, \@Integral),
             map : \((abs::(args.\0) gcd abs::(args.\1)) = succ::(zero args.\0)),
-        ),
+        )),
 
 `#########################################################################`
 
-        Integer::"" : \Selection >:< (
+        Integer::"" : (\Selection : (
             where : \(args --> \foundation::is_a_Integer::()),
             default : 0,
             composes : \@Integral and_provides_its_default,
-        ),
+        )),
 
-        Integer::NN : \Selection >:< ( of : \@Integer, where : \(args.\0 >= 0) ),
+        Integer::NN : (\Selection : ( of : \@Integer, where : \(args.\0 >= 0) )),
 
-        Integer::P : \Selection >:< ( of : \@Integer::NN, where : \(args.\0 > 0), default : 1 ),
+        Integer::P : (\Selection : ( of : \@Integer::NN, where : \(args.\0 > 0), default : 1 )),
 
-        in_order::Integer : \Function >:< (
+        in_order::Integer : (\Function : (
             returns : \@Boolean,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(args --> \foundation::Integer_in_order::()),
-        ),
+        )),
 
-        asset::Integer : \Function >:< (
+        asset::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        nth_pred::Integer : \Function >:< (
+        nth_pred::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::Integral,
             map : \(args.\0 - (args.\1)),
-        ),
+        )),
 
-        nth_succ::Integer : \Function >:< (
+        nth_succ::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::Integral,
             repeater : plus::Integer,
             map : \(args.\0 + (args.\1)),
-        ),
+        )),
 
-        to_Boolean::Integer : \Function >:< (
+        to_Boolean::Integer : (\Function : (
             returns : \@Boolean,
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(args.\0 != 0),
-        ),
+        )),
 
-        zero::Integer : \Function >:< (
+        zero::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(0),
-        ),
+        )),
 
-        opposite::Integer : \Function >:< (
+        opposite::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(args --> \foundation::Integer_opposite::()),
-        ),
+        )),
 
-        reciprocal::Integer : \Function >:< (
+        reciprocal::Integer : (\Function : (
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(1 / (args.\0)),
-        ),
+        )),
 
-        modulus::Integer : \Function >:< (
+        modulus::Integer : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(args --> \foundation::Integer_modulus::()),
-        ),
+        )),
 
-        plus::Integer : \Function >:< (
+        plus::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
@@ -695,16 +693,16 @@ script Unicode;;9.0;;UTF-8;
             identity : 0,
             repeater : times::Integer,
             map : \(args --> \foundation::Integer_plus::()),
-        ),
+        )),
 
-        minus::Integer : \Function >:< (
+        minus::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(args --> \foundation::Integer_minus::()),
-        ),
+        )),
 
-        times::Integer : \Function >:< (
+        times::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
@@ -713,17 +711,17 @@ script Unicode;;9.0;;UTF-8;
             identity : 1,
             repeater : integral_nn_power::Integer,
             map : \(args --> \foundation::Integer_times::()),
-        ),
+        )),
 
-        multiple_of::Integer : \Function >:< (
+        multiple_of::Integer : (\Function : (
             returns : {\@Boolean, \@Excuse::Div_By_Zero},
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(if args.\1 = 0 then Excuse::Div_By_Zero()
                 else args --> \foundation::Integer_multiple_of::()),
-        ),
+        )),
 
-        fractional_divided_by::Integer : \Function >:< (
+        fractional_divided_by::Integer : (\Function : (
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
@@ -740,9 +738,9 @@ script Unicode;;9.0;;UTF-8;
 
                 gcd ::= gcd::(abs::(n), abs::(d));
             ),
-        ),
+        )),
 
-        integral_divided_by::Integer : \Function >:< (
+        integral_divided_by::Integer : (\Function : (
             returns : {\@Integer, \@Excuse::Div_By_Zero},
             matches : (\@Integer, \@Integer, \@Round_Meth),
             implements : \@folder::"",
@@ -815,41 +813,41 @@ script Unicode;;9.0;;UTF-8;
                     } :!! fail  `oops, an unhandled case`
                 );
             ),
-        ),
+        )),
 
-        integral_power::Integer : \Function >:< (
+        integral_power::Integer : (\Function : (
             returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
                 else args.\0 / 1 ** (args.\1)),
-        ),
+        )),
 
-        integral_nn_power::Integer : \Function >:< (
+        integral_nn_power::Integer : (\Function : (
             returns : {\@Integer, \@Excuse::Zero_To_The_Zero},
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
                 else args --> \foundation::Integer_nn_power::()),
-        ),
+        )),
 
-        to_Integer::Integer : \Function >:< (
+        to_Integer::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        factorial::Integer : \Function >:< (
+        factorial::Integer : (\Function : (
             returns : \@Integer::P,
             matches : (\@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Integer_factorial::()),
-        ),
+        )),
 
 `#########################################################################`
 
-        Fractional::"" : \Interface >:< (
+        Fractional::"" : (\Interface : (
             composes : {\@Orderable and_provides_its_default,
                 \@Numerical and_provides_its_default},
             requires_implements : {in_order
@@ -859,22 +857,22 @@ script Unicode;;9.0;;UTF-8;
                 ,fractional_divided_by,integral_divided_by
                 ,integral_power,integral_nn_power
                 ,to_Fraction,numerator,denominator},
-        ),
+        )),
 
-        Fractional::NN : \Selection >:< (
+        Fractional::NN : (\Selection : (
             of : \@Fractional,
             where : \(args.\0 >= zero::(args.\0)),
-        ),
+        )),
 
-        to_Fraction::"" : \Function >:< ( virtual : True, returns : \@Fraction, matches : (\@Fractional) ),
+        to_Fraction::"" : (\Function : ( virtual : True, returns : \@Fraction, matches : (\@Fractional) )),
 
-        numerator::"" : \Function >:< ( virtual : True, returns : \@Integral, matches : (\@Fractional) ),
+        numerator::"" : (\Function : ( virtual : True, returns : \@Integral, matches : (\@Fractional) )),
 
-        denominator::"" : \Function >:< ( virtual : True, returns : \@Integral::P, matches : (\@Fractional) ),
+        denominator::"" : (\Function : ( virtual : True, returns : \@Integral::P, matches : (\@Fractional) )),
 
 `#########################################################################`
 
-        Fraction::"" : \Selection >:< (
+        Fraction::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Fraction, \(
                 if
@@ -889,11 +887,11 @@ script Unicode;;9.0;;UTF-8;
             ) )),
             default : 0.0,
             composes : \@Fractional and_provides_its_default,
-        ),
+        )),
 
-        Fraction::NN : \Selection >:< ( of : \@Fraction, where : \(args.\0 >= 0.0) ),
+        Fraction::NN : (\Selection : ( of : \@Fraction, where : \(args.\0 >= 0.0) )),
 
-        in_order::Fraction : \Function >:< (
+        in_order::Fraction : (\Function : (
             returns : \@Boolean,
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
@@ -909,45 +907,45 @@ script Unicode;;9.0;;UTF-8;
                     );
                   )
             ),
-        ),
+        )),
 
-        to_Boolean::Fraction : \Function >:< (
+        to_Boolean::Fraction : (\Function : (
             returns : \@Boolean,
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(args.\0 != 0.0),
-        ),
+        )),
 
-        zero::Fraction : \Function >:< (
+        zero::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(0.0),
-        ),
+        )),
 
-        opposite::Fraction : \Function >:< (
+        opposite::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(-(numerator args.\0) / (denominator args.\0)),
-        ),
+        )),
 
-        reciprocal::Fraction : \Function >:< (
+        reciprocal::Fraction : (\Function : (
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(if args.\0 = 0.0 then Excuse::Div_By_Zero()
                 else (denominator args.\0) / (numerator args.\0)),
-        ),
+        )),
 
-        modulus::Fraction : \Function >:< (
+        modulus::Fraction : (\Function : (
             returns : \@Fraction::NN,
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(abs::(numerator args.\0) / (denominator args.\0)),
-        ),
+        )),
 
-        plus::Fraction : \Function >:< (
+        plus::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
@@ -966,16 +964,16 @@ script Unicode;;9.0;;UTF-8;
                         / common_d;
                   )
             ),
-        ),
+        )),
 
-        minus::Fraction : \Function >:< (
+        minus::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             map : \(args.\0 + -(args.\1)),
-        ),
+        )),
 
-        times::Fraction : \Function >:< (
+        times::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
@@ -985,32 +983,32 @@ script Unicode;;9.0;;UTF-8;
             repeater : integral_nn_power::Fraction,
             map : \(((numerator args.\0) * (numerator args.\1))
                 / ((denominator args.\0) * (denominator args.\1))),
-        ),
+        )),
 
-        times::Fraction_Integer : \Function >:< (
+        times::Fraction_Integer : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Integer),
             implements : \@folder::"",
             map : \(((numerator args.\0) * (args.\1)) / (denominator args.\0)),
-        ),
+        )),
 
-        multiple_of::Fraction : \Function >:< (
+        multiple_of::Fraction : (\Function : (
             returns : {\@Boolean, \@Excuse::Div_By_Zero},
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             map : \(if args.\1 = 0.0 then Excuse::Div_By_Zero()
                 else (args.\0 mod args.\1) = 0.0),
-        ),
+        )),
 
-        fractional_divided_by::Fraction : \Function >:< (
+        fractional_divided_by::Fraction : (\Function : (
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             map : \(if args.\1 = 0.0 then Excuse::Div_By_Zero()
                 else args.\0 * reciprocal::(args.\1)),
-        ),
+        )),
 
-        integral_divided_by::Fraction : \Function >:< (
+        integral_divided_by::Fraction : (\Function : (
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Fraction, \@Fraction, \@Round_Meth),
             implements : \@folder::"",
@@ -1021,197 +1019,197 @@ script Unicode;;9.0;;UTF-8;
                 returns if args.\1 = 0.0 then Excuse::Div_By_Zero()
                     else div::(n0 * d, n1 * d, args.\2) / 1;
             ),
-        ),
+        )),
 
-        integral_power::Fraction : \Function >:< (
+        integral_power::Fraction : (\Function : (
             returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
             matches : (\@Fraction, \@Integer),
             implements : \@folder::"",
             map : \(\integral_nn_power::()
                 <-- (args.\1 >= 0 :? args :! (reciprocal::(args.\0), -(args.\1)))),
-        ),
+        )),
 
-        integral_nn_power::Fraction : \Function >:< (
+        integral_nn_power::Fraction : (\Function : (
             returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
             matches : (\@Fraction, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 = 0.0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
                 else ((numerator args.\0) ** (args.\1)) / ((denominator args.\0) ** (args.\1))),
-        ),
+        )),
 
-        to_Fraction::Fraction : \Function >:< (
+        to_Fraction::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        numerator::Fraction : \Function >:< (
+        numerator::Fraction : (\Function : (
             returns : \@Integer,
             matches : (\@Fraction),
             map : \(args.\0:>.\numerator),
-        ),
+        )),
 
-        denominator::Fraction : \Function >:< (
+        denominator::Fraction : (\Function : (
             returns : \@Integer::P,
             matches : (\@Fraction),
             map : \(args.\0:>.\denominator),
-        ),
+        )),
 
 `#########################################################################`
 
-        Emptyable : \Interface >:< (
+        Emptyable : (\Interface : (
             composes : \@Boolable,
             requires_implements : {to_Boolean,empty},
-        ),
+        )),
 
-        Excuse::No_Empty_Value : \Constant >:< ( composes : \@Excuse ),
+        Excuse::No_Empty_Value : (\Constant : ( composes : \@Excuse )),
 
-        to_Boolean::Emptyable : \Function >:< (
+        to_Boolean::Emptyable : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Emptyable),
             implements : \@folder::"",
-        ),
+        )),
 
-        has_any_members : \Alias >:< ( of : \@to_Boolean::Emptyable ),
+        has_any_members : (\Alias : ( of : \@to_Boolean::Emptyable )),
 
-        is_empty : \Function >:< ( negates : \@to_Boolean::Emptyable ),
+        is_empty : (\Function : ( negates : \@to_Boolean::Emptyable )),
 
-        Unicode_Aliases::"∅?" : \Alias >:< ( of : \@is_empty ),
+        Unicode_Aliases::"∅?" : (\Alias : ( of : \@is_empty )),
 
-        empty::"" : \Function >:< (
+        empty::"" : (\Function : (
             virtual : True,
             returns : {\@Emptyable, \@Excuse::No_Empty_Value},
             matches : (\@Emptyable),
-        ),
+        )),
 
-        Unicode_Aliases::"∅" : \Alias >:< ( of : \@empty ),
+        Unicode_Aliases::"∅" : (\Alias : ( of : \@empty )),
 
 `#########################################################################`
 
-        Stringy : \Interface >:< (
+        Stringy : (\Interface : (
             composes : {\@Orderable, \@Emptyable and_provides_its_default},
             requires_implements : {in_order,to_Boolean,empty
                 ,substring_of,overlaps_string,disjoint_string
                 ,catenate,replicate},
-        ),
+        )),
 
-        substring_of::"" : \Function >:< (
+        substring_of::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Stringy, \@Stringy),
-        ),
+        )),
 
-        superstring_of : \Function >:< ( commutes : \@substring_of ),
+        superstring_of : (\Function : ( commutes : \@substring_of )),
 
-        proper_substring_or_superstring : \Function >:< (
+        proper_substring_or_superstring : (\Function : (
             returns : \@Boolean,
             matches : (\@String, \@String),
             is_commutative : True,
             map : \(args.\0 != (args.\1) and (args.\0 substring_or_superstring args.\1)),
-        ),
+        )),
 
-        substring_or_superstring : \Function >:< (
+        substring_or_superstring : (\Function : (
             returns : \@Boolean,
             matches : (\@String, \@String),
             is_commutative : True,
             map : \((args.\0 substring_of args.\1) or (args.\0 superstring_of args.\1)),
-        ),
+        )),
 
-        overlaps_string::"" : \Function >:< (
+        overlaps_string::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@String, \@String),
             is_commutative : True,
-        ),
+        )),
 
-        disjoint_string::"" : \Function >:< (
+        disjoint_string::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@String, \@String),
             is_commutative : True,
-        ),
+        )),
 
-        catenate::"" : \Function >:< (
+        catenate::"" : (\Function : (
             virtual : True,
             returns : \@Stringy,
             matches : (\@Stringy, \@Stringy),
             is_associative : True,
             repeater : replicate,
-        ),
+        )),
 
-        "~" : \Alias >:< ( of : \@catenate ),
+        "~" : (\Alias : ( of : \@catenate )),
 
-        replicate::"" : \Function >:< (
+        replicate::"" : (\Function : (
             virtual : True,
             returns : \@Stringy,
             matches : (\@Stringy, \@Integer::NN),
-        ),
+        )),
 
-        "~#" : \Alias >:< ( of : \@replicate ),
+        "~#" : (\Alias : ( of : \@replicate )),
 
 `#########################################################################`
 
-        Bits : \Selection >:< (
+        Bits : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Bits, \String::Bits() )),
             default : \~?'',
             composes : {\@Stringy and_provides_its_default},
-        ),
+        )),
 
-        String::Bits : \Selection >:< (
+        String::Bits : (\Selection : (
             of : \@String,
             where : \(args.\0 all \in::( 1: 0..1 )),
-        ),
+        )),
 
-        in_order::Bits : \Function >:< (
+        in_order::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
             map : \((Bits_to_String_Bits args.\0) in_order (Bits_to_String_Bits args.\1)),
-        ),
+        )),
 
-        to_Boolean::Bits : \Function >:< (
+        to_Boolean::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits),
             implements : \@folder::"",
             map : \(args.\0 != \~?''),
-        ),
+        )),
 
-        empty::Bits : \Function >:< (
+        empty::Bits : (\Function : (
             returns : \@Bits,
             matches : (\@Bits),
             implements : \@folder::"",
             map : \(\~?''),
-        ),
+        )),
 
-        substring_of::Bits : \Function >:< (
+        substring_of::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
             map : \((Bits_to_String_Bits args.\0) substring_of (Bits_to_String_Bits args.\1)),
-        ),
+        )),
 
-        overlaps_string::Bits : \Function >:< (
+        overlaps_string::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
             is_commutative : True,
             map : \((Bits_to_String_Bits args.\0)
                 overlaps_string (Bits_to_String_Bits args.\1)),
-        ),
+        )),
 
-        disjoint_string::Bits : \Function >:< (
+        disjoint_string::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
             is_commutative : True,
             map : \((Bits_to_String_Bits args.\0)
                 disjoint_string (Bits_to_String_Bits args.\1)),
-        ),
+        )),
 
-        catenate::Bits : \Function >:< (
+        catenate::Bits : (\Function : (
             returns : \@Bits,
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
@@ -1220,86 +1218,86 @@ script Unicode;;9.0;;UTF-8;
             repeater : replicate::Bits,
             map : \(Bits_from_String_Bits::((Bits_to_String_Bits args.\0)
                 ~ (Bits_to_String_Bits args.\1))),
-        ),
+        )),
 
-        replicate::Bits : \Function >:< (
+        replicate::Bits : (\Function : (
             returns : \@Bits,
             matches : (\@Bits, \@Integer::NN),
             implements : \@folder::"",
             map : \(Bits_from_String_Bits::((Bits_to_String_Bits args.\0) ~# (args.\1))),
-        ),
+        )),
 
-        Bits_from_String_Bits : \Function >:< (
+        Bits_from_String_Bits : (\Function : (
             returns : \@Bits,
             matches : (\@String::Bits),
             map : \(\Bits >:< (args.\0)),
-        ),
+        )),
 
-        Bits_to_String_Bits : \Function >:< (
+        Bits_to_String_Bits : (\Function : (
             returns : \@String::Bits,
             matches : (\@Bits),
             map : \(args.\0:>),
-        ),
+        )),
 
 `#########################################################################`
 
-        Blob : \Selection >:< (
+        Blob : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Blob, \String::Octets() )),
             default : \~+'',
             composes : \@Stringy,
-        ),
+        )),
 
-        String::Octets : \Selection >:< (
+        String::Octets : (\Selection : (
             of : \@String,
             where : \(args.\0 all \in::( 1: 0..255 )),
-        ),
+        )),
 
-        in_order::Blob : \Function >:< (
+        in_order::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
             implements : \@folder::"",
             map : \((Blob_to_Octets args.\0) in_order (Blob_to_Octets args.\1)),
-        ),
+        )),
 
-        to_Boolean::Blob : \Function >:< (
+        to_Boolean::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob),
             implements : \@folder::"",
             map : \(args.\0 != \~+''),
-        ),
+        )),
 
-        empty::Blob : \Function >:< (
+        empty::Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Blob),
             implements : \@folder::"",
             map : \(\~+''),
-        ),
+        )),
 
-        substring_of::Blob : \Function >:< (
+        substring_of::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
             implements : \@folder::"",
             map : \((Blob_to_Octets args.\0) substring_of (Blob_to_Octets args.\1)),
-        ),
+        )),
 
-        overlaps_string::Blob : \Function >:< (
+        overlaps_string::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
             implements : \@folder::"",
             is_commutative : True,
             map : \((Blob_to_Octets args.\0) overlaps_string (Blob_to_Octets args.\1)),
-        ),
+        )),
 
-        disjoint_string::Blob : \Function >:< (
+        disjoint_string::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
             implements : \@folder::"",
             is_commutative : True,
             map : \((Blob_to_Octets args.\0) disjoint_string (Blob_to_Octets args.\1)),
-        ),
+        )),
 
-        catenate::Blob : \Function >:< (
+        catenate::Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Blob, \@Blob),
             implements : \@folder::"",
@@ -1307,118 +1305,118 @@ script Unicode;;9.0;;UTF-8;
             identity : \~+'',
             repeater : replicate::Blob,
             map : \(Blob_from_Octets::((Blob_to_Octets args.\0) ~ (Blob_to_Octets args.\1))),
-        ),
+        )),
 
-        replicate::Blob : \Function >:< (
+        replicate::Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Blob, \@Integer::NN),
             implements : \@folder::"",
             map : \(Blob_from_Octets::((Blob_to_Octets args.\0) ~# (args.\1))),
-        ),
+        )),
 
-        Blob_from_Octets : \Function >:< (
+        Blob_from_Octets : (\Function : (
             returns : \@Blob,
             matches : (\@String::Octets),
             map : \(\Blob >:< (args.\0)),
-        ),
+        )),
 
-        Blob_to_Octets : \Function >:< (
+        Blob_to_Octets : (\Function : (
             returns : \@String::Octets,
             matches : (\@Blob),
             map : \(args.\0:>),
-        ),
+        )),
 
 `#########################################################################`
 
-        Textual : \Interface >:< (
+        Textual : (\Interface : (
             composes : \@Stringy,
             requires_implements : {in_order,to_Boolean,empty
                 ,substring_of,overlaps_string,disjoint_string
                 ,catenate,replicate
                 ,to_Text},
-        ),
+        )),
 
-        to_Text::"" : \Function >:< ( virtual : True, returns : \@Text, matches : (\@Textual) ),
+        to_Text::"" : (\Function : ( virtual : True, returns : \@Text, matches : (\@Textual) )),
 
 `#########################################################################`
 
-        Text::"" : \Selection >:< (
+        Text::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Text, \String::Maximal_Chars() )),
             default : '',
             composes : {\@Textual and_provides_its_default},
-        ),
+        )),
 
-        String::Maximal_Chars : \Alias >:< ( of : \@String ),
+        String::Maximal_Chars : (\Alias : ( of : \@String )),
 
-        Text::Unicode : \Selection >:< (
+        Text::Unicode : (\Selection : (
             of : \@Text,
             where : \(String::Unicode_Codes::(Text_from_Maximal_Chars args.\0)),
-        ),
+        )),
 
-        String::Unicode_Codes : \Selection >:< (
+        String::Unicode_Codes : (\Selection : (
             of : \@String::Maximal_Chars,
             where : \(args.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )),
-        ),
+        )),
 
-        Text::ASCII : \Selection >:< (
+        Text::ASCII : (\Selection : (
             of : \@Text::Unicode,
             where : \(String::ASCII_Chars::(Text_from_Unicode_Codes args.\0)),
-        ),
+        )),
 
-        String::ASCII_Chars : \Selection >:< (
+        String::ASCII_Chars : (\Selection : (
             of : \@String::Unicode_Codes,
             where : \(args.\0 all \in::( 1: 0..127 )),
-        ),
+        )),
 
-        in_order::Text : \Function >:< (
+        in_order::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
             implements : \@folder::"",
             map : \((Text_to_Maximal_Chars args.\0) in_order (Text_to_Maximal_Chars args.\1)),
-        ),
+        )),
 
-        to_Boolean::Text : \Function >:< (
+        to_Boolean::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text),
             implements : \@folder::"",
             map : \(args.\0 != ''),
-        ),
+        )),
 
-        empty::Text : \Function >:< (
+        empty::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text),
             implements : \@folder::"",
             map : \(''),
-        ),
+        )),
 
-        substring_of::Text : \Function >:< (
+        substring_of::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
             implements : \@folder::"",
             map : \((Text_to_Maximal_Chars args.\0)
                 substring_of (Text_to_Maximal_Chars args.\1)),
-        ),
+        )),
 
-        overlaps_string::Text : \Function >:< (
+        overlaps_string::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
             implements : \@folder::"",
             is_commutative : True,
             map : \((Text_to_Maximal_Chars args.\0)
                 overlaps_string (Text_to_Maximal_Chars args.\1)),
-        ),
+        )),
 
-        disjoint_string::Text : \Function >:< (
+        disjoint_string::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
             implements : \@folder::"",
             is_commutative : True,
             map : \((Text_to_Maximal_Chars args.\0)
                 disjoint_string (Text_to_Maximal_Chars args.\1)),
-        ),
+        )),
 
-        catenate::Text : \Function >:< (
+        catenate::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text, \@Text),
             implements : \@folder::"",
@@ -1427,95 +1425,95 @@ script Unicode;;9.0;;UTF-8;
             repeater : replicate::Text,
             map : \(Text_from_Maximal_Chars::((Text_to_Maximal_Chars args.\0)
                 ~ (Text_to_Maximal_Chars args.\1))),
-        ),
+        )),
 
-        replicate::Text : \Function >:< (
+        replicate::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text, \@Integer::NN),
             implements : \@folder::"",
             map : \(Text_from_Maximal_Chars::((Text_to_Maximal_Chars args.\0) ~# (args.\1))),
-        ),
+        )),
 
-        to_Text::Text : \Function >:< (
+        to_Text::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        Text_from_Maximal_Chars : \Function >:< (
+        Text_from_Maximal_Chars : (\Function : (
             returns : \@Text,
             matches : (\@String::Maximal_Chars),
             map : \(\Text >:< (args.\0)),
-        ),
+        )),
 
-        Text_to_Maximal_Chars : \Function >:< (
+        Text_to_Maximal_Chars : (\Function : (
             returns : \@String::Maximal_Chars,
             matches : (\@Text),
             map : \(args.\0:>),
-        ),
+        )),
 
-        Text_from_Unicode_Codes : \Function >:< (
+        Text_from_Unicode_Codes : (\Function : (
             returns : \@Text::Unicode,
             matches : (\@String::Unicode_Codes),
             map : \(Text_from_Maximal_Chars args.\0),
-        ),
+        )),
 
-        Text_to_Unicode_Codes : \Function >:< (
+        Text_to_Unicode_Codes : (\Function : (
             returns : \@String::Unicode_Codes,
             matches : (\@Text::Unicode),
             map : \(Text_to_Maximal_Chars args.\0),
-        ),
+        )),
 
-        Text_from_ASCII_Chars : \Function >:< (
+        Text_from_ASCII_Chars : (\Function : (
             returns : \@Text::ASCII,
             matches : (\@String::ASCII_Chars),
             map : \(Text_from_Unicode_Codes args.\0),
-        ),
+        )),
 
-        Text_to_ASCII_Chars : \Function >:< (
+        Text_to_ASCII_Chars : (\Function : (
             returns : \@String::ASCII_Chars,
             matches : (\@Text::ASCII),
             map : \(Text_to_Unicode_Codes args.\0),
-        ),
+        )),
 
-        Blob_is_UTF_8 : \Function >:< (
+        Blob_is_UTF_8 : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob),
             map : \(...),
-        ),
+        )),
 
-        Text_from_UTF_8_Blob : \Function >:< (
+        Text_from_UTF_8_Blob : (\Function : (
             returns : {\@Text::Unicode, \@Excuse::Unicode::..., ...},
             matches : (\@Blob),
             map : \(...),
-        ),
+        )),
 
-        Text_from_UTF_8_Blob_with_repl_Text : \Function >:< (
+        Text_from_UTF_8_Blob_with_repl_Text : (\Function : (
             returns : \@Text::Unicode,
             matches : (\@Blob, \@Text::Unicode),
             map : \(...),
-        ),
+        )),
 
-        Text_from_UTF_8_Blob_with_repl_char : \Function >:< (
+        Text_from_UTF_8_Blob_with_repl_char : (\Function : (
             returns : \@Text::Unicode,
             matches : (\@Blob),
             map : \(Text_from_UTF_8_Blob_with_repl_Text::(args.\0,'\\c<0xFFFD>')),
-        ),
+        )),
 
-        Text_to_UTF_8_Blob : \Function >:< (
+        Text_to_UTF_8_Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Text::Unicode),
             map : \(...),
-        ),
+        )),
 
-        Blob_is_ASCII : \Function >:< (
+        Blob_is_ASCII : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob),
             map : \(String::ASCII_Chars(Blob_to_Octets args.\0)),
-        ),
+        )),
 
-        Text_from_ASCII_Blob : \Function >:< (
+        Text_from_ASCII_Blob : (\Function : (
             returns : {\@Text::ASCII, \@Excuse::ASCII::High_Bit_Not_Zero},
             matches : (\@Blob),
             map : \(
@@ -1524,9 +1522,9 @@ script Unicode;;9.0;;UTF-8;
                     then Text_from_ASCII_Chars octets
                     else Excuse::ASCII::High_Bit_Not_Zero();
             ),
-        ),
+        )),
 
-        Text_from_ASCII_Blob_with_repl_Text : \Function >:< (
+        Text_from_ASCII_Blob_with_repl_Text : (\Function : (
             returns : \@Text::ASCII,
             matches : (\@Blob, \@Text::ASCII),
             map : \(
@@ -1548,111 +1546,111 @@ script Unicode;;9.0;;UTF-8;
                     ;
                 returns Text_from_ASCII_Chars result_chars;
             ),
-        ),
+        )),
 
-        Text_to_ASCII_Blob : \Function >:< (
+        Text_to_ASCII_Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Text::ASCII),
             map : \(Blob_from_Octets::(Text_to_ASCII_Chars args.\0)),
-        ),
+        )),
 
 `#########################################################################`
 
-        Accessible : \Interface >:< (
+        Accessible : (\Interface : (
             requires_implements : {has_any_at,has_mapping_at
                 ,mapping_at,at,maybe_at
                 ,replace_at,shiftless_insert_at,shiftless_remove_at
                 ,replace_or_insert_at,shiftless_maybe_remove_at},
-        ),
+        )),
 
-        has_any_at::"" : \Function >:< (
+        has_any_at::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Accessible, \@Any),
-        ),
+        )),
 
-        ".?" : \Alias >:< ( of : \@has_any_at ),
+        ".?" : (\Alias : ( of : \@has_any_at )),
 
-        not_has_any_at : \Function >:< ( negates : \@has_any_at ),
+        not_has_any_at : (\Function : ( negates : \@has_any_at )),
 
-        ".!?" : \Alias >:< ( of : \@not_has_any_at ),
+        ".!?" : (\Alias : ( of : \@not_has_any_at )),
 
-        has_mapping_at::"" : \Function >:< (
+        has_mapping_at::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (Accessible, (Any, Any)),
-        ),
+        )),
 
-        ".:?" : \Alias >:< ( of : \@has_mapping_at ),
+        ".:?" : (\Alias : ( of : \@has_mapping_at )),
 
-        mapping_at::"" : \Function >:< (
+        mapping_at::"" : (\Function : (
             virtual : True,
             returns : (\@Any, \@Any),
             matches : (\@Accessible, \@Any),
             accepts : \(args.\0 .? (args.\1)),
-        ),
+        )),
 
-        ".:" : \Alias >:< ( of : \@mapping_at ),
+        ".:" : (\Alias : ( of : \@mapping_at )),
 
-        at::"" : \Function >:< (
+        at::"" : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Accessible, \@Any),
             accepts : \(args.\0 .? (args.\1)),
-        ),
+        )),
 
-        "." : \Alias >:< ( of : \@at ),
+        "." : (\Alias : ( of : \@at )),
 
-        maybe_at::"" : \Function >:< ( virtual : True, returns : \@Any, matches : (\@Accessible, \@Any) ),
+        maybe_at::"" : (\Function : ( virtual : True, returns : \@Any, matches : (\@Accessible, \@Any) )),
 
-        ".!" : \Alias >:< ( of : \@maybe_at ),
+        ".!" : (\Alias : ( of : \@maybe_at )),
 
-        replace_at::"" : \Function >:< (
+        replace_at::"" : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (Accessible, (Any, Any)),
             accepts : \(args.\0 .? (args.\1.\0)),
-        ),
+        )),
 
-        ".:=" : \Alias >:< ( of : \@replace_at ),
+        ".:=" : (\Alias : ( of : \@replace_at )),
 
-        shiftless_insert_at::"" : \Function >:< (
+        shiftless_insert_at::"" : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (Accessible, (Any, Any)),
             accepts : \(not args.\0 .? (args.\1.\0)),
-        ),
+        )),
 
-        ".+" : \Alias >:< ( of : \@shiftless_insert_at ),
+        ".+" : (\Alias : ( of : \@shiftless_insert_at )),
 
-        shiftless_remove_at::"" : \Function >:< (
+        shiftless_remove_at::"" : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (\@Accessible, \@Any),
             accepts : \(args.\0 .? (args.\1)),
-        ),
+        )),
 
-        ".-" : \Alias >:< ( of : \@shiftless_remove_at ),
+        ".-" : (\Alias : ( of : \@shiftless_remove_at )),
 
-        replace_or_insert_at::"" : \Function >:< (
+        replace_or_insert_at::"" : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (Accessible, (Any, Any)),
-        ),
+        )),
 
-        ".=+" : \Alias >:< ( of : \@replace_or_insert_at ),
+        ".=+" : (\Alias : ( of : \@replace_or_insert_at )),
 
-        shiftless_maybe_remove_at::"" : \Function >:< (
+        shiftless_maybe_remove_at::"" : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (\@Accessible, \@Any),
-        ),
+        )),
 
-        ".?-" : \Alias >:< ( of : \@shiftless_maybe_remove_at ),
+        ".?-" : (\Alias : ( of : \@shiftless_maybe_remove_at )),
 
 `#########################################################################`
 
-        Homogeneous : \Interface >:< (
+        Homogeneous : (\Interface : (
             composes : \@Emptyable,
             requires_implements : {to_Boolean,empty
                 ,singular,only_member
@@ -1660,159 +1658,159 @@ script Unicode;;9.0;;UTF-8;
                 ,all_unique,unique
                 ,subset_of,same_members,overlaps_members,disjoint_members
                 ,any},
-        ),
+        )),
 
-        singular::"" : \Function >:< ( virtual : True, returns : \@Boolean, matches : (\@Homogeneous) ),
+        singular::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Homogeneous) )),
 
-        only_member::"" : \Function >:< (
+        only_member::"" : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Homogeneous),
             accepts : \(singular args.\0),
-        ),
+        )),
 
-        in : \Function >:< ( commutes : \@has ),
+        in : (\Function : ( commutes : \@has )),
 
-        Unicode_Aliases::"∈" : \Alias >:< ( of : \@in ),
+        Unicode_Aliases::"∈" : (\Alias : ( of : \@in )),
 
-        not_in : \Function >:< ( commutes : \@not_has ),
+        not_in : (\Function : ( commutes : \@not_has )),
 
-        Unicode_Aliases::"∉" : \Alias >:< ( of : \@not_in ),
+        Unicode_Aliases::"∉" : (\Alias : ( of : \@not_in )),
 
-        has : \Function >:< (
+        has : (\Function : (
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Any),
             map : \(has_n::(args.\0, args.\1, 1)),
-        ),
+        )),
 
-        Unicode_Aliases::"∋" : \Alias >:< ( of : \@has ),
+        Unicode_Aliases::"∋" : (\Alias : ( of : \@has )),
 
-        not_has : \Function >:< ( negates : \@has ),
+        not_has : (\Function : ( negates : \@has )),
 
-        Unicode_Aliases::"∌" : \Alias >:< ( of : \@not_has ),
+        Unicode_Aliases::"∌" : (\Alias : ( of : \@not_has )),
 
-        has_n::"" : \Function >:< (
+        has_n::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Any, \@Integer::NN),
-        ),
+        )),
 
-        multiplicity::"" : \Function >:< (
+        multiplicity::"" : (\Function : (
             virtual : True,
             returns : \@Integer::NN,
             matches : (\@Homogeneous, \@Any),
-        ),
+        )),
 
-        all_unique::"" : \Function >:< ( virtual : True, returns : \@Boolean, matches : (\@Homogeneous) ),
+        all_unique::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Homogeneous) )),
 
-        unique::"" : \Function >:< ( virtual : True, returns : \@Homogeneous, matches : (\@Homogeneous) ),
+        unique::"" : (\Function : ( virtual : True, returns : \@Homogeneous, matches : (\@Homogeneous) )),
 
-        proper_subset_of : \Function >:< (
+        proper_subset_of : (\Function : (
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             map : \(args.\0 != (args.\1) and (args.\0 subset_of args.\1)),
-        ),
+        )),
 
-        Unicode_Aliases::"⊂" : \Alias >:< ( of : \@proper_subset_of ),
+        Unicode_Aliases::"⊂" : (\Alias : ( of : \@proper_subset_of )),
 
-        not_proper_subset_of : \Function >:< ( negates : \@proper_subset_of ),
+        not_proper_subset_of : (\Function : ( negates : \@proper_subset_of )),
 
-        Unicode_Aliases::"⊄" : \Alias >:< ( of : \@not_proper_subset_of ),
+        Unicode_Aliases::"⊄" : (\Alias : ( of : \@not_proper_subset_of )),
 
-        proper_superset_of : \Function >:< ( commutes : \@proper_subset_of ),
+        proper_superset_of : (\Function : ( commutes : \@proper_subset_of )),
 
-        Unicode_Aliases::"⊃" : \Alias >:< ( of : \@proper_superset_of ),
+        Unicode_Aliases::"⊃" : (\Alias : ( of : \@proper_superset_of )),
 
-        not_proper_superset_of : \Function >:< ( negates : \@proper_superset_of ),
+        not_proper_superset_of : (\Function : ( negates : \@proper_superset_of )),
 
-        Unicode_Aliases::"⊅" : \Alias >:< ( of : \@not_proper_superset_of ),
+        Unicode_Aliases::"⊅" : (\Alias : ( of : \@not_proper_superset_of )),
 
-        subset_of::"" : \Function >:< (
+        subset_of::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
-        ),
+        )),
 
-        Unicode_Aliases::"⊆" : \Alias >:< ( of : \@subset_of ),
+        Unicode_Aliases::"⊆" : (\Alias : ( of : \@subset_of )),
 
-        not_subset_of : \Function >:< ( negates : \@subset_of ),
+        not_subset_of : (\Function : ( negates : \@subset_of )),
 
-        Unicode_Aliases::"⊈" : \Alias >:< ( of : \@not_subset_of ),
+        Unicode_Aliases::"⊈" : (\Alias : ( of : \@not_subset_of )),
 
-        superset_of : \Function >:< ( commutes : \@subset_of ),
+        superset_of : (\Function : ( commutes : \@subset_of )),
 
-        Unicode_Aliases::"⊇" : \Alias >:< ( of : \@superset_of ),
+        Unicode_Aliases::"⊇" : (\Alias : ( of : \@superset_of )),
 
-        not_superset_of : \Function >:< ( negates : \@superset_of ),
+        not_superset_of : (\Function : ( negates : \@superset_of )),
 
-        Unicode_Aliases::"⊉" : \Alias >:< ( of : \@not_superset_of ),
+        Unicode_Aliases::"⊉" : (\Alias : ( of : \@not_superset_of )),
 
-        same_members::"" : \Function >:< (
+        same_members::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             is_commutative : True,
-        ),
+        )),
 
-        proper_subset_or_superset : \Function >:< (
+        proper_subset_or_superset : (\Function : (
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             is_commutative : True,
             map : \(not (args.\0 same_members args.\1) and (args.\0 subset_or_superset args.\1)),
-        ),
+        )),
 
-        subset_or_superset : \Function >:< (
+        subset_or_superset : (\Function : (
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             is_commutative : True,
             map : \((args.\0 subset_of args.\1) or (args.\0 superset_of args.\1)),
-        ),
+        )),
 
-        overlaps_members::"" : \Function >:< (
+        overlaps_members::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             is_commutative : True,
-        ),
+        )),
 
-        disjoint_members::"" : \Function >:< (
+        disjoint_members::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             is_commutative : True,
-        ),
+        )),
 
-        any::"" : \Function >:< (
+        any::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Signature),
-        ),
+        )),
 
-        there_exists : \Alias >:< ( of : \@any ),
+        there_exists : (\Alias : ( of : \@any )),
 
-        Unicode_Aliases::"∃" : \Alias >:< ( of : \@any ),
+        Unicode_Aliases::"∃" : (\Alias : ( of : \@any )),
 
-        none : \Function >:< ( negates : \@any ),
+        none : (\Function : ( negates : \@any )),
 
-        there_does_not_exist : \Alias >:< ( of : \@none ),
+        there_does_not_exist : (\Alias : ( of : \@none )),
 
-        Unicode_Aliases::"∄" : \Alias >:< ( of : \@none ),
+        Unicode_Aliases::"∄" : (\Alias : ( of : \@none )),
 
-        all : \Function >:< (
+        all : (\Function : (
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Signature),
             map : \(args.\0 none \not_is_a::( 1: args.\1 )),
-        ),
+        )),
 
-        for_all : \Alias >:< ( of : \@all ),
+        for_all : (\Alias : ( of : \@all )),
 
-        Unicode_Aliases::"∀" : \Alias >:< ( of : \@all ),
+        Unicode_Aliases::"∀" : (\Alias : ( of : \@all )),
 
-        not_all : \Function >:< ( negates : \@all ),
+        not_all : (\Function : ( negates : \@all )),
 
 `#########################################################################`
 
-        Unionable : \Interface >:< (
+        Unionable : (\Interface : (
             composes : \@Homogeneous,
             requires_implements : {to_Boolean,empty
                 ,singular,only_member
@@ -1823,121 +1821,121 @@ script Unicode;;9.0;;UTF-8;
                 ,insert_n,remove_n
                 ,member_plus,except,intersect,union,exclusive
                 ,nest,unnest,where,map,reduce,...},
-        ),
+        )),
 
-        insert : \Function >:< (
+        insert : (\Function : (
             returns : \@Unionable,
             matches : (\@Unionable, \@Any),
             map : \(insert_n::(args.\0, args.\1, 1)),
-        ),
+        )),
 
-        insert_n::"" : \Function >:< (
+        insert_n::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Any, \@Integer::NN),
-        ),
+        )),
 
-        remove : \Function >:< (
+        remove : (\Function : (
             returns : \@Unionable,
             matches : (\@Unionable, \@Any),
             map : \(remove_n::(args.\0, args.\1, 1)),
-        ),
+        )),
 
-        remove_n::"" : \Function >:< (
+        remove_n::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Any, \@Integer::NN),
-        ),
+        )),
 
-        member_plus::"" : \Function >:< (
+        member_plus::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
             is_associative : True,
-        ),
+        )),
 
-        Unicode_Aliases::"⊎" : \Alias >:< ( of : \@member_plus ),
+        Unicode_Aliases::"⊎" : (\Alias : ( of : \@member_plus )),
 
-        except::"" : \Function >:< (
+        except::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
-        ),
+        )),
 
-        Unicode_Aliases::"∖" : \Alias >:< ( of : \@except ),
+        Unicode_Aliases::"∖" : (\Alias : ( of : \@except )),
 
-        intersect::"" : \Function >:< (
+        intersect::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
             is_associative : True,
             is_idempotent : True,
-        ),
+        )),
 
-        Unicode_Aliases::"∩" : \Alias >:< ( of : \@intersect ),
+        Unicode_Aliases::"∩" : (\Alias : ( of : \@intersect )),
 
-        union::"" : \Function >:< (
+        union::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
             is_idempotent : True,
-        ),
+        )),
 
-        Unicode_Aliases::"∪" : \Alias >:< ( of : \@union ),
+        Unicode_Aliases::"∪" : (\Alias : ( of : \@union )),
 
-        exclusive::"" : \Function >:< (
+        exclusive::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
-        ),
+        )),
 
-        symm_diff : \Alias >:< ( of : \@exclusive ),
+        symm_diff : (\Alias : ( of : \@exclusive )),
 
-        Unicode_Aliases::"∆" : \Alias >:< ( of : \@exclusive ),
+        Unicode_Aliases::"∆" : (\Alias : ( of : \@exclusive )),
 
-        nest::"" : \Function >:< (
+        nest::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable),
             accepts : \(...),
-        ),
+        )),
 
-        group : \Alias >:< ( of : \@nest ),
+        group : (\Alias : ( of : \@nest )),
 
-        unnest::"" : \Function >:< (
+        unnest::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable),
             accepts : \(...),
-        ),
+        )),
 
-        ungroup : \Alias >:< ( of : \@unnest ),
+        ungroup : (\Alias : ( of : \@unnest )),
 
-        where::"" : \Function >:< (
+        where::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Signature),
-        ),
+        )),
 
-        Unicode_Aliases::"σ" : \Alias >:< ( of : \@where ),
+        Unicode_Aliases::"σ" : (\Alias : ( of : \@where )),
 
-        filtering : \Function >:< ( commutes : \@where ),
+        filtering : (\Function : ( commutes : \@where )),
 
-        map::"" : \Function >:< (
+        map::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Function_Call_But_0),
-        ),
+        )),
 
-        reduce::"" : \Function >:< (
+        reduce::"" : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Unionable, \@Function_Call_But_0_1),
-        ),
+        )),
 
 `#########################################################################`
 
-        Discrete : \Interface >:< (
+        Discrete : (\Interface : (
             composes : \@Unionable and_provides_its_default,
             requires_implements : {to_Boolean,empty
                 ,singular,only_member
@@ -1949,38 +1947,38 @@ script Unicode;;9.0;;UTF-8;
                 ,member_plus,except,intersect,union,exclusive
                 ,nest,unnest,where,map,reduce,...
                 ,to_Set,to_Bag,count,unique_count,order_using},
-        ),
+        )),
 
-        to_Set::"" : \Function >:< ( virtual : True, returns : \@Set, matches : (\@Discrete) ),
+        to_Set::"" : (\Function : ( virtual : True, returns : \@Set, matches : (\@Discrete) )),
 
-        "?|" : \Alias >:< ( of : \@to_Set ),
+        "?|" : (\Alias : ( of : \@to_Set )),
 
-        to_Bag::"" : \Function >:< ( virtual : True, returns : \@Bag, matches : (\@Discrete) ),
+        to_Bag::"" : (\Function : ( virtual : True, returns : \@Bag, matches : (\@Discrete) )),
 
-        "+|" : \Alias >:< ( of : \@to_Bag ),
+        "+|" : (\Alias : ( of : \@to_Bag )),
 
-        count::"" : \Function >:< ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) ),
+        count::"" : (\Function : ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) )),
 
-        cardinality : \Alias >:< ( of : \@count ),
-        "#"         : \Alias >:< ( of : \@count ),
+        cardinality : (\Alias : ( of : \@count )),
+        "#"         : (\Alias : ( of : \@count )),
 
-        unique_count::"" : \Function >:< ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) ),
+        unique_count::"" : (\Function : ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) )),
 
-        order : \Function >:< (
+        order : (\Function : (
             returns : \@Positional,
             matches : (\@Discrete),
             map : \(args.\0 order_using \in_order::()),
-        ),
+        )),
 
-        order_using::"" : \Function >:< (
+        order_using::"" : (\Function : (
             virtual : True,
             returns : \@Positional,
             matches : (\@Discrete, \@Function_Call_But_0_1),
-        ),
+        )),
 
 `#########################################################################`
 
-        Positional : \Interface >:< (
+        Positional : (\Interface : (
             composes : {\@Stringy, \@Discrete and_provides_its_default, \@Accessible},
             requires_implements : {in_order,to_Boolean,empty
                 ,substring_of,overlaps_string,disjoint_string
@@ -1995,102 +1993,102 @@ script Unicode;;9.0;;UTF-8;
                 ,at
                 ,to_Array
                 ,first_possible_index,slice_n,index_succ_all_matches,...},
-        ),
+        )),
 
-        Excuse::No_Such_Index : \Constant >:< ( composes : \@Excuse ),
+        Excuse::No_Such_Index : (\Constant : ( composes : \@Excuse )),
 
-        singular::Positional : \Function >:< (
+        singular::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional),
             implements : \@folder::"",
             map : \((unique_count args.\0) = 1),
-        ),
+        )),
 
-        only_member::Positional : \Function >:< (
+        only_member::Positional : (\Function : (
             returns : \@Any,
             matches : (\@Positional),
             implements : \@folder::"",
             accepts : \(singular args.\0),
             map : \(first args.\0),
-        ),
+        )),
 
-        subset_of::Positional : \Function >:< (
+        subset_of::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
             implements : \@folder::"",
             map : \((to_Bag args.\0) subset_of (to_Bag args.\1)),
-        ),
+        )),
 
-        same_members::Positional : \Function >:< (
+        same_members::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
             implements : \@folder::"",
             is_commutative : True,
             map : \((to_Bag args.\0) same_members (to_Bag args.\1)),
-        ),
+        )),
 
-        overlaps_members::Positional : \Function >:< (
+        overlaps_members::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
             implements : \@folder::"",
             is_commutative : True,
             map : \((to_Bag args.\0) overlaps_members (to_Bag args.\1)),
-        ),
+        )),
 
-        disjoint_members::Positional : \Function >:< (
+        disjoint_members::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
             implements : \@folder::"",
             is_commutative : True,
             map : \((to_Bag args.\0) disjoint_members (to_Bag args.\1)),
-        ),
+        )),
 
-        member_plus::Positional : \Function >:< (
+        member_plus::Positional : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Positional),
             implements : \@folder::"",
             is_associative : True,
             map : \(args.\0 ~ (args.\1)),
-        ),
+        )),
 
-        unique_count::Positional : \Function >:< (
+        unique_count::Positional : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Positional),
             implements : \@folder::"",
             map : \(count::(to_Set args.\0)),
-        ),
+        )),
 
-        has_any_at::Positional : \Function >:< (
+        has_any_at::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
             map : \(args.\1 >= first_possible_index::(args.\0)
                 and args.\1 < first_unused_index::(args.\0)),
-        ),
+        )),
 
-        has_mapping_at::Positional : \Function >:< (
+        has_mapping_at::Positional : (\Function : (
             returns : \@Boolean,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
             map : \(if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
-        ),
+        )),
 
-        mapping_at::Positional : \Function >:< (
+        mapping_at::Positional : (\Function : (
             returns : (\@Integer, \@Any),
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
             map : \((args.\1, args.\0.(args.\1))),
-        ),
+        )),
 
-        maybe_at::Positional : \Function >:< (
+        maybe_at::Positional : (\Function : (
             returns : \@Any,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
             map : \(if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Index()),
-        ),
+        )),
 
-        replace_at::Positional : \Function >:< (
+        replace_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
@@ -2106,146 +2104,146 @@ script Unicode;;9.0;;UTF-8;
                     insert repl_member
                     catenate (if ri < li then slice_range::(src, ++ri, li) else emp);
             ),
-        ),
+        )),
 
-        shiftless_insert_at::Positional : \Function >:< (
+        shiftless_insert_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
             accepts : \(args.\1.\0 = first_unused_index::(args.\0)),
             map : \(args.\0 insert args.\1.\1),
-        ),
+        )),
 
-        shiftless_remove_at::Positional : \Function >:< (
+        shiftless_remove_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
             accepts : \(args.\1 >= first_possible_index::(args.\0)
                 and args.\1 = --first_unused_index::(args.\0)),
             map : \(nonlast args.\0),
-        ),
+        )),
 
-        replace_or_insert_at::Positional : \Function >:< (
+        replace_or_insert_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
             accepts : \(args.\1 >= first_possible_index::(args.\0)
                 and args.\1 <= first_unused_index::(args.\0)),
             map : \(if args.\0 .? (args.\1.\0) then args.\0 .:= (args.\1.\0) else args.\0 .+ (args.\1.\0)),
-        ),
+        )),
 
-        shiftless_maybe_remove_at::Positional : \Function >:< (
+        shiftless_maybe_remove_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
             accepts : \(args.\1 >= first_possible_index::(args.\0)
                 and args.\1 >= --first_unused_index::(args.\0)),
             map : \(if args.\1 = --first_unused_index::(args.\0) then nonlast args.\0 else args.\0),
-        ),
+        )),
 
-        to_Array::"" : \Function >:< ( virtual : True, returns : \@Array, matches : (\@Positional) ),
+        to_Array::"" : (\Function : ( virtual : True, returns : \@Array, matches : (\@Positional) )),
 
-        "~|" : \Alias >:< ( of : \@to_Array ),
+        "~|" : (\Alias : ( of : \@to_Array )),
 
-        squish : \Function >:< (
+        squish : (\Function : (
             returns : \@Positional,
             matches : (\@Positional),
             map : \(args.\0 map \(( group : args.\0, member : False ))
                 pipe nest map \(args.\0.\group)),
-        ),
+        )),
 
-        first_possible_index::"" : \Function >:< (
+        first_possible_index::"" : (\Function : (
             virtual : True,
             returns : \@Integer,
             matches : (\@Positional),
-        ),
+        )),
 
-        first_unused_index : \Function >:< (
+        first_unused_index : (\Function : (
             returns : \@Integer,
             matches : (\@Positional),
             map : \(first_possible_index::(args.\0) + #(args.\0)),
-        ),
+        )),
 
-        first_index : \Function >:< (
+        first_index : (\Function : (
             returns : \@Integer,
             matches : (\@Positional),
             accepts : \(?(args.\0)),
             map : \(first_possible_index::(args.\0)),
-        ),
+        )),
 
-        last_index : \Function >:< (
+        last_index : (\Function : (
             returns : \@Integer,
             matches : (\@Positional),
             accepts : \(?(args.\0)),
             map : \(--first_unused_index::(args.\0)),
-        ),
+        )),
 
-        slice_n::"" : \Function >:< (
+        slice_n::"" : (\Function : (
             virtual : True,
             returns : \@Positional,
             matches : (\@Positional, \@Integer, \@NN_Integer),
             accepts : \(args.\1 >= first_possible_index::(args.\0)
                 and args.\1 + (args.\2) <= first_unused_index::(args.\0)),
-        ),
+        )),
 
-        slice_range : \Function >:< (
+        slice_range : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Integer, \@Integer),
             accepts : \(?(args.\0) and args.\1 >= first_possible_index::(args.\0)
                 and args.\2 < first_unused_index::(args.\0)),
             map : \(slice_n::(args.\0, args.\1, (args.\2) - (args.\1) + 1)),
-        ),
+        )),
 
-        first : \Function >:< (
+        first : (\Function : (
             returns : \@Any,
             matches : (\@Positional),
             accepts : \(?(args.\0)),
             map : \(args.\0 . first_index::(args.\0)),
-        ),
+        )),
 
-        nonfirst : \Function >:< (
+        nonfirst : (\Function : (
             returns : \@Positional,
             matches : (\@Positional),
             accepts : \(?(args.\0)),
             map : \(slice_range::(args.\0, ++first_index::(args.\0), last_index::(args.\0))),
-        ),
+        )),
 
-        last : \Function >:< (
+        last : (\Function : (
             returns : \@Any,
             matches : (\@Positional),
             accepts : \(?(args.\0)),
             map : \(args.\0 . last_index::(args.\0)),
-        ),
+        )),
 
-        nonlast : \Function >:< (
+        nonlast : (\Function : (
             returns : \@Positional,
             matches : (\@Positional),
             accepts : \(?(args.\0)),
             map : \(slice_range::(args.\0, first_index::(args.\0), --last_index::(args.\0))),
-        ),
+        )),
 
-        index_succ_all_matches::"" : \Function >:< (
+        index_succ_all_matches::"" : (\Function : (
             virtual : True,
             returns : \@Integer,
             matches : (\@Positional, \@Positional),
             is_commutative : True,
-        ),
+        )),
 
 `#########################################################################`
 
-        Array::"" : \Selection >:< (
+        Array::"" : (\Selection : (
             where : \(args --> \foundation::is_a_Array::()),
             default : [],
             composes : \@Positional and_provides_its_default,
-        ),
+        )),
 
-        String::"" : \Selection >:< ( of : \@Array, where : \(args.\0 all \Integer::()) ),
+        String::"" : (\Selection : ( of : \@Array, where : \(args.\0 all \Integer::()) )),
 
-        Array::Empty : \Constant >:< ( value : [] ),
+        Array::Empty : (\Constant : ( value : [] )),
 
-        Unicode_Aliases::"~∅" : \Alias >:< ( of : \@Array::Empty ),
+        Unicode_Aliases::"~∅" : (\Alias : ( of : \@Array::Empty )),
 
-        in_order::Array : \Function >:< (
+        in_order::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
@@ -2262,46 +2260,46 @@ script Unicode;;9.0;;UTF-8;
                 e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
                 e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
             ),
-        ),
+        )),
 
-        to_Boolean::Array : \Function >:< (
+        to_Boolean::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(args.\0 != []),
-        ),
+        )),
 
-        empty::Array : \Function >:< (
+        empty::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array),
             implements : \@folder::"",
             map : \([]),
-        ),
+        )),
 
-        substring_of::Array : \Function >:< (
+        substring_of::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_substring_of::()),
-        ),
+        )),
 
-        overlaps_string::Array : \Function >:< (
+        overlaps_string::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args --> \foundation::Array_overlaps_string::()),
-        ),
+        )),
 
-        disjoint_string::Array : \Function >:< (
+        disjoint_string::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args --> \foundation::Array_disjoint_string::()),
-        ),
+        )),
 
-        catenate::Array : \Function >:< (
+        catenate::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
@@ -2309,330 +2307,330 @@ script Unicode;;9.0;;UTF-8;
             identity : [],
             repeater : replicate::Array,
             map : \(args --> \foundation::Array_catenate::()),
-        ),
+        )),
 
-        replicate::Array : \Function >:< (
+        replicate::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_replicate::()),
-        ),
+        )),
 
-        has_n::Array : \Function >:< (
+        has_n::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_has_n::()),
-        ),
+        )),
 
-        multiplicity::Array : \Function >:< (
+        multiplicity::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array, \@Any),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_multiplicity::()),
-        ),
+        )),
 
-        all_unique::Array : \Function >:< (
+        all_unique::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_all_unique::()),
-        ),
+        )),
 
-        unique::Array : \Function >:< (
+        unique::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_unique::()),
-        ),
+        )),
 
-        any::Array : \Function >:< (
+        any::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Signature),
             implements : \@folder::"",
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) --> \foundation::Array_any::()),
-        ),
+        )),
 
-        insert_n::Array : \Function >:< (
+        insert_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_insert_n::()),
-        ),
+        )),
 
-        remove_n::Array : \Function >:< (
+        remove_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_remove_n::()),
-        ),
+        )),
 
-        except::Array : \Function >:< (
+        except::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_except::()),
-        ),
+        )),
 
-        intersect::Array : \Function >:< (
+        intersect::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_associative : True,
             is_idempotent : True,
             map : \(args --> \foundation::Array_intersect::()),
-        ),
+        )),
 
-        union::Array : \Function >:< (
+        union::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_idempotent : True,
             identity : [],
             map : \(args --> \foundation::Array_union::()),
-        ),
+        )),
 
-        exclusive::Array : \Function >:< (
+        exclusive::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             identity : [],
             map : \(args --> \foundation::Array_exclusive::()),
-        ),
+        )),
 
-        nest::Array : \Function >:< (
+        nest::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array),
             implements : \@folder::"",
             accepts : \(...),
             map : \(args --> \foundation::Array_nest::()),
-        ),
+        )),
 
-        unnest::Array : \Function >:< (
+        unnest::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array),
             implements : \@folder::"",
             accepts : \(...),
             map : \(args --> \foundation::Array_unnest::()),
-        ),
+        )),
 
-        where::Array : \Function >:< (
+        where::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Signature),
             implements : \@folder::"",
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1))
                 --> \foundation::Array_where::()),
-        ),
+        )),
 
-        map::Array : \Function >:< (
+        map::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_map::()),
-        ),
+        )),
 
-        reduce::Array : \Function >:< (
+        reduce::Array : (\Function : (
             returns : \@Any,
             matches : (\@Array, \@Function_Call_But_0_1),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_reduce::()),
-        ),
+        )),
 
-        to_Set::Array : \Function >:< (
+        to_Set::Array : (\Function : (
             returns : \@Set,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(to_Set::(to_Bag args.\0)),
-        ),
+        )),
 
-        to_Bag::Array : \Function >:< (
+        to_Bag::Array : (\Function : (
             returns : \@Bag,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_to_Bag::()),
-        ),
+        )),
 
-        count::Array : \Function >:< (
+        count::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_count::()),
-        ),
+        )),
 
-        order_using::Array : \Function >:< (
+        order_using::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0_1),
             implements : \@folder::"",
             map : \(args --> \foundation::Array_order_using::()),
-        ),
+        )),
 
-        at::Array : \Function >:< (
+        at::Array : (\Function : (
             returns : \@Any,
             matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
             map : \(args --> \foundation::Array_at::()),
-        ),
+        )),
 
-        to_Array::Array : \Function >:< (
+        to_Array::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        first_possible_index::Array : \Function >:< (
+        first_possible_index::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array),
             implements : \@folder::"",
             map : \(0),
-        ),
+        )),
 
-        slice_n::Array : \Function >:< (
+        slice_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@NN_Integer, \@NN_Integer),
             implements : \@folder::"",
             accepts : \(args.\1 + (args.\2) <= #(args.\0)),
             map : \(args --> \foundation::Array_slice_n::()),
-        ),
+        )),
 
-        index_succ_all_matches::Array : \Function >:< (
+        index_succ_all_matches::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args --> \foundation::Array_index_succ_all_matches::()),
-        ),
+        )),
 
 `#########################################################################`
 
-        Setty : \Interface >:< (),
+        Setty : (\Interface : ()),
 
 `#########################################################################`
 
-        Set::"" : \Selection >:< (
+        Set::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Set,
                 \(if Bag args.\0 then all_unique args.\0 else False) )),
             default : {},
             composes : {\@Discrete, \@Setty and_provides_its_default},
-        ),
+        )),
 
-        Set::Empty : \Constant >:< ( value : {} ),
+        Set::Empty : (\Constant : ( value : {} )),
 
-        Unicode_Aliases::"?∅" : \Alias >:< ( of : \@Set::Empty ),
+        Unicode_Aliases::"?∅" : (\Alias : ( of : \@Set::Empty )),
 
-        to_Boolean::Set : \Function >:< (
+        to_Boolean::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(args.\0 != {}),
-        ),
+        )),
 
-        empty::Set : \Function >:< (
+        empty::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set),
             implements : \@folder::"",
             map : \({}),
-        ),
+        )),
 
-        singular::Set : \Function >:< (
+        singular::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(singular args.\0:>),
-        ),
+        )),
 
-        only_member::Set : \Function >:< (
+        only_member::Set : (\Function : (
             returns : \@Any,
             matches : (\@Set),
             implements : \@folder::"",
             accepts : \(singular args.\0),
             map : \(only_member args.\0:>),
-        ),
+        )),
 
-        has_n::Set : \Function >:< (
+        has_n::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(has_n::(args.\0:>, args.\1, args.\2)),
-        ),
+        )),
 
-        multiplicity::Set : \Function >:< (
+        multiplicity::Set : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Set, \@Any),
             implements : \@folder::"",
             map : \(args.\0:> multiplicity args.\1),
-        ),
+        )),
 
-        all_unique::Set : \Function >:< (
+        all_unique::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(True),
-        ),
+        )),
 
-        unique::Set : \Function >:< (
+        unique::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        subset_of::Set : \Function >:< (
+        subset_of::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             map : \(args.\0:> subset_of args.\1:>),
-        ),
+        )),
 
-        same_members::Set : \Function >:< (
+        same_members::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args.\0 = (args.\1)),
-        ),
+        )),
 
-        overlaps_members::Set : \Function >:< (
+        overlaps_members::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args.\0:> overlaps_members args.\1:>),
-        ),
+        )),
 
-        disjoint_members::Set : \Function >:< (
+        disjoint_members::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args.\0:> disjoint_members args.\1:>),
-        ),
+        )),
 
-        any::Set : \Function >:< (
+        any::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Signature),
             implements : \@folder::"",
             map : \(args.\0:> any args.\1),
-        ),
+        )),
 
-        insert_n::Set : \Function >:< (
+        insert_n::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args.\0 has args.\1 or args.\2 = 0 :? args.\0
                 :! \Set >:< insert_n::(args.\0:>, args.\1, 1)),
-        ),
+        )),
 
-        remove_n::Set : \Function >:< (
+        remove_n::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(\Set >:< remove_n::(args.\0:>, args.\1, args.\2)),
-        ),
+        )),
 
-        member_plus::Set : \Function >:< (
+        member_plus::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
@@ -2641,16 +2639,16 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : {},
             map : \(args.\0 union args.\1),
-        ),
+        )),
 
-        except::Set : \Function >:< (
+        except::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             map : \(\Set >:< (args.\0:> except args.\1:>)),
-        ),
+        )),
 
-        intersect::Set : \Function >:< (
+        intersect::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
@@ -2658,9 +2656,9 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             is_idempotent : True,
             map : \(\Set >:< (args.\0:> intersect args.\1:>)),
-        ),
+        )),
 
-        union::Set : \Function >:< (
+        union::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
@@ -2669,9 +2667,9 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : {},
             map : \(\Set >:< (args.\0:> union args.\1:>)),
-        ),
+        )),
 
-        exclusive::Set : \Function >:< (
+        exclusive::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
@@ -2679,202 +2677,202 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             identity : {},
             map : \(\Set >:< (args.\0:> exclusive args.\1:>)),
-        ),
+        )),
 
-        nest::Set : \Function >:< (
+        nest::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set),
             implements : \@folder::"",
             accepts : \(...),
             map : \(\Set >:< (nest args.\0:>)),
-        ),
+        )),
 
-        unnest::Set : \Function >:< (
+        unnest::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set),
             implements : \@folder::"",
             accepts : \(...),
             map : \(\Set >:< (unnest args.\0:>)),
-        ),
+        )),
 
-        where::Set : \Function >:< (
+        where::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Signature),
             implements : \@folder::"",
             map : \(\Set >:< (args.\0:> where args.\1)),
-        ),
+        )),
 
-        map::Set : \Function >:< (
+        map::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Function_Call_But_0),
             implements : \@folder::"",
             map : \(\Set >:< (args.\0:> map args.\1)),
-        ),
+        )),
 
-        reduce::Set : \Function >:< (
+        reduce::Set : (\Function : (
             returns : \@Any,
             matches : (\@Set, \@Function_Call_But_0_1),
             implements : \@folder::"",
             map : \(\Set >:< (args.\0:> reduce args.\1)),
-        ),
+        )),
 
-        to_Set::Set : \Function >:< (
+        to_Set::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        to_Bag::Set : \Function >:< (
+        to_Bag::Set : (\Function : (
             returns : \@Bag,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(args.\0:>),
-        ),
+        )),
 
-        count::Set : \Function >:< (
+        count::Set : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(count args.\0:>),
-        ),
+        )),
 
-        unique_count::Set : \Function >:< (
+        unique_count::Set : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Set),
             implements : \@folder::"",
             map : \(count args.\0),
-        ),
+        )),
 
-        order_using::Set : \Function >:< (
+        order_using::Set : (\Function : (
             returns : \@Array,
             matches : (\@Set, \@Function_Call_But_0_1),
             implements : \@folder::"",
             map : \(\Set >:< (args.\0:> order_using args.\1)),
-        ),
+        )),
 
 `#########################################################################`
 
-        Bag::"" : \Selection >:< (
+        Bag::"" : (\Selection : (
             where : \(args --> \foundation::is_a_Bag::()),
             default : \+{},
             composes : \@Discrete,
-        ),
+        )),
 
-        Bag::Empty : \Constant >:< ( value : \+{} ),
+        Bag::Empty : (\Constant : ( value : \+{} )),
 
-        Unicode_Aliases::"+∅" : \Alias >:< ( of : \@Bag::Empty ),
+        Unicode_Aliases::"+∅" : (\Alias : ( of : \@Bag::Empty )),
 
-        to_Boolean::Bag : \Function >:< (
+        to_Boolean::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args.\0 != \+{}),
-        ),
+        )),
 
-        empty::Bag : \Function >:< (
+        empty::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(\+{}),
-        ),
+        )),
 
-        singular::Bag : \Function >:< (
+        singular::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_singular::()),
-        ),
+        )),
 
-        only_member::Bag : \Function >:< (
+        only_member::Bag : (\Function : (
             returns : \@Any,
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : \(singular args.\0),
             map : \(args --> \foundation::Bag_only_member::()),
-        ),
+        )),
 
-        has_n::Bag : \Function >:< (
+        has_n::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_has_n::()),
-        ),
+        )),
 
-        multiplicity::Bag : \Function >:< (
+        multiplicity::Bag : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Bag, \@Any),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_multiplicity::()),
-        ),
+        )),
 
-        all_unique::Bag : \Function >:< (
+        all_unique::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_all_unique::()),
-        ),
+        )),
 
-        unique::Bag : \Function >:< (
+        unique::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_unique::()),
-        ),
+        )),
 
-        subset_of::Bag : \Function >:< (
+        subset_of::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_subset_of::()),
-        ),
+        )),
 
-        same_members::Bag : \Function >:< (
+        same_members::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args.\0 = (args.\1)),
-        ),
+        )),
 
-        overlaps_members::Bag : \Function >:< (
+        overlaps_members::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args --> \foundation::Bag_overlaps_members::()),
-        ),
+        )),
 
-        disjoint_members::Bag : \Function >:< (
+        disjoint_members::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
             map : \(args --> \foundation::Bag_disjoint_members::()),
-        ),
+        )),
 
-        any::Bag : \Function >:< (
+        any::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Signature),
             implements : \@folder::"",
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) --> \foundation::Bag_any::()),
-        ),
+        )),
 
-        insert_n::Bag : \Function >:< (
+        insert_n::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_insert_n::()),
-        ),
+        )),
 
-        remove_n::Bag : \Function >:< (
+        remove_n::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_remove_n::()),
-        ),
+        )),
 
-        member_plus::Bag : \Function >:< (
+        member_plus::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
@@ -2882,16 +2880,16 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             identity : \+{},
             map : \(args --> \foundation::Bag_member_plus::()),
-        ),
+        )),
 
-        except::Bag : \Function >:< (
+        except::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_except::()),
-        ),
+        )),
 
-        intersect::Bag : \Function >:< (
+        intersect::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
@@ -2899,9 +2897,9 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             is_idempotent : True,
             map : \(args --> \foundation::Bag_intersect::()),
-        ),
+        )),
 
-        union::Bag : \Function >:< (
+        union::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
@@ -2910,9 +2908,9 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : \+{},
             map : \(args --> \foundation::Bag_union::()),
-        ),
+        )),
 
-        exclusive::Bag : \Function >:< (
+        exclusive::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
@@ -2920,184 +2918,184 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             identity : \+{},
             map : \(args --> \foundation::Bag_exclusive::()),
-        ),
+        )),
 
-        nest::Bag : \Function >:< (
+        nest::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : \(...),
             map : \(args --> \foundation::Bag_nest::()),
-        ),
+        )),
 
-        unnest::Bag : \Function >:< (
+        unnest::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : \(...),
             map : \(args --> \foundation::Bag_unnest::()),
-        ),
+        )),
 
-        where::Bag : \Function >:< (
+        where::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Signature),
             implements : \@folder::"",
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1)) --> \foundation::Bag_where::()),
-        ),
+        )),
 
-        map::Bag : \Function >:< (
+        map::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Function_Call_But_0),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_map::()),
-        ),
+        )),
 
-        reduce::Bag : \Function >:< (
+        reduce::Bag : (\Function : (
             returns : \@Any,
             matches : (\@Bag, \@Function_Call_But_0_1),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_reduce::()),
-        ),
+        )),
 
-        to_Set::Bag : \Function >:< (
+        to_Set::Bag : (\Function : (
             returns : \@Set,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(\Set >:< (unique args.\0)),
-        ),
+        )),
 
-        to_Bag::Bag : \Function >:< (
+        to_Bag::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        count::Bag : \Function >:< (
+        count::Bag : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_count::()),
-        ),
+        )),
 
-        unique_count::Bag : \Function >:< (
+        unique_count::Bag : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_unique_count::()),
-        ),
+        )),
 
-        order_using::Bag : \Function >:< (
+        order_using::Bag : (\Function : (
             returns : \@Array,
             matches : (\@Bag, \@Function_Call_But_0_1),
             implements : \@folder::"",
             map : \(args --> \foundation::Bag_order_using::()),
-        ),
+        )),
 
 `#########################################################################`
 
-        Attributive : \Interface >:< (
+        Attributive : (\Interface : (
             requires_implements : {has_any_attrs,nullary
                 ,is_unary,degree,heading,rename
                 ,can_project_matching,on,update,extend},
-        ),
+        )),
 
-        Excuse::No_Such_Attr_Name : \Constant >:< ( composes : \@Excuse ),
+        Excuse::No_Such_Attr_Name : (\Constant : ( composes : \@Excuse )),
 
-        Excuse::Not_Same_Heading : \Constant >:< ( composes : \@Excuse ),
+        Excuse::Not_Same_Heading : (\Constant : ( composes : \@Excuse )),
 
-        has_any_attrs::"" : \Function >:< ( virtual : True, returns : \@Boolean, matches : (\@Attributive) ),
+        has_any_attrs::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Attributive) )),
 
-        "?@" : \Alias >:< ( of : \@has_any_attrs ),
+        "?@" : (\Alias : ( of : \@has_any_attrs )),
 
-        is_nullary : \Function >:< ( negates : \@has_any_attrs ),
+        is_nullary : (\Function : ( negates : \@has_any_attrs )),
 
-        "!?@" : \Alias >:< ( of : \@is_nullary ),
+        "!?@" : (\Alias : ( of : \@is_nullary )),
 
-        nullary::"" : \Function >:< ( virtual : True, returns : \@Attributive, matches : (\@Attributive) ),
+        nullary::"" : (\Function : ( virtual : True, returns : \@Attributive, matches : (\@Attributive) )),
 
-        is_unary::"" : \Function >:< ( virtual : True, returns : \@Boolean, matches : (\@Attributive) ),
+        is_unary::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Attributive) )),
 
-        degree::"" : \Function >:< ( virtual : True, returns : \@Integer::NN, matches : (\@Attributive) ),
+        degree::"" : (\Function : ( virtual : True, returns : \@Integer::NN, matches : (\@Attributive) )),
 
-        "#@" : \Alias >:< ( of : \@degree ),
+        "#@" : (\Alias : ( of : \@degree )),
 
-        heading::"" : \Function >:< ( virtual : True, returns : \@Heading, matches : (\@Attributive) ),
+        heading::"" : (\Function : ( virtual : True, returns : \@Heading, matches : (\@Attributive) )),
 
-        "@" : \Alias >:< ( of : \@heading ),
+        "@" : (\Alias : ( of : \@heading )),
 
-        subheading_of : \Function >:< (
+        subheading_of : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_subheading_of::()),
-        ),
+        )),
 
-        Unicode_Aliases::"⊆@" : \Alias >:< ( of : \@subheading_of ),
+        Unicode_Aliases::"⊆@" : (\Alias : ( of : \@subheading_of )),
 
-        superheading_of : \Function >:< ( commutes : \@subheading_of ),
+        superheading_of : (\Function : ( commutes : \@subheading_of )),
 
-        has_subheading : \Alias >:< ( of : \@superheading_of ),
-        "@?"           : \Alias >:< ( of : \@superheading_of ),
+        has_subheading : (\Alias : ( of : \@superheading_of )),
+        "@?"           : (\Alias : ( of : \@superheading_of )),
 
-        Unicode_Aliases::"⊇@" : \Alias >:< ( of : \@superheading_of ),
+        Unicode_Aliases::"⊇@" : (\Alias : ( of : \@superheading_of )),
 
-        same_heading : \Function >:< (
+        same_heading : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
             map : \(@(args.\0) = @(args.\1)),
-        ),
+        )),
 
-        "=@" : \Alias >:< ( of : \@same_heading ),
+        "=@" : (\Alias : ( of : \@same_heading )),
 
-        proper_subheading_or_superheading : \Function >:< (
+        proper_subheading_or_superheading : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
             map : \(@(args.\0) != @(args.\1) and (args.\0 subheading_or_superheading args.\1)),
-        ),
+        )),
 
-        subheading_or_superheading : \Function >:< (
+        subheading_or_superheading : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
             map : \((args.\0 subheading_of args.\1) or (args.\0 superheading_of args.\1)),
-        ),
+        )),
 
-        overlaps_heading : \Function >:< (
+        overlaps_heading : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
             map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_overlaps_heading::()),
-        ),
+        )),
 
-        disjoint_heading : \Function >:< (
+        disjoint_heading : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
             map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_disjoint_heading::()),
-        ),
+        )),
 
-        except_heading : \Function >:< (
+        except_heading : (\Function : (
             returns : \@Heading,
             matches : (\@Attributive, \@Attributive),
             map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_except_heading::()),
-        ),
+        )),
 
-        Unicode_Aliases::"∖@" : \Alias >:< ( of : \@except_heading ),
+        Unicode_Aliases::"∖@" : (\Alias : ( of : \@except_heading )),
 
-        intersect_heading : \Function >:< (
+        intersect_heading : (\Function : (
             returns : \@Heading,
             matches : (\@Attributive, \@Attributive),
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
             map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_intersect_heading::()),
-        ),
+        )),
 
-        Unicode_Aliases::"∩@" : \Alias >:< ( of : \@intersect_heading ),
+        Unicode_Aliases::"∩@" : (\Alias : ( of : \@intersect_heading )),
 
-        union_heading : \Function >:< (
+        union_heading : (\Function : (
             returns : \@Heading,
             matches : (\@Attributive, \@Attributive),
             is_associative : True,
@@ -3105,113 +3103,113 @@ script Unicode;;9.0;;UTF-8;
             is_idempotent : True,
             identity : (),
             map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_union_heading::()),
-        ),
+        )),
 
-        Unicode_Aliases::"∪@" : \Alias >:< ( of : \@union_heading ),
+        Unicode_Aliases::"∪@" : (\Alias : ( of : \@union_heading )),
 
-        exclusive : \Function >:< (
+        exclusive : (\Function : (
             returns : \@Heading,
             matches : (\@Attributive, \@Attributive),
             is_associative : True,
             is_commutative : True,
             identity : (),
             map : \((@(args.\0), @(args.\1)) --> \foundation::Tuple_exclusive_heading::()),
-        ),
+        )),
 
-        symm_diff_heading : \Alias >:< ( of : \@exclusive_heading ),
+        symm_diff_heading : (\Alias : ( of : \@exclusive_heading )),
 
-        Unicode_Aliases::"∆@" : \Alias >:< ( of : \@exclusive_heading ),
+        Unicode_Aliases::"∆@" : (\Alias : ( of : \@exclusive_heading )),
 
-        rename::"" : \Function >:< (
+        rename::"" : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Renaming),
             accepts : \(...),
-        ),
+        )),
 
-        "@:=" : \Alias >:< ( of : \@rename ),
+        "@:=" : (\Alias : ( of : \@rename )),
 
-        Unicode_Aliases::"ρ" : \Alias >:< ( of : \@rename ),
+        Unicode_Aliases::"ρ" : (\Alias : ( of : \@rename )),
 
-        renaming : \Function >:< ( commutes : \@rename ),
+        renaming : (\Function : ( commutes : \@rename )),
 
-        can_project_matching::"" : \Function >:< (
+        can_project_matching::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Attributive, \@Structural),
-        ),
+        )),
 
-        "%=?" : \Alias >:< ( of : \@can_project_matching ),
+        "%=?" : (\Alias : ( of : \@can_project_matching )),
 
-        on::"" : \Function >:< (
+        on::"" : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Heading),
             accepts : \(args.\0 @? (args.\1)),
-        ),
+        )),
 
-        project : \Alias >:< ( of : \@on ),
-        "%="    : \Alias >:< ( of : \@on ),
+        project : (\Alias : ( of : \@on )),
+        "%="    : (\Alias : ( of : \@on )),
 
-        Unicode_Aliases::"π" : \Alias >:< ( of : \@on ),
+        Unicode_Aliases::"π" : (\Alias : ( of : \@on )),
 
-        from : \Function >:< ( commutes : \@on ),
+        from : (\Function : ( commutes : \@on )),
 
-        maybe_on : \Function >:< (
+        maybe_on : (\Function : (
             returns : \@Attributive,
             matches : (\@Attributive, \@Heading),
             map : \(args.\0 on (args.\0 intersect_heading args.\1)),
-        ),
+        )),
 
-        "%!" : \Alias >:< ( of : \@maybe_on ),
+        "%!" : (\Alias : ( of : \@maybe_on )),
 
-        update::"" : \Function >:< (
+        update::"" : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Structural),
             accepts : \(args.\0 @? (args.\1)),
-        ),
+        )),
 
-        "%:=" : \Alias >:< ( of : \@update ),
+        "%:=" : (\Alias : ( of : \@update )),
 
-        extend::"" : \Function >:< (
+        extend::"" : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Structural),
             accepts : \(args.\0 disjoint_heading args.\1),
-        ),
+        )),
 
-        "%+" : \Alias >:< ( of : \@extend ),
+        "%+" : (\Alias : ( of : \@extend )),
 
-        but : \Function >:< (
+        but : (\Function : (
             returns : \@Attributive,
             matches : (\@Attributive, \@Heading),
             accepts : \(args.\0 @? (args.\1)),
             map : \(args.\0 on (args.\0 except_heading args.\1)),
-        ),
+        )),
 
-        project_all_but : \Alias >:< ( of : \@but ),
-        "%-"            : \Alias >:< ( of : \@but ),
+        project_all_but : (\Alias : ( of : \@but )),
+        "%-"            : (\Alias : ( of : \@but )),
 
-        update_or_extend : \Function >:< (
+        update_or_extend : (\Function : (
             returns : \@Attributive,
             matches : (\@Attributive, \@Structural),
             map : \(args.\0 on (args.\0 except_heading args.\1) extend args.\1),
-        ),
+        )),
 
-        "%=+" : \Alias >:< ( of : \@update_or_extend ),
+        "%=+" : (\Alias : ( of : \@update_or_extend )),
 
-        maybe_but : \Function >:< (
+        maybe_but : (\Function : (
             returns : \@Attributive,
             matches : (\@Attributive, \@Heading),
             map : \(args.\0 but (args.\0 intersect_heading args.\1)),
-        ),
+        )),
 
-        "%?-" : \Alias >:< ( of : \@maybe_but ),
+        "%?-" : (\Alias : ( of : \@maybe_but )),
 
 `#########################################################################`
 
-        Structural : \Interface >:< (
+        Structural : (\Interface : (
             composes : {\@Attributive and_provides_its_default,
                 \@Accessible and_provides_its_default},
             requires_implements : {has_any_attrs,nullary
@@ -3219,168 +3217,168 @@ script Unicode;;9.0;;UTF-8;
                 ,on,update,extend
                 ,at
                 ,to_Tuple},
-        ),
+        )),
 
-        can_project_matching::Structural : \Function >:< (
+        can_project_matching::Structural : (\Function : (
             returns : \@Boolean,
             matches : (\@Structural, \@Structural),
             implements : \@folder::"",
             map : \(if args.\0 @? (args.\1) then args.\0 %= @(args.\1) = (args.\1) else False),
-        ),
+        )),
 
-        has_any_at::Structure : \Function >:< (
+        has_any_at::Structure : (\Function : (
             returns : \@Boolean,
             matches : (\@Structure, \@Attr_Name),
             implements : \@folder::"",
             map : \(args.\0 @? (args.\1)),
-        ),
+        )),
 
-        has_mapping_at::Structural : \Function >:< (
+        has_mapping_at::Structural : (\Function : (
             returns : \@Boolean,
             matches : (Structural, (Attr_Name, Any)),
             implements : \@folder::"",
             map : \(if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
-        ),
+        )),
 
-        mapping_at::Structural : \Function >:< (
+        mapping_at::Structural : (\Function : (
             returns : (\@Attr_Name, \@Any),
             matches : (\@Structural, \@Attr_Name),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
             map : \((args.\1, args.\0.(args.\1))),
-        ),
+        )),
 
-        maybe_at::Structural : \Function >:< (
+        maybe_at::Structural : (\Function : (
             returns : \@Any,
             matches : (\@Structural, \@Attr_Name),
             implements : \@folder::"",
             map : \(if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Attr_Name()),
-        ),
+        )),
 
-        replace_at::Structure : \Function >:< (
+        replace_at::Structure : (\Function : (
             returns : \@Structure,
             matches : (Structure, (Attr_Name, Any)),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1.\0)),
             map : \(args.\0 update D1::(args.\1)),
-        ),
+        )),
 
-        shiftless_insert_at::Structure : \Function >:< (
+        shiftless_insert_at::Structure : (\Function : (
             returns : \@Structure,
             matches : (Structure, (Attr_Name, Any)),
             implements : \@folder::"",
             accepts : \(not args.\0 .? (args.\1.\0)),
             map : \(args.\0 extend D1::(args.\1)),
-        ),
+        )),
 
-        shiftless_remove_at::Structure : \Function >:< (
+        shiftless_remove_at::Structure : (\Function : (
             returns : \@Structure,
             matches : (\@Structure, \@Attr_Name),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
             map : \(args.\0 but args.\1),
-        ),
+        )),
 
-        replace_or_insert_at::Structural : \Function >:< (
+        replace_or_insert_at::Structural : (\Function : (
             returns : \@Structural,
             matches : (Structural, (Attr_Name, Any)),
             implements : \@folder::"",
             map : \(args.\0 update_or_extend D1::(args.\1)),
-        ),
+        )),
 
-        shiftless_maybe_remove_at::Structural : \Function >:< (
+        shiftless_maybe_remove_at::Structural : (\Function : (
             returns : \@Structural,
             matches : (\@Structural, \@Attr_Name),
             implements : \@folder::"",
             map : \(args.\0 maybe_but args.\1),
-        ),
+        )),
 
-        to_Tuple::"" : \Function >:< ( virtual : True, returns : \@Tuple, matches : (\@Structural) ),
+        to_Tuple::"" : (\Function : ( virtual : True, returns : \@Tuple, matches : (\@Structural) )),
 
-        "%" : \Alias >:< ( of : \@to_Tuple ),
+        "%" : (\Alias : ( of : \@to_Tuple )),
 
 `#########################################################################`
 
-        Tuple::"" : \Selection >:< (
+        Tuple::"" : (\Selection : (
             where : \(args --> \foundation::is_a_Tuple::()),
             default : (),
             composes : \@Structural and_provides_its_default,
-        ),
+        )),
 
-        Tuple::D0 : \Constant >:< ( value : () ),
+        Tuple::D0 : (\Constant : ( value : () )),
 
-        Tuple::D1 : \Selection >:< (
+        Tuple::D1 : (\Selection : (
             of : \@Tuple,
             where : \(is_unary args.\0),
             default : (False,),
-        ),
+        )),
 
-        D1 : \Function >:< (
+        D1 : (\Function : (
             returns : \@Tuple::D1,
             matches : (\@Attr_Name, \@Any),
             map : \(args --> \foundation::Tuple_D1_select::()),
-        ),
+        )),
 
-        has_any_attrs::Tuple : \Function >:< (
+        has_any_attrs::Tuple : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple),
             implements : \@folder::"",
             map : \(args.\0 != ()),
-        ),
+        )),
 
-        nullary::Tuple : \Function >:< (
+        nullary::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple),
             implements : \@folder::"",
             map : \(()),
-        ),
+        )),
 
-        is_unary::Tuple : \Function >:< (
+        is_unary::Tuple : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple),
             implements : \@folder::"",
             map : \(degree::(args.\0) = 1),
-        ),
+        )),
 
-        degree::Tuple : \Function >:< (
+        degree::Tuple : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Tuple),
             implements : \@folder::"",
             map : \(args --> \foundation::Tuple_degree::()),
-        ),
+        )),
 
-        heading::Tuple : \Function >:< (
+        heading::Tuple : (\Function : (
             returns : \@Heading,
             matches : (\@Tuple),
             implements : \@folder::"",
             map : \(args --> \foundation::Tuple_heading::()),
-        ),
+        )),
 
-        rename::Tuple : \Function >:< (
+        rename::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Renaming),
             implements : \@folder::"",
             accepts : \(...),
             map : \(args --> \foundation::Tuple_rename::()),
-        ),
+        )),
 
-        on::Tuple : \Function >:< (
+        on::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Heading),
             implements : \@folder::"",
             accepts : \(args.\0 @? (args.\1)),
             map : \(args --> \foundation::Tuple_on::()),
-        ),
+        )),
 
-        update::Tuple : \Function >:< (
+        update::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Tuple),
             implements : \@folder::"",
             accepts : \(args.\0 @? (args.\1)),
             map : \(args --> \foundation::Tuple_update::()),
-        ),
+        )),
 
-        extend::Tuple : \Function >:< (
+        extend::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Tuple),
             implements : \@folder::"",
@@ -3389,192 +3387,192 @@ script Unicode;;9.0;;UTF-8;
             is_commutative : True,
             identity : (),
             map : \(args --> \foundation::Tuple_extend::()),
-        ),
+        )),
 
-        at::Tuple : \Function >:< (
+        at::Tuple : (\Function : (
             returns : \@Any,
             matches : (\@Tuple, \@Attr_Name),
             implements : \@folder::"",
             accepts : \(args.\0 .? (args.\1)),
             map : \(args --> \foundation::Tuple_at::()),
-        ),
+        )),
 
-        to_Tuple::Tuple : \Function >:< (
+        to_Tuple::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple),
             implements : \@folder::"",
             map : \(args.\0),
-        ),
+        )),
 
-        any_attrs : \Function >:< (
+        any_attrs : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple, \@Signature),
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1))
                 --> \foundation::Tuple_any_attrs::()),
-        ),
+        )),
 
-        none_of_attrs : \Function >:< ( negates : \@any_attrs ),
+        none_of_attrs : (\Function : ( negates : \@any_attrs )),
 
-        all_attrs : \Function >:< (
+        all_attrs : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple, \@Signature),
             map : \(args.\0 none_of_attrs \not_is_a::( 1: args.\1 )),
-        ),
+        )),
 
-        not_all_attrs : \Function >:< ( negates : \@all_attrs ),
+        not_all_attrs : (\Function : ( negates : \@all_attrs )),
 
-        all_attr_assets : \Function >:< (
+        all_attr_assets : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple, \@Signature),
             map : \(args.\0 all_attrs \((args.\1) <-- (args.\0.\asset,))
                 \<-- (1 : Signature_to_Function_Call_But_0::(args.\1))),
-        ),
+        )),
 
-        attrs_where : \Function >:< (
+        attrs_where : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Signature),
             map : \((args.\0, Signature_to_Function_Call_But_0::(args.\1))
                 --> \foundation::Tuple_attrs_where::()),
-        ),
+        )),
 
-        attrs_map : \Function >:< (
+        attrs_map : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Function_Call_But_0),
             map : \(args --> \foundation::Tuple_attrs_map::()),
-        ),
+        )),
 
-        attrs_reduce : \Function >:< (
+        attrs_reduce : (\Function : (
             returns : \@Any,
             matches : (\@Tuple, \@Function_Call_But_0_1),
             map : \(args --> \foundation::Tuple_attrs_reduce::()),
-        ),
+        )),
 
 `#########################################################################`
 
-        Relational : \Interface >:< (
+        Relational : (\Interface : (
             composes : {\@Unionable, \@Attributive},
             requires_implements : {heading,body,select_Relational},
-        ),
+        )),
 
-        to_Boolean::Relational : \Function >:< (
+        to_Boolean::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(? |(args.\0)),
-        ),
+        )),
 
-        empty::Relational : \Function >:< (
+        empty::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(select_Relational::( like: args.\0, heading: @(args.\0), body: empty |(args.\0) )),
-        ),
+        )),
 
-        singular::Relational : \Function >:< (
+        singular::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(singular |(args.\0)),
-        ),
+        )),
 
-        only_member::Relational : \Function >:< (
+        only_member::Relational : (\Function : (
             returns : \@Structural,
             matches : (\@Relational),
             implements : \@folder::"",
             accepts : \(singular args.\0),
             map : \(only_member |(args.\0)),
-        ),
+        )),
 
-        has_n::Relational : \Function >:< (
+        has_n::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then has_n::(|(args.\0), args.\1, args.\2)
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        multiplicity::Relational : \Function >:< (
+        multiplicity::Relational : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             map : \(|(args.\0) multiplicity args.\1),
-        ),
+        )),
 
-        all_unique::Relational : \Function >:< (
+        all_unique::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(all_unique |(args.\0)),
-        ),
+        )),
 
-        unique::Relational : \Function >:< (
+        unique::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(select_Relational::( like: args.\0, heading: @(args.\0), body: unique |(args.\0) )),
-        ),
+        )),
 
-        subset_of::Relational : \Function >:< (
+        subset_of::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then |(args.\0) subset_of |(args.\1)
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        same_members::Relational : \Function >:< (
+        same_members::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
             map : \(if args.\0 =@ (args.\1) then |(args.\0) same_members |(args.\1)
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        overlaps_members::Relational : \Function >:< (
+        overlaps_members::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
             map : \(if args.\0 =@ (args.\1) then |(args.\0) overlaps_members |(args.\1)
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        disjoint_members::Relational : \Function >:< (
+        disjoint_members::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
             map : \(if args.\0 =@ (args.\1) then |(args.\0) disjoint_members |(args.\1)
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        any::Relational : \Function >:< (
+        any::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational, \@Signature),
             implements : \@folder::"",
             map : \(|(args.\0) any args.\1),
-        ),
+        )),
 
-        insert_n::Relational : \Function >:< (
+        insert_n::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: insert_n::(|(args.\0), args.\1, args.\2) )
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        remove_n::Relational : \Function >:< (
+        remove_n::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: remove_n::(|(args.\0), args.\1, args.\2) )
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        member_plus::Relational : \Function >:< (
+        member_plus::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
@@ -3582,18 +3580,18 @@ script Unicode;;9.0;;UTF-8;
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) member_plus |(args.\1) )
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        except::Relational : \Function >:< (
+        except::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) except |(args.\1) )
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        intersect::Relational : \Function >:< (
+        intersect::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
@@ -3602,9 +3600,9 @@ script Unicode;;9.0;;UTF-8;
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) intersect |(args.\1) )
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        union::Relational : \Function >:< (
+        union::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
@@ -3612,9 +3610,9 @@ script Unicode;;9.0;;UTF-8;
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) union |(args.\1) )
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        exclusive::Relational : \Function >:< (
+        exclusive::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
@@ -3623,131 +3621,131 @@ script Unicode;;9.0;;UTF-8;
             map : \(if args.\0 =@ (args.\1) then select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) exclusive |(args.\1) )
                 else Excuse::Not_Same_Heading),
-        ),
+        )),
 
-        nest::Relational : \Function >:< (
+        nest::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational),
             implements : \@folder::"",
             accepts : \(...),
             map : \(...),
-        ),
+        )),
 
-        unnest::Relational : \Function >:< (
+        unnest::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational),
             implements : \@folder::"",
             accepts : \(...),
             map : \(...),
-        ),
+        )),
 
-        where::Relational : \Function >:< (
+        where::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Signature),
             implements : \@folder::"",
             map : \(select_Relational::( like: args.\0, heading: @(args.\0), body: |(args.\0) where args.\1 )),
-        ),
+        )),
 
-        map::Relational : \Function >:< (
+        map::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Function_Call_But_0),
             implements : \@folder::"",
             map : \(...),
-        ),
+        )),
 
-        reduce::Relational : \Function >:< (
+        reduce::Relational : (\Function : (
             returns : \@Any,
             matches : (\@Relational, \@Function_Call_But_0_1),
             implements : \@folder::"",
             map : \(|(args.\0) reduce args.\1),
-        ),
+        )),
 
-        has_any_attrs::Relational : \Function >:< (
+        has_any_attrs::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(@(args.\0) != ()),
-        ),
+        )),
 
-        nullary::Relational : \Function >:< (
+        nullary::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(args.\0 on ()),
-        ),
+        )),
 
-        is_unary::Relational : \Function >:< (
+        is_unary::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(is_unary @(args.\0)),
-        ),
+        )),
 
-        degree::Relational : \Function >:< (
+        degree::Relational : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Relational),
             implements : \@folder::"",
             map : \(degree @(args.\0)),
-        ),
+        )),
 
-        rename::Relational : \Function >:< (
+        rename::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Renaming),
             implements : \@folder::"",
             accepts : \(...),
             map : \(select_Relational::( like: args.\0, heading: @(args.\0) rename args.\1,
                 body: |(args.\0) map \rename::( 1: args.\1 ) )),
-        ),
+        )),
 
-        can_project_matching::Relational : \Function >:< (
+        can_project_matching::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             map : \(if args.\0 @? (args.\1)
                 then |(args.\0) all \(args.\0 %= @(args.\1) = (args.\1)) \<-- (1 : args.\1,)
                 else False),
-        ),
+        )),
 
-        on::Relational : \Function >:< (
+        on::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Heading),
             implements : \@folder::"",
             accepts : \(args.\0 @? (args.\1)),
             map : \(select_Relational::( like: args.\0, heading: @(args.\0) on args.\1,
                 body: |(args.\0) map \on::( 1: args.\1 ) )),
-        ),
+        )),
 
-        update::Relational : \Function >:< (
+        update::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             accepts : \(args.\0 @? (args.\1)),
             map : \(select_Relational::( like: args.\0, heading: @(args.\0),
                 body: |(args.\0) map \update::( 1: args.\1 ) )),
-        ),
+        )),
 
-        extend::Relational : \Function >:< (
+        extend::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             accepts : \(args.\0 disjoint_heading args.\1),
             map : \(select_Relational::( like: args.\0, heading: @(args.\0) extend args.\1,
                 body: |(args.\0) map \extend::( 1: args.\1 ) )),
-        ),
+        )),
 
-        body::"" : \Function >:< ( virtual : True, returns : \@Unionable, matches : (\@Relational) ),
+        body::"" : (\Function : ( virtual : True, returns : \@Unionable, matches : (\@Relational) )),
 
-        "|" : \Alias >:< ( of : \@body ),
+        "|" : (\Alias : ( of : \@body )),
 
-        select_Relational::"" : \Function >:< (
+        select_Relational::"" : (\Function : (
             virtual : True,
             returns : {\@Relational, \@Excuse::...},
             matches : (like : \@Relational, heading : \@Heading, body : \@Unionable),
-        ),
+        )),
 
 `#########################################################################`
 
-        Tuple_Array::"" : \Selection >:< (
+        Tuple_Array::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Tuple_Array, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Array::() ) then
@@ -3760,36 +3758,36 @@ script Unicode;;9.0;;UTF-8;
             ) )),
             default : \(~%@()),
             composes : {\@Relational, \@Positional},
-        ),
+        )),
 
-        Tuple_Array::D0C0 : \Constant >:< ( value : ~%@() ),
+        Tuple_Array::D0C0 : (\Constant : ( value : ~%@() )),
 
-        Tuple_Array::D0C1 : \Constant >:< ( value : ~%[()] ),
+        Tuple_Array::D0C1 : (\Constant : ( value : ~%[()] )),
 
-        heading::Tuple_Array : \Function >:< (
+        heading::Tuple_Array : (\Function : (
             returns : \@Heading,
             matches : (\@Tuple_Array),
             implements : \@folder::"",
             map : \(args.\0:>.\heading),
-        ),
+        )),
 
-        body::Tuple_Array : \Function >:< (
+        body::Tuple_Array : (\Function : (
             returns : \@Array,
             matches : (\@Tuple_Array),
             implements : \@folder::"",
             map : \(args.\0:>.\body),
-        ),
+        )),
 
-        select_Relational::Tuple_Array : \Function >:< (
+        select_Relational::Tuple_Array : (\Function : (
             returns : {\@Relational, \@Excuse::...},
             matches : (like : \@Tuple_Array, heading : \@Heading, body : \@Array),
             implements : \@folder::"",
             map : \(\Tuple_Array >:< (args %= \@(heading,body))),
-        ),
+        )),
 
 `#########################################################################`
 
-        Relation::"" : \Selection >:< (
+        Relation::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Relation, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Set::() ) then
@@ -3802,36 +3800,36 @@ script Unicode;;9.0;;UTF-8;
             ) )),
             default : \(?%@()),
             composes : {\@Relational and_provides_its_default, \@Discrete, \@Setty},
-        ),
+        )),
 
-        Relation::D0C0 : \Constant >:< ( value : ?%@() ),
+        Relation::D0C0 : (\Constant : ( value : ?%@() )),
 
-        Relation::D0C1 : \Constant >:< ( value : ?%{()} ),
+        Relation::D0C1 : (\Constant : ( value : ?%{()} )),
 
-        heading::Relation : \Function >:< (
+        heading::Relation : (\Function : (
             returns : \@Heading,
             matches : (\@Relation),
             implements : \@folder::"",
             map : \(args.\0:>.\heading),
-        ),
+        )),
 
-        body::Relation : \Function >:< (
+        body::Relation : (\Function : (
             returns : \@Set,
             matches : (\@Relation),
             implements : \@folder::"",
             map : \(args.\0:>.\body),
-        ),
+        )),
 
-        select_Relational::Relation : \Function >:< (
+        select_Relational::Relation : (\Function : (
             returns : {\@Relational, \@Excuse::...},
             matches : (like : \@Relation, heading : \@Heading, body : \@Set),
             implements : \@folder::"",
             map : \(\Relation >:< (args %= \@(heading,body))),
-        ),
+        )),
 
 `#########################################################################`
 
-        Tuple_Bag::"" : \Selection >:< (
+        Tuple_Bag::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Tuple_Bag, \(
                 if args.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then
@@ -3844,161 +3842,161 @@ script Unicode;;9.0;;UTF-8;
             ) )),
             default : \(+%@()),
             composes : {\@Relational, \@Discrete},
-        ),
+        )),
 
-        Tuple_Bag::D0C0 : \Constant >:< ( value : +%@() ),
+        Tuple_Bag::D0C0 : (\Constant : ( value : +%@() )),
 
-        Tuple_Bag::D0C1 : \Constant >:< ( value : +%{()} ),
+        Tuple_Bag::D0C1 : (\Constant : ( value : +%{()} )),
 
-        heading::Tuple_Bag : \Function >:< (
+        heading::Tuple_Bag : (\Function : (
             returns : \@Heading,
             matches : (\@Tuple_Bag),
             implements : \@folder::"",
             map : \(args.\0:>.\heading),
-        ),
+        )),
 
-        body::Tuple_Bag : \Function >:< (
+        body::Tuple_Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Tuple_Bag),
             implements : \@folder::"",
             map : \(args.\0:>.\body),
-        ),
+        )),
 
-        select_Relational::Tuple_Bag : \Function >:< (
+        select_Relational::Tuple_Bag : (\Function : (
             returns : {\@Relational, \@Excuse::...},
             matches : (like : \@Tuple_Bag, heading : \@Heading, body : \@Bag),
             implements : \@folder::"",
             map : \(\Tuple_Bag >:< (args %= \@(heading,body))),
-        ),
+        )),
 
 `#########################################################################`
 
-        Intervalish : \Interface >:< (
+        Intervalish : (\Interface : (
             composes : \@Homogeneous,
             requires_implements : {...},
-        ),
+        )),
 
 `#########################################################################`
 
-        Interval::"" : \Selection >:< (
+        Interval::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Interval, \Interval::Attrs() )),
             default : \((-∞)..(+∞)),
             composes : {\@Intervalish, \@Setty},
-        ),
+        )),
 
-        Interval::Attrs : \Selection >:< (
+        Interval::Attrs : (\Selection : (
             of : \@Tuple,
             where : \(...),
-        ),
+        )),
 
 `#########################################################################`
 
-        Unionable_Intervalish : \Interface >:< (
+        Unionable_Intervalish : (\Interface : (
             composes : {\@Intervalish, \@Unionable},
             requires_implements : {...},
-        ),
+        )),
 
 `#########################################################################`
 
-        Interval_Set : \Selection >:< (
+        Interval_Set : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Interval_Set,
                 \(if Interval_Bag args.\0 then all_unique args.\0 else False) )),
             default : ...,
             composes : {\@Unionable_Intervalish, \@Setty},
-        ),
+        )),
 
 `#########################################################################`
 
-        Interval_Bag : \Selection >:< (
+        Interval_Bag : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Interval_Bag, \(
                 if Tuple_Bag args.\0 then ... else False
             ) )),
             default : ...,
             composes : \@Unionable_Intervalish,
-        ),
+        )),
 
 `#########################################################################`
 
-        Quantitative : \Interface >:< (
+        Quantitative : (\Interface : (
             composes : \@Numerical,
             requires_implements : {...},
-        ),
+        )),
 
 `#########################################################################`
 
-        Quantity : \Selection >:< (
+        Quantity : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Quantity, \(
                 if Relation args.\0 then ... else False
             ) )),
             default : ...,
             composes : \@Quantitative,
-        ),
+        )),
 
 `#########################################################################`
 
-        Capsule : \Selection >:< (
+        Capsule : (\Selection : (
             where : \(args --> \foundation::is_a_Capsule::()),
-            default : False >:< False,
-        ),
+            default : (False : False),
+        )),
 
-        wrap : \Function >:< (
+        wrap : (\Function : (
             returns : \@Capsule,
             matches : (\@Any, \@Any),
             map : \(args --> \foundation::Capsule_wrap::()),
-        ),
+        )),
 
-        ">:<" : \Alias >:< ( of : \@wrap ),
+        ">:<" : (\Alias : ( of : \@wrap )),
 
-        wrapper : \Function >:< (
+        wrapper : (\Function : (
             returns : \@Any,
             matches : (\@Capsule),
             map : \(args --> \foundation::Capsule_wrapper::()),
-        ),
+        )),
 
-        "<:" : \Alias >:< ( of : \@wrapper ),
+        "<:" : (\Alias : ( of : \@wrapper )),
 
-        unwrap : \Function >:< (
+        unwrap : (\Function : (
             returns : \@Any,
             matches : (\@Capsule),
             map : \(args --> \foundation::Capsule_unwrap::()),
-        ),
+        )),
 
-        ":>" : \Alias >:< ( of : \@unwrap ),
+        ":>" : (\Alias : ( of : \@unwrap )),
 
-        has_wrapped : \Function >:< (
+        has_wrapped : (\Function : (
             returns : \@Boolean,
             matches : (\@Capsule, \@Any, \@Signature),
             map : \(<:(args.\0) = (args.\1) and
                 (args.\0:>,) --> Signature_to_Function_Call_But_0::(args.\2)),
-        ),
+        )),
 
 `#########################################################################`
 
-        Reference::"" : \Selection >:< (
+        Reference::"" : (\Selection : (
             where : \(args --> \foundation::is_a_Reference::()),
             default : () --> \foundation::default_Reference::(),
-        ),
+        )),
 
 `#########################################################################`
 
-        External::"" : \Selection >:< (
+        External::"" : (\Selection : (
             where : \(args --> \foundation::is_a_External::()),
             default : () --> \foundation::default_External::(),
-        ),
+        )),
 
-        External::call_function : \Function >:< (
+        External::call_function : (\Function : (
             returns : \@Any,
             matches : (\@Any),
             map : \(\foundation::External_call_function::() <-- args),
-        ),
+        )),
 
 `#########################################################################`
 
-        Source_Code::Package : \Selection >:< (
+        Source_Code::Package : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Package, \(
                 args.\0 is_a (
@@ -4011,9 +4009,9 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Package::Identity : \Selection >:< (
+        Source_Code::Package::Identity : (\Selection : (
             of : \@Tuple,
             where : \(
                 args.\0 is_a (
@@ -4022,9 +4020,9 @@ script Unicode;;9.0;;UTF-8;
                     version_number : \Package::Canon_Version_Number::(),
                 )
             ),
-        ),
+        )),
 
-        Source_Code::Package::Foundation : \Selection >:< (
+        Source_Code::Package::Foundation : (\Selection : (
             of : \@Tuple,
             where : \(
                 args.\0 is_a (
@@ -4032,29 +4030,29 @@ script Unicode;;9.0;;UTF-8;
                     version_number : \Package::Canon_Version_Number::(),
                 )
             ),
-        ),
+        )),
 
-        Source_Code::Package::Base_Name : \Selection >:< (
+        Source_Code::Package::Base_Name : (\Selection : (
             of : \@Attr_Name_List,
             where : \(?(args.\0) and args.\0 ∌ \""),
-        ),
+        )),
 
-        Source_Code::Package::Canon_Authority : \Alias >:< (
+        Source_Code::Package::Canon_Authority : (\Alias : (
             of : \@Attr_Name,
             where : \(args.\0 != \""),
-        ),
+        )),
 
-        Source_Code::Package::Canon_Version_Number : \Selection >:< (
+        Source_Code::Package::Canon_Version_Number : (\Selection : (
             of : \@String,
             where : \(?(args.\0)),
-        ),
+        )),
 
-        Source_Code::Package::Uses_Map : \Selection >:< (
+        Source_Code::Package::Uses_Map : (\Selection : (
             of : \@Tuple,
             where : \(args.\0 .!? \"" and args.\0 all_attr_assets \Package::Uses_Item::()),
-        ),
+        )),
 
-        Source_Code::Package::Uses_Item : \Selection >:< (
+        Source_Code::Package::Uses_Item : (\Selection : (
             of : \@Tuple,
             where : \(
                 args.\0 is_a (
@@ -4063,32 +4061,32 @@ script Unicode;;9.0;;UTF-8;
                     version_number : \Package::Canon_Version_Number::(),
                 )
             ),
-        ),
+        )),
 
-        Source_Code::Package::Entry_Point : \Selection >:< ( of : \@Absolute_Name ),
+        Source_Code::Package::Entry_Point : (\Selection : ( of : \@Absolute_Name )),
 
-        Source_Code::Package::Floating : \Selection >:< (
+        Source_Code::Package::Floating : (\Selection : (
             of : \@Set,
             where : \(args.\0 all \Absolute_Name::()),
-        ),
+        )),
 
-        Source_Code::Package::Folder : \Selection >:< (
+        Source_Code::Package::Folder : (\Selection : (
             of : \@Tuple,
             where : \(args.\0 all_attr_assets {\Package::Folder::(), \Material::()}),
-        ),
+        )),
 
-        Source_Code::Material : \Selection >:< (
+        Source_Code::Material : (\Selection : (
             union : {\@Alias, \@Constant, \@Selection, \@Interface, \@Function, \@Procedure},
             default : ...,
-        ),
+        )),
 
-        Source_Code::Alias : \Selection >:< (
+        Source_Code::Alias : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Alias, \Identity_Identifier::() )),
             default : \(\Alias >:< Identity_Identifier::()),
-        ),
+        )),
 
-        Source_Code::Constant : \Selection >:< (
+        Source_Code::Constant : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Constant, \(
                 args.\0 is_a (
@@ -4098,9 +4096,9 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Selection : \Selection >:< (
+        Source_Code::Selection : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Selection, \(
                 args.\0 is_a (
@@ -4111,9 +4109,9 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Interface : \Selection >:< (
+        Source_Code::Interface : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Interface, \(
                 args.\0 is_a (
@@ -4122,9 +4120,9 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Function : \Selection >:< (
+        Source_Code::Function : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Function, \(
                 args.\0 is_a (
@@ -4146,9 +4144,9 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Function_Body : \Selection >:< (
+        Source_Code::Function_Body : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Function_Body, \(
                 args.\0 is_a (
@@ -4157,9 +4155,9 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Procedure : \Selection >:< (
+        Source_Code::Procedure : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Procedure, \(
                 args.\0 is_a (
@@ -4175,9 +4173,9 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Procedure_Body : \Selection >:< (
+        Source_Code::Procedure_Body : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Procedure_Body, \(
                 args.\0 is_a (
@@ -4187,39 +4185,39 @@ script Unicode;;9.0;;UTF-8;
                 )
             ) )),
             default : ...,
-        ),
+        )),
 
-        Source_Code::Signature::"" : \Selection >:< (
+        Source_Code::Signature::"" : (\Selection : (
             union : {\@Function_Call_But_0, \@folder::Set, \@folder::Tuple},
             default : \Any::(),
-        ),
+        )),
 
-        Source_Code::Signature::Set : \Selection >:< (
+        Source_Code::Signature::Set : (\Selection : (
             of : \@Set,
             where : \(args.\0 all \Signature::()),
-        ),
+        )),
 
-        Source_Code::Signature::Tuple : \Selection >:< (
+        Source_Code::Signature::Tuple : (\Selection : (
             of : \@Tuple,
             where : \(args.\0 all_attr_assets \Signature::()),
-        ),
+        )),
 
-        Source_Code::Heading : \Selection >:< (
+        Source_Code::Heading : (\Selection : (
             of : \@Tuple,
             where : \(args.\0 all_attr_assets \False::()),
-        ),
+        )),
 
-        Source_Code::Attr_Name : \Selection >:< (
+        Source_Code::Attr_Name : (\Selection : (
             of : \@Heading,
             where : \(is_unary args.\0),
-        ),
+        )),
 
-        Source_Code::Attr_Name_List : \Selection >:< (
+        Source_Code::Attr_Name_List : (\Selection : (
             of : \@Array,
             where : \(args.\0 all \Attr_Name::()),
-        ),
+        )),
 
-        Source_Code::Local_Name : \Selection >:< (
+        Source_Code::Local_Name : (\Selection : (
             of : \@Attr_Name_List,
             where : \(
                 if ?(args.\0) then
@@ -4234,43 +4232,43 @@ script Unicode;;9.0;;UTF-8;
                 else
                     False
             ),
-        ),
+        )),
 
-        Source_Code::Absolute_Name : \Selection >:< (
+        Source_Code::Absolute_Name : (\Selection : (
             of : \@Local_Name,
             where : \(args.\0.0 ⊆@ \@(foundation,used,package)),
-        ),
+        )),
 
-        Source_Code::Named_Expr_List : \Selection >:< (
+        Source_Code::Named_Expr_List : (\Selection : (
             of : \@Tuple,
             where : \(args.\0 .!? \"" and args.\0 all_attr_assets \Expression::()),
-        ),
+        )),
 
-        Source_Code::Expression : \Selection >:< (
+        Source_Code::Expression : (\Selection : (
             union : {\@Expr_Name_Expr, \@Naming_Expr, \@Annotating_Expr
                 , ...
                 , \@delimiting_expr, \@source_expr
                 , \@opaque_literal_expr, \@collection_selector_expr
                 , \@invocation_expr, \@conditional_expr, \@fail_expr, ...},
             default : ...,
-        ),
+        )),
 
-        Source_Code::Named_Stmt_List : \Selection >:< (
+        Source_Code::Named_Stmt_List : (\Selection : (
             of : \@Tuple,
             where : \(args.\0 .!? \"" and args.\0 all_attr_assets \Statement::()),
-        ),
+        )),
 
-        Source_Code::Statement : \Selection >:< (
+        Source_Code::Statement : (\Selection : (
             union : {...},
             default : ...,
-        ),
+        )),
 
-        Source_Code::Key_Asset_Pair : \Selection >:< (
+        Source_Code::Key_Asset_Pair : (\Selection : (
             of : \@Tuple,
             where : \(@(args.\0) = \@(key,asset)),
-        ),
+        )),
 
-        Source_Code::Signature_to_Function_Call_But_0 : \Function >:< (
+        Source_Code::Signature_to_Function_Call_But_0 : (\Function : (
             returns : \@Function_Call_But_0,
             matches : (\@Signature),
             map : \(
@@ -4293,20 +4291,20 @@ script Unicode;;9.0;;UTF-8;
                 else
                     fail  `We should never get here.`
             ),
-        ),
+        )),
 
 `#########################################################################`
 
-        Source_Code::Annotation::"" : \Interface >:< (),
+        Source_Code::Annotation::"" : (\Interface : ()),
 
 `#########################################################################`
 
-        Source_Code::Decoration::"" : \Interface >:< (),
+        Source_Code::Decoration::"" : (\Interface : ()),
 
 `#########################################################################`
 
     ),
-);
+));
 
 `#########################################################################`
 `#########################################################################`
