@@ -79,13 +79,9 @@ meta script 'Unicode 9.0 UTF-8'
             requires_implements : in_order,
         )),
 
-        Orderable::Neg_Inf : (\Constant : ( composes : {\@Orderable, \@Excuse} )),
+        Excuse::Before_All_Others : (\Constant : ( composes : {\@Excuse, \@Orderable} )),
 
-        Unicode_Aliases::"-∞" : (\Alias : ( of : \@Orderable::Neg_Inf )),
-
-        Orderable::Pos_Inf : (\Constant : ( composes : {\@Orderable, \@Excuse} )),
-
-        Unicode_Aliases::"+∞" : (\Alias : ( of : \@Orderable::Pos_Inf )),
+        Excuse::After_All_Others : (\Constant : ( composes : {\@Excuse, \@Orderable} )),
 
         in_order::"" : (\Function : (
             virtual : True,
@@ -93,30 +89,30 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Orderable, \@Orderable),
         )),
 
-        in_order::Neg_Inf_L : (\Function : (
+        in_order::Before_All_Others_L : (\Function : (
             returns : \@Boolean,
-            matches : (\@Orderable::Neg_Inf, \@Orderable),
+            matches : (\@Excuse::Before_All_Others, \@Orderable),
             implements : \@folder::"",
             map : \(True),
         )),
 
-        in_order::Neg_Inf_R : (\Function : (
+        in_order::Before_All_Others_R : (\Function : (
             returns : \@Boolean,
-            matches : (\@Orderable, \@Orderable::Neg_Inf),
+            matches : (\@Orderable, \@Excuse::Before_All_Others),
             implements : \@folder::"",
             map : \(args.\0 = (args.\1)),
         )),
 
-        in_order::Pos_Inf_L : (\Function : (
+        in_order::After_All_Others_L : (\Function : (
             returns : \@Boolean,
-            matches : (\@Orderable::Pos_Inf, \@Orderable),
+            matches : (\@Excuse::After_All_Others, \@Orderable),
             implements : \@folder::"",
             map : \(args.\0 = (args.\1)),
         )),
 
-        in_order::Pos_Inf_R : (\Function : (
+        in_order::After_All_Others_R : (\Function : (
             returns : \@Boolean,
-            matches : (\@Orderable, \@Orderable::Pos_Inf),
+            matches : (\@Orderable, \@Excuse::After_All_Others),
             implements : \@folder::"",
             map : \(True),
         )),
@@ -147,7 +143,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            identity : \(+∞),
+            identity : \(Excuse::After_All_Others()),
             map : \(args.\0 in_order args.\1 :? args.\0 :! args.\1),
         )),
 
@@ -157,7 +153,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            identity : \(-∞),
+            identity : \(Excuse::Before_All_Others()),
             map : \(args.\0 in_order args.\1 :? args.\1 :! args.\0),
         )),
 
@@ -177,14 +173,14 @@ meta script 'Unicode 9.0 UTF-8'
         asset::"" : (\Function : ( virtual : True, returns : \@Any, matches : (\@Successable) )),
 
         succ : (\Function : (
-            returns : {\@Successable, \@Orderable::Pos_Inf},
+            returns : {\@Successable, \@Excuse::After_All_Others},
             matches : (\@Successable),
             map : \(args.\0 nth_succ 1),
         )),
 
         nth_succ::"" : (\Function : (
             virtual : True,
-            returns : {\@Successable, \@Orderable::Pos_Inf},
+            returns : {\@Successable, \@Excuse::After_All_Others},
             matches : (\@Successable, \@Integer::NN),
         )),
 
@@ -197,14 +193,14 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         pred : (\Function : (
-            returns : {\@Bicessable, \@Orderable::Neg_Inf},
+            returns : {\@Bicessable, \@Excuse::Before_All_Others},
             matches : (\@Bicessable),
             map : \(args.\0 nth_pred 1),
         )),
 
         nth_pred::"" : (\Function : (
             virtual : True,
-            returns : {\@Bicessable, \@Orderable::Neg_Inf},
+            returns : {\@Bicessable, \@Excuse::Before_All_Others},
             matches : (\@Bicessable, \@Integer::NN),
         )),
 
@@ -252,17 +248,17 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         nth_pred::Boolean : (\Function : (
-            returns : {\@False, \@Orderable::Neg_Inf},
+            returns : {\@False, \@Excuse::Before_All_Others},
             matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! -∞),
+            map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! Excuse::Before_All_Others()),
         )),
 
         nth_succ::Boolean : (\Function : (
-            returns : {\@True, \@Orderable::Pos_Inf},
+            returns : {\@True, \@Excuse::After_All_Others},
             matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! +∞),
+            map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! Excuse::After_All_Others()),
         )),
 
         to_Boolean::Boolean : (\Function : (
@@ -563,13 +559,13 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         "--" : (\Function : (
-            returns : {\@Integral, \@Orderable::Neg_Inf},
+            returns : {\@Integral, \@Excuse::Before_All_Others},
             matches : (\@Integral),
             map : \(pred args.\0),
         )),
 
         "++" : (\Function : (
-            returns : {\@Integral, \@Orderable::Pos_Inf},
+            returns : {\@Integral, \@Excuse::After_All_Others},
             matches : (\@Integral),
             map : \(succ args.\0),
         )),
@@ -1992,10 +1988,10 @@ meta script 'Unicode 9.0 UTF-8'
                 ,to_Set,to_Bag,count,order_using
                 ,at
                 ,to_Array
-                ,first_possible_index,slice_n,index_succ_all_matches,...},
+                ,first_possible_ord_pos,slice_n,ord_pos_succ_all_matches,...},
         )),
 
-        Excuse::No_Such_Index : (\Constant : ( composes : \@Excuse )),
+        Excuse::No_Such_Ord_Pos : (\Constant : ( composes : \@Excuse )),
 
         singular::Positional : (\Function : (
             returns : \@Boolean,
@@ -2062,8 +2058,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            map : \(args.\1 >= first_possible_index::(args.\0)
-                and args.\1 < first_unused_index::(args.\0)),
+            map : \(args.\1 >= first_possible_ord_pos::(args.\0)
+                and args.\1 < first_unused_ord_pos::(args.\0)),
         )),
 
         has_mapping_at::Positional : (\Function : (
@@ -2085,7 +2081,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Any,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            map : \(if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Index()),
+            map : \(if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Ord_Pos()),
         )),
 
         replace_at::Positional : (\Function : (
@@ -2097,8 +2093,8 @@ meta script 'Unicode 9.0 UTF-8'
                 src ::= args.\0;
                 ri ::= args.\1.\0;
                 repl_member ::= args.\1.\1;
-                fi ::= first_index src;
-                li ::= last_index src;
+                fi ::= first_ord_pos src;
+                li ::= last_ord_pos src;
                 emp ::= empty src;
                 returns (if ri > fi then slice_range::(src, fi, --ri) else emp)
                     insert repl_member
@@ -2110,7 +2106,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
-            accepts : \(args.\1.\0 = first_unused_index::(args.\0)),
+            accepts : \(args.\1.\0 = first_unused_ord_pos::(args.\0)),
             map : \(args.\0 insert args.\1.\1),
         )),
 
@@ -2118,8 +2114,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Positional,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            accepts : \(args.\1 >= first_possible_index::(args.\0)
-                and args.\1 = --first_unused_index::(args.\0)),
+            accepts : \(args.\1 >= first_possible_ord_pos::(args.\0)
+                and args.\1 = --first_unused_ord_pos::(args.\0)),
             map : \(nonlast args.\0),
         )),
 
@@ -2127,8 +2123,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
-            accepts : \(args.\1 >= first_possible_index::(args.\0)
-                and args.\1 <= first_unused_index::(args.\0)),
+            accepts : \(args.\1 >= first_possible_ord_pos::(args.\0)
+                and args.\1 <= first_unused_ord_pos::(args.\0)),
             map : \(if args.\0 .? (args.\1.\0) then args.\0 .:= (args.\1.\0) else args.\0 .+ (args.\1.\0)),
         )),
 
@@ -2136,9 +2132,9 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Positional,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            accepts : \(args.\1 >= first_possible_index::(args.\0)
-                and args.\1 >= --first_unused_index::(args.\0)),
-            map : \(if args.\1 = --first_unused_index::(args.\0) then nonlast args.\0 else args.\0),
+            accepts : \(args.\1 >= first_possible_ord_pos::(args.\0)
+                and args.\1 >= --first_unused_ord_pos::(args.\0)),
+            map : \(if args.\1 = --first_unused_ord_pos::(args.\0) then nonlast args.\0 else args.\0),
         )),
 
         to_Array::"" : (\Function : ( virtual : True, returns : \@Array, matches : (\@Positional) )),
@@ -2152,45 +2148,45 @@ meta script 'Unicode 9.0 UTF-8'
                 pipe nest map \(args.\0.\group)),
         )),
 
-        first_possible_index::"" : (\Function : (
+        first_possible_ord_pos::"" : (\Function : (
             virtual : True,
             returns : \@Integer,
             matches : (\@Positional),
         )),
 
-        first_unused_index : (\Function : (
+        first_unused_ord_pos : (\Function : (
             returns : \@Integer,
             matches : (\@Positional),
-            map : \(first_possible_index::(args.\0) + #(args.\0)),
+            map : \(first_possible_ord_pos::(args.\0) + #(args.\0)),
         )),
 
-        first_index : (\Function : (
+        first_ord_pos : (\Function : (
             returns : \@Integer,
             matches : (\@Positional),
             accepts : \(so args.\0),
-            map : \(first_possible_index::(args.\0)),
+            map : \(first_possible_ord_pos::(args.\0)),
         )),
 
-        last_index : (\Function : (
+        last_ord_pos : (\Function : (
             returns : \@Integer,
             matches : (\@Positional),
             accepts : \(so args.\0),
-            map : \(--first_unused_index::(args.\0)),
+            map : \(--first_unused_ord_pos::(args.\0)),
         )),
 
         slice_n::"" : (\Function : (
             virtual : True,
             returns : \@Positional,
             matches : (\@Positional, \@Integer, \@NN_Integer),
-            accepts : \(args.\1 >= first_possible_index::(args.\0)
-                and args.\1 + (args.\2) <= first_unused_index::(args.\0)),
+            accepts : \(args.\1 >= first_possible_ord_pos::(args.\0)
+                and args.\1 + (args.\2) <= first_unused_ord_pos::(args.\0)),
         )),
 
         slice_range : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Integer, \@Integer),
-            accepts : \(so args.\0 and args.\1 >= first_possible_index::(args.\0)
-                and args.\2 < first_unused_index::(args.\0)),
+            accepts : \(so args.\0 and args.\1 >= first_possible_ord_pos::(args.\0)
+                and args.\2 < first_unused_ord_pos::(args.\0)),
             map : \(slice_n::(args.\0, args.\1, (args.\2) - (args.\1) + 1)),
         )),
 
@@ -2198,31 +2194,31 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Any,
             matches : (\@Positional),
             accepts : \(so args.\0),
-            map : \(args.\0 . first_index::(args.\0)),
+            map : \(args.\0 . first_ord_pos::(args.\0)),
         )),
 
         nonfirst : (\Function : (
             returns : \@Positional,
             matches : (\@Positional),
             accepts : \(so args.\0),
-            map : \(slice_range::(args.\0, ++first_index::(args.\0), last_index::(args.\0))),
+            map : \(slice_range::(args.\0, ++first_ord_pos::(args.\0), last_ord_pos::(args.\0))),
         )),
 
         last : (\Function : (
             returns : \@Any,
             matches : (\@Positional),
             accepts : \(so args.\0),
-            map : \(args.\0 . last_index::(args.\0)),
+            map : \(args.\0 . last_ord_pos::(args.\0)),
         )),
 
         nonlast : (\Function : (
             returns : \@Positional,
             matches : (\@Positional),
             accepts : \(so args.\0),
-            map : \(slice_range::(args.\0, first_index::(args.\0), --last_index::(args.\0))),
+            map : \(slice_range::(args.\0, first_ord_pos::(args.\0), --last_ord_pos::(args.\0))),
         )),
 
-        index_succ_all_matches::"" : (\Function : (
+        ord_pos_succ_all_matches::"" : (\Function : (
             virtual : True,
             returns : \@Integer,
             matches : (\@Positional, \@Positional),
@@ -2248,7 +2244,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             map : \(
-                i ::= args.\0 index_succ_all_matches args.\1;
+                i ::= args.\0 ord_pos_succ_all_matches args.\1;
               returns
                 if not args.\0 .? i then
                     e1 ::= True
@@ -2479,7 +2475,7 @@ meta script 'Unicode 9.0 UTF-8'
             map : \(args.\0),
         )),
 
-        first_possible_index::Array : (\Function : (
+        first_possible_ord_pos::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array),
             implements : \@folder::"",
@@ -2494,12 +2490,12 @@ meta script 'Unicode 9.0 UTF-8'
             map : \(args --> \foundation::Array_slice_n::()),
         )),
 
-        index_succ_all_matches::Array : (\Function : (
+        ord_pos_succ_all_matches::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args --> \foundation::Array_index_succ_all_matches::()),
+            map : \(args --> \foundation::Array_ord_pos_succ_all_matches::()),
         )),
 
 `#########################################################################`
@@ -3881,7 +3877,7 @@ meta script 'Unicode 9.0 UTF-8'
         Interval::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Interval, \Interval::Attrs() )),
-            default : \((-∞)..(+∞)),
+            default : \(Excuse::Before_All_Others()..Excuse::After_All_Others()),
             composes : {\@Intervalish, \@Setty},
         )),
 
