@@ -60,7 +60,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Any, \@Any),
             is_associative : True,
             is_idempotent : True,
-            map : \(Excuse args.\0 :? args.\1 :! args.\0),
+            map : \(if Excuse args.\0 then args.\1 else args.\0),
         )),
 
         coalesce : (\Alias : ( of : \@or_else )),
@@ -70,7 +70,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Any, \@Any),
             is_associative : True,
             is_idempotent : True,
-            map : \(Excuse args.\0 :? args.\0 :! args.\1),
+            map : \(if Excuse args.\0 then args.\0 else args.\1),
         )),
 
 `#########################################################################`
@@ -144,7 +144,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : \(Excuse::After_All_Others()),
-            map : \(args.\0 in_order args.\1 :? args.\0 :! args.\1),
+            map : \(if args.\0 in_order args.\1 then args.\0 else args.\1),
         )),
 
         max : (\Function : (
@@ -154,14 +154,14 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : \(Excuse::Before_All_Others()),
-            map : \(args.\0 in_order args.\1 :? args.\1 :! args.\0),
+            map : \(if args.\0 in_order args.\1 then args.\1 else args.\0),
         )),
 
         minmax : (\Function : (
             returns : (\@Orderable, \@Orderable),
             matches : (\@Orderable, \@Orderable),
             is_commutative : True,
-            map : \(args.\0 in_order args.\1 :? args :! (args.\1, args.\0)),
+            map : \(if args.\0 in_order args.\1 then args else (args.\1, args.\0)),
         )),
 
 `#########################################################################`
@@ -251,14 +251,14 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@False, \@Excuse::Before_All_Others},
             matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and args.\0 :? False :! Excuse::Before_All_Others()),
+            map : \(if args.\1 = 0 then args.\0 else if args.\1 = 1 and args.\0 then False else Excuse::Before_All_Others()),
         )),
 
         nth_succ::Boolean : (\Function : (
             returns : {\@True, \@Excuse::After_All_Others},
             matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args.\1 = 0 :? args.\0 :! args.\1 = 1 and !(args.\0) :? True :! Excuse::After_All_Others()),
+            map : \(if args.\1 = 0 then args.\0 else if args.\1 = 1 and !(args.\0) then True else Excuse::After_All_Others()),
         )),
 
         to_Boolean::Boolean : (\Function : (
@@ -281,7 +281,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : True,
-            map : \(args.\0 :? args.\1 :! False),
+            map : \(if args.\0 then args.\1 else False),
         )),
 
         Unicode_Aliases::"∧" : (\Alias : ( of : \@and )),
@@ -303,7 +303,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : False,
-            map : \(args.\0 :? True :! args.\1),
+            map : \(if args.\0 then True else args.\1),
         )),
 
         Unicode_Aliases::"∨" : (\Alias : ( of : \@or )),
@@ -344,7 +344,7 @@ meta script 'Unicode 9.0 UTF-8'
         imp : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
-            map : \(args.\0 :? args.\1 :! True),
+            map : \(if args.\0 then args.\1 else True),
         )),
 
         implies : (\Alias : ( of : \@imp )),
@@ -438,7 +438,7 @@ meta script 'Unicode 9.0 UTF-8'
         "-" : (\Function : (
             returns : \@Numerical,
             matches : {(Numerical), (Numerical, Numerical)},
-            map : \(args --> (degree::(args) = 1 :? \opposite::() :! \minus::())),
+            map : \(args --> (if degree::(args) = 1 then \opposite::() else \minus::())),
         )),
 
         Unicode_Aliases::"−" : (\Alias : ( of : "-" )),
@@ -728,8 +728,8 @@ meta script 'Unicode 9.0 UTF-8'
                 returns if d = 0 then Excuse::Div_By_Zero() else guard q;
 
                 q ::= \Fraction >:< (
-                    numerator   : div::((d > 0 :? n :! -n), gcd, To_Zero::()),
-                    denominator : div::((d > 0 :? d :! -d), gcd, To_Zero::()),
+                    numerator   : div::((if d > 0 then n else -n), gcd, To_Zero::()),
+                    denominator : div::((if d > 0 then d else -d), gcd, To_Zero::()),
                 );
 
                 gcd ::= gcd::(abs::(n), abs::(d));
@@ -749,11 +749,11 @@ meta script 'Unicode 9.0 UTF-8'
 
                 e1 ::?= 'This is the case where we are dividing by a non-zero.';
 
-                e1 ::= dividend = 0       :? 0
-                    :! divisor  = 1       :? dividend
-                    :! dividend = divisor :? 1
-                    :! divisor  = -1      :? -dividend
-                    :!                       e2
+                e1 ::=   if dividend = 0       then 0
+                    else if divisor  = 1       then dividend
+                    else if dividend = divisor then 1
+                    else if divisor  = -1      then -dividend
+                    else                            e2
                 ;
 
                 e2 ::?= 'This is the case where the divisor and dividend do not'
@@ -765,7 +765,7 @@ meta script 'Unicode 9.0 UTF-8'
                         <-- (dividend, divisor);
                     rtz_remainder ::= dividend - (divisor * rtz_quotient);
 
-                    returns rtz_remainder = 0 :? rtz_quotient :! e3;
+                    returns if rtz_remainder = 0 then rtz_quotient else e3;
                 );
 
                 e3 ::?= 'This is the case where the divisor does not divide the'
@@ -773,19 +773,19 @@ meta script 'Unicode 9.0 UTF-8'
                     ' have a fractional part, so we decide how to round that.';
 
                 e3 ::= (
-                    rti_quotient ::= rtz_quotient + (real_q_is_neg :? -1 :! 1);
-                    rdn_quotient ::= rtz_quotient + (real_q_is_neg :? -1 :! 0);
-                    rup_quotient ::= rtz_quotient + (real_q_is_neg :?  0 :! 1);
+                    rti_quotient ::= rtz_quotient + (if real_q_is_neg then -1 else 1);
+                    rdn_quotient ::= rtz_quotient + (if real_q_is_neg then -1 else 0);
+                    rup_quotient ::= rtz_quotient + (if real_q_is_neg then  0 else 1);
 
-                    returns round_meth :?? {
-                        Down::()    : rdn_quotient,
-                        Up::()      : rup_quotient,
-                        To_Zero::() : rtz_quotient,
-                        To_Inf::()  : rti_quotient,
-                    } :!!
-                           (2 * abs::(rtz_remainder)) < abs::(divisor) :? rtz_quotient
-                        :! (2 * abs::(rtz_remainder)) > abs::(divisor) :? rti_quotient
-                        :! e4
+                    returns given round_meth
+                        when Down::()    then rdn_quotient
+                        when Up::()      then rup_quotient
+                        when To_Zero::() then rtz_quotient
+                        when To_Inf::()  then rti_quotient
+                        default
+                                 if (2 * abs::(rtz_remainder)) < abs::(divisor) then rtz_quotient
+                            else if (2 * abs::(rtz_remainder)) > abs::(divisor) then rti_quotient
+                            else e4
                     ;
                 );
 
@@ -797,16 +797,17 @@ meta script 'Unicode 9.0 UTF-8'
                     r ::= abs::(rtz_quotient) - (2 * q);
                     rtz_quotient_is_even ::= r = 0;
 
-                    returns round_meth :?? {
-                        Half_Down::()    : rdn_quotient,
-                        Half_Up::()      : rup_quotient,
-                        Half_To_Zero::() : rtz_quotient,
-                        Half_To_Inf::()  : rti_quotient,
-                        Half_Even::()    :
-                          (rtz_quotient_is_even :? rtz_quotient :! rti_quotient),
-                        Half_Odd::()     :
-                          (rtz_quotient_is_even :? rti_quotient :! rtz_quotient),
-                    } :!! fail  `oops, an unhandled case`
+                    returns given round_meth
+                        when Half_Down::()    then rdn_quotient
+                        when Half_Up::()      then rup_quotient
+                        when Half_To_Zero::() then rtz_quotient
+                        when Half_To_Inf::()  then rti_quotient
+                        when Half_Even::()    then
+                            (if rtz_quotient_is_even then rtz_quotient else rti_quotient)
+                        when Half_Odd::()     then
+                            (if rtz_quotient_is_even then rti_quotient else rtz_quotient)
+                        default fail  `oops, an unhandled case`
+                    ;
                 );
             ),
         )),
@@ -892,9 +893,9 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             map : \(
-                <-- (denominator args.\0) = (denominator args.\1)
-                    :? in_order::(numerator args.\0, numerator args.\1)
-                 :!
+                <-- if(denominator args.\0) = (denominator args.\1)
+                    then in_order::(numerator args.\0, numerator args.\1)
+                 else
                   (
                     common_d ::= lcm::(denominator args.\0, denominator args.\1);
                     returns in_order::(
@@ -950,9 +951,9 @@ meta script 'Unicode 9.0 UTF-8'
             identity : 0.0,
             repeater : times::Fraction_Integer,
             map : \(
-                <-- (denominator args.\0) = (denominator args.\1)
-                    :? (numerator args.\0) + (numerator args.\1) / (denominator args.\0)
-                 :!
+                <-- if (denominator args.\0) = (denominator args.\1)
+                    then (numerator args.\0) + (numerator args.\1) / (denominator args.\0)
+                 else
                   (
                     common_d ::= lcm::(denominator args.\0, denominator args.\1);
                     returns ((numerator args.\0) * div::(common_d, denominator args.\0, To_Zero::()))
@@ -1022,7 +1023,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Integer),
             implements : \@folder::"",
             map : \(\integral_nn_power::()
-                <-- (args.\1 >= 0 :? args :! (reciprocal::(args.\0), -(args.\1)))),
+                <-- (if args.\1 >= 0 then args else (reciprocal::(args.\0), -(args.\1)))),
         )),
 
         integral_nn_power::Fraction : (\Function : (
@@ -1532,11 +1533,11 @@ meta script 'Unicode 9.0 UTF-8'
                             src_octets where \in::( 1: 0..127 )
                         when 1 then guard
                             src_octets
-                                map \(args.\0 in 0..127 :? args.\0 :! args.\1)
+                                map \(if args.\0 in 0..127 then args.\0 else args.\1)
                                     \<-- (1 : repl_chars.0,)
                         default
                             src_octets
-                                map \(args.\0 in 0..127 :? [args.\0] :! args.\1)
+                                map \(if args.\0 in 0..127 then [args.\0] else args.\1)
                                     \<-- (1 : repl_chars,)
                                 reduce \catenate::()
                     ;
@@ -2615,8 +2616,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Set,
             matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            map : \(args.\0 has args.\1 or args.\2 = 0 :? args.\0
-                :! \Set >:< insert_n::(args.\0:>, args.\1, 1)),
+            map : \(if args.\0 has args.\1 or args.\2 = 0 then args.\0
+                else \Set >:< insert_n::(args.\0:>, args.\1, 1)),
         )),
 
         remove_n::Set : (\Function : (
@@ -4217,14 +4218,14 @@ meta script 'Unicode 9.0 UTF-8'
             of : \@Attr_Name_List,
             where : \(
                 if so args.\0 then guard
-                    args.\0.0 :?? {
-                        \foundation : #(args.\0) = 2,
-                        \used       : #(args.\0) ≥ 2,  `elem 2 is pkg local alias`
-                        \package    : #(args.\0) ≥ 1,
-                        \folder     : #(args.\0) ≥ 1,
-                        \material   : #(args.\0) = 1,
-                        \floating   : #(args.\0) ≥ 2,
-                    } :!! False
+                    given args.\0.0
+                        when \foundation then #(args.\0) = 2
+                        when \used       then #(args.\0) ≥ 2  `elem 2 is pkg local alias`
+                        when \package    then #(args.\0) ≥ 1
+                        when \folder     then #(args.\0) ≥ 1
+                        when \material   then #(args.\0) = 1
+                        when \floating   then #(args.\0) ≥ 2
+                        default False
                 else
                     False
             ),
@@ -4284,7 +4285,7 @@ meta script 'Unicode 9.0 UTF-8'
                         else
                             False
                     ) \<-- (1 : args.\0)
-                else guard
+                else
                     fail  `We should never get here.`
             ),
         )),
