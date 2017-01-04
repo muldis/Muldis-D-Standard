@@ -478,7 +478,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Numerical, \@Excuse::Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
             map : \(if is_zero args.\1 then Excuse::Div_By_Zero()
-                else args.\1 * (args.\0 div args.\1)),
+                else guard args.\1 * (args.\0 div args.\1)),
         )),
 
         round : (\Alias : ( of : \@nearest_multiple_of )),
@@ -506,7 +506,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Numerical, \@Excuse::Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
             map : \(if is_zero args.\1 then Excuse::Div_By_Zero()
-                else args.\0 - (args.\0 nearest_multiple_of args.\1)),
+                else guard args.\0 - (args.\0 nearest_multiple_of args.\1)),
         )),
 
         mod : (\Alias : ( of : \@modulo )),
@@ -580,7 +580,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            map : \((if is_zero args.\1 then args.\0 else material::(args.\1, mod::(args.\0, args.\1, To_Zero::())))
+            map : \((if is_zero args.\1 then args.\0 else guard material::(args.\1, mod::(args.\0, args.\1, To_Zero::())))
                 ::?= 'Calculate using the Euclidean algorithm.'),
         )),
 
@@ -593,7 +593,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             map : \(if is_zero args.\0 or is_zero args.\1 then zero args.\0
-                else div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::())),
+                else guard div::(args.\0 * (args.\1), args.\0 gcd args.\1, To_Zero::())),
         )),
 
         least_common_multiple : (\Alias : ( of : \@lcm )),
@@ -714,7 +714,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(if args.\1 = 0 then Excuse::Div_By_Zero()
-                else args --> \foundation::Integer_multiple_of::()),
+                else guard args --> \foundation::Integer_multiple_of::()),
         )),
 
         fractional_divided_by::Integer : (\Function : (
@@ -725,7 +725,7 @@ meta script 'Unicode 9.0 UTF-8'
                 n ::= args.\0;
                 d ::= args.\1;
 
-                returns if d = 0 then Excuse::Div_By_Zero() else q;
+                returns if d = 0 then Excuse::Div_By_Zero() else guard q;
 
                 q ::= \Fraction >:< (
                     numerator   : div::((d > 0 :? n :! -n), gcd, To_Zero::()),
@@ -745,7 +745,7 @@ meta script 'Unicode 9.0 UTF-8'
                 divisor    ::= args.\1;
                 round_meth ::= args.\2;
 
-                returns if divisor = 0 then Excuse::Div_By_Zero() else e1;
+                returns if divisor = 0 then Excuse::Div_By_Zero() else guard e1;
 
                 e1 ::?= 'This is the case where we are dividing by a non-zero.';
 
@@ -816,7 +816,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else args.\0 / 1 ** (args.\1)),
+                else guard args.\0 / 1 ** (args.\1)),
         )),
 
         integral_nn_power::Integer : (\Function : (
@@ -824,7 +824,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 = 0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else args --> \foundation::Integer_nn_power::()),
+                else guard args --> \foundation::Integer_nn_power::()),
         )),
 
         to_Integer::Integer : (\Function : (
@@ -876,7 +876,7 @@ meta script 'Unicode 9.0 UTF-8'
                         numerator : \Integer::(),
                         denominator : \Integer::P::(),
                     )
-                then
+                then guard
                     args.\0.\numerator coprime args.\0.\denominator
                 else
                     False
@@ -931,7 +931,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction),
             implements : \@folder::"",
             map : \(if args.\0 = 0.0 then Excuse::Div_By_Zero()
-                else (denominator args.\0) / (numerator args.\0)),
+                else guard (denominator args.\0) / (numerator args.\0)),
         )),
 
         modulus::Fraction : (\Function : (
@@ -993,7 +993,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             map : \(if args.\1 = 0.0 then Excuse::Div_By_Zero()
-                else (args.\0 mod args.\1) = 0.0),
+                else guard (args.\0 mod args.\1) = 0.0),
         )),
 
         fractional_divided_by::Fraction : (\Function : (
@@ -1001,7 +1001,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             map : \(if args.\1 = 0.0 then Excuse::Div_By_Zero()
-                else args.\0 * reciprocal::(args.\1)),
+                else guard args.\0 * reciprocal::(args.\1)),
         )),
 
         integral_divided_by::Fraction : (\Function : (
@@ -1013,7 +1013,7 @@ meta script 'Unicode 9.0 UTF-8'
                 n0 ::= (numerator args.\0) * div::(d, denominator args.\0, To_Zero::());
                 n1 ::= (numerator args.\1) * div::(d, denominator args.\1, To_Zero::());
                 returns if args.\1 = 0.0 then Excuse::Div_By_Zero()
-                    else div::(n0 * d, n1 * d, args.\2) / 1;
+                    else guard div::(n0 * d, n1 * d, args.\2) / 1;
             ),
         )),
 
@@ -1030,7 +1030,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args.\0 = 0.0 and args.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else ((numerator args.\0) ** (args.\1)) / ((denominator args.\0) ** (args.\1))),
+                else guard ((numerator args.\0) ** (args.\1)) / ((denominator args.\0) ** (args.\1))),
         )),
 
         to_Fraction::Fraction : (\Function : (
@@ -1515,7 +1515,7 @@ meta script 'Unicode 9.0 UTF-8'
             map : \(
                 octets ::= Blob_to_Octets args.\0;
                 returns if String::ASCII_Chars(octets)
-                    then Text_from_ASCII_Chars octets
+                    then guard Text_from_ASCII_Chars octets
                     else Excuse::ASCII::High_Bit_Not_Zero();
             ),
         )),
@@ -1530,7 +1530,7 @@ meta script 'Unicode 9.0 UTF-8'
                     given #repl_chars
                         when 0 then
                             src_octets where \in::( 1: 0..127 )
-                        when 1 then
+                        when 1 then guard
                             src_octets
                                 map \(args.\0 in 0..127 :? args.\0 :! args.\1)
                                     \<-- (1 : repl_chars.0,)
@@ -2066,7 +2066,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
-            map : \(if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
+            map : \(if args.\0 .? (args.\1.\0) then guard args.\0.(args.\1.\0) = (args.\1.\1) else False),
         )),
 
         mapping_at::Positional : (\Function : (
@@ -2081,7 +2081,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Any,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            map : \(if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Ord_Pos()),
+            map : \(if args.\0 .? (args.\1) then guard args.\0.(args.\1) else Excuse::No_Such_Ord_Pos()),
         )),
 
         replace_at::Positional : (\Function : (
@@ -2091,14 +2091,14 @@ meta script 'Unicode 9.0 UTF-8'
             accepts : \(args.\0 .? (args.\1.\0)),
             map : \(
                 src ::= args.\0;
-                ri ::= args.\1.\0;
+                rop ::= args.\1.\0;
                 repl_member ::= args.\1.\1;
-                fi ::= first_ord_pos src;
-                li ::= last_ord_pos src;
+                fop ::= first_ord_pos src;
+                lop ::= last_ord_pos src;
                 emp ::= empty src;
-                returns (if ri > fi then slice_range::(src, fi, --ri) else emp)
+                returns (if rop > fop then guard slice_range::(src, fop, --rop) else emp)
                     insert repl_member
-                    catenate (if ri < li then slice_range::(src, ++ri, li) else emp);
+                    catenate (if rop < lop then guard slice_range::(src, ++rop, lop) else emp);
             ),
         )),
 
@@ -2125,7 +2125,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             accepts : \(args.\1 >= first_possible_ord_pos::(args.\0)
                 and args.\1 <= first_unused_ord_pos::(args.\0)),
-            map : \(if args.\0 .? (args.\1.\0) then args.\0 .:= (args.\1.\0) else args.\0 .+ (args.\1.\0)),
+            map : \(if args.\0 .? (args.\1.\0) then guard args.\0 .:= (args.\1.\0) else guard args.\0 .+ (args.\1.\0)),
         )),
 
         shiftless_maybe_remove_at::Positional : (\Function : (
@@ -2134,7 +2134,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             accepts : \(args.\1 >= first_possible_ord_pos::(args.\0)
                 and args.\1 >= --first_unused_ord_pos::(args.\0)),
-            map : \(if args.\1 = --first_unused_ord_pos::(args.\0) then nonlast args.\0 else args.\0),
+            map : \(if args.\1 = --first_unused_ord_pos::(args.\0) then guard nonlast args.\0 else args.\0),
         )),
 
         to_Array::"" : (\Function : ( virtual : True, returns : \@Array, matches : (\@Positional) )),
@@ -2250,7 +2250,7 @@ meta script 'Unicode 9.0 UTF-8'
                     e1 ::= True
                 else if not args.\1 .? i then
                     False
-                else
+                else guard
                     e2 ::= args.\0.i in_order args.\1.i;
 
                 e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
@@ -2507,7 +2507,7 @@ meta script 'Unicode 9.0 UTF-8'
         Set::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Set,
-                \(if Bag args.\0 then all_unique args.\0 else False) )),
+                \(if Bag args.\0 then guard all_unique args.\0 else False) )),
             default : {},
             composes : {\@Discrete, \@Setty and_provides_its_default},
         )),
@@ -3219,7 +3219,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Structural, \@Structural),
             implements : \@folder::"",
-            map : \(if args.\0 @? (args.\1) then args.\0 %= @(args.\1) = (args.\1) else False),
+            map : \(if args.\0 @? (args.\1) then guard args.\0 %= @(args.\1) = (args.\1) else False),
         )),
 
         has_any_at::Structure : (\Function : (
@@ -3233,7 +3233,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (Structural, (Attr_Name, Any)),
             implements : \@folder::"",
-            map : \(if args.\0 .? (args.\1.\0) then args.\0.(args.\1.\0) = (args.\1.\1) else False),
+            map : \(if args.\0 .? (args.\1.\0) then guard args.\0.(args.\1.\0) = (args.\1.\1) else False),
         )),
 
         mapping_at::Structural : (\Function : (
@@ -3248,7 +3248,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Any,
             matches : (\@Structural, \@Attr_Name),
             implements : \@folder::"",
-            map : \(if args.\0 .? (args.\1) then args.\0.(args.\1) else Excuse::No_Such_Attr_Name()),
+            map : \(if args.\0 .? (args.\1) then guard args.\0.(args.\1) else Excuse::No_Such_Attr_Name()),
         )),
 
         replace_at::Structure : (\Function : (
@@ -3483,7 +3483,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
-            map : \(if args.\0 =@ (args.\1) then has_n::(|(args.\0), args.\1, args.\2)
+            map : \(if args.\0 =@ (args.\1) then guard has_n::(|(args.\0), args.\1, args.\2)
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3512,7 +3512,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
-            map : \(if args.\0 =@ (args.\1) then |(args.\0) subset_of |(args.\1)
+            map : \(if args.\0 =@ (args.\1) then guard |(args.\0) subset_of |(args.\1)
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3521,7 +3521,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(if args.\0 =@ (args.\1) then |(args.\0) same_members |(args.\1)
+            map : \(if args.\0 =@ (args.\1) then guard |(args.\0) same_members |(args.\1)
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3530,7 +3530,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(if args.\0 =@ (args.\1) then |(args.\0) overlaps_members |(args.\1)
+            map : \(if args.\0 =@ (args.\1) then guard |(args.\0) overlaps_members |(args.\1)
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3539,7 +3539,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(if args.\0 =@ (args.\1) then |(args.\0) disjoint_members |(args.\1)
+            map : \(if args.\0 =@ (args.\1) then guard |(args.\0) disjoint_members |(args.\1)
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3554,7 +3554,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
-            map : \(if args.\0 =@ (args.\1) then select_Relational::
+            map : \(if args.\0 =@ (args.\1) then guard select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: insert_n::(|(args.\0), args.\1, args.\2) )
                 else Excuse::Not_Same_Heading),
         )),
@@ -3563,7 +3563,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
-            map : \(if args.\0 =@ (args.\1) then select_Relational::
+            map : \(if args.\0 =@ (args.\1) then guard select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: remove_n::(|(args.\0), args.\1, args.\2) )
                 else Excuse::Not_Same_Heading),
         )),
@@ -3573,7 +3573,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_associative : True,
-            map : \(if args.\0 =@ (args.\1) then select_Relational::
+            map : \(if args.\0 =@ (args.\1) then guard select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) member_plus |(args.\1) )
                 else Excuse::Not_Same_Heading),
         )),
@@ -3582,7 +3582,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
-            map : \(if args.\0 =@ (args.\1) then select_Relational::
+            map : \(if args.\0 =@ (args.\1) then guard select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) except |(args.\1) )
                 else Excuse::Not_Same_Heading),
         )),
@@ -3593,7 +3593,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             is_idempotent : True,
-            map : \(if args.\0 =@ (args.\1) then select_Relational::
+            map : \(if args.\0 =@ (args.\1) then guard select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) intersect |(args.\1) )
                 else Excuse::Not_Same_Heading),
         )),
@@ -3603,7 +3603,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_idempotent : True,
-            map : \(if args.\0 =@ (args.\1) then select_Relational::
+            map : \(if args.\0 =@ (args.\1) then guard select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) union |(args.\1) )
                 else Excuse::Not_Same_Heading),
         )),
@@ -3614,7 +3614,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             is_commutative : True,
-            map : \(if args.\0 =@ (args.\1) then select_Relational::
+            map : \(if args.\0 =@ (args.\1) then guard select_Relational::
                     ( like: args.\0, heading: @(args.\0), body: |(args.\0) exclusive |(args.\1) )
                 else Excuse::Not_Same_Heading),
         )),
@@ -3698,7 +3698,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             map : \(if args.\0 @? (args.\1)
-                then |(args.\0) all \(args.\0 %= @(args.\1) = (args.\1)) \<-- (1 : args.\1,)
+                then guard |(args.\0) all \(args.\0 %= @(args.\1) = (args.\1)) \<-- (1 : args.\1,)
                 else False),
         )),
 
@@ -3744,8 +3744,8 @@ meta script 'Unicode 9.0 UTF-8'
         Tuple_Array::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Tuple_Array, \(
-                if args.\0 is_a ( heading : \Heading::(), body : \Array::() ) then
-                    if args.\0.\body all \Tuple::() then
+                if args.\0 is_a ( heading : \Heading::(), body : \Array::() ) then guard
+                    if args.\0.\body all \Tuple::() then guard
                         args.\0.\body all \(@(args.\0) = (args.\1)) \<-- (args.\0.\heading)
                     else
                         False
@@ -3786,8 +3786,8 @@ meta script 'Unicode 9.0 UTF-8'
         Relation::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Relation, \(
-                if args.\0 is_a ( heading : \Heading::(), body : \Set::() ) then
-                    if args.\0.\body all \Tuple::() then
+                if args.\0 is_a ( heading : \Heading::(), body : \Set::() ) then guard
+                    if args.\0.\body all \Tuple::() then guard
                         args.\0.\body all \(@(args.\0) = (args.\1)) \<-- (args.\0.\heading)
                     else
                         False
@@ -3828,8 +3828,8 @@ meta script 'Unicode 9.0 UTF-8'
         Tuple_Bag::"" : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Tuple_Bag, \(
-                if args.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then
-                    if args.\0.\body all \Tuple::() then
+                if args.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then guard
+                    if args.\0.\body all \Tuple::() then guard
                         args.\0.\body all \(@(args.\0) = (args.\1)) \<-- (args.\0.\heading)
                     else
                         False
@@ -3898,7 +3898,7 @@ meta script 'Unicode 9.0 UTF-8'
         Interval_Set : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Interval_Set,
-                \(if Interval_Bag args.\0 then all_unique args.\0 else False) )),
+                \(if Interval_Bag args.\0 then guard all_unique args.\0 else False) )),
             default : ...,
             composes : {\@Unionable_Intervalish, \@Setty},
         )),
@@ -3908,7 +3908,7 @@ meta script 'Unicode 9.0 UTF-8'
         Interval_Bag : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Interval_Bag, \(
-                if Tuple_Bag args.\0 then ... else False
+                if Tuple_Bag args.\0 then guard ... else False
             ) )),
             default : ...,
             composes : \@Unionable_Intervalish,
@@ -3926,7 +3926,7 @@ meta script 'Unicode 9.0 UTF-8'
         Quantity : (\Selection : (
             of : \@Capsule,
             where : \(has_wrapped::( args.\0, \Quantity, \(
-                if Relation args.\0 then ... else False
+                if Relation args.\0 then guard ... else False
             ) )),
             default : ...,
             composes : \@Quantitative,
@@ -4216,7 +4216,7 @@ meta script 'Unicode 9.0 UTF-8'
         Source_Code::Local_Name : (\Selection : (
             of : \@Attr_Name_List,
             where : \(
-                if so args.\0 then
+                if so args.\0 then guard
                     args.\0.0 :?? {
                         \foundation : #(args.\0) = 2,
                         \used       : #(args.\0) ≥ 2,  `elem 2 is pkg local alias`
@@ -4270,13 +4270,13 @@ meta script 'Unicode 9.0 UTF-8'
             map : \(
                 if Function_Call_But_0 args.\0 then
                     args.\0
-                else if Signature::Set(args.\0) then
+                else if Signature::Set(args.\0) then guard
                     \(args.\1 any \(args.\1 is_a args.\0) \<-- (1 : args.\0))
                         \<-- (1 : args.\0)
-                else if Signature::Tuple(args.\0) then
+                else if Signature::Tuple(args.\0) then guard
                     \(
-                        if Tuple args.\0 then
-                            if args.\0 =@ (args.\1) then
+                        if Tuple args.\0 then guard
+                            if args.\0 =@ (args.\1) then guard
                                 args.\0 all_attrs
                                     \(args.\0.\asset is_a args.\1.(args.\0.\name)) \<-- ( 1: args.\1, )
                             else
@@ -4284,7 +4284,7 @@ meta script 'Unicode 9.0 UTF-8'
                         else
                             False
                     ) \<-- (1 : args.\0)
-                else
+                else guard
                     fail  `We should never get here.`
             ),
         )),
