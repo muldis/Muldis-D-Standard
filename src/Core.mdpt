@@ -3391,7 +3391,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Tuple, \@Attr_Name),
             implements : \@folder::"",
             accepts : \(args:.\0 .? args:.\1),
-            map : \(args:.\0 :. args:.\1),
+            map : \(args:.\0 :. (args:.\1)),
         )),
 
         to_Tuple::Tuple : (\Function : (
