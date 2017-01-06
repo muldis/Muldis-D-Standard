@@ -44,7 +44,7 @@ meta script 'Unicode 9.0 UTF-8'
         is_a : (\Function : (
             returns : \@Boolean,
             matches : (\@Any, \@Signature),
-            map : \((args:.\0) --> Signature_to_Function_Call_But_0::(args:.\1)),
+            map : \((args:.\0,) --> Signature_to_Function_Call_But_0::(args:.\1)),
         )),
 
         not_is_a : (\Function : ( negates : \@is_a )),
@@ -100,14 +100,14 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Orderable, \@Excuse::Before_All_Others),
             implements : \@folder::"",
-            map : \(args:.\0 = (args:.\1)),
+            map : \(args:.\0 = args:.\1),
         )),
 
         in_order::After_All_Others_L : (\Function : (
             returns : \@Boolean,
             matches : (\@Excuse::After_All_Others, \@Orderable),
             implements : \@folder::"",
-            map : \(args:.\0 = (args:.\1)),
+            map : \(args:.\0 = args:.\1),
         )),
 
         in_order::After_All_Others_R : (\Function : (
@@ -237,7 +237,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
             implements : \@folder::"",
-            map : \(!(args:.\0) or args:.\1),
+            map : \(!args:.\0 or args:.\1),
         )),
 
         asset::Boolean : (\Function : (
@@ -258,7 +258,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@True, \@Excuse::After_All_Others},
             matches : (\@Boolean, \@Integer::NN),
             implements : \@folder::"",
-            map : \(if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and !(args:.\0) then True else Excuse::After_All_Others()),
+            map : \(if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and !args:.\0 then True else Excuse::After_All_Others()),
         )),
 
         to_Boolean::Boolean : (\Function : (
@@ -324,7 +324,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : True,
-            map : \(args:.\0 = (args:.\1)),
+            map : \(args:.\0 = args:.\1),
         )),
 
         iff : (\Alias : ( of : \@xnor )),
@@ -447,7 +447,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
             is_commutative : True,
-            map : \(modulus args:.\0 - (args:.\1)),
+            map : \(modulus args:.\0 - args:.\1),
         )),
 
         abs_minus : (\Alias : ( of : \@modulus_minus )),
@@ -593,7 +593,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             map : \(if is_zero args:.\0 or is_zero args:.\1 then zero args:.\0
-                else guard div::(args:.\0 * (args:.\1), args:.\0 gcd args:.\1, To_Zero::())),
+                else guard div::(args:.\0 * args:.\1, args:.\0 gcd args:.\1, To_Zero::())),
         )),
 
         least_common_multiple : (\Alias : ( of : \@lcm )),
@@ -634,7 +634,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer,
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::Integral,
-            map : \(args:.\0 - (args:.\1)),
+            map : \(args:.\0 - args:.\1),
         )),
 
         nth_succ::Integer : (\Function : (
@@ -642,7 +642,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::Integral,
             repeater : plus::Integer,
-            map : \(args:.\0 + (args:.\1)),
+            map : \(args:.\0 + args:.\1),
         )),
 
         to_Boolean::Integer : (\Function : (
@@ -670,7 +670,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Integer),
             implements : \@folder::"",
-            map : \(1 / (args:.\0)),
+            map : \(1 / args:.\0),
         )),
 
         modulus::Integer : (\Function : (
@@ -817,7 +817,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             map : \(if args:.\0 = 0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else guard args:.\0 / 1 ** (args:.\1)),
+                else guard args:.\0 / 1 ** args:.\1),
         )),
 
         integral_nn_power::Integer : (\Function : (
@@ -967,7 +967,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
-            map : \(args:.\0 + -(args:.\1)),
+            map : \(args:.\0 + -args:.\1),
         )),
 
         times::Fraction : (\Function : (
@@ -986,7 +986,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Fraction,
             matches : (\@Fraction, \@Integer),
             implements : \@folder::"",
-            map : \(((numerator args:.\0) * (args:.\1)) / (denominator args:.\0)),
+            map : \(((numerator args:.\0) * args:.\1) / (denominator args:.\0)),
         )),
 
         multiple_of::Fraction : (\Function : (
@@ -1023,7 +1023,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Integer),
             implements : \@folder::"",
             map : \(\integral_nn_power::()
-                <-- (if args:.\1 >= 0 then args else (reciprocal::(args:.\0), -(args:.\1)))),
+                <-- (if args:.\1 >= 0 then args else (reciprocal::(args:.\0), -args:.\1))),
         )),
 
         integral_nn_power::Fraction : (\Function : (
@@ -1031,7 +1031,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Integer::NN),
             implements : \@folder::"",
             map : \(if args:.\0 = 0.0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else guard ((numerator args:.\0) ** (args:.\1)) / ((denominator args:.\0) ** (args:.\1))),
+                else guard ((numerator args:.\0) ** args:.\1) / ((denominator args:.\0) ** args:.\1)),
         )),
 
         to_Fraction::Fraction : (\Function : (
@@ -1104,7 +1104,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@String, \@String),
             is_commutative : True,
-            map : \(args:.\0 != (args:.\1) and (args:.\0 substring_or_superstring args:.\1)),
+            map : \(args:.\0 != args:.\1 and (args:.\0 substring_or_superstring args:.\1)),
         )),
 
         substring_or_superstring : (\Function : (
@@ -1221,13 +1221,13 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Bits,
             matches : (\@Bits, \@Integer::NN),
             implements : \@folder::"",
-            map : \(Bits_from_String_Bits::((Bits_to_String_Bits args:.\0) ~# (args:.\1))),
+            map : \(Bits_from_String_Bits::((Bits_to_String_Bits args:.\0) ~# args:.\1)),
         )),
 
         Bits_from_String_Bits : (\Function : (
             returns : \@Bits,
             matches : (\@String::Bits),
-            map : \((\Bits : (args:.\0))),
+            map : \((\Bits : args:.\0)),
         )),
 
         Bits_to_String_Bits : (\Function : (
@@ -1308,13 +1308,13 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Blob,
             matches : (\@Blob, \@Integer::NN),
             implements : \@folder::"",
-            map : \(Blob_from_Octets::((Blob_to_Octets args:.\0) ~# (args:.\1))),
+            map : \(Blob_from_Octets::((Blob_to_Octets args:.\0) ~# args:.\1)),
         )),
 
         Blob_from_Octets : (\Function : (
             returns : \@Blob,
             matches : (\@String::Octets),
-            map : \((\Blob : (args:.\0))),
+            map : \((\Blob : args:.\0)),
         )),
 
         Blob_to_Octets : (\Function : (
@@ -1428,7 +1428,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Text,
             matches : (\@Text, \@Integer::NN),
             implements : \@folder::"",
-            map : \(Text_from_Maximal_Chars::((Text_to_Maximal_Chars args:.\0) ~# (args:.\1))),
+            map : \(Text_from_Maximal_Chars::((Text_to_Maximal_Chars args:.\0) ~# args:.\1)),
         )),
 
         to_Text::Text : (\Function : (
@@ -1441,7 +1441,7 @@ meta script 'Unicode 9.0 UTF-8'
         Text_from_Maximal_Chars : (\Function : (
             returns : \@Text,
             matches : (\@String::Maximal_Chars),
-            map : \((\Text : (args:.\0))),
+            map : \((\Text : args:.\0)),
         )),
 
         Text_to_Maximal_Chars : (\Function : (
@@ -1584,7 +1584,7 @@ meta script 'Unicode 9.0 UTF-8'
             virtual : True,
             returns : (\@Any, \@Any),
             matches : (\@Accessible, \@Any),
-            accepts : \(args:.\0 .? (args:.\1)),
+            accepts : \(args:.\0 .? args:.\1),
         )),
 
         ".:" : (\Alias : ( of : \@mapping_at )),
@@ -1593,7 +1593,7 @@ meta script 'Unicode 9.0 UTF-8'
             virtual : True,
             returns : \@Any,
             matches : (\@Accessible, \@Any),
-            accepts : \(args:.\0 .? (args:.\1)),
+            accepts : \(args:.\0 .? args:.\1),
         )),
 
         "." : (\Alias : ( of : \@at )),
@@ -1624,7 +1624,7 @@ meta script 'Unicode 9.0 UTF-8'
             virtual : True,
             returns : \@Accessible,
             matches : (\@Accessible, \@Any),
-            accepts : \(args:.\0 .? (args:.\1)),
+            accepts : \(args:.\0 .? args:.\1),
         )),
 
         ".-" : (\Alias : ( of : \@shiftless_remove_at )),
@@ -1705,7 +1705,7 @@ meta script 'Unicode 9.0 UTF-8'
         proper_subset_of : (\Function : (
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
-            map : \(args:.\0 != (args:.\1) and (args:.\0 subset_of args:.\1)),
+            map : \(args:.\0 != args:.\1 and (args:.\0 subset_of args:.\1)),
         )),
 
         Unicode_Aliases::"⊂" : (\Alias : ( of : \@proper_subset_of )),
@@ -2045,7 +2045,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Positional, \@Positional),
             implements : \@folder::"",
             is_associative : True,
-            map : \(args:.\0 ~ (args:.\1)),
+            map : \(args:.\0 ~ args:.\1),
         )),
 
         unique_count::Positional : (\Function : (
@@ -2074,15 +2074,15 @@ meta script 'Unicode 9.0 UTF-8'
             returns : (\@Integer, \@Any),
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            accepts : \(args:.\0 .? (args:.\1)),
-            map : \((args:.\1, args:.\0.(args:.\1))),
+            accepts : \(args:.\0 .? args:.\1),
+            map : \((args:.\1, args:.\0.args:.\1)),
         )),
 
         maybe_at::Positional : (\Function : (
             returns : \@Any,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            map : \(if args:.\0 .? (args:.\1) then guard args:.\0.(args:.\1) else Excuse::No_Such_Ord_Pos()),
+            map : \(if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else Excuse::No_Such_Ord_Pos()),
         )),
 
         replace_at::Positional : (\Function : (
@@ -2158,7 +2158,7 @@ meta script 'Unicode 9.0 UTF-8'
         first_unused_ord_pos : (\Function : (
             returns : \@Integer,
             matches : (\@Positional),
-            map : \(first_possible_ord_pos::(args:.\0) + #(args:.\0)),
+            map : \(first_possible_ord_pos::(args:.\0) + #args:.\0),
         )),
 
         first_ord_pos : (\Function : (
@@ -2180,7 +2180,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Positional,
             matches : (\@Positional, \@Integer, \@NN_Integer),
             accepts : \(args:.\1 >= first_possible_ord_pos::(args:.\0)
-                and args:.\1 + (args:.\2) <= first_unused_ord_pos::(args:.\0)),
+                and args:.\1 + args:.\2 <= first_unused_ord_pos::(args:.\0)),
         )),
 
         slice_range : (\Function : (
@@ -2188,7 +2188,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Positional, \@Integer, \@Integer),
             accepts : \(so args:.\0 and args:.\1 >= first_possible_ord_pos::(args:.\0)
                 and args:.\2 < first_unused_ord_pos::(args:.\0)),
-            map : \(slice_n::(args:.\0, args:.\1, (args:.\2) - (args:.\1) + 1)),
+            map : \(slice_n::(args:.\0, args:.\1, args:.\2 - args:.\1 + 1)),
         )),
 
         first : (\Function : (
@@ -2465,7 +2465,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Any,
             matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
-            accepts : \(args:.\0 .? (args:.\1)),
+            accepts : \(args:.\0 .? args:.\1),
             map : \(args --> \foundation::Array_at::()),
         )),
 
@@ -2487,7 +2487,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Array,
             matches : (\@Array, \@NN_Integer, \@NN_Integer),
             implements : \@folder::"",
-            accepts : \(args:.\1 + (args:.\2) <= #(args:.\0)),
+            accepts : \(args:.\1 + args:.\2 <= #args:.\0),
             map : \(args --> \foundation::Array_slice_n::()),
         )),
 
@@ -2586,7 +2586,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args:.\0 = (args:.\1)),
+            map : \(args:.\0 = args:.\1),
         )),
 
         overlaps_members::Set : (\Function : (
@@ -2829,7 +2829,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(args:.\0 = (args:.\1)),
+            map : \(args:.\0 = args:.\1),
         )),
 
         overlaps_members::Bag : (\Function : (
@@ -3024,7 +3024,7 @@ meta script 'Unicode 9.0 UTF-8'
         subheading_of : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
-            map : \((@(args:.\0), @(args:.\1)) --> \foundation::Tuple_subheading_of::()),
+            map : \((@args:.\0, @args:.\1) --> \foundation::Tuple_subheading_of::()),
         )),
 
         Unicode_Aliases::"⊆@" : (\Alias : ( of : \@subheading_of )),
@@ -3040,7 +3040,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            map : \(@(args:.\0) = @(args:.\1)),
+            map : \(@args:.\0 = @args:.\1),
         )),
 
         "=@" : (\Alias : ( of : \@same_heading )),
@@ -3049,7 +3049,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            map : \(@(args:.\0) != @(args:.\1) and (args:.\0 subheading_or_superheading args:.\1)),
+            map : \(@args:.\0 != @args:.\1 and (args:.\0 subheading_or_superheading args:.\1)),
         )),
 
         subheading_or_superheading : (\Function : (
@@ -3063,20 +3063,20 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            map : \((@(args:.\0), @(args:.\1)) --> \foundation::Tuple_overlaps_heading::()),
+            map : \((@args:.\0, @args:.\1) --> \foundation::Tuple_overlaps_heading::()),
         )),
 
         disjoint_heading : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            map : \((@(args:.\0), @(args:.\1)) --> \foundation::Tuple_disjoint_heading::()),
+            map : \((@args:.\0, @args:.\1) --> \foundation::Tuple_disjoint_heading::()),
         )),
 
         except_heading : (\Function : (
             returns : \@Heading,
             matches : (\@Attributive, \@Attributive),
-            map : \((@(args:.\0), @(args:.\1)) --> \foundation::Tuple_except_heading::()),
+            map : \((@args:.\0, @args:.\1) --> \foundation::Tuple_except_heading::()),
         )),
 
         Unicode_Aliases::"∖@" : (\Alias : ( of : \@except_heading )),
@@ -3087,7 +3087,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            map : \((@(args:.\0), @(args:.\1)) --> \foundation::Tuple_intersect_heading::()),
+            map : \((@args:.\0, @args:.\1) --> \foundation::Tuple_intersect_heading::()),
         )),
 
         Unicode_Aliases::"∩@" : (\Alias : ( of : \@intersect_heading )),
@@ -3099,7 +3099,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : (),
-            map : \((@(args:.\0), @(args:.\1)) --> \foundation::Tuple_union_heading::()),
+            map : \((@args:.\0, @args:.\1) --> \foundation::Tuple_union_heading::()),
         )),
 
         Unicode_Aliases::"∪@" : (\Alias : ( of : \@union_heading )),
@@ -3110,7 +3110,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : (),
-            map : \((@(args:.\0), @(args:.\1)) --> \foundation::Tuple_exclusive_heading::()),
+            map : \((@args:.\0, @args:.\1) --> \foundation::Tuple_exclusive_heading::()),
         )),
 
         symm_diff_heading : (\Alias : ( of : \@exclusive_heading )),
@@ -3142,7 +3142,7 @@ meta script 'Unicode 9.0 UTF-8'
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Heading),
-            accepts : \(args:.\0 @? (args:.\1)),
+            accepts : \(args:.\0 @? args:.\1),
         )),
 
         project : (\Alias : ( of : \@on )),
@@ -3164,7 +3164,7 @@ meta script 'Unicode 9.0 UTF-8'
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Structural),
-            accepts : \(args:.\0 @? (args:.\1)),
+            accepts : \(args:.\0 @? args:.\1),
         )),
 
         "%:=" : (\Alias : ( of : \@update )),
@@ -3181,7 +3181,7 @@ meta script 'Unicode 9.0 UTF-8'
         but : (\Function : (
             returns : \@Attributive,
             matches : (\@Attributive, \@Heading),
-            accepts : \(args:.\0 @? (args:.\1)),
+            accepts : \(args:.\0 @? args:.\1),
             map : \(args:.\0 on (args:.\0 except_heading args:.\1)),
         )),
 
@@ -3220,14 +3220,14 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Structural, \@Structural),
             implements : \@folder::"",
-            map : \(if args:.\0 @? (args:.\1) then guard args:.\0 %= @(args:.\1) = (args:.\1) else False),
+            map : \(if args:.\0 @? args:.\1 then guard args:.\0 %= @args:.\1 = args:.\1 else False),
         )),
 
         has_any_at::Structure : (\Function : (
             returns : \@Boolean,
             matches : (\@Structure, \@Attr_Name),
             implements : \@folder::"",
-            map : \(args:.\0 @? (args:.\1)),
+            map : \(args:.\0 @? args:.\1),
         )),
 
         has_mapping_at::Structural : (\Function : (
@@ -3241,15 +3241,15 @@ meta script 'Unicode 9.0 UTF-8'
             returns : (\@Attr_Name, \@Any),
             matches : (\@Structural, \@Attr_Name),
             implements : \@folder::"",
-            accepts : \(args:.\0 .? (args:.\1)),
-            map : \((args:.\1, args:.\0.(args:.\1))),
+            accepts : \(args:.\0 .? args:.\1),
+            map : \((args:.\1, args:.\0.args:.\1)),
         )),
 
         maybe_at::Structural : (\Function : (
             returns : \@Any,
             matches : (\@Structural, \@Attr_Name),
             implements : \@folder::"",
-            map : \(if args:.\0 .? (args:.\1) then guard args:.\0.(args:.\1) else Excuse::No_Such_Attr_Name()),
+            map : \(if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else Excuse::No_Such_Attr_Name()),
         )),
 
         replace_at::Structure : (\Function : (
@@ -3272,7 +3272,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Structure,
             matches : (\@Structure, \@Attr_Name),
             implements : \@folder::"",
-            accepts : \(args:.\0 .? (args:.\1)),
+            accepts : \(args:.\0 .? args:.\1),
             map : \(args:.\0 but args:.\1),
         )),
 
@@ -3363,7 +3363,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Tuple,
             matches : (\@Tuple, \@Heading),
             implements : \@folder::"",
-            accepts : \(args:.\0 @? (args:.\1)),
+            accepts : \(args:.\0 @? args:.\1),
             map : \(args --> \foundation::Tuple_on::()),
         )),
 
@@ -3371,7 +3371,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Tuple,
             matches : (\@Tuple, \@Tuple),
             implements : \@folder::"",
-            accepts : \(args:.\0 @? (args:.\1)),
+            accepts : \(args:.\0 @? args:.\1),
             map : \(args --> \foundation::Tuple_update::()),
         )),
 
@@ -3390,8 +3390,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Any,
             matches : (\@Tuple, \@Attr_Name),
             implements : \@folder::"",
-            accepts : \(args:.\0 .? (args:.\1)),
-            map : \((args:.\0) :. (args:.\1)),
+            accepts : \(args:.\0 .? args:.\1),
+            map : \(args:.\0 :. args:.\1),
         )),
 
         to_Tuple::Tuple : (\Function : (
@@ -3421,7 +3421,7 @@ meta script 'Unicode 9.0 UTF-8'
         all_attr_assets : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple, \@Signature),
-            map : \(args:.\0 all_attrs \((args:.\1) <-- (args:.\0.\asset,))
+            map : \(args:.\0 all_attrs \(args:.\1 <-- (args:.\0.\asset,))
                 \<-- (1 : Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
@@ -3455,21 +3455,21 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(? |(args:.\0)),
+            map : \(? |args:.\0),
         )),
 
         empty::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(select_Relational::( like: args:.\0, heading: @(args:.\0), body: empty |(args:.\0) )),
+            map : \(select_Relational::( like: args:.\0, heading: @args:.\0, body: empty |args:.\0 )),
         )),
 
         singular::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(singular |(args:.\0)),
+            map : \(singular |args:.\0),
         )),
 
         only_member::Relational : (\Function : (
@@ -3477,14 +3477,14 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational),
             implements : \@folder::"",
             accepts : \(singular args:.\0),
-            map : \(only_member |(args:.\0)),
+            map : \(only_member |args:.\0),
         )),
 
         has_n::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
-            map : \(if args:.\0 =@ (args:.\1) then guard has_n::(|(args:.\0), args:.\1, args:.\2)
+            map : \(if args:.\0 =@ args:.\1 then guard has_n::(|args:.\0, args:.\1, args:.\2)
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3492,28 +3492,28 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer::NN,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
-            map : \(|(args:.\0) multiplicity args:.\1),
+            map : \(|args:.\0 multiplicity args:.\1),
         )),
 
         all_unique::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(all_unique |(args:.\0)),
+            map : \(all_unique |args:.\0),
         )),
 
         unique::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(select_Relational::( like: args:.\0, heading: @(args:.\0), body: unique |(args:.\0) )),
+            map : \(select_Relational::( like: args:.\0, heading: @args:.\0, body: unique |args:.\0 )),
         )),
 
         subset_of::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
-            map : \(if args:.\0 =@ (args:.\1) then guard |(args:.\0) subset_of |(args:.\1)
+            map : \(if args:.\0 =@ args:.\1 then guard |args:.\0 subset_of |args:.\1
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3522,7 +3522,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(if args:.\0 =@ (args:.\1) then guard |(args:.\0) same_members |(args:.\1)
+            map : \(if args:.\0 =@ args:.\1 then guard |args:.\0 same_members |args:.\1
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3531,7 +3531,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(if args:.\0 =@ (args:.\1) then guard |(args:.\0) overlaps_members |(args:.\1)
+            map : \(if args:.\0 =@ args:.\1 then guard |args:.\0 overlaps_members |args:.\1
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3540,7 +3540,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
-            map : \(if args:.\0 =@ (args:.\1) then guard |(args:.\0) disjoint_members |(args:.\1)
+            map : \(if args:.\0 =@ args:.\1 then guard |args:.\0 disjoint_members |args:.\1
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3548,15 +3548,15 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Relational, \@Signature),
             implements : \@folder::"",
-            map : \(|(args:.\0) any args:.\1),
+            map : \(|args:.\0 any args:.\1),
         )),
 
         insert_n::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
-            map : \(if args:.\0 =@ (args:.\1) then guard select_Relational::
-                    ( like: args:.\0, heading: @(args:.\0), body: insert_n::(|(args:.\0), args:.\1, args:.\2) )
+            map : \(if args:.\0 =@ args:.\1 then guard select_Relational::
+                    ( like: args:.\0, heading: @args:.\0, body: insert_n::(|args:.\0, args:.\1, args:.\2) )
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3564,8 +3564,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer::NN),
             implements : \@folder::"",
-            map : \(if args:.\0 =@ (args:.\1) then guard select_Relational::
-                    ( like: args:.\0, heading: @(args:.\0), body: remove_n::(|(args:.\0), args:.\1, args:.\2) )
+            map : \(if args:.\0 =@ args:.\1 then guard select_Relational::
+                    ( like: args:.\0, heading: @args:.\0, body: remove_n::(|args:.\0, args:.\1, args:.\2) )
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3574,8 +3574,8 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_associative : True,
-            map : \(if args:.\0 =@ (args:.\1) then guard select_Relational::
-                    ( like: args:.\0, heading: @(args:.\0), body: |(args:.\0) member_plus |(args:.\1) )
+            map : \(if args:.\0 =@ args:.\1 then guard select_Relational::
+                    ( like: args:.\0, heading: @args:.\0, body: |args:.\0 member_plus |args:.\1 )
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3583,8 +3583,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
-            map : \(if args:.\0 =@ (args:.\1) then guard select_Relational::
-                    ( like: args:.\0, heading: @(args:.\0), body: |(args:.\0) except |(args:.\1) )
+            map : \(if args:.\0 =@ args:.\1 then guard select_Relational::
+                    ( like: args:.\0, heading: @args:.\0, body: |args:.\0 except |args:.\1 )
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3594,8 +3594,8 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             is_idempotent : True,
-            map : \(if args:.\0 =@ (args:.\1) then guard select_Relational::
-                    ( like: args:.\0, heading: @(args:.\0), body: |(args:.\0) intersect |(args:.\1) )
+            map : \(if args:.\0 =@ args:.\1 then guard select_Relational::
+                    ( like: args:.\0, heading: @args:.\0, body: |args:.\0 intersect |args:.\1 )
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3604,8 +3604,8 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_idempotent : True,
-            map : \(if args:.\0 =@ (args:.\1) then guard select_Relational::
-                    ( like: args:.\0, heading: @(args:.\0), body: |(args:.\0) union |(args:.\1) )
+            map : \(if args:.\0 =@ args:.\1 then guard select_Relational::
+                    ( like: args:.\0, heading: @args:.\0, body: |args:.\0 union |args:.\1 )
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3615,8 +3615,8 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             is_commutative : True,
-            map : \(if args:.\0 =@ (args:.\1) then guard select_Relational::
-                    ( like: args:.\0, heading: @(args:.\0), body: |(args:.\0) exclusive |(args:.\1) )
+            map : \(if args:.\0 =@ args:.\1 then guard select_Relational::
+                    ( like: args:.\0, heading: @args:.\0, body: |args:.\0 exclusive |args:.\1 )
                 else Excuse::Not_Same_Heading),
         )),
 
@@ -3640,7 +3640,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Relational,
             matches : (\@Relational, \@Signature),
             implements : \@folder::"",
-            map : \(select_Relational::( like: args:.\0, heading: @(args:.\0), body: |(args:.\0) where args:.\1 )),
+            map : \(select_Relational::( like: args:.\0, heading: @args:.\0, body: |args:.\0 where args:.\1 )),
         )),
 
         map::Relational : (\Function : (
@@ -3654,14 +3654,14 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Any,
             matches : (\@Relational, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            map : \(|(args:.\0) reduce args:.\1),
+            map : \(|args:.\0 reduce args:.\1),
         )),
 
         has_any_attrs::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(@(args:.\0) != ()),
+            map : \(@args:.\0 != ()),
         )),
 
         nullary::Relational : (\Function : (
@@ -3675,14 +3675,14 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(is_unary @(args:.\0)),
+            map : \(is_unary @args:.\0),
         )),
 
         degree::Relational : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Relational),
             implements : \@folder::"",
-            map : \(degree @(args:.\0)),
+            map : \(degree @args:.\0),
         )),
 
         rename::Relational : (\Function : (
@@ -3690,16 +3690,16 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Renaming),
             implements : \@folder::"",
             accepts : \(...),
-            map : \(select_Relational::( like: args:.\0, heading: @(args:.\0) rename args:.\1,
-                body: |(args:.\0) map \rename::( 1: args:.\1 ) )),
+            map : \(select_Relational::( like: args:.\0, heading: @args:.\0 rename args:.\1,
+                body: |args:.\0 map \rename::( 1: args:.\1 ) )),
         )),
 
         can_project_matching::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
-            map : \(if args:.\0 @? (args:.\1)
-                then guard |(args:.\0) all \(args:.\0 %= @(args:.\1) = (args:.\1)) \<-- (1 : args:.\1,)
+            map : \(if args:.\0 @? args:.\1
+                then guard |args:.\0 all \(args:.\0 %= @args:.\1 = args:.\1) \<-- (1 : args:.\1,)
                 else False),
         )),
 
@@ -3707,18 +3707,18 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Relational,
             matches : (\@Relational, \@Heading),
             implements : \@folder::"",
-            accepts : \(args:.\0 @? (args:.\1)),
-            map : \(select_Relational::( like: args:.\0, heading: @(args:.\0) on args:.\1,
-                body: |(args:.\0) map \on::( 1: args:.\1 ) )),
+            accepts : \(args:.\0 @? args:.\1),
+            map : \(select_Relational::( like: args:.\0, heading: @args:.\0 on args:.\1,
+                body: |args:.\0 map \on::( 1: args:.\1 ) )),
         )),
 
         update::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
-            accepts : \(args:.\0 @? (args:.\1)),
-            map : \(select_Relational::( like: args:.\0, heading: @(args:.\0),
-                body: |(args:.\0) map \update::( 1: args:.\1 ) )),
+            accepts : \(args:.\0 @? args:.\1),
+            map : \(select_Relational::( like: args:.\0, heading: @args:.\0,
+                body: |args:.\0 map \update::( 1: args:.\1 ) )),
         )),
 
         extend::Relational : (\Function : (
@@ -3726,8 +3726,8 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             accepts : \(args:.\0 disjoint_heading args:.\1),
-            map : \(select_Relational::( like: args:.\0, heading: @(args:.\0) extend args:.\1,
-                body: |(args:.\0) map \extend::( 1: args:.\1 ) )),
+            map : \(select_Relational::( like: args:.\0, heading: @args:.\0 extend args:.\1,
+                body: |args:.\0 map \extend::( 1: args:.\1 ) )),
         )),
 
         body::"" : (\Function : ( virtual : True, returns : \@Unionable, matches : (\@Relational) )),
@@ -3747,7 +3747,7 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(has_wrapped::( args:.\0, \Tuple_Array, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Array::() ) then guard
                     if args:.\0.\body all \Tuple::() then guard
-                        args:.\0.\body all \(@(args:.\0) = (args:.\1)) \<-- (args:.\0.\heading)
+                        args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
                     else
                         False
                 else
@@ -3789,7 +3789,7 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(has_wrapped::( args:.\0, \Relation, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) then guard
                     if args:.\0.\body all \Tuple::() then guard
-                        args:.\0.\body all \(@(args:.\0) = (args:.\1)) \<-- (args:.\0.\heading)
+                        args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
                     else
                         False
                 else
@@ -3831,7 +3831,7 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(has_wrapped::( args:.\0, \Tuple_Bag, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then guard
                     if args:.\0.\body all \Tuple::() then guard
-                        args:.\0.\body all \(@(args:.\0) = (args:.\1)) \<-- (args:.\0.\heading)
+                        args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
                     else
                         False
                 else
@@ -3943,7 +3943,7 @@ meta script 'Unicode 9.0 UTF-8'
         has_wrapped : (\Function : (
             returns : \@Boolean,
             matches : (\@Capsule, \@Any, \@Signature),
-            map : \((args:.\0):< = (args:.\1) and
+            map : \(args:.\0:< = args:.\1 and
                 (args:.\0:>,) --> Signature_to_Function_Call_But_0::(args:.\2)),
         )),
 
@@ -4195,12 +4195,12 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(
                 if so args:.\0 then guard
                     given args:.\0.0
-                        when \foundation then #(args:.\0) = 2
-                        when \used       then #(args:.\0) ≥ 2  `elem 2 is pkg local alias`
-                        when \package    then #(args:.\0) ≥ 1
-                        when \folder     then #(args:.\0) ≥ 1
-                        when \material   then #(args:.\0) = 1
-                        when \floating   then #(args:.\0) ≥ 2
+                        when \foundation then #args:.\0 = 2
+                        when \used       then #args:.\0 ≥ 2  `elem 2 is pkg local alias`
+                        when \package    then #args:.\0 ≥ 1
+                        when \folder     then #args:.\0 ≥ 1
+                        when \material   then #args:.\0 = 1
+                        when \floating   then #args:.\0 ≥ 2
                         default False
                 else
                     False
@@ -4238,7 +4238,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Key_Asset_Pair : (\Selection : (
             of : \@Tuple,
-            where : \(@(args:.\0) = \@(key,asset)),
+            where : \(@args:.\0 = \@(key,asset)),
         )),
 
         Source_Code::Signature_to_Function_Call_But_0 : (\Function : (
@@ -4247,13 +4247,13 @@ meta script 'Unicode 9.0 UTF-8'
             map : \(
                 if Function_Call_But_0 args:.\0 then
                     args:.\0
-                else if Signature::Set(args:.\0) then guard
+                else if Signature::Set args:.\0 then guard
                     \(args:.\1 any \(args:.\1 is_a args:.\0) \<-- (1 : args:.\0))
                         \<-- (1 : args:.\0)
-                else if Signature::Tuple(args:.\0) then guard
+                else if Signature::Tuple args:.\0 then guard
                     \(
                         if Tuple args:.\0 then guard
-                            if args:.\0 =@ (args:.\1) then guard
+                            if args:.\0 =@ args:.\1 then guard
                                 args:.\0 all_attrs
                                     \(args:.\0.\asset is_a args:.\1.(args:.\0.\name)) \<-- ( 1: args:.\1, )
                             else
