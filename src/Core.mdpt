@@ -871,7 +871,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Fraction::"" : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Fraction, \(
+            where : \(Capsule_subtype::( args:.\0, \Fraction, \(
                 if
                     args:.\0 is_a (
                         numerator : \Integer::(),
@@ -1150,7 +1150,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Bits : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Bits, \String::Bits() )),
+            where : \(Capsule_subtype::( args:.\0, \Bits, \String::Bits() )),
             default : \~?'',
             composes : {\@Stringy and_provides_its_default},
         )),
@@ -1240,7 +1240,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Blob : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Blob, \String::Octets() )),
+            where : \(Capsule_subtype::( args:.\0, \Blob, \String::Octets() )),
             default : \~+'',
             composes : \@Stringy,
         )),
@@ -1339,7 +1339,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Text::"" : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Text, \String::Maximal_Chars() )),
+            where : \(Capsule_subtype::( args:.\0, \Text, \String::Maximal_Chars() )),
             default : '',
             composes : {\@Textual and_provides_its_default},
         )),
@@ -2507,7 +2507,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Set::"" : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Set,
+            where : \(Capsule_subtype::( args:.\0, \Set,
                 \(if Bag args:.\0 then guard all_unique args:.\0 else False) )),
             default : {},
             composes : {\@Discrete, \@Setty and_provides_its_default},
@@ -3744,7 +3744,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Tuple_Array::"" : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Tuple_Array, \(
+            where : \(Capsule_subtype::( args:.\0, \Tuple_Array, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Array::() ) then guard
                     if args:.\0.\body all \Tuple::() then guard
                         args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
@@ -3786,7 +3786,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Relation::"" : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Relation, \(
+            where : \(Capsule_subtype::( args:.\0, \Relation, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) then guard
                     if args:.\0.\body all \Tuple::() then guard
                         args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
@@ -3828,7 +3828,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Tuple_Bag::"" : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Tuple_Bag, \(
+            where : \(Capsule_subtype::( args:.\0, \Tuple_Bag, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then guard
                     if args:.\0.\body all \Tuple::() then guard
                         args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
@@ -3877,7 +3877,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Interval::"" : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Interval, \Interval::Attrs() )),
+            where : \(Capsule_subtype::( args:.\0, \Interval, \Interval::Attrs() )),
             default : \(Excuse::Before_All_Others()..Excuse::After_All_Others()),
             composes : {\@Intervalish, \@Setty},
         )),
@@ -3898,7 +3898,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Interval_Set : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Interval_Set,
+            where : \(Capsule_subtype::( args:.\0, \Interval_Set,
                 \(if Interval_Bag args:.\0 then guard all_unique args:.\0 else False) )),
             default : ...,
             composes : {\@Unionable_Intervalish, \@Setty},
@@ -3908,7 +3908,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Interval_Bag : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Interval_Bag, \(
+            where : \(Capsule_subtype::( args:.\0, \Interval_Bag, \(
                 if Tuple_Bag args:.\0 then guard ... else False
             ) )),
             default : ...,
@@ -3926,7 +3926,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Quantity : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Quantity, \(
+            where : \(Capsule_subtype::( args:.\0, \Quantity, \(
                 if Relation args:.\0 then guard ... else False
             ) )),
             default : ...,
@@ -3940,11 +3940,16 @@ meta script 'Unicode 9.0 UTF-8'
             default : (False : False),
         )),
 
-        has_wrapped : (\Function : (
+        Capsule_subtype : (\Function : (
             returns : \@Boolean,
-            matches : (\@Capsule, \@Any, \@Signature),
-            map : \(args:.\0:< = args:.\1 and
-                (args:.\0:>,) --> Signature_to_Function_Call_But_0::(args:.\2)),
+            matches : (\@Any, \@Any, \@Signature),
+            map : \(
+                if Capsule args:.\0 then guard
+                    args:.\0:< = args:.\1 and
+                        (args:.\0:>,) --> Signature_to_Function_Call_But_0::(args:.\2)
+                else
+                    False
+            ),
         )),
 
 `#########################################################################`
@@ -3971,7 +3976,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Package : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Package, \(
+            where : \(Capsule_subtype::( args:.\0, \Package, \(
                 args:.\0 is_a (
                     identity : \Package::Identity::(),
                     foundation : \Package::Foundation::(),
@@ -4055,13 +4060,13 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Alias : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Alias, \Identity_Identifier::() )),
+            where : \(Capsule_subtype::( args:.\0, \Alias, \Identity_Identifier::() )),
             default : \((\Alias : Identity_Identifier::())),
         )),
 
         Source_Code::Constant : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Constant, \(
+            where : \(Capsule_subtype::( args:.\0, \Constant, \(
                 args:.\0 is_a (
                     folded : \Boolean::(),
                     composes : ...,
@@ -4073,7 +4078,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Selection : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Selection, \(
+            where : \(Capsule_subtype::( args:.\0, \Selection, \(
                 args:.\0 is_a (
                     of : ...,
                     where : \Function_Body::(),
@@ -4086,7 +4091,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Interface : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Interface, \(
+            where : \(Capsule_subtype::( args:.\0, \Interface, \(
                 args:.\0 is_a (
                     composes : ...,
                     requires_implements : ...,
@@ -4097,7 +4102,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Function : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Function, \(
+            where : \(Capsule_subtype::( args:.\0, \Function, \(
                 args:.\0 is_a (
                     virtual : \Boolean::(),
                     commutes : \Identity_Identifier::(),
@@ -4121,7 +4126,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Function_Body : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Function_Body, \(
+            where : \(Capsule_subtype::( args:.\0, \Function_Body, \(
                 args:.\0 is_a (
                     root_expr : \Expression::(),
                     named_exprs : \Named_Expr_List::(),
@@ -4132,7 +4137,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Procedure : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Procedure, \(
+            where : \(Capsule_subtype::( args:.\0, \Procedure, \(
                 args:.\0 is_a (
                     virtual : \Boolean::(),
                     matches : \Signature::Tuple(),
@@ -4150,7 +4155,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Procedure_Body : (\Selection : (
             of : \@Capsule,
-            where : \(has_wrapped::( args:.\0, \Procedure_Body, \(
+            where : \(Capsule_subtype::( args:.\0, \Procedure_Body, \(
                 args:.\0 is_a (
                     root_stmt : \Statement::(),
                     named_stmts : \Named_Stmt_List::(),
@@ -4255,7 +4260,7 @@ meta script 'Unicode 9.0 UTF-8'
                         if Tuple args:.\0 then guard
                             if args:.\0 =@ args:.\1 then guard
                                 args:.\0 all_attrs
-                                    \(args:.\0.\asset is_a args:.\1.(args:.\0.\name)) \<-- ( 1: args:.\1, )
+                                    \(args:.\0:.\asset is_a args:.\1:.(args:.\0:.\name)) \<-- ( 1: args:.\1, )
                             else
                                 False
                         else
