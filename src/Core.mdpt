@@ -438,7 +438,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Numerical, \@Numerical),
             is_associative : True,
             is_commutative : True,
-            repeater : times,
+            repeater : \@times,
         )),
 
         "+" : (\Alias : ( of : \@plus )),
@@ -475,7 +475,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Numerical, \@Numerical),
             is_associative : True,
             is_commutative : True,
-            repeater : integral_nn_power,
+            repeater : \@integral_nn_power,
         )),
 
         "*" : (\Alias : ( of : \@times )),
@@ -649,7 +649,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer,
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::Integral,
-            repeater : plus::Integer,
+            repeater : \@plus::Integer,
             evaluates : \(args:.\0 + args:.\1),
         )),
 
@@ -695,7 +695,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : 0,
-            repeater : times::Integer,
+            repeater : \@times::Integer,
             evaluates : \(args --> \foundation::Integer_plus::()),
         )),
 
@@ -703,6 +703,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
+            right_identity : 0,
             evaluates : \(args --> \foundation::Integer_minus::()),
         )),
 
@@ -713,7 +714,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : 1,
-            repeater : integral_nn_power::Integer,
+            repeater : \@integral_nn_power::Integer,
             evaluates : \(args --> \foundation::Integer_times::()),
         )),
 
@@ -729,6 +730,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
+            right_identity : 1,
             evaluates : \(
                 n ::= args:.\0;
                 d ::= args:.\1;
@@ -748,6 +750,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Integer, \@Excuse::Div_By_Zero},
             matches : (\@Integer, \@Integer, \@Round_Meth),
             implements : \@folder::"",
+            right_identity : 1,
             evaluates : \(
                 dividend   ::= args:.\0;
                 divisor    ::= args:.\1;
@@ -951,7 +954,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : 0.0,
-            repeater : times::Fraction_Integer,
+            repeater : \@times::Fraction_Integer,
             evaluates : \(
                 <-- if (denominator args:.\0) = (denominator args:.\1)
                     then (numerator args:.\0) + (numerator args:.\1) / (denominator args:.\0)
@@ -969,6 +972,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
+            right_identity : 0.0,
             evaluates : \(args:.\0 + -args:.\1),
         )),
 
@@ -979,7 +983,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : 1.0,
-            repeater : integral_nn_power::Fraction,
+            repeater : \@integral_nn_power::Fraction,
             evaluates : \(((numerator args:.\0) * (numerator args:.\1))
                 / ((denominator args:.\0) * (denominator args:.\1))),
         )),
@@ -1003,6 +1007,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
+            right_identity : 1.0,
             evaluates : \(if args:.\1 = 0.0 then Excuse::Div_By_Zero()
                 else guard args:.\0 * reciprocal::(args:.\1)),
         )),
@@ -1011,6 +1016,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Fraction, \@Excuse::Div_By_Zero},
             matches : (\@Fraction, \@Fraction, \@Round_Meth),
             implements : \@folder::"",
+            right_identity : 1.0,
             evaluates : \(
                 d ::= lcm::(denominator args:.\0, denominator args:.\1);
                 n0 ::= (numerator args:.\0) * div::(d, denominator args:.\0, RM::(\To_Zero));
@@ -1133,7 +1139,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Stringy,
             matches : (\@Stringy, \@Stringy),
             is_associative : True,
-            repeater : replicate,
+            repeater : \@replicate,
         )),
 
         "~" : (\Alias : ( of : \@catenate )),
@@ -1212,7 +1218,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             identity : \~?'',
-            repeater : replicate::Bits,
+            repeater : \@replicate::Bits,
             evaluates : \(Bits_from_String_Bits::((Bits_to_String_Bits args:.\0)
                 ~ (Bits_to_String_Bits args:.\1))),
         )),
@@ -1300,7 +1306,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             identity : \~+'',
-            repeater : replicate::Blob,
+            repeater : \@replicate::Blob,
             evaluates : \(Blob_from_Octets::((Blob_to_Octets args:.\0) ~ (Blob_to_Octets args:.\1))),
         )),
 
@@ -1416,7 +1422,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             identity : '',
-            repeater : replicate::Text,
+            repeater : \@replicate::Text,
             evaluates : \(Text_from_Maximal_Chars::((Text_to_Maximal_Chars args:.\0)
                 ~ (Text_to_Maximal_Chars args:.\1))),
         )),
@@ -2262,7 +2268,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             identity : [],
-            repeater : replicate::Array,
+            repeater : \@replicate::Array,
             evaluates : \(args --> \foundation::Array_catenate::()),
         )),
 
@@ -2326,6 +2332,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Array,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
+            right_identity : [],
             evaluates : \(args --> \foundation::Array_except::()),
         )),
 
@@ -2604,6 +2611,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Set,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
+            right_identity : {},
             evaluates : \((\Set : (args:.\0:> except args:.\1:>))),
         )),
 
@@ -2845,6 +2853,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
+            right_identity : {0:0},
             evaluates : \(args --> \foundation::Bag_except::()),
         )),
 
@@ -4048,10 +4057,12 @@ meta script 'Unicode 9.0 UTF-8'
                     overrides : ...,
                     accepts : \Function_Body::(),
                     intends : \Function_Body::(),
-                    is_associative : \Boolean::(),
+                    is_associative : \Boolean::(),  `two-way associative`
                     is_commutative : \Boolean::(),
                     is_idempotent : \Boolean::(),
-                    identity : \Function_Body::(),
+                    identity : \Function_Body::(),  `iff two-sided identity element exists`
+                    left_identity : \Function_Body::(),  `iff only left-identity element exists`
+                    right_identity : \Function_Body::(),  `iff only right-identity element exists`
                     repeater : ...,
                     evaluates : \Function_Body::(),
                 )
