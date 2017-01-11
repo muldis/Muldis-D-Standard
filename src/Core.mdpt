@@ -19,9 +19,11 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Any : (\Selection : ( default : False )),
+        Any : (\Function : (
+            is_type_definer : True, default : False )),
 
-        None : (\Selection : ( of : {} )),
+        None : (\Function : (
+            is_type_definer : True, of : {} )),
 
         same : (\Function : (
             returns : \@Boolean,
@@ -51,11 +53,13 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Excuse::"" : (\Selection : (
+        Excuse::"" : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
-        Excuse::No_Reason : (\Selection : ( composes : \@Excuse and_provides_its_default, value : \@material )),
+        Excuse::No_Reason : (\Function : (
+            is_type_definer : True, composes : \@Excuse and_provides_its_default, value : \@material )),
 
         or_else : (\Function : (
             returns : \@Any,
@@ -77,13 +81,16 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Orderable::"" : (\Selection : (
+        Orderable::"" : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
-        Excuse::Before_All_Others : (\Selection : ( composes : {\@Excuse, \@Orderable}, value : \@material )),
+        Excuse::Before_All_Others : (\Function : (
+            is_type_definer : True, composes : {\@Excuse, \@Orderable}, value : \@material )),
 
-        Excuse::After_All_Others : (\Selection : ( composes : {\@Excuse, \@Orderable}, value : \@material )),
+        Excuse::After_All_Others : (\Function : (
+            is_type_definer : True, composes : {\@Excuse, \@Orderable}, value : \@material )),
 
         in_order::"" : (\Function : (
             virtual : True,
@@ -168,7 +175,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Successable : (\Selection : (
+        Successable : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
@@ -188,7 +196,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Bicessable : (\Selection : (
+        Bicessable : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Orderable and_provides_its_default,
                 \@Successable and_provides_its_default},
@@ -208,7 +217,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Boolable : (\Selection : (
+        Boolable : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
@@ -223,17 +233,20 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Boolean : (\Selection : (
+        Boolean : (\Function : (
+            is_type_definer : True,
             composes : {\@Bicessable, \@Boolable and_provides_its_default},
             where : \(args --> \foundation::is_a_Boolean::()),
             default : False,
         )),
 
-        False : (\Selection : ( value : False )),
+        False : (\Function : (
+            is_type_definer : True, value : False )),
 
         Unicode_Aliases::"⊥" : (\Alias : ( of : \@False )),
 
-        True : (\Selection : ( value : True )),
+        True : (\Function : (
+            is_type_definer : True, value : True )),
 
         Unicode_Aliases::"⊤" : (\Alias : ( of : \@True )),
 
@@ -373,13 +386,15 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Round_Meth::"" : (\Selection : (
+        Round_Meth::"" : (\Function : (
+            is_type_definer : True,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \@material, \folder::Attr_Name::() )),
             default : (\@material : \To_Zero),
         )),
 
-        Round_Meth::Attr_Name : (\Selection : (
+        Round_Meth::Attr_Name : (\Function : (
+            is_type_definer : True,
             of : \@Attr_Name,
             where : \(args:.\0 ⊆@ \@(Down,Up,To_Zero,To_Inf
                 ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
@@ -396,14 +411,17 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Numerical : (\Selection : (
+        Numerical : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Boolable,
         )),
 
-        Excuse::Div_By_Zero : (\Selection : ( composes : \@Excuse, value : \@material )),
+        Excuse::Div_By_Zero : (\Function : (
+            is_type_definer : True, composes : \@Excuse, value : \@material )),
 
-        Excuse::Zero_To_The_Zero : (\Selection : ( composes : \@Excuse, value : \@material )),
+        Excuse::Zero_To_The_Zero : (\Function : (
+            is_type_definer : True, composes : \@Excuse, value : \@material )),
 
         to_Boolean::Numerical : (\Function : (
             virtual : True,
@@ -549,18 +567,21 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Integral::"" : (\Selection : (
+        Integral::"" : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Bicessable and_provides_its_default,
                 \@Numerical and_provides_its_default},
         )),
 
-        Integral::NN : (\Selection : (
+        Integral::NN : (\Function : (
+            is_type_definer : True,
             of : \@Integral,
             where : \(args:.\0 >= zero::(args:.\0)),
         )),
 
-        Integral::P : (\Selection : (
+        Integral::P : (\Function : (
+            is_type_definer : True,
             of : \@Integral::NN,
             where : \(args:.\0 > zero::(args:.\0)),
             default : \(succ::(Integral::())),
@@ -614,15 +635,18 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Integer::"" : (\Selection : (
+        Integer::"" : (\Function : (
+            is_type_definer : True,
             composes : \@Integral and_provides_its_default,
             where : \(args --> \foundation::is_a_Integer::()),
             default : 0,
         )),
 
-        Integer::NN : (\Selection : ( of : \@Integer, where : \(args:.\0 >= 0) )),
+        Integer::NN : (\Function : (
+            is_type_definer : True, of : \@Integer, where : \(args:.\0 >= 0) )),
 
-        Integer::P : (\Selection : ( of : \@Integer::NN, where : \(args:.\0 > 0), default : 1 )),
+        Integer::P : (\Function : (
+            is_type_definer : True, of : \@Integer::NN, where : \(args:.\0 > 0), default : 1 )),
 
         in_order::Integer : (\Function : (
             returns : \@Boolean,
@@ -855,13 +879,15 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Fractional::"" : (\Selection : (
+        Fractional::"" : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Orderable and_provides_its_default,
                 \@Numerical and_provides_its_default},
         )),
 
-        Fractional::NN : (\Selection : (
+        Fractional::NN : (\Function : (
+            is_type_definer : True,
             of : \@Fractional,
             where : \(args:.\0 >= zero::(args:.\0)),
         )),
@@ -874,7 +900,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Fraction::"" : (\Selection : (
+        Fraction::"" : (\Function : (
+            is_type_definer : True,
             composes : \@Fractional and_provides_its_default,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Fraction, \(
@@ -891,7 +918,8 @@ meta script 'Unicode 9.0 UTF-8'
             default : 0.0,
         )),
 
-        Fraction::NN : (\Selection : ( of : \@Fraction, where : \(args:.\0 >= 0.0) )),
+        Fraction::NN : (\Function : (
+            is_type_definer : True, of : \@Fraction, where : \(args:.\0 >= 0.0) )),
 
         in_order::Fraction : (\Function : (
             returns : \@Boolean,
@@ -1063,12 +1091,14 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Emptyable : (\Selection : (
+        Emptyable : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Boolable,
         )),
 
-        Excuse::No_Empty_Value : (\Selection : ( composes : \@Excuse, value : \@material )),
+        Excuse::No_Empty_Value : (\Function : (
+            is_type_definer : True, composes : \@Excuse, value : \@material )),
 
         to_Boolean::Emptyable : (\Function : (
             virtual : True,
@@ -1093,7 +1123,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Stringy : (\Selection : (
+        Stringy : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Orderable, \@Emptyable and_provides_its_default},
         )),
@@ -1154,14 +1185,16 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Bits : (\Selection : (
+        Bits : (\Function : (
+            is_type_definer : True,
             composes : {\@Stringy and_provides_its_default},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Bits, \String::Bits() )),
             default : \~?'',
         )),
 
-        String::Bits : (\Selection : (
+        String::Bits : (\Function : (
+            is_type_definer : True,
             of : \@String,
             where : \(args:.\0 all \in::( 1: 0..1 )),
         )),
@@ -1244,14 +1277,16 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Blob : (\Selection : (
+        Blob : (\Function : (
+            is_type_definer : True,
             composes : \@Stringy,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Blob, \String::Octets() )),
             default : \~+'',
         )),
 
-        String::Octets : (\Selection : (
+        String::Octets : (\Function : (
+            is_type_definer : True,
             of : \@String,
             where : \(args:.\0 all \in::( 1: 0..255 )),
         )),
@@ -1331,7 +1366,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Textual : (\Selection : (
+        Textual : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Stringy,
         )),
@@ -1340,7 +1376,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Text::"" : (\Selection : (
+        Text::"" : (\Function : (
+            is_type_definer : True,
             composes : {\@Textual and_provides_its_default},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Text, \String::Maximal_Chars() )),
@@ -1349,22 +1386,26 @@ meta script 'Unicode 9.0 UTF-8'
 
         String::Maximal_Chars : (\Alias : ( of : \@String )),
 
-        Text::Unicode : (\Selection : (
+        Text::Unicode : (\Function : (
+            is_type_definer : True,
             of : \@Text,
             where : \(String::Unicode_Codes::(Text_from_Maximal_Chars args:.\0)),
         )),
 
-        String::Unicode_Codes : (\Selection : (
+        String::Unicode_Codes : (\Function : (
+            is_type_definer : True,
             of : \@String::Maximal_Chars,
             where : \(args:.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )),
         )),
 
-        Text::ASCII : (\Selection : (
+        Text::ASCII : (\Function : (
+            is_type_definer : True,
             of : \@Text::Unicode,
             where : \(String::ASCII_Chars::(Text_from_Unicode_Codes args:.\0)),
         )),
 
-        String::ASCII_Chars : (\Selection : (
+        String::ASCII_Chars : (\Function : (
+            is_type_definer : True,
             of : \@String::Unicode_Codes,
             where : \(args:.\0 all \in::( 1: 0..127 )),
         )),
@@ -1556,7 +1597,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Accessible : (\Selection : (
+        Accessible : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
@@ -1647,7 +1689,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Homogeneous : (\Selection : (
+        Homogeneous : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Emptyable,
         )),
@@ -1802,7 +1845,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Unionable : (\Selection : (
+        Unionable : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Homogeneous,
         )),
@@ -1919,7 +1963,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Discrete : (\Selection : (
+        Discrete : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Unionable and_provides_its_default,
         )),
@@ -1953,12 +1998,14 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Positional : (\Selection : (
+        Positional : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Stringy, \@Discrete and_provides_its_default, \@Accessible},
         )),
 
-        Excuse::No_Such_Ord_Pos : (\Selection : ( composes : \@Excuse, value : \@material )),
+        Excuse::No_Such_Ord_Pos : (\Function : (
+            is_type_definer : True, composes : \@Excuse, value : \@material )),
 
         singular::Positional : (\Function : (
             returns : \@Boolean,
@@ -2194,15 +2241,18 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Array::"" : (\Selection : (
+        Array::"" : (\Function : (
+            is_type_definer : True,
             composes : \@Positional and_provides_its_default,
             where : \(args --> \foundation::is_a_Array::()),
             default : [],
         )),
 
-        String::"" : (\Selection : ( of : \@Array, where : \(args:.\0 all \Integer::()) )),
+        String::"" : (\Function : (
+            is_type_definer : True, of : \@Array, where : \(args:.\0 all \Integer::()) )),
 
-        Array::Empty : (\Selection : ( value : [] )),
+        Array::Empty : (\Function : (
+            is_type_definer : True, value : [] )),
 
         Unicode_Aliases::"~∅" : (\Alias : ( of : \@Array::Empty )),
 
@@ -2468,13 +2518,15 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Setty : (\Selection : (
+        Setty : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
 `#########################################################################`
 
-        Set::"" : (\Selection : (
+        Set::"" : (\Function : (
+            is_type_definer : True,
             composes : {\@Discrete, \@Setty and_provides_its_default},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Set,
@@ -2482,7 +2534,8 @@ meta script 'Unicode 9.0 UTF-8'
             default : {},
         )),
 
-        Set::Empty : (\Selection : ( value : {} )),
+        Set::Empty : (\Function : (
+            is_type_definer : True, value : {} )),
 
         Unicode_Aliases::"?∅" : (\Alias : ( of : \@Set::Empty )),
 
@@ -2720,13 +2773,15 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Bag::"" : (\Selection : (
+        Bag::"" : (\Function : (
+            is_type_definer : True,
             composes : \@Discrete,
             where : \(args --> \foundation::is_a_Bag::()),
             default : {0:0},
         )),
 
-        Bag::Empty : (\Selection : ( value : {0:0} )),
+        Bag::Empty : (\Function : (
+            is_type_definer : True, value : {0:0} )),
 
         Unicode_Aliases::"+∅" : (\Alias : ( of : \@Bag::Empty )),
 
@@ -2962,13 +3017,16 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Attributive : (\Selection : (
+        Attributive : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
-        Excuse::No_Such_Attr_Name : (\Selection : ( composes : \@Excuse, value : \@material )),
+        Excuse::No_Such_Attr_Name : (\Function : (
+            is_type_definer : True, composes : \@Excuse, value : \@material )),
 
-        Excuse::Not_Same_Heading : (\Selection : ( composes : \@Excuse, value : \@material )),
+        Excuse::Not_Same_Heading : (\Function : (
+            is_type_definer : True, composes : \@Excuse, value : \@material )),
 
         has_any_attrs::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Attributive) )),
 
@@ -3175,7 +3233,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Structural : (\Selection : (
+        Structural : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Attributive and_provides_its_default,
                 \@Accessible and_provides_its_default},
@@ -3261,15 +3320,18 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Tuple::"" : (\Selection : (
+        Tuple::"" : (\Function : (
+            is_type_definer : True,
             composes : \@Structural and_provides_its_default,
             where : \(args --> \foundation::is_a_Tuple::()),
             default : (),
         )),
 
-        Tuple::D0 : (\Selection : ( value : () )),
+        Tuple::D0 : (\Function : (
+            is_type_definer : True, value : () )),
 
-        Tuple::D1 : (\Selection : (
+        Tuple::D1 : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(is_unary args:.\0),
             default : (False,),
@@ -3411,7 +3473,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Relational : (\Selection : (
+        Relational : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Unionable, \@Attributive},
         )),
@@ -3707,7 +3770,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Tuple_Array::"" : (\Selection : (
+        Tuple_Array::"" : (\Function : (
+            is_type_definer : True,
             composes : {\@Relational, \@Positional},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Array, \(
@@ -3722,9 +3786,11 @@ meta script 'Unicode 9.0 UTF-8'
             default : \(~%@()),
         )),
 
-        Tuple_Array::D0C0 : (\Selection : ( value : ~%@() )),
+        Tuple_Array::D0C0 : (\Function : (
+            is_type_definer : True, value : ~%@() )),
 
-        Tuple_Array::D0C1 : (\Selection : ( value : ~%[()] )),
+        Tuple_Array::D0C1 : (\Function : (
+            is_type_definer : True, value : ~%[()] )),
 
         heading::Tuple_Array : (\Function : (
             returns : \@Heading,
@@ -3749,7 +3815,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Relation::"" : (\Selection : (
+        Relation::"" : (\Function : (
+            is_type_definer : True,
             composes : {\@Relational and_provides_its_default, \@Discrete, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Relation, \(
@@ -3764,9 +3831,11 @@ meta script 'Unicode 9.0 UTF-8'
             default : \(?%@()),
         )),
 
-        Relation::D0C0 : (\Selection : ( value : ?%@() )),
+        Relation::D0C0 : (\Function : (
+            is_type_definer : True, value : ?%@() )),
 
-        Relation::D0C1 : (\Selection : ( value : ?%{()} )),
+        Relation::D0C1 : (\Function : (
+            is_type_definer : True, value : ?%{()} )),
 
         heading::Relation : (\Function : (
             returns : \@Heading,
@@ -3791,7 +3860,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Tuple_Bag::"" : (\Selection : (
+        Tuple_Bag::"" : (\Function : (
+            is_type_definer : True,
             composes : {\@Relational, \@Discrete},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Bag, \(
@@ -3806,9 +3876,11 @@ meta script 'Unicode 9.0 UTF-8'
             default : \(+%@()),
         )),
 
-        Tuple_Bag::D0C0 : (\Selection : ( value : +%@() )),
+        Tuple_Bag::D0C0 : (\Function : (
+            is_type_definer : True, value : +%@() )),
 
-        Tuple_Bag::D0C1 : (\Selection : ( value : +%{()} )),
+        Tuple_Bag::D0C1 : (\Function : (
+            is_type_definer : True, value : +%{()} )),
 
         heading::Tuple_Bag : (\Function : (
             returns : \@Heading,
@@ -3833,35 +3905,40 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Intervalish : (\Selection : (
+        Intervalish : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Homogeneous,
         )),
 
 `#########################################################################`
 
-        Interval::"" : (\Selection : (
+        Interval::"" : (\Function : (
+            is_type_definer : True,
             composes : {\@Intervalish, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval, \Interval::Attrs() )),
             default : \(Excuse::Before_All_Others()..Excuse::After_All_Others()),
         )),
 
-        Interval::Attrs : (\Selection : (
+        Interval::Attrs : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(...),
         )),
 
 `#########################################################################`
 
-        Unionable_Intervalish : (\Selection : (
+        Unionable_Intervalish : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : {\@Intervalish, \@Unionable},
         )),
 
 `#########################################################################`
 
-        Interval_Set : (\Selection : (
+        Interval_Set : (\Function : (
+            is_type_definer : True,
             composes : {\@Unionable_Intervalish, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Set,
@@ -3871,7 +3948,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Interval_Bag : (\Selection : (
+        Interval_Bag : (\Function : (
+            is_type_definer : True,
             composes : \@Unionable_Intervalish,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Bag, \(
@@ -3882,14 +3960,16 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Quantitative : (\Selection : (
+        Quantitative : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
             composes : \@Numerical,
         )),
 
 `#########################################################################`
 
-        Quantity : (\Selection : (
+        Quantity : (\Function : (
+            is_type_definer : True,
             composes : \@Quantitative,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Quantity, \(
@@ -3900,7 +3980,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Capsule : (\Selection : (
+        Capsule : (\Function : (
+            is_type_definer : True,
             where : \(args --> \foundation::is_a_Capsule::()),
             default : (False : False),
         )),
@@ -3919,14 +4000,16 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Reference::"" : (\Selection : (
+        Reference::"" : (\Function : (
+            is_type_definer : True,
             where : \(args --> \foundation::is_a_Reference::()),
             default : () --> \foundation::default_Reference::(),
         )),
 
 `#########################################################################`
 
-        External::"" : (\Selection : (
+        External::"" : (\Function : (
+            is_type_definer : True,
             where : \(args --> \foundation::is_a_External::()),
             default : () --> \foundation::default_External::(),
         )),
@@ -3939,7 +4022,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Source_Code::Package : (\Selection : (
+        Source_Code::Package : (\Function : (
+            is_type_definer : True,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Package, \(
                 args:.\0 is_a (
@@ -3954,7 +4038,8 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Package::Identity : (\Selection : (
+        Source_Code::Package::Identity : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(
                 args:.\0 is_a (
@@ -3965,7 +4050,8 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Package::Foundation : (\Selection : (
+        Source_Code::Package::Foundation : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(
                 args:.\0 is_a (
@@ -3975,27 +4061,32 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Package::Base_Name : (\Selection : (
+        Source_Code::Package::Base_Name : (\Function : (
+            is_type_definer : True,
             of : \@Attr_Name_List,
             where : \(so args:.\0 and args:.\0 ∌ \""),
         )),
 
-        Source_Code::Package::Canon_Authority : (\Selection : (
+        Source_Code::Package::Canon_Authority : (\Function : (
+            is_type_definer : True,
             of : \@Text,
             where : \(so args:.\0),
         )),
 
-        Source_Code::Package::Canon_Version_Number : (\Selection : (
+        Source_Code::Package::Canon_Version_Number : (\Function : (
+            is_type_definer : True,
             of : \@Text,
             where : \(so args:.\0),
         )),
 
-        Source_Code::Package::Uses_Map : (\Selection : (
+        Source_Code::Package::Uses_Map : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(args:.\0 .!? \"" and args:.\0 all_attr_assets \Package::Uses_Item::()),
         )),
 
-        Source_Code::Package::Uses_Item : (\Selection : (
+        Source_Code::Package::Uses_Item : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(
                 args:.\0 is_a (
@@ -4006,32 +4097,38 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Package::Entry_Point : (\Selection : ( of : \@Absolute_Name )),
+        Source_Code::Package::Entry_Point : (\Function : (
+            is_type_definer : True, of : \@Absolute_Name )),
 
-        Source_Code::Package::Floating : (\Selection : (
+        Source_Code::Package::Floating : (\Function : (
+            is_type_definer : True,
             of : \@Set,
             where : \(args:.\0 all \Absolute_Name::()),
         )),
 
-        Source_Code::Package::Folder : (\Selection : (
+        Source_Code::Package::Folder : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(args:.\0 all_attr_assets {\Package::Folder::(), \Material::()}),
         )),
 
-        Source_Code::Material : (\Selection : (
-            union : {\@Alias, \@Selection, \@Function, \@Procedure},
+        Source_Code::Material : (\Function : (
+            is_type_definer : True,
+            union : {\@Alias, \@Function, \@Procedure},
             default : ...,
         )),
 
-        Source_Code::Alias : (\Selection : (
+        Source_Code::Alias : (\Function : (
+            is_type_definer : True,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Alias, \Identity_Identifier::() )),
             default : \((\Alias : Identity_Identifier::())),
         )),
 
-        Source_Code::Selection : (\Selection : (
+        Source_Code::Function : (\Function : (
+            is_type_definer : True,
             of : \@Capsule,
-            where : \(Capsule_subtype::( args:.\0, \Selection, \(
+            where : \(Capsule_subtype::( args:.\0, \Function, \(
                 args:.\0 is_a (
                     is_generalization : \Boolean::(),
                     composes : ...,
@@ -4039,15 +4136,6 @@ meta script 'Unicode 9.0 UTF-8'
                     of : ...,
                     where : \Function_Body::(),
                     default : \Function_Body::(),
-                )
-            ) )),
-            default : ...,
-        )),
-
-        Source_Code::Function : (\Selection : (
-            of : \@Capsule,
-            where : \(Capsule_subtype::( args:.\0, \Function, \(
-                args:.\0 is_a (
                     virtual : \Boolean::(),
                     commutes : \Identity_Identifier::(),
                     negates : \Identity_Identifier::(),
@@ -4070,7 +4158,8 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Function_Body : (\Selection : (
+        Source_Code::Function_Body : (\Function : (
+            is_type_definer : True,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Function_Body, \(
                 args:.\0 is_a (
@@ -4081,7 +4170,8 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Procedure : (\Selection : (
+        Source_Code::Procedure : (\Function : (
+            is_type_definer : True,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Procedure, \(
                 args:.\0 is_a (
@@ -4099,7 +4189,8 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Procedure_Body : (\Selection : (
+        Source_Code::Procedure_Body : (\Function : (
+            is_type_definer : True,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Procedure_Body, \(
                 args:.\0 is_a (
@@ -4111,37 +4202,44 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Signature::"" : (\Selection : (
+        Source_Code::Signature::"" : (\Function : (
+            is_type_definer : True,
             union : {\@Function_Call_But_0, \@folder::Set, \@folder::Tuple},
             default : \Any::(),
         )),
 
-        Source_Code::Signature::Set : (\Selection : (
+        Source_Code::Signature::Set : (\Function : (
+            is_type_definer : True,
             of : \@Set,
             where : \(args:.\0 all \Signature::()),
         )),
 
-        Source_Code::Signature::Tuple : (\Selection : (
+        Source_Code::Signature::Tuple : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(args:.\0 all_attr_assets \Signature::()),
         )),
 
-        Source_Code::Heading : (\Selection : (
+        Source_Code::Heading : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(args:.\0 all_attr_assets \False::()),
         )),
 
-        Source_Code::Attr_Name : (\Selection : (
+        Source_Code::Attr_Name : (\Function : (
+            is_type_definer : True,
             of : \@Heading,
             where : \(is_unary args:.\0),
         )),
 
-        Source_Code::Attr_Name_List : (\Selection : (
+        Source_Code::Attr_Name_List : (\Function : (
+            is_type_definer : True,
             of : \@Array,
             where : \(args:.\0 all \Attr_Name::()),
         )),
 
-        Source_Code::Local_Name : (\Selection : (
+        Source_Code::Local_Name : (\Function : (
+            is_type_definer : True,
             of : \@Attr_Name_List,
             where : \(
                 if so args:.\0 then guard
@@ -4158,17 +4256,20 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Absolute_Name : (\Selection : (
+        Source_Code::Absolute_Name : (\Function : (
+            is_type_definer : True,
             of : \@Local_Name,
             where : \(args:.\0.0 ⊆@ \@(foundation,used,package)),
         )),
 
-        Source_Code::Named_Expr_List : (\Selection : (
+        Source_Code::Named_Expr_List : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(args:.\0 .!? \"" and args:.\0 all_attr_assets \Expression::()),
         )),
 
-        Source_Code::Expression : (\Selection : (
+        Source_Code::Expression : (\Function : (
+            is_type_definer : True,
             union : {\@Expr_Name_Expr, \@Naming_Expr, \@Annotating_Expr
                 , ...
                 , \@delimiting_expr, \@source_expr
@@ -4177,17 +4278,20 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Named_Stmt_List : (\Selection : (
+        Source_Code::Named_Stmt_List : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(args:.\0 .!? \"" and args:.\0 all_attr_assets \Statement::()),
         )),
 
-        Source_Code::Statement : (\Selection : (
+        Source_Code::Statement : (\Function : (
+            is_type_definer : True,
             union : {...},
             default : ...,
         )),
 
-        Source_Code::Key_Asset_Pair : (\Selection : (
+        Source_Code::Key_Asset_Pair : (\Function : (
+            is_type_definer : True,
             of : \@Tuple,
             where : \(@args:.\0 = \@(key,asset)),
         )),
@@ -4219,13 +4323,15 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Source_Code::Annotation::"" : (\Selection : (
+        Source_Code::Annotation::"" : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
 `#########################################################################`
 
-        Source_Code::Decoration::"" : (\Selection : (
+        Source_Code::Decoration::"" : (\Function : (
+            is_type_definer : True,
             is_generalization : True,
         )),
 
