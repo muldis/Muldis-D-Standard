@@ -51,9 +51,11 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Excuse::"" : (\Interface : ()),
+        Excuse::"" : (\Selection : (
+            is_generalization : True,
+        )),
 
-        Excuse::No_Reason : (\Constant : ( composes : \@Excuse and_provides_its_default )),
+        Excuse::No_Reason : (\Selection : ( composes : \@Excuse and_provides_its_default, value : \@material )),
 
         or_else : (\Function : (
             returns : \@Any,
@@ -75,12 +77,13 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Orderable::"" : (\Interface : (
+        Orderable::"" : (\Selection : (
+            is_generalization : True,
         )),
 
-        Excuse::Before_All_Others : (\Constant : ( composes : {\@Excuse, \@Orderable} )),
+        Excuse::Before_All_Others : (\Selection : ( composes : {\@Excuse, \@Orderable}, value : \@material )),
 
-        Excuse::After_All_Others : (\Constant : ( composes : {\@Excuse, \@Orderable} )),
+        Excuse::After_All_Others : (\Selection : ( composes : {\@Excuse, \@Orderable}, value : \@material )),
 
         in_order::"" : (\Function : (
             virtual : True,
@@ -165,7 +168,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Successable : (\Interface : (
+        Successable : (\Selection : (
+            is_generalization : True,
         )),
 
         asset::"" : (\Function : ( virtual : True, returns : \@Any, matches : (\@Successable) )),
@@ -184,7 +188,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Bicessable : (\Interface : (
+        Bicessable : (\Selection : (
+            is_generalization : True,
             composes : {\@Orderable and_provides_its_default,
                 \@Successable and_provides_its_default},
         )),
@@ -203,7 +208,9 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Boolable : (\Interface : ()),
+        Boolable : (\Selection : (
+            is_generalization : True,
+        )),
 
         to_Boolean::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Boolable) )),
 
@@ -217,16 +224,16 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Boolean : (\Selection : (
+            composes : {\@Bicessable, \@Boolable and_provides_its_default},
             where : \(args --> \foundation::is_a_Boolean::()),
             default : False,
-            composes : {\@Bicessable, \@Boolable and_provides_its_default},
         )),
 
-        False : (\Constant : ( value : False )),
+        False : (\Selection : ( value : False )),
 
         Unicode_Aliases::"⊥" : (\Alias : ( of : \@False )),
 
-        True : (\Constant : ( value : True )),
+        True : (\Selection : ( value : True )),
 
         Unicode_Aliases::"⊤" : (\Alias : ( of : \@True )),
 
@@ -389,13 +396,14 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Numerical : (\Interface : (
+        Numerical : (\Selection : (
+            is_generalization : True,
             composes : \@Boolable,
         )),
 
-        Excuse::Div_By_Zero : (\Constant : ( composes : \@Excuse )),
+        Excuse::Div_By_Zero : (\Selection : ( composes : \@Excuse, value : \@material )),
 
-        Excuse::Zero_To_The_Zero : (\Constant : ( composes : \@Excuse )),
+        Excuse::Zero_To_The_Zero : (\Selection : ( composes : \@Excuse, value : \@material )),
 
         to_Boolean::Numerical : (\Function : (
             virtual : True,
@@ -541,7 +549,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Integral::"" : (\Interface : (
+        Integral::"" : (\Selection : (
+            is_generalization : True,
             composes : {\@Bicessable and_provides_its_default,
                 \@Numerical and_provides_its_default},
         )),
@@ -606,9 +615,9 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Integer::"" : (\Selection : (
+            composes : \@Integral and_provides_its_default,
             where : \(args --> \foundation::is_a_Integer::()),
             default : 0,
-            composes : \@Integral and_provides_its_default,
         )),
 
         Integer::NN : (\Selection : ( of : \@Integer, where : \(args:.\0 >= 0) )),
@@ -843,7 +852,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Fractional::"" : (\Interface : (
+        Fractional::"" : (\Selection : (
+            is_generalization : True,
             composes : {\@Orderable and_provides_its_default,
                 \@Numerical and_provides_its_default},
         )),
@@ -862,6 +872,7 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Fraction::"" : (\Selection : (
+            composes : \@Fractional and_provides_its_default,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Fraction, \(
                 if
@@ -875,7 +886,6 @@ meta script 'Unicode 9.0 UTF-8'
                     False
             ) )),
             default : 0.0,
-            composes : \@Fractional and_provides_its_default,
         )),
 
         Fraction::NN : (\Selection : ( of : \@Fraction, where : \(args:.\0 >= 0.0) )),
@@ -1047,11 +1057,12 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Emptyable : (\Interface : (
+        Emptyable : (\Selection : (
+            is_generalization : True,
             composes : \@Boolable,
         )),
 
-        Excuse::No_Empty_Value : (\Constant : ( composes : \@Excuse )),
+        Excuse::No_Empty_Value : (\Selection : ( composes : \@Excuse, value : \@material )),
 
         to_Boolean::Emptyable : (\Function : (
             virtual : True,
@@ -1076,7 +1087,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Stringy : (\Interface : (
+        Stringy : (\Selection : (
+            is_generalization : True,
             composes : {\@Orderable, \@Emptyable and_provides_its_default},
         )),
 
@@ -1137,10 +1149,10 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Bits : (\Selection : (
+            composes : {\@Stringy and_provides_its_default},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Bits, \String::Bits() )),
             default : \~?'',
-            composes : {\@Stringy and_provides_its_default},
         )),
 
         String::Bits : (\Selection : (
@@ -1227,10 +1239,10 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Blob : (\Selection : (
+            composes : \@Stringy,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Blob, \String::Octets() )),
             default : \~+'',
-            composes : \@Stringy,
         )),
 
         String::Octets : (\Selection : (
@@ -1313,7 +1325,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Textual : (\Interface : (
+        Textual : (\Selection : (
+            is_generalization : True,
             composes : \@Stringy,
         )),
 
@@ -1322,10 +1335,10 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Text::"" : (\Selection : (
+            composes : {\@Textual and_provides_its_default},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Text, \String::Maximal_Chars() )),
             default : '',
-            composes : {\@Textual and_provides_its_default},
         )),
 
         String::Maximal_Chars : (\Alias : ( of : \@String )),
@@ -1537,7 +1550,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Accessible : (\Interface : (
+        Accessible : (\Selection : (
+            is_generalization : True,
         )),
 
         has_any_at::"" : (\Function : (
@@ -1627,7 +1641,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Homogeneous : (\Interface : (
+        Homogeneous : (\Selection : (
+            is_generalization : True,
             composes : \@Emptyable,
         )),
 
@@ -1781,7 +1796,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Unionable : (\Interface : (
+        Unionable : (\Selection : (
+            is_generalization : True,
             composes : \@Homogeneous,
         )),
 
@@ -1897,7 +1913,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Discrete : (\Interface : (
+        Discrete : (\Selection : (
+            is_generalization : True,
             composes : \@Unionable and_provides_its_default,
         )),
 
@@ -1930,11 +1947,12 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Positional : (\Interface : (
+        Positional : (\Selection : (
+            is_generalization : True,
             composes : {\@Stringy, \@Discrete and_provides_its_default, \@Accessible},
         )),
 
-        Excuse::No_Such_Ord_Pos : (\Constant : ( composes : \@Excuse )),
+        Excuse::No_Such_Ord_Pos : (\Selection : ( composes : \@Excuse, value : \@material )),
 
         singular::Positional : (\Function : (
             returns : \@Boolean,
@@ -2171,14 +2189,14 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Array::"" : (\Selection : (
+            composes : \@Positional and_provides_its_default,
             where : \(args --> \foundation::is_a_Array::()),
             default : [],
-            composes : \@Positional and_provides_its_default,
         )),
 
         String::"" : (\Selection : ( of : \@Array, where : \(args:.\0 all \Integer::()) )),
 
-        Array::Empty : (\Constant : ( value : [] )),
+        Array::Empty : (\Selection : ( value : [] )),
 
         Unicode_Aliases::"~∅" : (\Alias : ( of : \@Array::Empty )),
 
@@ -2443,19 +2461,21 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Setty : (\Interface : ()),
+        Setty : (\Selection : (
+            is_generalization : True,
+        )),
 
 `#########################################################################`
 
         Set::"" : (\Selection : (
+            composes : {\@Discrete, \@Setty and_provides_its_default},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Set,
                 \(if Bag args:.\0 then guard all_unique args:.\0 else False) )),
             default : {},
-            composes : {\@Discrete, \@Setty and_provides_its_default},
         )),
 
-        Set::Empty : (\Constant : ( value : {} )),
+        Set::Empty : (\Selection : ( value : {} )),
 
         Unicode_Aliases::"?∅" : (\Alias : ( of : \@Set::Empty )),
 
@@ -2693,12 +2713,12 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Bag::"" : (\Selection : (
+            composes : \@Discrete,
             where : \(args --> \foundation::is_a_Bag::()),
             default : {0:0},
-            composes : \@Discrete,
         )),
 
-        Bag::Empty : (\Constant : ( value : {0:0} )),
+        Bag::Empty : (\Selection : ( value : {0:0} )),
 
         Unicode_Aliases::"+∅" : (\Alias : ( of : \@Bag::Empty )),
 
@@ -2933,12 +2953,13 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Attributive : (\Interface : (
+        Attributive : (\Selection : (
+            is_generalization : True,
         )),
 
-        Excuse::No_Such_Attr_Name : (\Constant : ( composes : \@Excuse )),
+        Excuse::No_Such_Attr_Name : (\Selection : ( composes : \@Excuse, value : \@material )),
 
-        Excuse::Not_Same_Heading : (\Constant : ( composes : \@Excuse )),
+        Excuse::Not_Same_Heading : (\Selection : ( composes : \@Excuse, value : \@material )),
 
         has_any_attrs::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Attributive) )),
 
@@ -3145,7 +3166,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Structural : (\Interface : (
+        Structural : (\Selection : (
+            is_generalization : True,
             composes : {\@Attributive and_provides_its_default,
                 \@Accessible and_provides_its_default},
         )),
@@ -3231,12 +3253,12 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Tuple::"" : (\Selection : (
+            composes : \@Structural and_provides_its_default,
             where : \(args --> \foundation::is_a_Tuple::()),
             default : (),
-            composes : \@Structural and_provides_its_default,
         )),
 
-        Tuple::D0 : (\Constant : ( value : () )),
+        Tuple::D0 : (\Selection : ( value : () )),
 
         Tuple::D1 : (\Selection : (
             of : \@Tuple,
@@ -3380,7 +3402,8 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Relational : (\Interface : (
+        Relational : (\Selection : (
+            is_generalization : True,
             composes : {\@Unionable, \@Attributive},
         )),
 
@@ -3676,6 +3699,7 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Tuple_Array::"" : (\Selection : (
+            composes : {\@Relational, \@Positional},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Array, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Array::() ) then guard
@@ -3687,12 +3711,11 @@ meta script 'Unicode 9.0 UTF-8'
                     False
             ) )),
             default : \(~%@()),
-            composes : {\@Relational, \@Positional},
         )),
 
-        Tuple_Array::D0C0 : (\Constant : ( value : ~%@() )),
+        Tuple_Array::D0C0 : (\Selection : ( value : ~%@() )),
 
-        Tuple_Array::D0C1 : (\Constant : ( value : ~%[()] )),
+        Tuple_Array::D0C1 : (\Selection : ( value : ~%[()] )),
 
         heading::Tuple_Array : (\Function : (
             returns : \@Heading,
@@ -3718,6 +3741,7 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Relation::"" : (\Selection : (
+            composes : {\@Relational and_provides_its_default, \@Discrete, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Relation, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) then guard
@@ -3729,12 +3753,11 @@ meta script 'Unicode 9.0 UTF-8'
                     False
             ) )),
             default : \(?%@()),
-            composes : {\@Relational and_provides_its_default, \@Discrete, \@Setty},
         )),
 
-        Relation::D0C0 : (\Constant : ( value : ?%@() )),
+        Relation::D0C0 : (\Selection : ( value : ?%@() )),
 
-        Relation::D0C1 : (\Constant : ( value : ?%{()} )),
+        Relation::D0C1 : (\Selection : ( value : ?%{()} )),
 
         heading::Relation : (\Function : (
             returns : \@Heading,
@@ -3760,6 +3783,7 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Tuple_Bag::"" : (\Selection : (
+            composes : {\@Relational, \@Discrete},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Bag, \(
                 if args:.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then guard
@@ -3771,12 +3795,11 @@ meta script 'Unicode 9.0 UTF-8'
                     False
             ) )),
             default : \(+%@()),
-            composes : {\@Relational, \@Discrete},
         )),
 
-        Tuple_Bag::D0C0 : (\Constant : ( value : +%@() )),
+        Tuple_Bag::D0C0 : (\Selection : ( value : +%@() )),
 
-        Tuple_Bag::D0C1 : (\Constant : ( value : +%{()} )),
+        Tuple_Bag::D0C1 : (\Selection : ( value : +%{()} )),
 
         heading::Tuple_Bag : (\Function : (
             returns : \@Heading,
@@ -3801,17 +3824,18 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Intervalish : (\Interface : (
+        Intervalish : (\Selection : (
+            is_generalization : True,
             composes : \@Homogeneous,
         )),
 
 `#########################################################################`
 
         Interval::"" : (\Selection : (
+            composes : {\@Intervalish, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval, \Interval::Attrs() )),
             default : \(Excuse::Before_All_Others()..Excuse::After_All_Others()),
-            composes : {\@Intervalish, \@Setty},
         )),
 
         Interval::Attrs : (\Selection : (
@@ -3821,46 +3845,48 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Unionable_Intervalish : (\Interface : (
+        Unionable_Intervalish : (\Selection : (
+            is_generalization : True,
             composes : {\@Intervalish, \@Unionable},
         )),
 
 `#########################################################################`
 
         Interval_Set : (\Selection : (
+            composes : {\@Unionable_Intervalish, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Set,
                 \(if Interval_Bag args:.\0 then guard all_unique args:.\0 else False) )),
             default : ...,
-            composes : {\@Unionable_Intervalish, \@Setty},
         )),
 
 `#########################################################################`
 
         Interval_Bag : (\Selection : (
+            composes : \@Unionable_Intervalish,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Bag, \(
                 if Tuple_Bag args:.\0 then guard ... else False
             ) )),
             default : ...,
-            composes : \@Unionable_Intervalish,
         )),
 
 `#########################################################################`
 
-        Quantitative : (\Interface : (
+        Quantitative : (\Selection : (
+            is_generalization : True,
             composes : \@Numerical,
         )),
 
 `#########################################################################`
 
         Quantity : (\Selection : (
+            composes : \@Quantitative,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Quantity, \(
                 if Relation args:.\0 then guard ... else False
             ) )),
             default : ...,
-            composes : \@Quantitative,
         )),
 
 `#########################################################################`
@@ -3984,7 +4010,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Source_Code::Material : (\Selection : (
-            union : {\@Alias, \@Constant, \@Selection, \@Interface, \@Function, \@Procedure},
+            union : {\@Alias, \@Selection, \@Function, \@Procedure},
             default : ...,
         )),
 
@@ -3994,36 +4020,16 @@ meta script 'Unicode 9.0 UTF-8'
             default : \((\Alias : Identity_Identifier::())),
         )),
 
-        Source_Code::Constant : (\Selection : (
-            of : \@Capsule,
-            where : \(Capsule_subtype::( args:.\0, \Constant, \(
-                args:.\0 is_a (
-                    folded : \Boolean::(),
-                    composes : ...,
-                    value : \Function_Body::(),  `Defaults to \@0 if omitted.`
-                )
-            ) )),
-            default : ...,
-        )),
-
         Source_Code::Selection : (\Selection : (
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Selection, \(
                 args:.\0 is_a (
+                    is_generalization : \Boolean::(),
+                    composes : ...,
+                    value : \Function_Body::(),
                     of : ...,
                     where : \Function_Body::(),
                     default : \Function_Body::(),
-                    composes : ...,
-                )
-            ) )),
-            default : ...,
-        )),
-
-        Source_Code::Interface : (\Selection : (
-            of : \@Capsule,
-            where : \(Capsule_subtype::( args:.\0, \Interface, \(
-                args:.\0 is_a (
-                    composes : ...,
                 )
             ) )),
             default : ...,
@@ -4202,11 +4208,15 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Source_Code::Annotation::"" : (\Interface : ()),
+        Source_Code::Annotation::"" : (\Selection : (
+            is_generalization : True,
+        )),
 
 `#########################################################################`
 
-        Source_Code::Decoration::"" : (\Interface : ()),
+        Source_Code::Decoration::"" : (\Selection : (
+            is_generalization : True,
+        )),
 
 `#########################################################################`
 
