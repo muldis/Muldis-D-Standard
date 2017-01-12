@@ -20,10 +20,15 @@ meta script 'Unicode 9.0 UTF-8'
 `#########################################################################`
 
         Any : (\Function : (
-            is_type_definer : True, default : False )),
+            is_type_definer : True,
+            evaluates : True,
+            default : False,
+        )),
 
         None : (\Function : (
-            is_type_definer : True, of : {} )),
+            is_type_definer : True,
+            evaluates : False,
+        )),
 
         same : (\Function : (
             returns : \@Boolean,
@@ -393,15 +398,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         Round_Meth::"" : (\Function : (
             is_type_definer : True,
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \@material, \folder::Attr_Name::() )),
             default : (\@material : \To_Zero),
         )),
 
         Round_Meth::Attr_Name : (\Function : (
             is_type_definer : True,
-            of : \@Attr_Name,
-            where : \(args:.\0 ⊆@ \@(Down,Up,To_Zero,To_Inf
+            where : \(Attr_Name args:.\0 and_then guard
+                args:.\0 ⊆@ \@(Down,Up,To_Zero,To_Inf
                 ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
                 ,Half_Even,Half_Odd)
             ),
@@ -581,14 +585,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         Integral::NN : (\Function : (
             is_type_definer : True,
-            of : \@Integral,
-            where : \(args:.\0 >= zero::(args:.\0)),
+            where : \(Integral args:.\0 and_then guard
+                args:.\0 >= zero::(args:.\0)),
         )),
 
         Integral::P : (\Function : (
             is_type_definer : True,
-            of : \@Integral::NN,
-            where : \(args:.\0 > zero::(args:.\0)),
+            where : \(Integral::NN::(args:.\0) and_then guard
+                args:.\0 > zero::(args:.\0)),
             default : \(succ::(Integral::())),
         )),
 
@@ -649,10 +653,15 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Integer::NN : (\Function : (
-            is_type_definer : True, of : \@Integer, where : \(args:.\0 >= 0) )),
+            is_type_definer : True,
+            where : \(Integer args:.\0 and_then guard args:.\0 >= 0),
+        )),
 
         Integer::P : (\Function : (
-            is_type_definer : True, of : \@Integer::NN, where : \(args:.\0 > 0), default : 1 )),
+            is_type_definer : True,
+            where : \(Integer::NN::(args:.\0) and_then guard args:.\0 > 0),
+            default : 1,
+        )),
 
         in_order::Integer : (\Function : (
             returns : \@Boolean,
@@ -893,8 +902,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Fractional::NN : (\Function : (
             is_type_definer : True,
-            of : \@Fractional,
-            where : \(args:.\0 >= zero::(args:.\0)),
+            where : \(Fractional args:.\0 and_then guard
+                args:.\0 >= zero::(args:.\0)),
         )),
 
         to_Fraction::"" : (\Function : ( virtual : True, returns : \@Fraction, matches : (\@Fractional) )),
@@ -909,7 +918,6 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Fractional},
             provides_default_for : {\@Fractional},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Fraction, \(
                     args:.\0 is_a (
                         numerator : \Integer::(),
@@ -922,7 +930,9 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Fraction::NN : (\Function : (
-            is_type_definer : True, of : \@Fraction, where : \(args:.\0 >= 0.0) )),
+            is_type_definer : True,
+            where : \(Fraction args:.\0 and_then guard args:.\0 >= 0.0),
+        )),
 
         in_order::Fraction : (\Function : (
             returns : \@Boolean,
@@ -1193,15 +1203,14 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Stringy},
             provides_default_for : {\@Stringy},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Bits, \String::Bits() )),
             default : \~?'',
         )),
 
         String::Bits : (\Function : (
             is_type_definer : True,
-            of : \@String,
-            where : \(args:.\0 all \in::( 1: 0..1 )),
+            where : \(String args:.\0 and_then guard
+                args:.\0 all \in::( 1: 0..1 )),
         )),
 
         in_order::Bits : (\Function : (
@@ -1285,15 +1294,14 @@ meta script 'Unicode 9.0 UTF-8'
         Blob : (\Function : (
             is_type_definer : True,
             composes : {\@Stringy},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Blob, \String::Octets() )),
             default : \~+'',
         )),
 
         String::Octets : (\Function : (
             is_type_definer : True,
-            of : \@String,
-            where : \(args:.\0 all \in::( 1: 0..255 )),
+            where : \(String args:.\0 and_then guard
+                args:.\0 all \in::( 1: 0..255 )),
         )),
 
         in_order::Blob : (\Function : (
@@ -1385,7 +1393,6 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Textual},
             provides_default_for : {\@Textual},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Text, \String::Maximal_Chars() )),
             default : '',
         )),
@@ -1394,26 +1401,26 @@ meta script 'Unicode 9.0 UTF-8'
 
         Text::Unicode : (\Function : (
             is_type_definer : True,
-            of : \@Text,
-            where : \(String::Unicode_Codes::(Text_from_Maximal_Chars args:.\0)),
+            where : \(Text args:.\0 and_then guard
+                String::Unicode_Codes::(Text_from_Maximal_Chars args:.\0)),
         )),
 
         String::Unicode_Codes : (\Function : (
             is_type_definer : True,
-            of : \@String::Maximal_Chars,
-            where : \(args:.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )),
+            where : \(String::Maximal_Chars::(args:.\0) and_then guard
+                args:.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )),
         )),
 
         Text::ASCII : (\Function : (
             is_type_definer : True,
-            of : \@Text::Unicode,
-            where : \(String::ASCII_Chars::(Text_from_Unicode_Codes args:.\0)),
+            where : \(Text::Unicode::(args:.\0) and_then guard
+                String::ASCII_Chars::(Text_from_Unicode_Codes args:.\0)),
         )),
 
         String::ASCII_Chars : (\Function : (
             is_type_definer : True,
-            of : \@String::Unicode_Codes,
-            where : \(args:.\0 all \in::( 1: 0..127 )),
+            where : \(String::Unicode_Codes::(args:.\0) and_then guard
+                args:.\0 all \in::( 1: 0..127 )),
         )),
 
         in_order::Text : (\Function : (
@@ -2258,7 +2265,9 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         String::"" : (\Function : (
-            is_type_definer : True, of : \@Array, where : \(args:.\0 all \Integer::()) )),
+            is_type_definer : True,
+            where : \(Array args:.\0 and_then guard args:.\0 all \Integer::()),
+        )),
 
         Array::Empty : (\Function : (
             is_type_definer : True, value : [] )),
@@ -2538,7 +2547,6 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Discrete, \@Setty},
             provides_default_for : {\@Setty},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Set,
                 \(Bag args:.\0 and_then guard all_unique args:.\0) )),
             default : {},
@@ -3343,8 +3351,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Tuple::D1 : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(is_unary args:.\0),
+            where : \(Tuple args:.\0 and_then guard is_unary args:.\0),
             default : (False,),
         )),
 
@@ -3783,7 +3790,6 @@ meta script 'Unicode 9.0 UTF-8'
         Tuple_Array::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Positional},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Array, \(
                 args:.\0 is_a ( heading : \Heading::(), body : \Array::() ) and_then guard
                     args:.\0.\body all \Tuple::() and_then guard
@@ -3825,7 +3831,6 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Relational, \@Discrete, \@Setty},
             provides_default_for : {\@Relational},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Relation, \(
                 args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) and_then guard
                     args:.\0.\body all \Tuple::() and_then guard
@@ -3866,7 +3871,6 @@ meta script 'Unicode 9.0 UTF-8'
         Tuple_Bag::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Discrete},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Bag, \(
                 args:.\0 is_a ( heading : \Heading::(), body : \Bag::() ) and_then guard
                     args:.\0.\body all \Tuple::() and_then guard
@@ -3915,15 +3919,13 @@ meta script 'Unicode 9.0 UTF-8'
         Interval::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Intervalish, \@Setty},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval, \Interval::Attrs() )),
             default : \(Excuse::Before_All_Others()..Excuse::After_All_Others()),
         )),
 
         Interval::Attrs : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(...),
+            where : \(Tuple args:.\0 and_then guard ...),
         )),
 
 `#########################################################################`
@@ -3939,7 +3941,6 @@ meta script 'Unicode 9.0 UTF-8'
         Interval_Set : (\Function : (
             is_type_definer : True,
             composes : {\@Unionable_Intervalish, \@Setty},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Set,
                 \(Interval_Bag args:.\0 and_then guard all_unique args:.\0) )),
             default : ...,
@@ -3950,7 +3951,6 @@ meta script 'Unicode 9.0 UTF-8'
         Interval_Bag : (\Function : (
             is_type_definer : True,
             composes : {\@Unionable_Intervalish},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Bag, \(
                 Tuple_Bag args:.\0 and_then guard ...
             ) )),
@@ -3970,7 +3970,6 @@ meta script 'Unicode 9.0 UTF-8'
         Quantity : (\Function : (
             is_type_definer : True,
             composes : {\@Quantitative},
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Quantity, \(
                 Relation args:.\0 and_then guard ...
             ) )),
@@ -3990,7 +3989,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Any, \@Any, \@Signature),
             evaluates : \(
                 Capsule args:.\0 and_then guard
-                    args:.\0:< = args:.\1 and
+                    args:.\0:< = args:.\1 and_then
                         (args:.\0:>,) --> Signature_to_Function_Call_But_0::(args:.\2)
             ),
         )),
@@ -4021,7 +4020,6 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Package : (\Function : (
             is_type_definer : True,
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Package, \(
                 args:.\0 is_a (
                     identity : \Package::Identity::(),
@@ -4037,8 +4035,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Package::Identity : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(
+            where : \(Tuple args:.\0 and_then guard
                 args:.\0 is_a (
                     package_base_name : \Package::Base_Name::(),
                     authority : \Package::Canon_Authority::(),
@@ -4049,8 +4046,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Package::Foundation : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(
+            where : \(Tuple args:.\0 and_then guard
                 args:.\0 is_a (
                     authority : \Package::Canon_Authority::(),
                     version_number : \Package::Canon_Version_Number::(),
@@ -4060,32 +4056,29 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Package::Base_Name : (\Function : (
             is_type_definer : True,
-            of : \@Attr_Name_List,
-            where : \(so args:.\0 and args:.\0 ∌ \""),
+            where : \(Attr_Name_List args:.\0 and_then guard
+                so args:.\0 and args:.\0 ∌ \""),
         )),
 
         Source_Code::Package::Canon_Authority : (\Function : (
             is_type_definer : True,
-            of : \@Text,
-            where : \(so args:.\0),
+            where : \(Text args:.\0 and_then guard so args:.\0),
         )),
 
         Source_Code::Package::Canon_Version_Number : (\Function : (
             is_type_definer : True,
-            of : \@Text,
-            where : \(so args:.\0),
+            where : \(Text args:.\0 and_then guard so args:.\0),
         )),
 
         Source_Code::Package::Uses_Map : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(args:.\0 .!? \"" and args:.\0 all_attr_assets \Package::Uses_Item::()),
+            where : \(Tuple args:.\0 and_then guard
+                args:.\0 .!? \"" and args:.\0 all_attr_assets \Package::Uses_Item::()),
         )),
 
         Source_Code::Package::Uses_Item : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(
+            where : \(Tuple args:.\0 and_then guard
                 args:.\0 is_a (
                     package_base_name : \Package::Base_Name::(),
                     authority : \Package::Canon_Authority::(),
@@ -4095,18 +4088,20 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Source_Code::Package::Entry_Point : (\Function : (
-            is_type_definer : True, of : \@Absolute_Name )),
+            is_type_definer : True,
+            where : \(Absolute_Name args:.\0)
+        )),
 
         Source_Code::Package::Floating : (\Function : (
             is_type_definer : True,
-            of : \@Set,
-            where : \(args:.\0 all \Absolute_Name::()),
+            where : \(Set args:.\0 and_then guard
+                args:.\0 all \Absolute_Name::()),
         )),
 
         Source_Code::Package::Folder : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(args:.\0 all_attr_assets {\Package::Folder::(), \Material::()}),
+            where : \(Tuple args:.\0 and_then guard
+                args:.\0 all_attr_assets {\Package::Folder::(), \Material::()}),
         )),
 
         Source_Code::Material : (\Function : (
@@ -4117,21 +4112,18 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Alias : (\Function : (
             is_type_definer : True,
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Alias, \Identity_Identifier::() )),
             default : \((\Alias : Identity_Identifier::())),
         )),
 
         Source_Code::Function : (\Function : (
             is_type_definer : True,
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Function, \(
                 args:.\0 is_a (
                     is_generalization : \Boolean::(),
                     composes : ...,  `set of 0..N type name`
                     provides_default_for : ...,  `subset 0..M of prior set`
                     value : \Function_Body::(),
-                    of : ...,
                     where : \Function_Body::(),
                     default : \Function_Body::(),
                     virtual : \Boolean::(),
@@ -4158,7 +4150,6 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Function_Body : (\Function : (
             is_type_definer : True,
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Function_Body, \(
                 args:.\0 is_a (
                     root_expr : \Expression::(),
@@ -4170,7 +4161,6 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Procedure : (\Function : (
             is_type_definer : True,
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Procedure, \(
                 args:.\0 is_a (
                     virtual : \Boolean::(),
@@ -4189,7 +4179,6 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Procedure_Body : (\Function : (
             is_type_definer : True,
-            of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Procedure_Body, \(
                 args:.\0 is_a (
                     root_stmt : \Statement::(),
@@ -4208,38 +4197,36 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Signature::Set : (\Function : (
             is_type_definer : True,
-            of : \@Set,
-            where : \(args:.\0 all \Signature::()),
+            where : \(Set args:.\0 and_then guard
+                args:.\0 all \Signature::()),
         )),
 
         Source_Code::Signature::Tuple : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(args:.\0 all_attr_assets \Signature::()),
+            where : \(Tuple args:.\0 and_then guard
+                args:.\0 all_attr_assets \Signature::()),
         )),
 
         Source_Code::Heading : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(args:.\0 all_attr_assets \False::()),
+            where : \(Tuple args:.\0 and_then guard
+                args:.\0 all_attr_assets \False::()),
         )),
 
         Source_Code::Attr_Name : (\Function : (
             is_type_definer : True,
-            of : \@Heading,
-            where : \(is_unary args:.\0),
+            where : \(Heading args:.\0 and_then guard is_unary args:.\0),
         )),
 
         Source_Code::Attr_Name_List : (\Function : (
             is_type_definer : True,
-            of : \@Array,
-            where : \(args:.\0 all \Attr_Name::()),
+            where : \(Array args:.\0 and_then guard
+                args:.\0 all \Attr_Name::()),
         )),
 
         Source_Code::Local_Name : (\Function : (
             is_type_definer : True,
-            of : \@Attr_Name_List,
-            where : \(
+            where : \(Attr_Name_List args:.\0 and_then guard
                 so args:.\0 and_then guard
                     given args:.\0.0
                         when \foundation then #args:.\0 = 2
@@ -4254,14 +4241,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Absolute_Name : (\Function : (
             is_type_definer : True,
-            of : \@Local_Name,
-            where : \(args:.\0.0 ⊆@ \@(foundation,used,package)),
+            where : \(Local_Name args:.\0 and_then guard
+                args:.\0.0 ⊆@ \@(foundation,used,package)),
         )),
 
         Source_Code::Named_Expr_List : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(args:.\0 .!? \"" and args:.\0 all_attr_assets \Expression::()),
+            where : \(Tuple args:.\0 and_then guard
+                args:.\0 .!? \"" and args:.\0 all_attr_assets \Expression::()),
         )),
 
         Source_Code::Expression : (\Function : (
@@ -4276,8 +4263,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Named_Stmt_List : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(args:.\0 .!? \"" and args:.\0 all_attr_assets \Statement::()),
+            where : \(Tuple args:.\0 and_then guard
+                args:.\0 .!? \"" and args:.\0 all_attr_assets \Statement::()),
         )),
 
         Source_Code::Statement : (\Function : (
@@ -4288,8 +4275,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Key_Asset_Pair : (\Function : (
             is_type_definer : True,
-            of : \@Tuple,
-            where : \(@args:.\0 = \@(key,asset)),
+            where : \(Tuple args:.\0 and_then guard
+                @args:.\0 = \@(key,asset)),
         )),
 
         Source_Code::Signature_to_Function_Call_But_0 : (\Function : (
