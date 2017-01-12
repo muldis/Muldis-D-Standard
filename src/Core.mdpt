@@ -59,7 +59,11 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Excuse::No_Reason : (\Function : (
-            is_type_definer : True, composes : \@Excuse and_provides_its_default, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse},
+            provides_default_for : {\@Excuse},
+            value : \@material,
+        )),
 
         Excuse_or_else : (\Function : (
             returns : \@Any,
@@ -199,8 +203,8 @@ meta script 'Unicode 9.0 UTF-8'
         Bicessable : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : {\@Orderable and_provides_its_default,
-                \@Successable and_provides_its_default},
+            composes : {\@Orderable, \@Successable},
+            provides_default_for : {\@Orderable, \@Successable},
         )),
 
         pred : (\Function : (
@@ -235,7 +239,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Boolean : (\Function : (
             is_type_definer : True,
-            composes : {\@Bicessable, \@Boolable and_provides_its_default},
+            composes : {\@Bicessable, \@Boolable},
+            provides_default_for : {\@Boolable},
             where : \(args --> \foundation::is_a_Boolean::()),
             default : False,
         )),
@@ -414,14 +419,14 @@ meta script 'Unicode 9.0 UTF-8'
         Numerical : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Boolable,
+            composes : {\@Boolable},
         )),
 
         Excuse::Div_By_Zero : (\Function : (
-            is_type_definer : True, composes : \@Excuse, value : \@material )),
+            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
 
         Excuse::Zero_To_The_Zero : (\Function : (
-            is_type_definer : True, composes : \@Excuse, value : \@material )),
+            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
 
         to_Boolean::Numerical : (\Function : (
             virtual : True,
@@ -570,8 +575,8 @@ meta script 'Unicode 9.0 UTF-8'
         Integral::"" : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : {\@Bicessable and_provides_its_default,
-                \@Numerical and_provides_its_default},
+            composes : {\@Bicessable, \@Numerical},
+            provides_default_for : {\@Bicessable, \@Numerical},
         )),
 
         Integral::NN : (\Function : (
@@ -637,7 +642,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Integer::"" : (\Function : (
             is_type_definer : True,
-            composes : \@Integral and_provides_its_default,
+            composes : {\@Integral},
+            provides_default_for : {\@Integral},
             where : \(args --> \foundation::is_a_Integer::()),
             default : 0,
         )),
@@ -882,8 +888,7 @@ meta script 'Unicode 9.0 UTF-8'
         Fractional::"" : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : {\@Orderable and_provides_its_default,
-                \@Numerical and_provides_its_default},
+            composes : {\@Orderable, \@Numerical},
         )),
 
         Fractional::NN : (\Function : (
@@ -902,7 +907,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Fraction::"" : (\Function : (
             is_type_definer : True,
-            composes : \@Fractional and_provides_its_default,
+            composes : {\@Fractional},
+            provides_default_for : {\@Fractional},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Fraction, \(
                     args:.\0 is_a (
@@ -1091,11 +1097,11 @@ meta script 'Unicode 9.0 UTF-8'
         Emptyable : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Boolable,
+            composes : {\@Boolable},
         )),
 
         Excuse::No_Empty_Value : (\Function : (
-            is_type_definer : True, composes : \@Excuse, value : \@material )),
+            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
 
         to_Boolean::Emptyable : (\Function : (
             virtual : True,
@@ -1123,7 +1129,8 @@ meta script 'Unicode 9.0 UTF-8'
         Stringy : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : {\@Orderable, \@Emptyable and_provides_its_default},
+            composes : {\@Orderable, \@Emptyable},
+            provides_default_for : {\@Emptyable},
         )),
 
         substring_of::"" : (\Function : (
@@ -1184,7 +1191,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Bits : (\Function : (
             is_type_definer : True,
-            composes : {\@Stringy and_provides_its_default},
+            composes : {\@Stringy},
+            provides_default_for : {\@Stringy},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Bits, \String::Bits() )),
             default : \~?'',
@@ -1276,7 +1284,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Blob : (\Function : (
             is_type_definer : True,
-            composes : \@Stringy,
+            composes : {\@Stringy},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Blob, \String::Octets() )),
             default : \~+'',
@@ -1366,7 +1374,7 @@ meta script 'Unicode 9.0 UTF-8'
         Textual : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Stringy,
+            composes : {\@Stringy},
         )),
 
         to_Text::"" : (\Function : ( virtual : True, returns : \@Text, matches : (\@Textual) )),
@@ -1375,7 +1383,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Text::"" : (\Function : (
             is_type_definer : True,
-            composes : {\@Textual and_provides_its_default},
+            composes : {\@Textual},
+            provides_default_for : {\@Textual},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Text, \String::Maximal_Chars() )),
             default : '',
@@ -1689,7 +1698,7 @@ meta script 'Unicode 9.0 UTF-8'
         Homogeneous : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Emptyable,
+            composes : {\@Emptyable},
         )),
 
         singular::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Homogeneous) )),
@@ -1845,7 +1854,7 @@ meta script 'Unicode 9.0 UTF-8'
         Unionable : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Homogeneous,
+            composes : {\@Homogeneous},
         )),
 
         insert : (\Function : (
@@ -1963,7 +1972,8 @@ meta script 'Unicode 9.0 UTF-8'
         Discrete : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Unionable and_provides_its_default,
+            composes : {\@Unionable},
+            provides_default_for : {\@Unionable},
         )),
 
         to_Set::"" : (\Function : ( virtual : True, returns : \@Set, matches : (\@Discrete) )),
@@ -1998,11 +2008,12 @@ meta script 'Unicode 9.0 UTF-8'
         Positional : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : {\@Stringy, \@Discrete and_provides_its_default, \@Accessible},
+            composes : {\@Stringy, \@Discrete, \@Accessible},
+            provides_default_for : {\@Discrete},
         )),
 
         Excuse::No_Such_Ord_Pos : (\Function : (
-            is_type_definer : True, composes : \@Excuse, value : \@material )),
+            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
 
         singular::Positional : (\Function : (
             returns : \@Boolean,
@@ -2240,7 +2251,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Array::"" : (\Function : (
             is_type_definer : True,
-            composes : \@Positional and_provides_its_default,
+            composes : {\@Positional},
+            provides_default_for : {\@Positional},
             where : \(args --> \foundation::is_a_Array::()),
             default : [],
         )),
@@ -2524,7 +2536,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Set::"" : (\Function : (
             is_type_definer : True,
-            composes : {\@Discrete, \@Setty and_provides_its_default},
+            composes : {\@Discrete, \@Setty},
+            provides_default_for : {\@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Set,
                 \(Bag args:.\0 and_then guard all_unique args:.\0) )),
@@ -2772,7 +2785,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Bag::"" : (\Function : (
             is_type_definer : True,
-            composes : \@Discrete,
+            composes : {\@Discrete},
             where : \(args --> \foundation::is_a_Bag::()),
             default : {0:0},
         )),
@@ -3020,10 +3033,10 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Excuse::No_Such_Attr_Name : (\Function : (
-            is_type_definer : True, composes : \@Excuse, value : \@material )),
+            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
 
         Excuse::Not_Same_Heading : (\Function : (
-            is_type_definer : True, composes : \@Excuse, value : \@material )),
+            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
 
         has_any_attrs::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Attributive) )),
 
@@ -3233,8 +3246,8 @@ meta script 'Unicode 9.0 UTF-8'
         Structural : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : {\@Attributive and_provides_its_default,
-                \@Accessible and_provides_its_default},
+            composes : {\@Attributive, \@Accessible},
+            provides_default_for : {\@Attributive, \@Accessible},
         )),
 
         can_project_matching::Structural : (\Function : (
@@ -3319,7 +3332,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Tuple::"" : (\Function : (
             is_type_definer : True,
-            composes : \@Structural and_provides_its_default,
+            composes : {\@Structural},
+            provides_default_for : {\@Structural},
             where : \(args --> \foundation::is_a_Tuple::()),
             default : (),
         )),
@@ -3809,7 +3823,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Relation::"" : (\Function : (
             is_type_definer : True,
-            composes : {\@Relational and_provides_its_default, \@Discrete, \@Setty},
+            composes : {\@Relational, \@Discrete, \@Setty},
+            provides_default_for : {\@Relational},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Relation, \(
                 args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) and_then guard
@@ -3892,7 +3907,7 @@ meta script 'Unicode 9.0 UTF-8'
         Intervalish : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Homogeneous,
+            composes : {\@Homogeneous},
         )),
 
 `#########################################################################`
@@ -3934,7 +3949,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Interval_Bag : (\Function : (
             is_type_definer : True,
-            composes : \@Unionable_Intervalish,
+            composes : {\@Unionable_Intervalish},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Bag, \(
                 Tuple_Bag args:.\0 and_then guard ...
@@ -3947,14 +3962,14 @@ meta script 'Unicode 9.0 UTF-8'
         Quantitative : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-            composes : \@Numerical,
+            composes : {\@Numerical},
         )),
 
 `#########################################################################`
 
         Quantity : (\Function : (
             is_type_definer : True,
-            composes : \@Quantitative,
+            composes : {\@Quantitative},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Quantity, \(
                 Relation args:.\0 and_then guard ...
@@ -4113,7 +4128,8 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(Capsule_subtype::( args:.\0, \Function, \(
                 args:.\0 is_a (
                     is_generalization : \Boolean::(),
-                    composes : ...,
+                    composes : ...,  `set of 0..N type name`
+                    provides_default_for : ...,  `subset 0..M of prior set`
                     value : \Function_Body::(),
                     of : ...,
                     where : \Function_Body::(),
