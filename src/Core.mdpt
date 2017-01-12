@@ -298,7 +298,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : True,
-            evaluates : \(if args:.\0 then args:.\1 else False),
+            evaluates : \(args:.\0 and_then args:.\1),
         )),
 
         Unicode_Aliases::"∧" : (\Alias : ( of : \@and )),
@@ -320,7 +320,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : False,
-            evaluates : \(if args:.\0 then True else args:.\1),
+            evaluates : \(args:.\0 or_else args:.\1),
         )),
 
         Unicode_Aliases::"∨" : (\Alias : ( of : \@or )),
@@ -905,15 +905,12 @@ meta script 'Unicode 9.0 UTF-8'
             composes : \@Fractional and_provides_its_default,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Fraction, \(
-                if
                     args:.\0 is_a (
                         numerator : \Integer::(),
                         denominator : \Integer::P::(),
                     )
-                then guard
+                and_then guard
                     args:.\0.\numerator coprime args:.\0.\denominator
-                else
-                    False
             ) )),
             default : 0.0,
         )),
@@ -2080,7 +2077,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (Positional, (Integer, Any)),
             implements : \@folder::"",
-            evaluates : \(if args:.\0 .? (args:.\1.\0) then guard args:.\0.(args:.\1.\0) = (args:.\1.\1) else False),
+            evaluates : \(args:.\0 .? (args:.\1.\0) and_then guard args:.\0.(args:.\1.\0) = (args:.\1.\1)),
         )),
 
         mapping_at::Positional : (\Function : (
@@ -2530,7 +2527,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Discrete, \@Setty and_provides_its_default},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Set,
-                \(if Bag args:.\0 then guard all_unique args:.\0 else False) )),
+                \(Bag args:.\0 and_then guard all_unique args:.\0) )),
             default : {},
         )),
 
@@ -3244,7 +3241,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Structural, \@Structural),
             implements : \@folder::"",
-            evaluates : \(if args:.\0 @? args:.\1 then guard args:.\0 %= @args:.\1 = args:.\1 else False),
+            evaluates : \(args:.\0 @? args:.\1 and_then guard args:.\0 %= @args:.\1 = args:.\1),
         )),
 
         has_any_at::Structure : (\Function : (
@@ -3258,7 +3255,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (Structural, (Attr_Name, Any)),
             implements : \@folder::"",
-            evaluates : \(if args:.\0 .? (args:.\1.\0) then guard args:.\0.(args:.\1.\0) = (args:.\1.\1) else False),
+            evaluates : \(args:.\0 .? (args:.\1.\0) and_then guard args:.\0.(args:.\1.\0) = (args:.\1.\1)),
         )),
 
         mapping_at::Structural : (\Function : (
@@ -3726,9 +3723,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
-            evaluates : \(if args:.\0 @? args:.\1
-                then guard |args:.\0 all \(args:.\0 %= @args:.\1 = args:.\1) \<-- (1 : args:.\1,)
-                else False),
+            evaluates : \(args:.\0 @? args:.\1
+                and_then guard |args:.\0 all \(args:.\0 %= @args:.\1 = args:.\1) \<-- (1 : args:.\1,)),
         )),
 
         on::Relational : (\Function : (
@@ -3775,13 +3771,9 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Relational, \@Positional},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Array, \(
-                if args:.\0 is_a ( heading : \Heading::(), body : \Array::() ) then guard
-                    if args:.\0.\body all \Tuple::() then guard
+                args:.\0 is_a ( heading : \Heading::(), body : \Array::() ) and_then guard
+                    args:.\0.\body all \Tuple::() and_then guard
                         args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
-                    else
-                        False
-                else
-                    False
             ) )),
             default : \(~%@()),
         )),
@@ -3820,13 +3812,9 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Relational and_provides_its_default, \@Discrete, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Relation, \(
-                if args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) then guard
-                    if args:.\0.\body all \Tuple::() then guard
+                args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) and_then guard
+                    args:.\0.\body all \Tuple::() and_then guard
                         args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
-                    else
-                        False
-                else
-                    False
             ) )),
             default : \(?%@()),
         )),
@@ -3865,13 +3853,9 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Relational, \@Discrete},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Tuple_Bag, \(
-                if args:.\0 is_a ( heading : \Heading::(), body : \Bag::() ) then guard
-                    if args:.\0.\body all \Tuple::() then guard
+                args:.\0 is_a ( heading : \Heading::(), body : \Bag::() ) and_then guard
+                    args:.\0.\body all \Tuple::() and_then guard
                         args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
-                    else
-                        False
-                else
-                    False
             ) )),
             default : \(+%@()),
         )),
@@ -3942,7 +3926,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Unionable_Intervalish, \@Setty},
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Set,
-                \(if Interval_Bag args:.\0 then guard all_unique args:.\0 else False) )),
+                \(Interval_Bag args:.\0 and_then guard all_unique args:.\0) )),
             default : ...,
         )),
 
@@ -3953,7 +3937,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : \@Unionable_Intervalish,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Interval_Bag, \(
-                if Tuple_Bag args:.\0 then guard ... else False
+                Tuple_Bag args:.\0 and_then guard ...
             ) )),
             default : ...,
         )),
@@ -3973,7 +3957,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : \@Quantitative,
             of : \@Capsule,
             where : \(Capsule_subtype::( args:.\0, \Quantity, \(
-                if Relation args:.\0 then guard ... else False
+                Relation args:.\0 and_then guard ...
             ) )),
             default : ...,
         )),
@@ -3990,11 +3974,9 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Any, \@Any, \@Signature),
             evaluates : \(
-                if Capsule args:.\0 then guard
+                Capsule args:.\0 and_then guard
                     args:.\0:< = args:.\1 and
                         (args:.\0:>,) --> Signature_to_Function_Call_But_0::(args:.\2)
-                else
-                    False
             ),
         )),
 
@@ -4242,7 +4224,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             of : \@Attr_Name_List,
             where : \(
-                if so args:.\0 then guard
+                so args:.\0 and_then guard
                     given args:.\0.0
                         when \foundation then #args:.\0 = 2
                         when \used       then #args:.\0 ≥ 2  `elem 2 is pkg local alias`
@@ -4251,8 +4233,6 @@ meta script 'Unicode 9.0 UTF-8'
                         when \material   then #args:.\0 = 1
                         when \floating   then #args:.\0 ≥ 2
                         default False
-                else
-                    False
             ),
         )),
 
@@ -4307,14 +4287,10 @@ meta script 'Unicode 9.0 UTF-8'
                         \<-- (1 : args:.\0)
                 else if Signature::Tuple args:.\0 then guard
                     \(
-                        if Tuple args:.\0 then guard
-                            if args:.\0 =@ args:.\1 then guard
+                        Tuple args:.\0 and_then guard
+                            args:.\0 =@ args:.\1 and_then guard
                                 args:.\0 all_attrs
                                     \(args:.\0:.\asset is_a args:.\1:.(args:.\0:.\name)) \<-- ( 1: args:.\1, )
-                            else
-                                False
-                        else
-                            False
                     ) \<-- (1 : args:.\0)
                 else
                     fail  `We should never get here.`
