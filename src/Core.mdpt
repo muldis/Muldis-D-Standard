@@ -61,7 +61,7 @@ meta script 'Unicode 9.0 UTF-8'
         Excuse::No_Reason : (\Function : (
             is_type_definer : True, composes : \@Excuse and_provides_its_default, value : \@material )),
 
-        or_else : (\Function : (
+        Excuse_or_else : (\Function : (
             returns : \@Any,
             matches : (\@Any, \@Any),
             is_associative : True,
@@ -69,9 +69,9 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \(if Excuse args:.\0 then args:.\1 else args:.\0),
         )),
 
-        coalesce : (\Alias : ( of : \@or_else )),
+        coalesce : (\Alias : ( of : \@Excuse_or_else )),
 
-        and_then : (\Function : (
+        Excuse_and_then : (\Function : (
             returns : \@Any,
             matches : (\@Any, \@Any),
             is_associative : True,
