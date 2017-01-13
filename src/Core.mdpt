@@ -434,7 +434,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         Round_Meth::"" : (\Function : (
             is_type_definer : True,
-            where : \(Capsule_subtype::( args:.\0, \@material, \folder::Attr_Name::() )),
+            where : \(Capsule args:.\0 and_then guard args:.\0:< = \@material
+                and_then folder::Attr_Name(args:.\0:>)),
             default : (\@material : \To_Zero),
         )),
 
@@ -994,14 +995,17 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Fractional},
             provides_default_for : {\@Fractional},
-            where : \(Capsule_subtype::( args:.\0, \Fraction, \(
-                    args:.\0 is_a (
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Fraction
+                and_then guard
+                    args:.\0:> is_a (
                         numerator : \Integer::(),
-                        denominator : \Integer::P::(),
+                        denominator : \Integer::P(),
                     )
                 and_then guard
-                    args:.\0.\numerator coprime args:.\0.\denominator
-            ) )),
+                    args:.\0:>.\numerator coprime args:.\0:>.\denominator
+            ),
             default : 0.0,
         )),
 
@@ -1286,7 +1290,8 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Stringy},
             provides_default_for : {\@Stringy},
-            where : \(Capsule_subtype::( args:.\0, \Bits, \String::Bits() )),
+            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Bits
+                and_then String::Bits(args:.\0:>)),
             default : \~?'',
         )),
 
@@ -1377,7 +1382,8 @@ meta script 'Unicode 9.0 UTF-8'
         Blob : (\Function : (
             is_type_definer : True,
             composes : {\@Stringy},
-            where : \(Capsule_subtype::( args:.\0, \Blob, \String::Octets() )),
+            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Blob
+                and_then String::Octets(args:.\0:>)),
             default : \~+'',
         )),
 
@@ -1480,7 +1486,8 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Textual},
             provides_default_for : {\@Textual},
-            where : \(Capsule_subtype::( args:.\0, \Text, \String::Maximal_Chars() )),
+            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Text
+                and_then String::Maximal_Chars(args:.\0:>)),
             default : '',
         )),
 
@@ -2701,8 +2708,12 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Discrete, \@Setty},
             provides_default_for : {\@Setty},
-            where : \(Capsule_subtype::( args:.\0, \Set,
-                \(Bag args:.\0 and_then guard all_unique args:.\0) )),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Set
+                and_then guard Bag args:.\0:>
+                and_then guard all_unique args:.\0:>
+            ),
             default : {},
         )),
 
@@ -3996,11 +4007,13 @@ meta script 'Unicode 9.0 UTF-8'
         Tuple_Array::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Positional},
-            where : \(Capsule_subtype::( args:.\0, \Tuple_Array, \(
-                args:.\0 is_a ( heading : \Heading::(), body : \Array::() ) and_then guard
-                    args:.\0.\body all \Tuple::() and_then guard
-                        args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
-            ) )),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Tuple_Array
+                and_then guard args:.\0:> is_a ( heading : \Heading::(), body : \Array::() )
+                and_then guard args:.\0:>.\body all \Tuple::()
+                and_then guard args:.\0:>.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0:>.\heading)
+            ),
             default : \(~%@()),
         )),
 
@@ -4041,11 +4054,13 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Relational, \@Discrete, \@Setty},
             provides_default_for : {\@Relational},
-            where : \(Capsule_subtype::( args:.\0, \Relation, \(
-                args:.\0 is_a ( heading : \Heading::(), body : \Set::() ) and_then guard
-                    args:.\0.\body all \Tuple::() and_then guard
-                        args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
-            ) )),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Relation
+                and_then guard args:.\0:> is_a ( heading : \Heading::(), body : \Set::() )
+                and_then guard args:.\0:>.\body all \Tuple::()
+                and_then guard args:.\0:>.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0:>.\heading)
+            ),
             default : \(?%@()),
         )),
 
@@ -4085,11 +4100,13 @@ meta script 'Unicode 9.0 UTF-8'
         Tuple_Bag::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Discrete},
-            where : \(Capsule_subtype::( args:.\0, \Tuple_Bag, \(
-                args:.\0 is_a ( heading : \Heading::(), body : \Bag::() ) and_then guard
-                    args:.\0.\body all \Tuple::() and_then guard
-                        args:.\0.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0.\heading)
-            ) )),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Tuple_Bag
+                and_then guard args:.\0:> is_a ( heading : \Heading::(), body : \Bag::() )
+                and_then guard args:.\0:>.\body all \Tuple::()
+                and_then guard args:.\0:>.\body all \(@args:.\0 = args:.\1) \<-- (args:.\0:>.\heading)
+            ),
             default : \(+%@()),
         )),
 
@@ -4137,7 +4154,8 @@ meta script 'Unicode 9.0 UTF-8'
         Interval::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Intervalish, \@Setty},
-            where : \(Capsule_subtype::( args:.\0, \Interval, \Interval::Attrs() )),
+            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Interval
+                and_then Interval::Attrs(args:.\0:>)),
             default : \(Excuse::Before_All_Others()..Excuse::After_All_Others()),
         )),
 
@@ -4159,8 +4177,12 @@ meta script 'Unicode 9.0 UTF-8'
         Interval_Set : (\Function : (
             is_type_definer : True,
             composes : {\@Unionable_Intervalish, \@Setty},
-            where : \(Capsule_subtype::( args:.\0, \Interval_Set,
-                \(Interval_Bag args:.\0 and_then guard all_unique args:.\0) )),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Interval_Set
+                and_then guard Interval_Bag args:.\0:>
+                and_then guard all_unique args:.\0:>
+            ),
             default : ...,
         )),
 
@@ -4169,9 +4191,12 @@ meta script 'Unicode 9.0 UTF-8'
         Interval_Bag : (\Function : (
             is_type_definer : True,
             composes : {\@Unionable_Intervalish},
-            where : \(Capsule_subtype::( args:.\0, \Interval_Bag, \(
-                Tuple_Bag args:.\0 and_then guard ...
-            ) )),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Interval_Bag
+                and_then guard Tuple_Bag args:.\0:>
+                and_then guard ...
+            ),
             default : ...,
         )),
 
@@ -4188,9 +4213,12 @@ meta script 'Unicode 9.0 UTF-8'
         Quantity : (\Function : (
             is_type_definer : True,
             composes : {\@Quantitative},
-            where : \(Capsule_subtype::( args:.\0, \Quantity, \(
-                Relation args:.\0 and_then guard ...
-            ) )),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Quantity
+                and_then guard Relation args:.\0:>
+                and_then guard ...
+            ),
             default : ...,
         )),
 
@@ -4200,16 +4228,6 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             where : \(args --> \foundation::is_a_Capsule::()),
             default : (False : False),
-        )),
-
-        Capsule_subtype : (\Function : (
-            returns : \@Boolean,
-            matches : (\@Any, \@Any, \@Signature),
-            evaluates : \(
-                Capsule args:.\0 and_then guard
-                    args:.\0:< = args:.\1 and_then
-                        (args:.\0:>,) --> Signature_to_Function_Call_But_0::(args:.\2)
-            ),
         )),
 
 `#########################################################################`
@@ -4238,8 +4256,10 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Package : (\Function : (
             is_type_definer : True,
-            where : \(Capsule_subtype::( args:.\0, \Package, \(
-                args:.\0 is_a (
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Package
+                and_then guard args:.\0:> is_a (
                     identity : \Package::Identity::(),
                     foundation : \Package::Foundation::(),
                     uses : \Package::Uses_Map::(),
@@ -4247,7 +4267,7 @@ meta script 'Unicode 9.0 UTF-8'
                     floating : \Package::Floating::(),
                     materials : \Package::Folder::(),
                 )
-            ) )),
+            ),
             default : ...,
         )),
 
@@ -4330,14 +4350,17 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Alias : (\Function : (
             is_type_definer : True,
-            where : \(Capsule_subtype::( args:.\0, \Alias, \Identity_Identifier::() )),
+            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Alias
+                and_then Identity_Identifier::(args:.\0:>)),
             default : \((\Alias : Identity_Identifier::())),
         )),
 
         Source_Code::Function : (\Function : (
             is_type_definer : True,
-            where : \(Capsule_subtype::( args:.\0, \Function, \(
-                args:.\0 is_a (
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Function
+                and_then guard args:.\0:> is_a (
                     is_generalization : \Boolean::(),
                     composes : ...,  `set of 0..N type name`
                     provides_default_for : ...,  `subset 0..M of prior set`
@@ -4362,25 +4385,29 @@ meta script 'Unicode 9.0 UTF-8'
                     repeater : ...,
                     evaluates : \Function_Body::(),
                 )
-            ) )),
+            ),
             default : ...,
         )),
 
         Source_Code::Function_Body : (\Function : (
             is_type_definer : True,
-            where : \(Capsule_subtype::( args:.\0, \Function_Body, \(
-                args:.\0 is_a (
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Function_Body
+                and_then guard args:.\0:> is_a (
                     root_expr : \Expression::(),
                     named_exprs : \Named_Expr_List::(),
                 )
-            ) )),
+            ),
             default : ...,
         )),
 
         Source_Code::Procedure : (\Function : (
             is_type_definer : True,
-            where : \(Capsule_subtype::( args:.\0, \Procedure, \(
-                args:.\0 is_a (
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Procedure
+                and_then guard args:.\0:> is_a (
                     virtual : \Boolean::(),
                     matches : \Signature::Tuple(),
                     updates : \Heading::(),  `TODO: Or keyword "source".`
@@ -4391,19 +4418,21 @@ meta script 'Unicode 9.0 UTF-8'
                     vars : \Signature::Tuple(),
                     performs : \Procedure_Body::(),
                 )
-            ) )),
+            ),
             default : ...,
         )),
 
         Source_Code::Procedure_Body : (\Function : (
             is_type_definer : True,
-            where : \(Capsule_subtype::( args:.\0, \Procedure_Body, \(
-                args:.\0 is_a (
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Procedure_Body
+                and_then guard args:.\0:> is_a (
                     root_stmt : \Statement::(),
                     named_stmts : \Named_Stmt_List::(),
                     named_exprs : \Named_Expr_List::(),
                 )
-            ) )),
+            ),
             default : ...,
         )),
 
