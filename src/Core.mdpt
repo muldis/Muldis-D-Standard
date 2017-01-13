@@ -54,7 +54,9 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \((args:.\0,) --> Signature_to_Function_Call_But_0::(args:.\1)),
         )),
 
-        not_is_a : (\Function : ( negates : \@is_a )),
+        not_is_a : (\Function : (
+            negates : \@is_a,
+        )),
 
 `#########################################################################`
 
@@ -96,10 +98,16 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Excuse::Before_All_Others : (\Function : (
-            is_type_definer : True, composes : {\@Excuse, \@Orderable}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse, \@Orderable},
+            value : \@material,
+        )),
 
         Excuse::After_All_Others : (\Function : (
-            is_type_definer : True, composes : {\@Excuse, \@Orderable}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse, \@Orderable},
+            value : \@material,
+        )),
 
         in_order::"" : (\Function : (
             virtual : True,
@@ -135,11 +143,15 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \(True),
         )),
 
-        before : (\Function : ( commutes : \@after )),
+        before : (\Function : (
+            commutes : \@after,
+        )),
 
         "<" : (\Alias : ( of : \@before )),
 
-        after : (\Function : ( negates : \@before_or_same )),
+        after : (\Function : (
+            negates : \@before_or_same,
+        )),
 
         ">" : (\Alias : ( of : \@after )),
 
@@ -149,7 +161,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"≤" : (\Alias : ( of : \@before_or_same )),
 
-        after_or_same : (\Function : ( commutes : \@before_or_same )),
+        after_or_same : (\Function : (
+            commutes : \@before_or_same,
+        )),
 
         ">=" : (\Alias : ( of : \@after_or_same )),
 
@@ -189,7 +203,11 @@ meta script 'Unicode 9.0 UTF-8'
             is_generalization : True,
         )),
 
-        asset::"" : (\Function : ( virtual : True, returns : \@Any, matches : (\@Successable) )),
+        asset::"" : (\Function : (
+            virtual : True,
+            returns : \@Any,
+            matches : (\@Successable),
+        )),
 
         succ : (\Function : (
             returns : {\@Successable, \@Excuse::After_All_Others},
@@ -231,12 +249,18 @@ meta script 'Unicode 9.0 UTF-8'
             is_generalization : True,
         )),
 
-        to_Boolean::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Boolable) )),
+        to_Boolean::"" : (\Function : (
+            virtual : True,
+            returns : \@Boolean,
+            matches : (\@Boolable),
+        )),
 
         so  : (\Alias : ( of : \@to_Boolean )),
         "?" : (\Alias : ( of : \@to_Boolean )),
 
-        not_so : (\Function : ( negates : \@to_Boolean )),
+        not_so : (\Function : (
+            negates : \@to_Boolean,
+        )),
 
         "!?" : (\Alias : ( of : \@not_so )),
 
@@ -251,12 +275,16 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         False : (\Function : (
-            is_type_definer : True, value : False )),
+            is_type_definer : True,
+            value : False,
+        )),
 
         Unicode_Aliases::"⊥" : (\Alias : ( of : \@False )),
 
         True : (\Function : (
-            is_type_definer : True, value : True )),
+            is_type_definer : True,
+            value : True,
+        )),
 
         Unicode_Aliases::"⊤" : (\Alias : ( of : \@True )),
 
@@ -295,7 +323,9 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \(args:.\0),
         )),
 
-        not : (\Function : ( negates : \@to_Boolean::Boolean )),
+        not : (\Function : (
+            negates : \@to_Boolean::Boolean,
+        )),
 
         "!" : (\Alias : ( of : \@not )),
 
@@ -378,17 +408,23 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"→" : (\Alias : ( of : \@imp )),
 
-        nimp : (\Function : ( negates : \@imp )),
+        nimp : (\Function : (
+            negates : \@imp,
+        )),
 
         not_implies : (\Alias : ( of : \@nimp )),
 
         Unicode_Aliases::"↛" : (\Alias : ( of : \@nimp )),
 
-        if : (\Function : ( commutes : \@imp )),
+        if : (\Function : (
+            commutes : \@imp,
+        )),
 
         Unicode_Aliases::"←" : (\Alias : ( of : \@if )),
 
-        nif : (\Function : ( commutes : \@nimp )),
+        nif : (\Function : (
+            commutes : \@nimp,
+        )),
 
         not_if : (\Alias : ( of : \@nif )),
 
@@ -427,10 +463,16 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Excuse::Div_By_Zero : (\Function : (
-            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse},
+            value : \@material,
+        )),
 
         Excuse::Zero_To_The_Zero : (\Function : (
-            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse},
+            value : \@material,
+        )),
 
         to_Boolean::Numerical : (\Function : (
             virtual : True,
@@ -439,11 +481,21 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
         )),
 
-        is_zero : (\Function : ( negates : \@to_Boolean::Numerical )),
+        is_zero : (\Function : (
+            negates : \@to_Boolean::Numerical,
+        )),
 
-        zero::"" : (\Function : ( virtual : True, returns : \@Numerical, matches : (\@Numerical) )),
+        zero::"" : (\Function : (
+            virtual : True,
+            returns : \@Numerical,
+            matches : (\@Numerical),
+        )),
 
-        opposite::"" : (\Function : ( virtual : True, returns : \@Numerical, matches : (\@Numerical) )),
+        opposite::"" : (\Function : (
+            virtual : True,
+            returns : \@Numerical,
+            matches : (\@Numerical),
+        )),
 
         additive_inverse : (\Alias : ( of : \@opposite )),
 
@@ -455,7 +507,11 @@ meta script 'Unicode 9.0 UTF-8'
 
         multiplicative_inverse : (\Alias : ( of : \@reciprocal )),
 
-        modulus::"" : (\Function : ( virtual : True, returns : \@Numerical, matches : (\@Numerical) )),
+        modulus::"" : (\Function : (
+            virtual : True,
+            returns : \@Numerical,
+            matches : (\@Numerical),
+        )),
 
         abs : (\Alias : ( of : \@modulus )),
 
@@ -608,9 +664,17 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \(succ args:.\0),
         )),
 
-        to_Integer::"" : (\Function : ( virtual : True, returns : \@Integer, matches : (\@Integral) )),
+        to_Integer::"" : (\Function : (
+            virtual : True,
+            returns : \@Integer,
+            matches : (\@Integral),
+        )),
 
-        factorial::"" : (\Function : ( virtual : True, returns : \@Integral::P, matches : (\@Integral::NN) )),
+        factorial::"" : (\Function : (
+            virtual : True,
+            returns : \@Integral::P,
+            matches : (\@Integral::NN),
+        )),
 
         gcd : (\Function : (
             returns : \@Integral::P,
@@ -906,11 +970,23 @@ meta script 'Unicode 9.0 UTF-8'
                 args:.\0 >= zero::(args:.\0)),
         )),
 
-        to_Fraction::"" : (\Function : ( virtual : True, returns : \@Fraction, matches : (\@Fractional) )),
+        to_Fraction::"" : (\Function : (
+            virtual : True,
+            returns : \@Fraction,
+            matches : (\@Fractional),
+        )),
 
-        numerator::"" : (\Function : ( virtual : True, returns : \@Integral, matches : (\@Fractional) )),
+        numerator::"" : (\Function : (
+            virtual : True,
+            returns : \@Integral,
+            matches : (\@Fractional),
+        )),
 
-        denominator::"" : (\Function : ( virtual : True, returns : \@Integral::P, matches : (\@Fractional) )),
+        denominator::"" : (\Function : (
+            virtual : True,
+            returns : \@Integral::P,
+            matches : (\@Fractional),
+        )),
 
 `#########################################################################`
 
@@ -1111,7 +1187,10 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Excuse::No_Empty_Value : (\Function : (
-            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse},
+            value : \@material,
+        )),
 
         to_Boolean::Emptyable : (\Function : (
             virtual : True,
@@ -1122,7 +1201,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         has_any_members : (\Alias : ( of : \@to_Boolean::Emptyable )),
 
-        is_empty : (\Function : ( negates : \@to_Boolean::Emptyable )),
+        is_empty : (\Function : (
+            negates : \@to_Boolean::Emptyable,
+        )),
 
         Unicode_Aliases::"∅?" : (\Alias : ( of : \@is_empty )),
 
@@ -1149,7 +1230,9 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Stringy, \@Stringy),
         )),
 
-        superstring_of : (\Function : ( commutes : \@substring_of )),
+        superstring_of : (\Function : (
+            commutes : \@substring_of,
+        )),
 
         proper_substring_or_superstring : (\Function : (
             returns : \@Boolean,
@@ -1385,7 +1468,11 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Stringy},
         )),
 
-        to_Text::"" : (\Function : ( virtual : True, returns : \@Text, matches : (\@Textual) )),
+        to_Text::"" : (\Function : (
+            virtual : True,
+            returns : \@Text,
+            matches : (\@Textual),
+        )),
 
 `#########################################################################`
 
@@ -1623,7 +1710,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         ".?" : (\Alias : ( of : \@has_any_at )),
 
-        not_has_any_at : (\Function : ( negates : \@has_any_at )),
+        not_has_any_at : (\Function : (
+            negates : \@has_any_at,
+        )),
 
         ".!?" : (\Alias : ( of : \@not_has_any_at )),
 
@@ -1653,7 +1742,11 @@ meta script 'Unicode 9.0 UTF-8'
 
         "." : (\Alias : ( of : \@at )),
 
-        maybe_at::"" : (\Function : ( virtual : True, returns : \@Any, matches : (\@Accessible, \@Any) )),
+        maybe_at::"" : (\Function : (
+            virtual : True,
+            returns : \@Any,
+            matches : (\@Accessible, \@Any),
+        )),
 
         ".!" : (\Alias : ( of : \@maybe_at )),
 
@@ -1708,7 +1801,11 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Emptyable},
         )),
 
-        singular::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Homogeneous) )),
+        singular::"" : (\Function : (
+            virtual : True,
+            returns : \@Boolean,
+            matches : (\@Homogeneous),
+        )),
 
         only_member::"" : (\Function : (
             virtual : True,
@@ -1717,11 +1814,15 @@ meta script 'Unicode 9.0 UTF-8'
             accepts : \(singular args:.\0),
         )),
 
-        in : (\Function : ( commutes : \@has )),
+        in : (\Function : (
+            commutes : \@has,
+        )),
 
         Unicode_Aliases::"∈" : (\Alias : ( of : \@in )),
 
-        not_in : (\Function : ( commutes : \@not_has )),
+        not_in : (\Function : (
+            commutes : \@not_has,
+        )),
 
         Unicode_Aliases::"∉" : (\Alias : ( of : \@not_in )),
 
@@ -1733,7 +1834,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"∋" : (\Alias : ( of : \@has )),
 
-        not_has : (\Function : ( negates : \@has )),
+        not_has : (\Function : (
+            negates : \@has,
+        )),
 
         Unicode_Aliases::"∌" : (\Alias : ( of : \@not_has )),
 
@@ -1749,9 +1852,17 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Homogeneous, \@Any),
         )),
 
-        all_unique::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Homogeneous) )),
+        all_unique::"" : (\Function : (
+            virtual : True,
+            returns : \@Boolean,
+            matches : (\@Homogeneous),
+        )),
 
-        unique::"" : (\Function : ( virtual : True, returns : \@Homogeneous, matches : (\@Homogeneous) )),
+        unique::"" : (\Function : (
+            virtual : True,
+            returns : \@Homogeneous,
+            matches : (\@Homogeneous),
+        )),
 
         proper_subset_of : (\Function : (
             returns : \@Boolean,
@@ -1761,15 +1872,21 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"⊂" : (\Alias : ( of : \@proper_subset_of )),
 
-        not_proper_subset_of : (\Function : ( negates : \@proper_subset_of )),
+        not_proper_subset_of : (\Function : (
+            negates : \@proper_subset_of,
+        )),
 
         Unicode_Aliases::"⊄" : (\Alias : ( of : \@not_proper_subset_of )),
 
-        proper_superset_of : (\Function : ( commutes : \@proper_subset_of )),
+        proper_superset_of : (\Function : (
+            commutes : \@proper_subset_of,
+        )),
 
         Unicode_Aliases::"⊃" : (\Alias : ( of : \@proper_superset_of )),
 
-        not_proper_superset_of : (\Function : ( negates : \@proper_superset_of )),
+        not_proper_superset_of : (\Function : (
+            negates : \@proper_superset_of,
+        )),
 
         Unicode_Aliases::"⊅" : (\Alias : ( of : \@not_proper_superset_of )),
 
@@ -1781,15 +1898,21 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"⊆" : (\Alias : ( of : \@subset_of )),
 
-        not_subset_of : (\Function : ( negates : \@subset_of )),
+        not_subset_of : (\Function : (
+            negates : \@subset_of,
+        )),
 
         Unicode_Aliases::"⊈" : (\Alias : ( of : \@not_subset_of )),
 
-        superset_of : (\Function : ( commutes : \@subset_of )),
+        superset_of : (\Function : (
+            commutes : \@subset_of,
+        )),
 
         Unicode_Aliases::"⊇" : (\Alias : ( of : \@superset_of )),
 
-        not_superset_of : (\Function : ( negates : \@superset_of )),
+        not_superset_of : (\Function : (
+            negates : \@superset_of,
+        )),
 
         Unicode_Aliases::"⊉" : (\Alias : ( of : \@not_superset_of )),
 
@@ -1838,7 +1961,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"∃" : (\Alias : ( of : \@any )),
 
-        none : (\Function : ( negates : \@any )),
+        none : (\Function : (
+            negates : \@any,
+        )),
 
         there_does_not_exist : (\Alias : ( of : \@none )),
 
@@ -1854,7 +1979,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"∀" : (\Alias : ( of : \@all )),
 
-        not_all : (\Function : ( negates : \@all )),
+        not_all : (\Function : (
+            negates : \@all,
+        )),
 
 `#########################################################################`
 
@@ -1960,7 +2087,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"σ" : (\Alias : ( of : \@where )),
 
-        filtering : (\Function : ( commutes : \@where )),
+        filtering : (\Function : (
+            commutes : \@where,
+        )),
 
         map::"" : (\Function : (
             virtual : True,
@@ -1983,20 +2112,36 @@ meta script 'Unicode 9.0 UTF-8'
             provides_default_for : {\@Unionable},
         )),
 
-        to_Set::"" : (\Function : ( virtual : True, returns : \@Set, matches : (\@Discrete) )),
+        to_Set::"" : (\Function : (
+            virtual : True,
+            returns : \@Set,
+            matches : (\@Discrete),
+        )),
 
         "?|" : (\Alias : ( of : \@to_Set )),
 
-        to_Bag::"" : (\Function : ( virtual : True, returns : \@Bag, matches : (\@Discrete) )),
+        to_Bag::"" : (\Function : (
+            virtual : True,
+            returns : \@Bag,
+            matches : (\@Discrete),
+        )),
 
         "+|" : (\Alias : ( of : \@to_Bag )),
 
-        count::"" : (\Function : ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) )),
+        count::"" : (\Function : (
+            virtual : True,
+            returns : \@Integer::NN,
+            matches : (\@Discrete),
+        )),
 
         cardinality : (\Alias : ( of : \@count )),
         "#"         : (\Alias : ( of : \@count )),
 
-        unique_count::"" : (\Function : ( virtual : True, returns : \@Integer::NN, matches : (\@Discrete) )),
+        unique_count::"" : (\Function : (
+            virtual : True,
+            returns : \@Integer::NN,
+            matches : (\@Discrete),
+        )),
 
         order : (\Function : (
             returns : \@Positional,
@@ -2020,7 +2165,10 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Excuse::No_Such_Ord_Pos : (\Function : (
-            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse},
+            value : \@material,
+        )),
 
         singular::Positional : (\Function : (
             returns : \@Boolean,
@@ -2166,7 +2314,11 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \(if args:.\1 = --first_unused_ord_pos::(args:.\0) then guard nonlast args:.\0 else args:.\0),
         )),
 
-        to_Array::"" : (\Function : ( virtual : True, returns : \@Array, matches : (\@Positional) )),
+        to_Array::"" : (\Function : (
+            virtual : True,
+            returns : \@Array,
+            matches : (\@Positional),
+        )),
 
         "~|" : (\Alias : ( of : \@to_Array )),
 
@@ -2270,7 +2422,9 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Array::Empty : (\Function : (
-            is_type_definer : True, value : [] )),
+            is_type_definer : True,
+            value : [],
+        )),
 
         Unicode_Aliases::"~∅" : (\Alias : ( of : \@Array::Empty )),
 
@@ -2553,7 +2707,9 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Set::Empty : (\Function : (
-            is_type_definer : True, value : {} )),
+            is_type_definer : True,
+            value : {},
+        )),
 
         Unicode_Aliases::"?∅" : (\Alias : ( of : \@Set::Empty )),
 
@@ -2799,7 +2955,9 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Bag::Empty : (\Function : (
-            is_type_definer : True, value : {0:0} )),
+            is_type_definer : True,
+            value : {0:0},
+        )),
 
         Unicode_Aliases::"+∅" : (\Alias : ( of : \@Bag::Empty )),
 
@@ -3041,28 +3199,56 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Excuse::No_Such_Attr_Name : (\Function : (
-            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse},
+            value : \@material,
+        )),
 
         Excuse::Not_Same_Heading : (\Function : (
-            is_type_definer : True, composes : {\@Excuse}, value : \@material )),
+            is_type_definer : True,
+            composes : {\@Excuse},
+            value : \@material,
+        )),
 
-        has_any_attrs::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Attributive) )),
+        has_any_attrs::"" : (\Function : (
+            virtual : True,
+            returns : \@Boolean,
+            matches : (\@Attributive),
+        )),
 
         "?@" : (\Alias : ( of : \@has_any_attrs )),
 
-        is_nullary : (\Function : ( negates : \@has_any_attrs )),
+        is_nullary : (\Function : (
+            negates : \@has_any_attrs,
+        )),
 
         "!?@" : (\Alias : ( of : \@is_nullary )),
 
-        nullary::"" : (\Function : ( virtual : True, returns : \@Attributive, matches : (\@Attributive) )),
+        nullary::"" : (\Function : (
+            virtual : True,
+            returns : \@Attributive,
+            matches : (\@Attributive),
+        )),
 
-        is_unary::"" : (\Function : ( virtual : True, returns : \@Boolean, matches : (\@Attributive) )),
+        is_unary::"" : (\Function : (
+            virtual : True,
+            returns : \@Boolean,
+            matches : (\@Attributive),
+        )),
 
-        degree::"" : (\Function : ( virtual : True, returns : \@Integer::NN, matches : (\@Attributive) )),
+        degree::"" : (\Function : (
+            virtual : True,
+            returns : \@Integer::NN,
+            matches : (\@Attributive),
+        )),
 
         "#@" : (\Alias : ( of : \@degree )),
 
-        heading::"" : (\Function : ( virtual : True, returns : \@Heading, matches : (\@Attributive) )),
+        heading::"" : (\Function : (
+            virtual : True,
+            returns : \@Heading,
+            matches : (\@Attributive),
+        )),
 
         "@" : (\Alias : ( of : \@heading )),
 
@@ -3074,7 +3260,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"⊆@" : (\Alias : ( of : \@subheading_of )),
 
-        superheading_of : (\Function : ( commutes : \@subheading_of )),
+        superheading_of : (\Function : (
+            commutes : \@subheading_of,
+        )),
 
         has_subheading : (\Alias : ( of : \@superheading_of )),
         "@?"           : (\Alias : ( of : \@superheading_of )),
@@ -3173,7 +3361,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"ρ" : (\Alias : ( of : \@rename )),
 
-        renaming : (\Function : ( commutes : \@rename )),
+        renaming : (\Function : (
+            commutes : \@rename,
+        )),
 
         can_project_matching::"" : (\Function : (
             virtual : True,
@@ -3195,7 +3385,9 @@ meta script 'Unicode 9.0 UTF-8'
 
         Unicode_Aliases::"π" : (\Alias : ( of : \@on )),
 
-        from : (\Function : ( commutes : \@on )),
+        from : (\Function : (
+            commutes : \@on,
+        )),
 
         maybe_on : (\Function : (
             returns : \@Attributive,
@@ -3332,7 +3524,11 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \(args:.\0 maybe_but args:.\1),
         )),
 
-        to_Tuple::"" : (\Function : ( virtual : True, returns : \@Tuple, matches : (\@Structural) )),
+        to_Tuple::"" : (\Function : (
+            virtual : True,
+            returns : \@Tuple,
+            matches : (\@Structural),
+        )),
 
         "%" : (\Alias : ( of : \@to_Tuple )),
 
@@ -3347,7 +3543,9 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Tuple::D0 : (\Function : (
-            is_type_definer : True, value : () )),
+            is_type_definer : True,
+            value : (),
+        )),
 
         Tuple::D1 : (\Function : (
             is_type_definer : True,
@@ -3453,7 +3651,9 @@ meta script 'Unicode 9.0 UTF-8'
                 --> \foundation::Tuple_any_attrs::()),
         )),
 
-        none_of_attrs : (\Function : ( negates : \@any_attrs )),
+        none_of_attrs : (\Function : (
+            negates : \@any_attrs,
+        )),
 
         all_attrs : (\Function : (
             returns : \@Boolean,
@@ -3461,7 +3661,9 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : \(args:.\0 none_of_attrs \not_is_a::( 1: args:.\1 )),
         )),
 
-        not_all_attrs : (\Function : ( negates : \@all_attrs )),
+        not_all_attrs : (\Function : (
+            negates : \@all_attrs,
+        )),
 
         all_attr_assets : (\Function : (
             returns : \@Boolean,
@@ -3775,7 +3977,11 @@ meta script 'Unicode 9.0 UTF-8'
                 body: |args:.\0 map \extend::( 1: args:.\1 ) )),
         )),
 
-        body::"" : (\Function : ( virtual : True, returns : \@Unionable, matches : (\@Relational) )),
+        body::"" : (\Function : (
+            virtual : True,
+            returns : \@Unionable,
+            matches : (\@Relational),
+        )),
 
         "|" : (\Alias : ( of : \@body )),
 
@@ -3799,10 +4005,14 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Tuple_Array::D0C0 : (\Function : (
-            is_type_definer : True, value : ~%@() )),
+            is_type_definer : True,
+            value : ~%@(),
+        )),
 
         Tuple_Array::D0C1 : (\Function : (
-            is_type_definer : True, value : ~%[()] )),
+            is_type_definer : True,
+            value : ~%[()],
+        )),
 
         heading::Tuple_Array : (\Function : (
             returns : \@Heading,
@@ -3840,10 +4050,14 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Relation::D0C0 : (\Function : (
-            is_type_definer : True, value : ?%@() )),
+            is_type_definer : True,
+            value : ?%@(),
+        )),
 
         Relation::D0C1 : (\Function : (
-            is_type_definer : True, value : ?%{()} )),
+            is_type_definer : True,
+            value : ?%{()},
+        )),
 
         heading::Relation : (\Function : (
             returns : \@Heading,
@@ -3880,10 +4094,14 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         Tuple_Bag::D0C0 : (\Function : (
-            is_type_definer : True, value : +%@() )),
+            is_type_definer : True,
+            value : +%@(),
+        )),
 
         Tuple_Bag::D0C1 : (\Function : (
-            is_type_definer : True, value : +%{()} )),
+            is_type_definer : True,
+            value : +%{()},
+        )),
 
         heading::Tuple_Bag : (\Function : (
             returns : \@Heading,
