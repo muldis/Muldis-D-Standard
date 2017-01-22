@@ -434,9 +434,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         Round_Meth::"" : (\Function : (
             is_type_definer : True,
-            where : \(Capsule args:.\0 and_then guard args:.\0:< = \@material
-                and_then folder::Attr_Name(args:.\0:>)),
-            default : (\@material : \To_Zero),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (
+                    0 : \folder::Attr_Name(),
+                )
+            ),
+            default : (\@material : (\To_Zero,)),
         )),
 
         Round_Meth::Attr_Name : (\Function : (
@@ -452,7 +457,7 @@ meta script 'Unicode 9.0 UTF-8'
         RM : (\Function : (
             returns : \@Round_Meth,
             matches : (\@Round_Meth::Attr_Name),
-            evaluates : \((\@Round_Meth : args:.\0)),
+            evaluates : \((\@Round_Meth : (args:.\0,))),
         )),
 
 `#########################################################################`
@@ -1290,8 +1295,13 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Stringy},
             provides_default_for : {\@Stringy},
-            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Bits
-                and_then String::Bits(args:.\0:>)),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Bits
+                and_then guard args:.\0:> is_a (
+                    bits : \String::Bits(),
+                )
+            ),
             default : \~?'',
         )),
 
@@ -1368,13 +1378,13 @@ meta script 'Unicode 9.0 UTF-8'
         Bits_from_String_Bits : (\Function : (
             returns : \@Bits,
             matches : (\@String::Bits),
-            evaluates : \((\Bits : args:.\0)),
+            evaluates : \((\Bits : (bits : args:.\0,))),
         )),
 
         Bits_to_String_Bits : (\Function : (
             returns : \@String::Bits,
             matches : (\@Bits),
-            evaluates : \(args:.\0:>),
+            evaluates : \(args:.\0:>.\bits),
         )),
 
 `#########################################################################`
@@ -1382,8 +1392,13 @@ meta script 'Unicode 9.0 UTF-8'
         Blob : (\Function : (
             is_type_definer : True,
             composes : {\@Stringy},
-            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Blob
-                and_then String::Octets(args:.\0:>)),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Blob
+                and_then guard args:.\0:> is_a (
+                    octets : \String::Octets(),
+                )
+            ),
             default : \~+'',
         )),
 
@@ -1457,13 +1472,13 @@ meta script 'Unicode 9.0 UTF-8'
         Blob_from_Octets : (\Function : (
             returns : \@Blob,
             matches : (\@String::Octets),
-            evaluates : \((\Blob : args:.\0)),
+            evaluates : \((\Blob : (octets : args:.\0,))),
         )),
 
         Blob_to_Octets : (\Function : (
             returns : \@String::Octets,
             matches : (\@Blob),
-            evaluates : \(args:.\0:>),
+            evaluates : \(args:.\0:>.\octets),
         )),
 
 `#########################################################################`
@@ -1486,8 +1501,13 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Textual},
             provides_default_for : {\@Textual},
-            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Text
-                and_then String::Maximal_Chars(args:.\0:>)),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Text
+                and_then guard args:.\0:> is_a (
+                    maximal_chars : \String::Maximal_Chars(),
+                )
+            ),
             default : '',
         )),
 
@@ -1592,13 +1612,13 @@ meta script 'Unicode 9.0 UTF-8'
         Text_from_Maximal_Chars : (\Function : (
             returns : \@Text,
             matches : (\@String::Maximal_Chars),
-            evaluates : \((\Text : args:.\0)),
+            evaluates : \((\Text : (maximal_chars : args:.\0,))),
         )),
 
         Text_to_Maximal_Chars : (\Function : (
             returns : \@String::Maximal_Chars,
             matches : (\@Text),
-            evaluates : \(args:.\0:>),
+            evaluates : \(args:.\0:>.\maximal_chars),
         )),
 
         Text_from_Unicode_Codes : (\Function : (
@@ -2711,8 +2731,10 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(
                 Capsule args:.\0
                 and_then guard args:.\0:< = \Set
-                and_then guard Bag args:.\0:>
-                and_then guard all_unique args:.\0:>
+                and_then guard args:.\0:> is_a (
+                    members : \Bag(),
+                )
+                and_then guard all_unique args:.\0:>.\members
             ),
             default : {},
         )),
@@ -2742,7 +2764,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Set),
             implements : \@folder::"",
-            evaluates : \(singular args:.\0:>),
+            evaluates : \(singular args:.\0:>.\members),
         )),
 
         only_member::Set : (\Function : (
@@ -2750,21 +2772,21 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set),
             implements : \@folder::"",
             accepts : \(singular args:.\0),
-            evaluates : \(only_member args:.\0:>),
+            evaluates : \(only_member args:.\0:>.\members),
         )),
 
         has_n::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : \(has_n::(args:.\0:>, args:.\1, args:.\2)),
+            evaluates : \(has_n::(args:.\0:>.\members, args:.\1, args:.\2)),
         )),
 
         multiplicity::Set : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Set, \@Any),
             implements : \@folder::"",
-            evaluates : \(args:.\0:> multiplicity args:.\1),
+            evaluates : \(args:.\0:>.\members multiplicity args:.\1),
         )),
 
         all_unique::Set : (\Function : (
@@ -2785,7 +2807,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Set, \@Set),
             implements : \@folder::"",
-            evaluates : \(args:.\0:> subset_of args:.\1:>),
+            evaluates : \(args:.\0:>.\members subset_of args:.\1:>.\members),
         )),
 
         same_members::Set : (\Function : (
@@ -2801,7 +2823,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : \(args:.\0:> overlaps_members args:.\1:>),
+            evaluates : \(args:.\0:>.\members overlaps_members args:.\1:>.\members),
         )),
 
         disjoint_members::Set : (\Function : (
@@ -2809,14 +2831,14 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : \(args:.\0:> disjoint_members args:.\1:>),
+            evaluates : \(args:.\0:>.\members disjoint_members args:.\1:>.\members),
         )),
 
         any::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Signature),
             implements : \@folder::"",
-            evaluates : \(args:.\0:> any args:.\1),
+            evaluates : \(args:.\0:>.\members any args:.\1),
         )),
 
         insert_n::Set : (\Function : (
@@ -2824,14 +2846,14 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
             evaluates : \(if args:.\0 has args:.\1 or args:.\2 = 0 then args:.\0
-                else (\Set : insert_n::(args:.\0:>, args:.\1, 1))),
+                else (\Set : (members : insert_n::(args:.\0:>.\members, args:.\1, 1),))),
         )),
 
         remove_n::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : \((\Set : remove_n::(args:.\0:>, args:.\1, args:.\2))),
+            evaluates : \((\Set : (members : remove_n::(args:.\0:>.\members, args:.\1, args:.\2),))),
         )),
 
         member_plus::Set : (\Function : (
@@ -2850,7 +2872,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set, \@Set),
             implements : \@folder::"",
             right_identity : {},
-            evaluates : \((\Set : (args:.\0:> except args:.\1:>))),
+            evaluates : \((\Set : (members : args:.\0:>.\members except args:.\1:>.\members,))),
         )),
 
         intersect::Set : (\Function : (
@@ -2860,7 +2882,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            evaluates : \((\Set : (args:.\0:> intersect args:.\1:>))),
+            evaluates : \((\Set : (members : args:.\0:>.\members intersect args:.\1:>.\members,))),
         )),
 
         union::Set : (\Function : (
@@ -2871,7 +2893,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : {},
-            evaluates : \((\Set : (args:.\0:> union args:.\1:>))),
+            evaluates : \((\Set : (members : args:.\0:>.\members union args:.\1:>.\members,))),
         )),
 
         exclusive::Set : (\Function : (
@@ -2881,7 +2903,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : {},
-            evaluates : \((\Set : (args:.\0:> exclusive args:.\1:>))),
+            evaluates : \((\Set : (members : args:.\0:>.\members exclusive args:.\1:>.\members,))),
         )),
 
         nest::Set : (\Function : (
@@ -2889,7 +2911,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set),
             implements : \@folder::"",
             accepts : \(...),
-            evaluates : \((\Set : (nest args:.\0:>))),
+            evaluates : \((\Set : (members : nest args:.\0:>.\members,))),
         )),
 
         unnest::Set : (\Function : (
@@ -2897,28 +2919,28 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Set),
             implements : \@folder::"",
             accepts : \(...),
-            evaluates : \((\Set : (unnest args:.\0:>))),
+            evaluates : \((\Set : (members : unnest args:.\0:>.\members,))),
         )),
 
         where::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Signature),
             implements : \@folder::"",
-            evaluates : \((\Set : (args:.\0:> where args:.\1))),
+            evaluates : \((\Set : (members : args:.\0:>.\members where args:.\1,))),
         )),
 
         map::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Function_Call_But_0),
             implements : \@folder::"",
-            evaluates : \((\Set : (args:.\0:> map args:.\1))),
+            evaluates : \((\Set : (members : args:.\0:>.\members map args:.\1,))),
         )),
 
         reduce::Set : (\Function : (
             returns : \@Any,
             matches : (\@Set, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            evaluates : \((\Set : (args:.\0:> reduce args:.\1))),
+            evaluates : \((\Set : (members : args:.\0:>.\members reduce args:.\1,))),
         )),
 
         to_Set::Set : (\Function : (
@@ -2932,14 +2954,14 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Bag,
             matches : (\@Set),
             implements : \@folder::"",
-            evaluates : \(args:.\0:>),
+            evaluates : \(args:.\0:>.\members),
         )),
 
         count::Set : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Set),
             implements : \@folder::"",
-            evaluates : \(count args:.\0:>),
+            evaluates : \(count args:.\0:>.\members),
         )),
 
         unique_count::Set : (\Function : (
@@ -2953,7 +2975,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Array,
             matches : (\@Set, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            evaluates : \((\Set : (args:.\0:> order_using args:.\1))),
+            evaluates : \(args:.\0:>.\members order_using args:.\1),
         )),
 
 `#########################################################################`
@@ -3171,7 +3193,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Set,
             matches : (\@Bag),
             implements : \@folder::"",
-            evaluates : \((\Set : (unique args:.\0))),
+            evaluates : \((\Set : (members : unique args:.\0,))),
         )),
 
         to_Bag::Bag : (\Function : (
@@ -4154,8 +4176,11 @@ meta script 'Unicode 9.0 UTF-8'
         Interval::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Intervalish, \@Setty},
-            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Interval
-                and_then Interval::Attrs(args:.\0:>)),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Interval
+                and_then guard args:.\0:> is_a \Interval::Attrs()
+            ),
             default : \(Excuse::Before_All_Others()..Excuse::After_All_Others()),
         )),
 
@@ -4180,8 +4205,10 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(
                 Capsule args:.\0
                 and_then guard args:.\0:< = \Interval_Set
-                and_then guard Interval_Bag args:.\0:>
-                and_then guard all_unique args:.\0:>
+                and_then guard args:.\0:> is_a (
+                    members : \Interval_Bag(),
+                )
+                and_then guard all_unique args:.\0:>.\members
             ),
             default : ...,
         )),
@@ -4194,7 +4221,9 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(
                 Capsule args:.\0
                 and_then guard args:.\0:< = \Interval_Bag
-                and_then guard Tuple_Bag args:.\0:>
+                and_then guard args:.\0:> is_a (
+                    members : \Tuple_Bag(),
+                )
                 and_then guard ...
             ),
             default : ...,
@@ -4216,8 +4245,9 @@ meta script 'Unicode 9.0 UTF-8'
             where : \(
                 Capsule args:.\0
                 and_then guard args:.\0:< = \Quantity
-                and_then guard Relation args:.\0:>
-                and_then guard ...
+                and_then guard args:.\0:> is_a (
+                    0 : \Relation(),
+                )
             ),
             default : ...,
         )),
@@ -4227,7 +4257,7 @@ meta script 'Unicode 9.0 UTF-8'
         Capsule : (\Function : (
             is_type_definer : True,
             where : \(args --> \foundation::is_a_Capsule::()),
-            default : (False : False),
+            default : (False : ()),
         )),
 
 `#########################################################################`
@@ -4350,9 +4380,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Alias : (\Function : (
             is_type_definer : True,
-            where : \(Capsule args:.\0 and_then guard args:.\0:< = \Alias
-                and_then Identity_Identifier::(args:.\0:>)),
-            default : \((\Alias : Identity_Identifier::())),
+            where : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \Alias
+                and_then guard args:.\0:> is_a (
+                    of : \Identity_Identifier(),
+                )
+            ),
+            default : \((\Alias : (of : Identity_Identifier::(),))),
         )),
 
         Source_Code::Function : (\Function : (
@@ -4361,6 +4396,7 @@ meta script 'Unicode 9.0 UTF-8'
                 Capsule args:.\0
                 and_then guard args:.\0:< = \Function
                 and_then guard args:.\0:> is_a (
+                    is_type_definer : \Boolean::(),
                     is_generalization : \Boolean::(),
                     composes : ...,  `set of 0..N type name`
                     provides_default_for : ...,  `subset 0..M of prior set`
