@@ -72,23 +72,27 @@ meta script 'Unicode 9.0 UTF-8'
             value : \@material,
         )),
 
-        Excuse_or_else : (\Function : (
+        coalesce : (\Function : (
             returns : \@Any,
             matches : (\@Any, \@Any),
             is_associative : True,
             is_idempotent : True,
+            left_identity : \(Excuse::No_Reason()),
             evaluates : \(if Excuse args:.\0 then args:.\1 else args:.\0),
         )),
 
-        coalesce : (\Alias : ( of : \@Excuse_or_else )),
+        "??" : (\Alias : ( of : \@coalesce )),
 
-        Excuse_and_then : (\Function : (
+        anticoalesce : (\Function : (
             returns : \@Any,
             matches : (\@Any, \@Any),
             is_associative : True,
             is_idempotent : True,
+            left_identity : True,
             evaluates : \(if Excuse args:.\0 then args:.\0 else args:.\1),
         )),
+
+        "!!" : (\Alias : ( of : \@anticoalesce )),
 
 `#########################################################################`
 
