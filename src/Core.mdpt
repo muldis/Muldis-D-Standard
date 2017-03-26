@@ -4420,7 +4420,7 @@ meta script 'Unicode 9.0 UTF-8'
                     traits is_a (\@Signature::Tuple_Attrs_Match : (
                         is_type_definer : (type : \True::(),),
                         is_generalization : (type : \True::(),),
-                        default : (type : \Function_Body::(), optional : True),
+                        default : (type : \Expression::(), optional : True),
                     ) %+ type_specialization_attrs_template)
                     and_then type_specialization_attrs_constraint;
 
@@ -4428,7 +4428,7 @@ meta script 'Unicode 9.0 UTF-8'
                     traits is_a (\@Signature::Tuple_Attrs_Match : (
                         is_type_definer : (type : \True::(),),
                         is_generalization : (type : \False::(), optional : True),
-                        constant : (type : \Function_Body::(),),
+                        constant : (type : \Expression::(),),
                     ) %+ type_specialization_attrs_template)
                     and_then type_specialization_attrs_constraint;
 
@@ -4436,8 +4436,8 @@ meta script 'Unicode 9.0 UTF-8'
                     traits is_a (\@Signature::Tuple_Attrs_Match : (
                         is_type_definer : (type : \True::(),),
                         is_generalization : (type : \False::(), optional : True),
-                        evaluates : (type : \Function_Body::(),),
-                        default : (type : \Function_Body::(), optional : True),
+                        evaluates : (type : \Expression::(),),
+                        default : (type : \Expression::(), optional : True),
                     ) %+ type_specialization_attrs_template)
                     and_then type_specialization_attrs_constraint;
 
@@ -4464,30 +4464,17 @@ meta script 'Unicode 9.0 UTF-8'
                         matches : (type : \Signature::Tuple_Attrs_Match_Simple(), optional : True),
                         implements : (type : ..., optional : True),
                         overrides : (type : ..., optional : True),
-                        accepts : (type : \Function_Body::(), optional : True),
-                        intends : (type : \Function_Body::(), optional : True),
+                        accepts : (type : \Expression::(), optional : True),
+                        intends : (type : \Expression::(), optional : True),
                         is_associative : (type : \Boolean::(), optional : True),  `two-way associative`
                         is_commutative : (type : \Boolean::(), optional : True),
                         is_idempotent : (type : \Boolean::(), optional : True),
-                        identity : (type : \Function_Body::(), optional : True),  `iff two-sided identity element exists`
-                        left_identity : (type : \Function_Body::(), optional : True),  `iff only left-identity element exists`
-                        right_identity : (type : \Function_Body::(), optional : True),  `iff only right-identity element exists`
+                        identity : (type : \Expression::(), optional : True),  `iff two-sided identity element exists`
+                        left_identity : (type : \Expression::(), optional : True),  `iff only left-identity element exists`
+                        right_identity : (type : \Expression::(), optional : True),  `iff only right-identity element exists`
                         repeater : (type : ..., optional : True),
-                        evaluates : (type : \Function_Body::(), optional : True),
+                        evaluates : (type : \Expression::(), optional : True),
                     ));
-            ),
-            default : ...,
-        )),
-
-        Source_Code::Function_Body : (\Function : (
-            is_type_definer : True,
-            evaluates : \(
-                Capsule args:.\0
-                and_then guard args:.\0:< = \Function_Body
-                and_then guard args:.\0:> is_a (
-                    root_expr : \Expression::(),
-                    named_exprs : \Named_Expr_List::(),
-                )
             ),
             default : ...,
         )),
@@ -4503,24 +4490,10 @@ meta script 'Unicode 9.0 UTF-8'
                     updates : \Heading::(),  `TODO: Or keyword "source".`
                     implements : ...,
                     overrides : ...,
-                    accepts : \Function_Body::(),
-                    intends : \Function_Body::(),
+                    accepts : \Expression::(),
+                    intends : \Expression::(),
                     vars : \Signature::Tuple_Attrs_Match_Simple(),
-                    performs : \Procedure_Body::(),
-                )
-            ),
-            default : ...,
-        )),
-
-        Source_Code::Procedure_Body : (\Function : (
-            is_type_definer : True,
-            evaluates : \(
-                Capsule args:.\0
-                and_then guard args:.\0:< = \Procedure_Body
-                and_then guard args:.\0:> is_a (
-                    root_stmt : \Statement::(),
-                    named_stmts : \Named_Stmt_List::(),
-                    named_exprs : \Named_Expr_List::(),
+                    performs : \Statement::(),
                 )
             ),
             default : ...,
@@ -4571,6 +4544,106 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
+        Source_Code::Expression::"" : (\Function : (
+            is_type_definer : True,
+            evaluates : \(args:.\0 is_a {
+                \@folder::Literal,
+                \@folder::Args,
+                \@folder::Labelling,
+                \@folder::Embedding,
+            }),
+            default : (\@folder::Literal : (False,)),
+        )),
+
+        Source_Code::Expression::Literal : (\Function : (
+            is_type_definer : True,
+            evaluates : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (
+                    0 : \Any::(),
+                )
+            ),
+            default : (\@material : (False,)),
+        )),
+
+        Source_Code::Expression::Args : (\Function : (
+            is_type_definer : True,
+            constant : \@material,
+        )),
+
+        Source_Code::Expression::Labelling : (\Function : (
+            is_type_definer : True,
+            evaluates : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (
+                    0 : \Attr_Name::(),
+                    1 : \Expression::(),
+                )
+            ),
+            default : (\@material : (\"", (\@folder::Literal : (False,)))),
+        )),
+
+        Source_Code::Expression::Embedding : (\Function : (
+            is_type_definer : True,
+            evaluates : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (
+                    0 : \Attr_Name::(),
+                )
+            ),
+            default : (\@material : (\"",)),
+        )),
+
+        Source_Code::Statement::"" : (\Function : (
+            is_type_definer : True,
+            evaluates : \(args:.\0 is_a {
+                \@folder::Labelling,
+                \@folder::Embedding,
+                \@folder::Variable,
+            }),
+            default : ...,
+        )),
+
+        Source_Code::Statement::Labelling : (\Function : (
+            is_type_definer : True,
+            evaluates : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (
+                    0 : \Attr_Name::(),
+                    1 : \Expression::(),
+                )
+            ),
+            default : (\@material : (\"",...)),
+        )),
+
+        Source_Code::Statement::Embedding : (\Function : (
+            is_type_definer : True,
+            evaluates : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (
+                    0 : \Attr_Name::(),
+                )
+            ),
+            default : (\@material : (\"",)),
+        )),
+
+        Source_Code::Statement::Variable : (\Function : (
+            is_type_definer : True,
+            evaluates : \(
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (
+                    0 : \Attr_Name::(),
+                )
+            ),
+            default : (\@material : (\"",)),
+        )),
+
         Source_Code::Heading : (\Function : (
             is_type_definer : True,
             evaluates : \(Tuple args:.\0 and_then guard
@@ -4607,36 +4680,6 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : \(Local_Name args:.\0 and_then guard
                 args:.\0.0 ⊆@ \@(foundation,used,package)),
-        )),
-
-        Source_Code::Named_Expr_List : (\Function : (
-            is_type_definer : True,
-            evaluates : \(Tuple args:.\0 and_then guard
-                args:.\0 .!? \"" and args:.\0 all_attr_assets \Expression::()),
-        )),
-
-        Source_Code::Expression : (\Function : (
-            is_type_definer : True,
-            evaluates : \(args:.\0 is_a {
-                \@Expr_Name_Expr, \@Naming_Expr, \@Annotating_Expr
-                , ...
-                , \@delimiting_expr, \@source_expr
-                , \@opaque_literal_expr, \@collection_selector_expr
-                , \@invocation_expr, \@conditional_expr, \@fail_expr, ...
-            }),
-            default : ...,
-        )),
-
-        Source_Code::Named_Stmt_List : (\Function : (
-            is_type_definer : True,
-            evaluates : \(Tuple args:.\0 and_then guard
-                args:.\0 .!? \"" and args:.\0 all_attr_assets \Statement::()),
-        )),
-
-        Source_Code::Statement : (\Function : (
-            is_type_definer : True,
-            evaluates : \(args:.\0 is_a {...}),
-            default : ...,
         )),
 
         Source_Code::Key_Asset_Pair : (\Function : (
