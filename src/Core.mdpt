@@ -4556,8 +4556,8 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (args:.\0 is_a {
                 \@folder::Literal,
                 \@folder::Args,
-                \@folder::Labelling,
-                \@folder::Embedding,
+                \@folder::Factorization,
+                \@folder::Expansion,
             }),
             default : (\@folder::Literal : (False,)),
         )),
@@ -4579,64 +4579,77 @@ meta script 'Unicode 9.0 UTF-8'
             constant : \@material,
         )),
 
-        Source_Code::Expression::Labelling : (\Function : (
+        Source_Code::Expression::Factorization : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \@material
                 and_then guard args:.\0:> is_a (
-                    0 : \Attr_Name::(),
-                    1 : \Expression::(),
+                    factors : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
+                    returns : \Expression::(),
                 )
             ),
-            default : (\@material : (\"", (\@folder::Literal : (False,)))),
+            default : (\@material : (factors : (), returns : (\@folder::Literal : (False,)))),
         )),
 
-        Source_Code::Expression::Embedding : (\Function : (
+        Source_Code::Expression::Expansion : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \@material
                 and_then guard args:.\0:> is_a (
-                    0 : \Attr_Name::(),
+                    factor : \Attr_Name::(),
                 )
             ),
-            default : (\@material : (\"",)),
+            default : (\@material : (factor : \"",)),
         )),
 
         Source_Code::Statement::"" : (\Function : (
             is_type_definer : True,
             evaluates : (args:.\0 is_a {
-                \@folder::Labelling,
-                \@folder::Embedding,
+                \@folder::Block,
+                \@folder::Leave,
+                \@folder::Iterate,
                 \@folder::Variable,
             }),
             default : ...,
         )),
 
-        Source_Code::Statement::Labelling : (\Function : (
+        Source_Code::Statement::Block : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \@material
-                and_then guard args:.\0:> is_a (
-                    0 : \Attr_Name::(),
-                    1 : \Expression::(),
-                )
+                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (
+                    0 : (type : [\Array::(), \all::( 1: \Statement::() )]),
+                    label : (type : \Attr_Name::(), optional : True),
+                ))
             ),
-            default : (\@material : (\"",...)),
+            default : (\@material : ([],)),
         )),
 
-        Source_Code::Statement::Embedding : (\Function : (
+        Source_Code::Statement::Leave : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \@material
-                and_then guard args:.\0:> is_a (
-                    0 : \Attr_Name::(),
-                )
+                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (
+                    label : (type : \Attr_Name::(), optional : True),
+                ))
             ),
-            default : (\@material : (\"",)),
+            default : (\@material : ()),
+        )),
+
+        Source_Code::Statement::Iterate : (\Function : (
+            is_type_definer : True,
+            evaluates : (
+                Capsule args:.\0
+                and_then guard args:.\0:< = \@material
+                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (
+                    label : (type : \Attr_Name::(), optional : True),
+                ))
+            ),
+            default : (\@material : ()),
         )),
 
         Source_Code::Statement::Variable : (\Function : (
