@@ -4503,11 +4503,18 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (args:.\0 is_a {
                 \@Function_Call_But_0,
+                \@folder::Conjunction,
                 \@folder::Disjunction,
                 \@folder::Tuple_Attrs_Match_Simple,
                 \@folder::Tuple_Attrs_Match,
             }),
             default : \Any::(),
+        )),
+
+        Source_Code::Signature::Conjunction : (\Function : (
+            is_type_definer : True,
+            evaluates : (Array args:.\0 and_then guard
+                args:.\0 all \Signature::()),
         )),
 
         Source_Code::Signature::Disjunction : (\Function : (
@@ -4696,6 +4703,14 @@ meta script 'Unicode 9.0 UTF-8'
                 returns
                     if Function_Call_But_0 sig then
                         sig
+                    else if Signature::Conjunction sig then guard
+                        \(
+                            topic    ::= args:.\0;
+                            conj_sig ::= args:.\sig;
+                            returns empty::(conj_sig)
+                                or_else guard topic is_a first::(conj_sig)
+                                and_then guard topic is_a nonfirst::(conj_sig)
+                        ) \<-- (:sig,)
                     else if Signature::Disjunction sig then guard
                         \(
                             topic    ::= args:.\0;
