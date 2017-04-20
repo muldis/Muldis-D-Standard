@@ -4551,18 +4551,18 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Expression::"" : (\Function : (
+        Source_Code::Expression : (\Function : (
             is_type_definer : True,
             evaluates : (args:.\0 is_a {
-                \@folder::Literal,
-                \@folder::Args,
-                \@folder::Factorization,
-                \@folder::Expansion,
+                \@Literal,
+                \@Args,
+                \@Factorization,
+                \@Expansion,
             }),
-            default : (\@folder::Literal : (False,)),
+            default : (\@Literal : (False,)),
         )),
 
-        Source_Code::Expression::Literal : (\Function : (
+        Source_Code::Literal : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
@@ -4574,12 +4574,12 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : (False,)),
         )),
 
-        Source_Code::Expression::Args : (\Function : (
+        Source_Code::Args : (\Function : (
             is_type_definer : True,
             constant : \@material,
         )),
 
-        Source_Code::Expression::Factorization : (\Function : (
+        Source_Code::Factorization : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
@@ -4589,10 +4589,10 @@ meta script 'Unicode 9.0 UTF-8'
                     returns : \Expression::(),
                 )
             ),
-            default : (\@material : (factors : (), returns : (\@folder::Literal : (False,)))),
+            default : (\@material : (factors : (), returns : (\@Literal : (False,)))),
         )),
 
-        Source_Code::Expression::Expansion : (\Function : (
+        Source_Code::Expansion : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
@@ -4604,18 +4604,18 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : (factor : \"",)),
         )),
 
-        Source_Code::Statement::"" : (\Function : (
+        Source_Code::Statement : (\Function : (
             is_type_definer : True,
             evaluates : (args:.\0 is_a {
-                \@folder::Block,
-                \@folder::Leave,
-                \@folder::Iterate,
-                \@folder::Variable,
+                \@Block,
+                \@Leave,
+                \@Iterate,
+                \@Declare,
             }),
             default : ...,
         )),
 
-        Source_Code::Statement::Block : (\Function : (
+        Source_Code::Block : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
@@ -4628,7 +4628,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ([],)),
         )),
 
-        Source_Code::Statement::Leave : (\Function : (
+        Source_Code::Leave : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
@@ -4640,7 +4640,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ()),
         )),
 
-        Source_Code::Statement::Iterate : (\Function : (
+        Source_Code::Iterate : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
@@ -4652,7 +4652,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ()),
         )),
 
-        Source_Code::Statement::Variable : (\Function : (
+        Source_Code::Declare : (\Function : (
             is_type_definer : True,
             evaluates : (
                 Capsule args:.\0
