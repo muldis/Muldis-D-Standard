@@ -693,7 +693,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             evaluates : ((if is_zero args:.\1 then args:.\0 else guard material::(args:.\1, mod::(args:.\0, args:.\1, RM::(\To_Zero))))
-                ::?= 'Calculate using the Euclidean algorithm.'),
+                note 'Calculate using the Euclidean algorithm.'),
         )),
 
         greatest_common_divisor : (\Alias : ( of : \@gcd )),
@@ -871,7 +871,7 @@ meta script 'Unicode 9.0 UTF-8'
 
                 returns if divisor = 0 then Excuse::Div_By_Zero() else guard e1;
 
-                e1 ::?= 'This is the case where we are dividing by a non-zero.';
+                e1 note 'This is the case where we are dividing by a non-zero.';
 
                 e1 ::=   if dividend = 0       then 0
                     else if divisor  = 1       then dividend
@@ -880,7 +880,7 @@ meta script 'Unicode 9.0 UTF-8'
                     else                            e2
                 ;
 
-                e2 ::?= 'This is the case where the divisor and dividend do not'
+                e2 note 'This is the case where the divisor and dividend do not'
                     ' equal each other and neither of them is a zero or a one.';
 
                 e2 ::= (
@@ -892,7 +892,7 @@ meta script 'Unicode 9.0 UTF-8'
                     returns if rtz_remainder = 0 then rtz_quotient else e3;
                 );
 
-                e3 ::?= 'This is the case where the divisor does not divide the'
+                e3 note 'This is the case where the divisor does not divide the'
                     ' dividend evenly and the real number division result would'
                     ' have a fractional part, so we decide how to round that.';
 
@@ -913,7 +913,7 @@ meta script 'Unicode 9.0 UTF-8'
                     ;
                 );
 
-                e4 ::?= 'This is the case where real division remainder is'
+                e4 note 'This is the case where real division remainder is'
                     ' exactly one-half so we decide how to round that.';
 
                 e4 ::= (
@@ -2473,8 +2473,8 @@ meta script 'Unicode 9.0 UTF-8'
                 else guard
                     e2 ::= args:.\0.i in_order args:.\1.i;
 
-                e1 ::?= 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
-                e2 ::?= 'This will succeed iff in_order() is defined for the member type.';
+                e1 note 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
+                e2 note 'This will succeed iff in_order() is defined for the member type.';
             ),
         )),
 
