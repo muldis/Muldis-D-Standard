@@ -4405,28 +4405,28 @@ meta script 'Unicode 9.0 UTF-8'
                         when_regular_function;
 
                 when_generalized_type_definer ::=
-                    traits is_a (\@Signature::Tuple_Attrs_Match : (
+                    traits is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                         is_type_definer : (type : \True::(),),
                         is_generalization : (type : \True::(),),
                         default : (type : \Expression::(), optional : True),
-                    ) %+ type_specialization_attrs_template)
+                    ) %+ type_specialization_attrs_template,))
                     and_then type_specialization_attrs_constraint;
 
                 when_singleton_type_definer ::=
-                    traits is_a (\@Signature::Tuple_Attrs_Match : (
+                    traits is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                         is_type_definer : (type : \True::(),),
                         is_generalization : (type : \False::(), optional : True),
                         constant : (type : \Expression::(),),
-                    ) %+ type_specialization_attrs_template)
+                    ) %+ type_specialization_attrs_template,))
                     and_then type_specialization_attrs_constraint;
 
                 when_regular_type_definer ::=
-                    traits is_a (\@Signature::Tuple_Attrs_Match : (
+                    traits is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                         is_type_definer : (type : \True::(),),
                         is_generalization : (type : \False::(), optional : True),
                         evaluates : (type : {\Expression::(), \Signature::()},),
                         default : (type : \Expression::(), optional : True),
-                    ) %+ type_specialization_attrs_template)
+                    ) %+ type_specialization_attrs_template,))
                     and_then type_specialization_attrs_constraint;
 
                 type_specialization_attrs_template ::=
@@ -4443,7 +4443,7 @@ meta script 'Unicode 9.0 UTF-8'
                         True;
 
                 when_regular_function ::=
-                    traits is_a (\@Signature::Tuple_Attrs_Match : (
+                    traits is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                         is_type_definer : (type : \False::(), optional : True),
                         virtual : (type : \Boolean::(), optional : True),
                         commutes : (type : \Identity_Identifier::(), optional : True),
@@ -4462,7 +4462,7 @@ meta script 'Unicode 9.0 UTF-8'
                         right_identity : (type : \Expression::(), optional : True),  `iff only right-identity element exists`
                         repeater : (type : ..., optional : True),
                         evaluates : (type : \Expression::(), optional : True),
-                    ));
+                    ),));
             ),
             default : ...,
         )),
@@ -4472,7 +4472,7 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \Procedure
-                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (
+                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                     virtual : (type : \Boolean::(), optional : True),
                     matches : (type : \Signature::Tuple_Attrs_Match_Simple(), optional : True),
                     implements : (type : ..., optional : True),
@@ -4480,7 +4480,7 @@ meta script 'Unicode 9.0 UTF-8'
                     accepts : (type : \Expression::(), optional : True),
                     intends : (type : \Expression::(), optional : True),
                     performs : (type : \Statement::(), optional : True),
-                ))
+                ),))
             ),
             default : ...,
         )),
@@ -4518,10 +4518,10 @@ meta script 'Unicode 9.0 UTF-8'
                 tuple_sig ::= args:.\0;
                 returns Capsule tuple_sig
                     and_then guard tuple_sig:< = \@material
-                    and_then guard tuple_sig:> all_attr_assets \(
-                        attr_sig ::= args:.\0;
-                        returns Tuple attr_sig
-                            and_then guard
+                    and_then guard tuple_sig:> is_a (
+                        attrs : [\Tuple::(), \all_attr_assets::( 1: \(
+                            attr_sig ::= args:.\0;
+                            returns
                                 attr_sig ⊆@ \@(type,optional)
                                 and
                                 (attr_sig.?\type and_then guard Signature attr_sig.\type)
@@ -4530,7 +4530,8 @@ meta script 'Unicode 9.0 UTF-8'
                                     then guard Boolean attr_sig.\optional
                                     else True
                             ;
-                    );
+                        ) )],
+                    )
             ),
         )),
 
@@ -4742,10 +4743,10 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \@material
-                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (
+                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                     0 : (type : [\Array::(), \all::( 1: \Statement::() )]),
                     label : (type : \Attr_Name::(), optional : True),
-                ))
+                ),))
             ),
             default : (\@material : ([],)),
         )),
@@ -4755,9 +4756,9 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \@material
-                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (
+                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                     label : (type : \Attr_Name::(), optional : True),
-                ))
+                ),))
             ),
             default : (\@material : ()),
         )),
@@ -4767,9 +4768,9 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (
                 Capsule args:.\0
                 and_then guard args:.\0:< = \@material
-                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (
+                and_then guard args:.\0:> is_a (\@Signature::Tuple_Attrs_Match : (attrs : (
                     label : (type : \Attr_Name::(), optional : True),
-                ))
+                ),))
             ),
             default : (\@material : ()),
         )),
@@ -4912,11 +4913,12 @@ meta script 'Unicode 9.0 UTF-8'
                         \(
                             topic     ::= args:.\0;
                             tuple_sig ::= args:.\sig;
+                            attrs_sig ::= tuple_sig:>.\attrs;
                             returns Tuple topic
                                 and_then guard
-                                    topic ⊆@ tuple_sig
+                                    topic ⊆@ attrs_sig
                                     and
-                                    (tuple_sig all_attrs \(
+                                    (attrs_sig all_attrs \(
                                         name     ::= args:.\0:.\name;
                                         attr_sig ::= args:.\0:.\asset;
                                         topic    ::= args:.\topic;
