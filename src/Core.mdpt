@@ -279,7 +279,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Bicessable, \@Boolable},
             provides_default_for : {\@Boolable},
-            evaluates : (args --> \foundation::is_a_Boolean::()),
+            evaluates : \foundation::is_a_Boolean::(),
             default : False,
         )),
 
@@ -455,11 +455,11 @@ meta script 'Unicode 9.0 UTF-8'
 
         Round_Meth::Attr_Name : (\Function : (
             is_type_definer : True,
-            evaluates : (Attr_Name args:.\0 and_then guard
-                args:.\0 ⊆@ \@(Down,Up,To_Zero,To_Inf
+            evaluates : [\Attr_Name::(), \"⊆@"::( 1:
+                \@(Down,Up,To_Zero,To_Inf
                 ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
                 ,Half_Even,Half_Odd)
-            ),
+            )],
             default : \To_Zero,
         )),
 
@@ -725,18 +725,18 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Integral},
             provides_default_for : {\@Integral},
-            evaluates : (args --> \foundation::is_a_Integer::()),
+            evaluates : \foundation::is_a_Integer::(),
             default : 0,
         )),
 
         Integer::NN : (\Function : (
             is_type_definer : True,
-            evaluates : (Integer args:.\0 and_then guard args:.\0 >= 0),
+            evaluates : [\Integer::(), \">="::( 1: 0 )],
         )),
 
         Integer::P : (\Function : (
             is_type_definer : True,
-            evaluates : (Integer::NN::(args:.\0) and_then guard args:.\0 > 0),
+            evaluates : [\Integer::NN(), \">"::( 1: 0 )],
             default : 1,
         )),
 
@@ -1023,7 +1023,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Fraction::NN : (\Function : (
             is_type_definer : True,
-            evaluates : (Fraction args:.\0 and_then guard args:.\0 >= 0.0),
+            evaluates : [\Fraction::(), \">="::( 1: 0.0 )],
         )),
 
         in_order::Fraction : (\Function : (
@@ -1313,8 +1313,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         String::Bits : (\Function : (
             is_type_definer : True,
-            evaluates : (String args:.\0 and_then guard
-                args:.\0 all \in::( 1: 0..1 )),
+            evaluates : [\String::(), \all::( 1: \in::( 1: 0..1 ) )],
         )),
 
         in_order::Bits : (\Function : (
@@ -1410,8 +1409,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         String::Octets : (\Function : (
             is_type_definer : True,
-            evaluates : (String args:.\0 and_then guard
-                args:.\0 all \in::( 1: 0..255 )),
+            evaluates : [\String::(), \all::( 1: \in::( 1: 0..255 ) )],
         )),
 
         in_order::Blob : (\Function : (
@@ -1527,8 +1525,8 @@ meta script 'Unicode 9.0 UTF-8'
 
         String::Unicode_Codes : (\Function : (
             is_type_definer : True,
-            evaluates : (String::Maximal_Chars::(args:.\0) and_then guard
-                args:.\0 all \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} )),
+            evaluates : [\String::Maximal_Chars(),
+                \all::( 1: \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} ) )],
         )),
 
         Text::ASCII : (\Function : (
@@ -1539,8 +1537,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         String::ASCII_Chars : (\Function : (
             is_type_definer : True,
-            evaluates : (String::Unicode_Codes::(args:.\0) and_then guard
-                args:.\0 all \in::( 1: 0..127 )),
+            evaluates : [\String::Unicode_Codes(), \all::( 1: \in::( 1: 0..127 ) )],
         )),
 
         in_order::Text : (\Function : (
@@ -2444,13 +2441,13 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Positional},
             provides_default_for : {\@Positional},
-            evaluates : (args --> \foundation::is_a_Array::()),
+            evaluates : \foundation::is_a_Array::(),
             default : [],
         )),
 
         String::"" : (\Function : (
             is_type_definer : True,
-            evaluates : (Array args:.\0 and_then guard args:.\0 all \Integer::()),
+            evaluates : [\Array::(), \all::( 1: \Integer::() )],
         )),
 
         Array::Empty : (\Function : (
@@ -2988,7 +2985,7 @@ meta script 'Unicode 9.0 UTF-8'
         Bag::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Discrete},
-            evaluates : (args --> \foundation::is_a_Bag::()),
+            evaluates : \foundation::is_a_Bag::(),
             default : {0:0},
         )),
 
@@ -3574,7 +3571,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Structural},
             provides_default_for : {\@Structural},
-            evaluates : (args --> \foundation::is_a_Tuple::()),
+            evaluates : \foundation::is_a_Tuple::(),
             default : (),
         )),
 
@@ -3585,7 +3582,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Tuple::D1 : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard is_unary args:.\0),
+            evaluates : [\Tuple::(), \is_unary::()],
             default : (False,),
         )),
 
@@ -4189,7 +4186,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Interval::Attrs : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard ...),
+            evaluates : [\Tuple::(), ...],
         )),
 
 `#########################################################################`
@@ -4259,7 +4256,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Capsule : (\Function : (
             is_type_definer : True,
-            evaluates : (args --> \foundation::is_a_Capsule::()),
+            evaluates : \foundation::is_a_Capsule::(),
             default : (False : ()),
         )),
 
@@ -4267,7 +4264,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Reference::"" : (\Function : (
             is_type_definer : True,
-            evaluates : (args --> \foundation::is_a_Reference::()),
+            evaluates : \foundation::is_a_Reference::(),
             default : () --> \foundation::default_Reference::(),
         )),
 
@@ -4275,7 +4272,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         External::"" : (\Function : (
             is_type_definer : True,
-            evaluates : (args --> \foundation::is_a_External::()),
+            evaluates : \foundation::is_a_External::(),
             default : () --> \foundation::default_External::(),
         )),
 
@@ -4306,78 +4303,70 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Package::Identity : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard
-                args:.\0 is_a (
-                    package_base_name : \Package::Base_Name::(),
-                    authority : \Package::Canon_Authority::(),
-                    version_number : \Package::Canon_Version_Number::(),
-                )
+            evaluates : (
+                package_base_name : \Package::Base_Name::(),
+                authority : \Package::Canon_Authority::(),
+                version_number : \Package::Canon_Version_Number::(),
             ),
         )),
 
         Source_Code::Package::Foundation : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard
-                args:.\0 is_a (
-                    authority : \Package::Canon_Authority::(),
-                    version_number : \Package::Canon_Version_Number::(),
-                )
+            evaluates : (
+                authority : \Package::Canon_Authority::(),
+                version_number : \Package::Canon_Version_Number::(),
             ),
         )),
 
         Source_Code::Package::Base_Name : (\Function : (
             is_type_definer : True,
-            evaluates : (Attr_Name_List args:.\0 and_then guard
-                so args:.\0 and args:.\0 ∌ \""),
+            evaluates : [\Attr_Name_List::(), \so::(), \"∌"::( 1: \"" )],
         )),
 
         Source_Code::Package::Canon_Authority : (\Function : (
             is_type_definer : True,
-            evaluates : (Text args:.\0 and_then guard so args:.\0),
+            evaluates : [\Text::(), \so::()],
         )),
 
         Source_Code::Package::Canon_Version_Number : (\Function : (
             is_type_definer : True,
-            evaluates : (Text args:.\0 and_then guard so args:.\0),
+            evaluates : [\Text::(), \so::()],
         )),
 
         Source_Code::Package::Uses_Map : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard
-                args:.\0 .!? \"" and args:.\0 all_attr_assets \Package::Uses_Item::()),
+            evaluates : [\Tuple::(), \".!?"::( 1: \"" ),
+                \all_attr_assets::( 1: \Package::Uses_Item() )],
         )),
 
         Source_Code::Package::Uses_Item : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard
-                args:.\0 is_a (
-                    package_base_name : \Package::Base_Name::(),
-                    authority : \Package::Canon_Authority::(),
-                    version_number : \Package::Canon_Version_Number::(),
-                )
+            evaluates : (
+                package_base_name : \Package::Base_Name::(),
+                authority : \Package::Canon_Authority::(),
+                version_number : \Package::Canon_Version_Number::(),
             ),
         )),
 
         Source_Code::Package::Entry_Point : (\Function : (
             is_type_definer : True,
-            evaluates : (Absolute_Name args:.\0)
+            evaluates : \Absolute_Name::(),
         )),
 
         Source_Code::Package::Floating : (\Function : (
             is_type_definer : True,
-            evaluates : (Set args:.\0 and_then guard
-                args:.\0 all \Absolute_Name::()),
+            evaluates : [\Set::(), \all::( 1: \Absolute_Name::() )],
         )),
 
         Source_Code::Package::Folder : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard
-                args:.\0 all_attr_assets {\Package::Folder::(), \Material::()}),
+            evaluates : [\Tuple::(),
+                \all_attr_assets::( 1: {\Package::Folder(), \Material::()} )],
         )),
 
         Source_Code::Material : (\Function : (
             is_type_definer : True,
-            evaluates : (args:.\0 is_a {\@Alias, \@Function, \@Procedure}),
+            evaluates : {\@Alias, \@Function, \@Procedure},
             default : ...,
         )),
 
@@ -4435,7 +4424,7 @@ meta script 'Unicode 9.0 UTF-8'
                     traits is_a (\@Signature::Tuple_Attrs_Match : (
                         is_type_definer : (type : \True::(),),
                         is_generalization : (type : \False::(), optional : True),
-                        evaluates : (type : \Expression::(),),
+                        evaluates : (type : {\Expression::(), \Signature::()},),
                         default : (type : \Expression::(), optional : True),
                     ) %+ type_specialization_attrs_template)
                     and_then type_specialization_attrs_constraint;
@@ -4498,32 +4487,29 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Signature::"" : (\Function : (
             is_type_definer : True,
-            evaluates : (args:.\0 is_a {
+            evaluates : {
                 \@Function_Call_But_0,
                 \@folder::Conjunction,
                 \@folder::Disjunction,
                 \@folder::Tuple_Attrs_Match_Simple,
                 \@folder::Tuple_Attrs_Match,
-            }),
+            },
             default : \Any::(),
         )),
 
         Source_Code::Signature::Conjunction : (\Function : (
             is_type_definer : True,
-            evaluates : (Array args:.\0 and_then guard
-                args:.\0 all \Signature::()),
+            evaluates : [\Array::(), \all::( 1: \Signature::() )],
         )),
 
         Source_Code::Signature::Disjunction : (\Function : (
             is_type_definer : True,
-            evaluates : (Set args:.\0 and_then guard
-                args:.\0 all \Signature::()),
+            evaluates : [\Set::(), \all::( 1: \Signature::() )],
         )),
 
         Source_Code::Signature::Tuple_Attrs_Match_Simple : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard
-                args:.\0 all_attr_assets \Signature::()),
+            evaluates : [\Tuple::(), \all_attr_assets::( 1: \Signature::() )],
         )),
 
         Source_Code::Signature::Tuple_Attrs_Match : (\Function : (
@@ -4550,7 +4536,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Expression : (\Function : (
             is_type_definer : True,
-            evaluates : (args:.\0 is_a {
+            evaluates : {
                 \@Literal,
                 \@Args,
                 \@Evaluates,
@@ -4561,7 +4547,7 @@ meta script 'Unicode 9.0 UTF-8'
                 \@Guard,
                 \@Factorization,
                 \@Expansion,
-            }),
+            },
             default : (\@Literal : (False,)),
         )),
 
@@ -4694,7 +4680,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Statement : (\Function : (
             is_type_definer : True,
-            evaluates : (args:.\0 is_a {
+            evaluates : {
                 \@Performs,
                 \@If_Then_Else_Stmt,
                 \@Given_When_Default_Stmt,
@@ -4702,7 +4688,7 @@ meta script 'Unicode 9.0 UTF-8'
                 \@Leave,
                 \@Iterate,
                 \@Declare,
-            }),
+            },
             default : (\@Block : ([],)),
         )),
 
@@ -4802,34 +4788,31 @@ meta script 'Unicode 9.0 UTF-8'
 
         Source_Code::Heading : (\Function : (
             is_type_definer : True,
-            evaluates : (Tuple args:.\0 and_then guard
-                args:.\0 all_attr_assets \False::()),
+            evaluates : [\Tuple::(), \all_attr_assets::( 1: \False::() )],
         )),
 
         Source_Code::Attr_Name : (\Function : (
             is_type_definer : True,
-            evaluates : (Heading args:.\0 and_then guard is_unary args:.\0),
+            evaluates : [\Heading::(), \is_unary::()],
         )),
 
         Source_Code::Attr_Name_List : (\Function : (
             is_type_definer : True,
-            evaluates : (Array args:.\0 and_then guard
-                args:.\0 all \Attr_Name::()),
+            evaluates : [\Array::(), \all::( 1: \Attr_Name::() )],
         )),
 
         Source_Code::Local_Name : (\Function : (
             is_type_definer : True,
-            evaluates : (Attr_Name_List args:.\0 and_then guard
-                so args:.\0 and_then guard
-                    given args:.\0.0
-                        when \foundation then #args:.\0 = 2
-                        when \used       then #args:.\0 ≥ 2  `elem 2 is pkg local alias`
-                        when \package    then #args:.\0 ≥ 1
-                        when \folder     then #args:.\0 ≥ 1
-                        when \material   then #args:.\0 = 1
-                        when \floating   then #args:.\0 ≥ 2
-                        default False
-            ),
+            evaluates : [\Attr_Name_List::(), \so::(), \(
+                given args:.\0.0
+                    when \foundation then #args:.\0 = 2
+                    when \used       then #args:.\0 ≥ 2  `elem 2 is pkg local alias`
+                    when \package    then #args:.\0 ≥ 1
+                    when \folder     then #args:.\0 ≥ 1
+                    when \material   then #args:.\0 = 1
+                    when \floating   then #args:.\0 ≥ 2
+                    default False
+            )],
             default : [\foundation, ...],
         )),
 
