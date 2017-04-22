@@ -4257,13 +4257,29 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Reference::"" : (\Function : (
+        Handle : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Reference::(),
-            default : () --> \foundation::default_Reference::(),
+            evaluates : \foundation::is_a_Handle::(),
+            default : () --> \foundation::default_Handle::(),
         )),
 
-`#########################################################################`
+        Variable : (\Function : (
+            is_type_definer : True,
+            evaluates : \foundation::is_a_Variable::(),
+            default : () --> \foundation::default_Variable::(),
+        )),
+
+        Process : (\Function : (
+            is_type_definer : True,
+            evaluates : \foundation::is_a_Process::(),
+            default : () --> \foundation::default_Process::(),
+        )),
+
+        Stream : (\Function : (
+            is_type_definer : True,
+            evaluates : \foundation::is_a_Stream::(),
+            default : () --> \foundation::default_Stream::(),
+        )),
 
         External::"" : (\Function : (
             is_type_definer : True,
