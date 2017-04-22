@@ -14,7 +14,7 @@ meta script 'Unicode 9.0 UTF-8'
         authority : 'http://muldis.com',
         version_number : '0.201.0.-9',
     ),
-    floating : {\@package, \@package::Source_Code},
+    floating : {\@package},
     materials : (
 
 `#########################################################################`
@@ -445,7 +445,7 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
                 asset : (
-                    0 : \folder::Attr_Name(),
+                    0 : \Round_Meth::Attr_Name(),
                 ),
             )),
             default : (\@material : (\To_Zero,)),
@@ -4295,7 +4295,7 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Source_Code::Package : (\Function : (
+        Package : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Package,
@@ -4311,7 +4311,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Package::Identity : (\Function : (
+        Package::Identity : (\Function : (
             is_type_definer : True,
             evaluates : (
                 package_base_name : \Package::Base_Name::(),
@@ -4320,7 +4320,7 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Package::Foundation : (\Function : (
+        Package::Foundation : (\Function : (
             is_type_definer : True,
             evaluates : (
                 authority : \Package::Canon_Authority::(),
@@ -4328,28 +4328,28 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Package::Base_Name : (\Function : (
+        Package::Base_Name : (\Function : (
             is_type_definer : True,
             evaluates : [\Attr_Name_List::(), \so::(), \"∌"::( 1: \"" )],
         )),
 
-        Source_Code::Package::Canon_Authority : (\Function : (
+        Package::Canon_Authority : (\Function : (
             is_type_definer : True,
             evaluates : [\Text::(), \so::()],
         )),
 
-        Source_Code::Package::Canon_Version_Number : (\Function : (
+        Package::Canon_Version_Number : (\Function : (
             is_type_definer : True,
             evaluates : [\Text::(), \so::()],
         )),
 
-        Source_Code::Package::Uses_Map : (\Function : (
+        Package::Uses_Map : (\Function : (
             is_type_definer : True,
             evaluates : [\Tuple::(), \".!?"::( 1: \"" ),
                 \all_attr_assets::( 1: \Package::Uses_Item() )],
         )),
 
-        Source_Code::Package::Uses_Item : (\Function : (
+        Package::Uses_Item : (\Function : (
             is_type_definer : True,
             evaluates : (
                 package_base_name : \Package::Base_Name::(),
@@ -4358,29 +4358,29 @@ meta script 'Unicode 9.0 UTF-8'
             ),
         )),
 
-        Source_Code::Package::Entry_Point : (\Function : (
+        Package::Entry_Point : (\Function : (
             is_type_definer : True,
             evaluates : \Absolute_Name::(),
         )),
 
-        Source_Code::Package::Floating : (\Function : (
+        Package::Floating : (\Function : (
             is_type_definer : True,
             evaluates : [\Set::(), \all::( 1: \Absolute_Name::() )],
         )),
 
-        Source_Code::Package::Folder : (\Function : (
+        Package::Folder : (\Function : (
             is_type_definer : True,
             evaluates : [\Tuple::(),
                 \all_attr_assets::( 1: {\Package::Folder(), \Material::()} )],
         )),
 
-        Source_Code::Material : (\Function : (
+        Material : (\Function : (
             is_type_definer : True,
             evaluates : {\@Alias, \@Function, \@Procedure},
             default : ...,
         )),
 
-        Source_Code::Alias : (\Function : (
+        Alias : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Alias,
@@ -4391,7 +4391,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : ((\Alias : (of : Identity_Identifier::(),))),
         )),
 
-        Source_Code::Function : (\Function : (
+        Function : (\Function : (
             is_type_definer : True,
             evaluates : (
                 function ::= args:.\0;
@@ -4476,7 +4476,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Procedure : (\Function : (
+        Procedure : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Procedure,
@@ -4493,35 +4493,35 @@ meta script 'Unicode 9.0 UTF-8'
             default : ...,
         )),
 
-        Source_Code::Signature::"" : (\Function : (
+        Signature::"" : (\Function : (
             is_type_definer : True,
             evaluates : {
                 \@Function_Call_But_0,
-                \@folder::Conjunction,
-                \@folder::Disjunction,
-                \@folder::Tuple_Attrs_Match_Simple,
-                \@folder::Tuple_Attrs_Match,
-                \@folder::Capsule_Match,
+                \@Signature::Conjunction,
+                \@Signature::Disjunction,
+                \@Signature::Tuple_Attrs_Match_Simple,
+                \@Signature::Tuple_Attrs_Match,
+                \@Signature::Capsule_Match,
             },
             default : \Any::(),
         )),
 
-        Source_Code::Signature::Conjunction : (\Function : (
+        Signature::Conjunction : (\Function : (
             is_type_definer : True,
             evaluates : [\Array::(), \all::( 1: \Signature::() )],
         )),
 
-        Source_Code::Signature::Disjunction : (\Function : (
+        Signature::Disjunction : (\Function : (
             is_type_definer : True,
             evaluates : [\Set::(), \all::( 1: \Signature::() )],
         )),
 
-        Source_Code::Signature::Tuple_Attrs_Match_Simple : (\Function : (
+        Signature::Tuple_Attrs_Match_Simple : (\Function : (
             is_type_definer : True,
             evaluates : [\Tuple::(), \all_attr_assets::( 1: \Signature::() )],
         )),
 
-        Source_Code::Signature::Tuple_Attrs_Match : (\Function : (
+        Signature::Tuple_Attrs_Match : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4545,7 +4545,7 @@ meta script 'Unicode 9.0 UTF-8'
             )),
         )),
 
-        Source_Code::Signature::Capsule_Match : (\Function : (
+        Signature::Capsule_Match : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Any::(),
@@ -4553,7 +4553,7 @@ meta script 'Unicode 9.0 UTF-8'
             )),
         )),
 
-        Source_Code::Expression : (\Function : (
+        Expression : (\Function : (
             is_type_definer : True,
             evaluates : {
                 \@Literal,
@@ -4570,7 +4570,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@Literal : (False,)),
         )),
 
-        Source_Code::Literal : (\Function : (
+        Literal : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4581,12 +4581,12 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : (False,)),
         )),
 
-        Source_Code::Args : (\Function : (
+        Args : (\Function : (
             is_type_definer : True,
             constant : \@material,
         )),
 
-        Source_Code::Evaluates : (\Function : (
+        Evaluates : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4597,7 +4597,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ...),
         )),
 
-        Source_Code::If_Then_Else_Expr : (\Function : (
+        If_Then_Else_Expr : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4611,7 +4611,7 @@ meta script 'Unicode 9.0 UTF-8'
                 (\@Literal : (False,)), (\@Literal : (False,)))),
         )),
 
-        Source_Code::And_Then : (\Function : (
+        And_Then : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4624,7 +4624,7 @@ meta script 'Unicode 9.0 UTF-8'
                 (\@Literal : (False,)))),
         )),
 
-        Source_Code::Or_Else : (\Function : (
+        Or_Else : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4637,7 +4637,7 @@ meta script 'Unicode 9.0 UTF-8'
                 (\@Literal : (False,)))),
         )),
 
-        Source_Code::Given_When_Default_Expr : (\Function : (
+        Given_When_Default_Expr : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4654,7 +4654,7 @@ meta script 'Unicode 9.0 UTF-8'
                 {}, (\@Literal : (False,)))),
         )),
 
-        Source_Code::Guard : (\Function : (
+        Guard : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4665,7 +4665,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ((\@Literal : (False,)),)),
         )),
 
-        Source_Code::Factorization : (\Function : (
+        Factorization : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4677,7 +4677,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : (factors : (), returns : (\@Literal : (False,)))),
         )),
 
-        Source_Code::Expansion : (\Function : (
+        Expansion : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4688,7 +4688,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : (factor : \"",)),
         )),
 
-        Source_Code::Statement : (\Function : (
+        Statement : (\Function : (
             is_type_definer : True,
             evaluates : {
                 \@Performs,
@@ -4702,7 +4702,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@Block : ([],)),
         )),
 
-        Source_Code::Performs : (\Function : (
+        Performs : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4713,7 +4713,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ...),
         )),
 
-        Source_Code::If_Then_Else_Stmt : (\Function : (
+        If_Then_Else_Stmt : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4727,7 +4727,7 @@ meta script 'Unicode 9.0 UTF-8'
                 (\@Block : ([],)), (\@Block : ([],)))),
         )),
 
-        Source_Code::Given_When_Default_Stmt : (\Function : (
+        Given_When_Default_Stmt : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4744,7 +4744,7 @@ meta script 'Unicode 9.0 UTF-8'
                 {}, (\@Block : ([],)))),
         )),
 
-        Source_Code::Block : (\Function : (
+        Block : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4756,7 +4756,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ([],)),
         )),
 
-        Source_Code::Leave : (\Function : (
+        Leave : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4767,7 +4767,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ()),
         )),
 
-        Source_Code::Iterate : (\Function : (
+        Iterate : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4778,7 +4778,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : ()),
         )),
 
-        Source_Code::Declare : (\Function : (
+        Declare : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4789,22 +4789,22 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : (\"",)),
         )),
 
-        Source_Code::Heading : (\Function : (
+        Heading : (\Function : (
             is_type_definer : True,
             evaluates : [\Tuple::(), \all_attr_assets::( 1: \False::() )],
         )),
 
-        Source_Code::Attr_Name : (\Function : (
+        Attr_Name : (\Function : (
             is_type_definer : True,
             evaluates : [\Heading::(), \is_unary::()],
         )),
 
-        Source_Code::Attr_Name_List : (\Function : (
+        Attr_Name_List : (\Function : (
             is_type_definer : True,
             evaluates : [\Array::(), \all::( 1: \Attr_Name::() )],
         )),
 
-        Source_Code::Local_Name : (\Function : (
+        Local_Name : (\Function : (
             is_type_definer : True,
             evaluates : [\Attr_Name_List::(), \so::(), \(
                 given args:.\0.0
@@ -4819,13 +4819,13 @@ meta script 'Unicode 9.0 UTF-8'
             default : [\foundation, ...],
         )),
 
-        Source_Code::Absolute_Name : (\Function : (
+        Absolute_Name : (\Function : (
             is_type_definer : True,
             evaluates : (Local_Name args:.\0 and_then guard
                 args:.\0.0 ⊆@ \@(foundation,used,package)),
         )),
 
-        Source_Code::Function_Call : (\Function : (
+        Function_Call : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4840,19 +4840,19 @@ meta script 'Unicode 9.0 UTF-8'
             )),
         )),
 
-        Source_Code::Function_Call_But_0 : (\Function : (
+        Function_Call_But_0 : (\Function : (
             is_type_definer : True,
             evaluates : (Function_Call args:.\0 and_then guard
                 args:.\0.\args disjoint_heading \0),
         )),
 
-        Source_Code::Function_Call_But_0_1 : (\Function : (
+        Function_Call_But_0_1 : (\Function : (
             is_type_definer : True,
             evaluates : (Function_Call args:.\0 and_then guard
                 args:.\0.\args disjoint_heading \@(0..1)),
         )),
 
-        Source_Code::Procedure_Call : (\Procedure : (
+        Procedure_Call : (\Procedure : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
@@ -4867,13 +4867,13 @@ meta script 'Unicode 9.0 UTF-8'
             )),
         )),
 
-        Source_Code::Key_Asset_Pair : (\Function : (
+        Key_Asset_Pair : (\Function : (
             is_type_definer : True,
             evaluates : (Tuple args:.\0 and_then guard
                 @args:.\0 = \@(key,asset)),
         )),
 
-        Source_Code::Signature_to_Function_Call_But_0 : (\Function : (
+        Signature_to_Function_Call_But_0 : (\Function : (
             returns : \@Function_Call_But_0,
             matches : (\@Signature),
             evaluates : (
@@ -4944,14 +4944,14 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Source_Code::Annotation::"" : (\Function : (
+        Annotation::"" : (\Function : (
             is_type_definer : True,
             is_generalization : True,
         )),
 
 `#########################################################################`
 
-        Source_Code::Decoration::"" : (\Function : (
+        Decoration::"" : (\Function : (
             is_type_definer : True,
             is_generalization : True,
         )),
