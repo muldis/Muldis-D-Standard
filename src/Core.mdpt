@@ -34,7 +34,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Any, \@Any),
             is_commutative : True,
-            evaluates : (args --> \foundation::same::()),
+            evaluates : (evaluates args --> \foundation::same()),
         )),
 
         "=" : (\Alias : ( of : \@same )),
@@ -51,7 +51,7 @@ meta script 'Unicode 9.0 UTF-8'
         is_a : (\Function : (
             returns : \@Boolean,
             matches : (\@Any, \@Signature),
-            evaluates : ((args:.\0,) --> Signature_to_Function_Call_But_0::(args:.\1)),
+            evaluates : (evaluates (args:.\0,) --> Signature_to_Function_Call_But_0::(args:.\1)),
         )),
 
         not_is_a : (\Function : (
@@ -278,7 +278,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Bicessable, \@Boolable},
             provides_default_for : {\@Boolable},
-            evaluates : \foundation::is_a_Boolean::(),
+            evaluates : \foundation::is_a_Boolean(),
             default : False,
         )),
 
@@ -546,7 +546,7 @@ meta script 'Unicode 9.0 UTF-8'
         "-" : (\Function : (
             returns : \@Numerical,
             matches : {(\@Numerical), (\@Numerical, \@Numerical)},
-            evaluates : (args --> (if degree::(args) = 1 then \opposite::() else \minus::())),
+            evaluates : (evaluates args --> (if degree::(args) = 1 then \opposite::() else \minus::())),
         )),
 
         Unicode_Aliases::"−" : (\Alias : ( of : "-" )),
@@ -723,7 +723,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Integral},
             provides_default_for : {\@Integral},
-            evaluates : \foundation::is_a_Integer::(),
+            evaluates : \foundation::is_a_Integer(),
             default : 0,
         )),
 
@@ -742,7 +742,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Integer_in_order::()),
+            evaluates : (evaluates args --> \foundation::Integer_in_order()),
         )),
 
         asset::Integer : (\Function : (
@@ -785,7 +785,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer,
             matches : (\@Integer),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Integer_opposite::()),
+            evaluates : (evaluates args --> \foundation::Integer_opposite()),
         )),
 
         reciprocal::Integer : (\Function : (
@@ -799,7 +799,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer::NN,
             matches : (\@Integer),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Integer_modulus::()),
+            evaluates : (evaluates args --> \foundation::Integer_modulus()),
         )),
 
         plus::Integer : (\Function : (
@@ -810,7 +810,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             identity : 0,
             repeater : \@times::Integer,
-            evaluates : (args --> \foundation::Integer_plus::()),
+            evaluates : (evaluates args --> \foundation::Integer_plus()),
         )),
 
         minus::Integer : (\Function : (
@@ -818,7 +818,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             right_identity : 0,
-            evaluates : (args --> \foundation::Integer_minus::()),
+            evaluates : (evaluates args --> \foundation::Integer_minus()),
         )),
 
         times::Integer : (\Function : (
@@ -829,7 +829,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             identity : 1,
             repeater : \@integral_nn_power::Integer,
-            evaluates : (args --> \foundation::Integer_times::()),
+            evaluates : (evaluates args --> \foundation::Integer_times()),
         )),
 
         multiple_of::Integer : (\Function : (
@@ -837,7 +837,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             evaluates : (if args:.\1 = 0 then Excuse::Div_By_Zero()
-                else guard args --> \foundation::Integer_multiple_of::()),
+                else guard evaluates args --> \foundation::Integer_multiple_of()),
         )),
 
         fractional_divided_by::Integer : (\Function : (
@@ -886,8 +886,7 @@ meta script 'Unicode 9.0 UTF-8'
 
                 e2 ::= (
                     real_q_is_neg ::= dividend < 0 xor divisor < 0;
-                    rtz_quotient  ::= \foundation::Integer_divided_by_rtz::()
-                        <-- (dividend, divisor);
+                    rtz_quotient  ::= foundation::Integer_divided_by_rtz(dividend, divisor);
                     rtz_remainder ::= dividend - (divisor * rtz_quotient);
 
                     returns if rtz_remainder = 0 then rtz_quotient else e3;
@@ -918,7 +917,7 @@ meta script 'Unicode 9.0 UTF-8'
                     ' exactly one-half so we decide how to round that.';
 
                 e4 ::= (
-                    q ::= \foundation::Integer_divided_by_rtz::() <-- (abs::(rtz_quotient),2)
+                    q ::= foundation::Integer_divided_by_rtz(abs::(rtz_quotient),2)
                     r ::= abs::(rtz_quotient) - (2 * q);
                     rtz_quotient_is_even ::= r = 0;
 
@@ -950,7 +949,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Integer, \@Integer::NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 = 0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
-                else guard args --> \foundation::Integer_nn_power::()),
+                else guard evaluates args --> \foundation::Integer_nn_power()),
         )),
 
         to_Integer::Integer : (\Function : (
@@ -964,7 +963,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer::P,
             matches : (\@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Integer_factorial::()),
+            evaluates : (evaluates args --> \foundation::Integer_factorial()),
         )),
 
 `#########################################################################`
@@ -1028,9 +1027,9 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             evaluates : (
-                <-- if(denominator args:.\0) = (denominator args:.\1)
+                if (denominator args:.\0) = (denominator args:.\1)
                     then in_order::(numerator args:.\0, numerator args:.\1)
-                 else
+                else
                   (
                     common_d ::= lcm::(denominator args:.\0, denominator args:.\1);
                     returns in_order::(
@@ -1086,9 +1085,9 @@ meta script 'Unicode 9.0 UTF-8'
             identity : 0.0,
             repeater : \@times::Fraction_Integer,
             evaluates : (
-                <-- if (denominator args:.\0) = (denominator args:.\1)
+                if (denominator args:.\0) = (denominator args:.\1)
                     then (numerator args:.\0) + (numerator args:.\1) / (denominator args:.\0)
-                 else
+                else
                   (
                     common_d ::= lcm::(denominator args:.\0, denominator args:.\1);
                     returns ((numerator args:.\0) * div::(common_d, denominator args:.\0, RM::(\To_Zero)))
@@ -1160,7 +1159,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
             matches : (\@Fraction, \@Integer),
             implements : \@folder::"",
-            evaluates : (\integral_nn_power::()
+            evaluates : (evaluates \integral_nn_power::()
                 <-- (if args:.\1 >= 0 then args else (reciprocal::(args:.\0), -args:.\1))),
         )),
 
@@ -1702,11 +1701,11 @@ meta script 'Unicode 9.0 UTF-8'
                         when 1 then guard
                             src_octets
                                 map \(if args:.\0 in 0..127 then args:.\0 else args:.\1)
-                                    \<-- (1 : repl_chars.0,)
+                                    <-- (1 : repl_chars.0,)
                         default
                             src_octets
                                 map \(if args:.\0 in 0..127 then [args:.\0] else args:.\1)
-                                    \<-- (1 : repl_chars,)
+                                    <-- (1 : repl_chars,)
                                 reduce \catenate::()
                     ;
                 returns Text_from_ASCII_Chars result_chars;
@@ -2435,7 +2434,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Positional},
             provides_default_for : {\@Positional},
-            evaluates : \foundation::is_a_Array::(),
+            evaluates : \foundation::is_a_Array(),
             default : [],
         )),
 
@@ -2488,7 +2487,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_substring_of::()),
+            evaluates : (evaluates args --> \foundation::Array_substring_of()),
         )),
 
         overlaps_string::Array : (\Function : (
@@ -2496,7 +2495,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : (args --> \foundation::Array_overlaps_string::()),
+            evaluates : (evaluates args --> \foundation::Array_overlaps_string()),
         )),
 
         disjoint_string::Array : (\Function : (
@@ -2504,7 +2503,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : (args --> \foundation::Array_disjoint_string::()),
+            evaluates : (evaluates args --> \foundation::Array_disjoint_string()),
         )),
 
         catenate::Array : (\Function : (
@@ -2514,63 +2513,63 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             identity : [],
             repeater : \@replicate::Array,
-            evaluates : (args --> \foundation::Array_catenate::()),
+            evaluates : (evaluates args --> \foundation::Array_catenate()),
         )),
 
         replicate::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_replicate::()),
+            evaluates : (evaluates args --> \foundation::Array_replicate()),
         )),
 
         has_n::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_has_n::()),
+            evaluates : (evaluates args --> \foundation::Array_has_n()),
         )),
 
         multiplicity::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array, \@Any),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_multiplicity::()),
+            evaluates : (evaluates args --> \foundation::Array_multiplicity()),
         )),
 
         all_unique::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_all_unique::()),
+            evaluates : (evaluates args --> \foundation::Array_all_unique()),
         )),
 
         unique::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_unique::()),
+            evaluates : (evaluates args --> \foundation::Array_unique()),
         )),
 
         any::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Signature),
             implements : \@folder::"",
-            evaluates : ((args:.\0, Signature_to_Function_Call_But_0::(args:.\1)) --> \foundation::Array_any::()),
+            evaluates : (foundation::Array_any(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         insert_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_insert_n::()),
+            evaluates : (evaluates args --> \foundation::Array_insert_n()),
         )),
 
         remove_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_remove_n::()),
+            evaluates : (evaluates args --> \foundation::Array_remove_n()),
         )),
 
         except::Array : (\Function : (
@@ -2578,7 +2577,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             right_identity : [],
-            evaluates : (args --> \foundation::Array_except::()),
+            evaluates : (evaluates args --> \foundation::Array_except()),
         )),
 
         intersect::Array : (\Function : (
@@ -2587,7 +2586,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_associative : True,
             is_idempotent : True,
-            evaluates : (args --> \foundation::Array_intersect::()),
+            evaluates : (evaluates args --> \foundation::Array_intersect()),
         )),
 
         union::Array : (\Function : (
@@ -2596,7 +2595,7 @@ meta script 'Unicode 9.0 UTF-8'
             implements : \@folder::"",
             is_idempotent : True,
             identity : [],
-            evaluates : (args --> \foundation::Array_union::()),
+            evaluates : (evaluates args --> \foundation::Array_union()),
         )),
 
         exclusive::Array : (\Function : (
@@ -2604,7 +2603,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             identity : [],
-            evaluates : (args --> \foundation::Array_exclusive::()),
+            evaluates : (evaluates args --> \foundation::Array_exclusive()),
         )),
 
         nest::Array : (\Function : (
@@ -2612,7 +2611,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array),
             implements : \@folder::"",
             accepts : (...),
-            evaluates : (args --> \foundation::Array_nest::()),
+            evaluates : (evaluates args --> \foundation::Array_nest()),
         )),
 
         unnest::Array : (\Function : (
@@ -2620,29 +2619,28 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array),
             implements : \@folder::"",
             accepts : (...),
-            evaluates : (args --> \foundation::Array_unnest::()),
+            evaluates : (evaluates args --> \foundation::Array_unnest()),
         )),
 
         where::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Signature),
             implements : \@folder::"",
-            evaluates : ((args:.\0, Signature_to_Function_Call_But_0::(args:.\1))
-                --> \foundation::Array_where::()),
+            evaluates : (foundation::Array_where(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         map::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_map::()),
+            evaluates : (evaluates args --> \foundation::Array_map()),
         )),
 
         reduce::Array : (\Function : (
             returns : \@Any,
             matches : (\@Array, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_reduce::()),
+            evaluates : (evaluates args --> \foundation::Array_reduce()),
         )),
 
         to_Set::Array : (\Function : (
@@ -2656,21 +2654,21 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Bag,
             matches : (\@Array),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_to_Bag::()),
+            evaluates : (evaluates args --> \foundation::Array_to_Bag()),
         )),
 
         count::Array : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Array),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_count::()),
+            evaluates : (evaluates args --> \foundation::Array_count()),
         )),
 
         order_using::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Array_order_using::()),
+            evaluates : (evaluates args --> \foundation::Array_order_using()),
         )),
 
         at::Array : (\Function : (
@@ -2678,7 +2676,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@Integer::NN),
             implements : \@folder::"",
             accepts : (args:.\0 .? args:.\1),
-            evaluates : (args --> \foundation::Array_at::()),
+            evaluates : (evaluates args --> \foundation::Array_at()),
         )),
 
         to_Array::Array : (\Function : (
@@ -2700,7 +2698,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@NN_Integer, \@NN_Integer),
             implements : \@folder::"",
             accepts : (args:.\1 + args:.\2 <= #args:.\0),
-            evaluates : (args --> \foundation::Array_slice_n::()),
+            evaluates : (evaluates args --> \foundation::Array_slice_n()),
         )),
 
         ord_pos_succ_all_matches::Array : (\Function : (
@@ -2708,7 +2706,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : (args --> \foundation::Array_ord_pos_succ_all_matches::()),
+            evaluates : (evaluates args --> \foundation::Array_ord_pos_succ_all_matches()),
         )),
 
 `#########################################################################`
@@ -2977,7 +2975,7 @@ meta script 'Unicode 9.0 UTF-8'
         Bag::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Discrete},
-            evaluates : \foundation::is_a_Bag::(),
+            evaluates : \foundation::is_a_Bag(),
             default : {0:0},
         )),
 
@@ -3006,7 +3004,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Bag),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_singular::()),
+            evaluates : (evaluates args --> \foundation::Bag_singular()),
         )),
 
         only_member::Bag : (\Function : (
@@ -3014,42 +3012,42 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : (singular args:.\0),
-            evaluates : (args --> \foundation::Bag_only_member::()),
+            evaluates : (evaluates args --> \foundation::Bag_only_member()),
         )),
 
         has_n::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_has_n::()),
+            evaluates : (evaluates args --> \foundation::Bag_has_n()),
         )),
 
         multiplicity::Bag : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Bag, \@Any),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_multiplicity::()),
+            evaluates : (evaluates args --> \foundation::Bag_multiplicity()),
         )),
 
         all_unique::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_all_unique::()),
+            evaluates : (evaluates args --> \foundation::Bag_all_unique()),
         )),
 
         unique::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_unique::()),
+            evaluates : (evaluates args --> \foundation::Bag_unique()),
         )),
 
         subset_of::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_subset_of::()),
+            evaluates : (evaluates args --> \foundation::Bag_subset_of()),
         )),
 
         same_members::Bag : (\Function : (
@@ -3065,7 +3063,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : (args --> \foundation::Bag_overlaps_members::()),
+            evaluates : (evaluates args --> \foundation::Bag_overlaps_members()),
         )),
 
         disjoint_members::Bag : (\Function : (
@@ -3073,28 +3071,28 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : (args --> \foundation::Bag_disjoint_members::()),
+            evaluates : (evaluates args --> \foundation::Bag_disjoint_members()),
         )),
 
         any::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Signature),
             implements : \@folder::"",
-            evaluates : ((args:.\0, Signature_to_Function_Call_But_0::(args:.\1)) --> \foundation::Bag_any::()),
+            evaluates : (foundation::Bag_any(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         insert_n::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_insert_n::()),
+            evaluates : (evaluates args --> \foundation::Bag_insert_n()),
         )),
 
         remove_n::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer::NN),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_remove_n::()),
+            evaluates : (evaluates args --> \foundation::Bag_remove_n()),
         )),
 
         member_plus::Bag : (\Function : (
@@ -3104,7 +3102,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : {0:0},
-            evaluates : (args --> \foundation::Bag_member_plus::()),
+            evaluates : (evaluates args --> \foundation::Bag_member_plus()),
         )),
 
         except::Bag : (\Function : (
@@ -3112,7 +3110,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Bag, \@Bag),
             implements : \@folder::"",
             right_identity : {0:0},
-            evaluates : (args --> \foundation::Bag_except::()),
+            evaluates : (evaluates args --> \foundation::Bag_except()),
         )),
 
         intersect::Bag : (\Function : (
@@ -3122,7 +3120,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            evaluates : (args --> \foundation::Bag_intersect::()),
+            evaluates : (evaluates args --> \foundation::Bag_intersect()),
         )),
 
         union::Bag : (\Function : (
@@ -3133,7 +3131,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : {0:0},
-            evaluates : (args --> \foundation::Bag_union::()),
+            evaluates : (evaluates args --> \foundation::Bag_union()),
         )),
 
         exclusive::Bag : (\Function : (
@@ -3143,7 +3141,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : {0:0},
-            evaluates : (args --> \foundation::Bag_exclusive::()),
+            evaluates : (evaluates args --> \foundation::Bag_exclusive()),
         )),
 
         nest::Bag : (\Function : (
@@ -3151,7 +3149,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : (...),
-            evaluates : (args --> \foundation::Bag_nest::()),
+            evaluates : (evaluates args --> \foundation::Bag_nest()),
         )),
 
         unnest::Bag : (\Function : (
@@ -3159,28 +3157,28 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Bag),
             implements : \@folder::"",
             accepts : (...),
-            evaluates : (args --> \foundation::Bag_unnest::()),
+            evaluates : (evaluates args --> \foundation::Bag_unnest()),
         )),
 
         where::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Signature),
             implements : \@folder::"",
-            evaluates : ((args:.\0, Signature_to_Function_Call_But_0::(args:.\1)) --> \foundation::Bag_where::()),
+            evaluates : (foundation::Bag_where(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         map::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Function_Call_But_0),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_map::()),
+            evaluates : (evaluates args --> \foundation::Bag_map()),
         )),
 
         reduce::Bag : (\Function : (
             returns : \@Any,
             matches : (\@Bag, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_reduce::()),
+            evaluates : (evaluates args --> \foundation::Bag_reduce()),
         )),
 
         to_Set::Bag : (\Function : (
@@ -3201,21 +3199,21 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_count::()),
+            evaluates : (evaluates args --> \foundation::Bag_count()),
         )),
 
         unique_count::Bag : (\Function : (
             returns : \@Integer::NN,
             matches : (\@Bag),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_unique_count::()),
+            evaluates : (evaluates args --> \foundation::Bag_unique_count()),
         )),
 
         order_using::Bag : (\Function : (
             returns : \@Array,
             matches : (\@Bag, \@Function_Call_But_0_1),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Bag_order_using::()),
+            evaluates : (evaluates args --> \foundation::Bag_order_using()),
         )),
 
 `#########################################################################`
@@ -3280,7 +3278,7 @@ meta script 'Unicode 9.0 UTF-8'
         subheading_of : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
-            evaluates : ((@args:.\0, @args:.\1) --> \foundation::Tuple_subheading_of::()),
+            evaluates : (foundation::Tuple_subheading_of(@args:.\0, @args:.\1)),
         )),
 
         Unicode_Aliases::"⊆@" : (\Alias : ( of : \@subheading_of )),
@@ -3321,20 +3319,20 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            evaluates : ((@args:.\0, @args:.\1) --> \foundation::Tuple_overlaps_heading::()),
+            evaluates : (foundation::Tuple_overlaps_heading(@args:.\0, @args:.\1)),
         )),
 
         disjoint_heading : (\Function : (
             returns : \@Boolean,
             matches : (\@Attributive, \@Attributive),
             is_commutative : True,
-            evaluates : ((@args:.\0, @args:.\1) --> \foundation::Tuple_disjoint_heading::()),
+            evaluates : (foundation::Tuple_disjoint_heading(@args:.\0, @args:.\1)),
         )),
 
         except_heading : (\Function : (
             returns : \@Heading,
             matches : (\@Attributive, \@Attributive),
-            evaluates : ((@args:.\0, @args:.\1) --> \foundation::Tuple_except_heading::()),
+            evaluates : (foundation::Tuple_except_heading(@args:.\0, @args:.\1)),
         )),
 
         Unicode_Aliases::"∖@" : (\Alias : ( of : \@except_heading )),
@@ -3345,7 +3343,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            evaluates : ((@args:.\0, @args:.\1) --> \foundation::Tuple_intersect_heading::()),
+            evaluates : (foundation::Tuple_intersect_heading(@args:.\0, @args:.\1)),
         )),
 
         Unicode_Aliases::"∩@" : (\Alias : ( of : \@intersect_heading )),
@@ -3357,7 +3355,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             identity : (),
-            evaluates : ((@args:.\0, @args:.\1) --> \foundation::Tuple_union_heading::()),
+            evaluates : (foundation::Tuple_union_heading(@args:.\0, @args:.\1)),
         )),
 
         Unicode_Aliases::"∪@" : (\Alias : ( of : \@union_heading )),
@@ -3368,7 +3366,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : (),
-            evaluates : ((@args:.\0, @args:.\1) --> \foundation::Tuple_exclusive_heading::()),
+            evaluates : (foundation::Tuple_exclusive_heading(@args:.\0, @args:.\1)),
         )),
 
         symm_diff_heading : (\Alias : ( of : \@exclusive_heading )),
@@ -3563,7 +3561,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             composes : {\@Structural},
             provides_default_for : {\@Structural},
-            evaluates : \foundation::is_a_Tuple::(),
+            evaluates : \foundation::is_a_Tuple(),
             default : (),
         )),
 
@@ -3581,7 +3579,7 @@ meta script 'Unicode 9.0 UTF-8'
         D1 : (\Function : (
             returns : \@Tuple::D1,
             matches : (\@Attr_Name, \@Any),
-            evaluates : (args --> \foundation::Tuple_D1_select::()),
+            evaluates : (evaluates args --> \foundation::Tuple_D1_select()),
         )),
 
         has_any_attrs::Tuple : (\Function : (
@@ -3609,14 +3607,14 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Integer::NN,
             matches : (\@Tuple),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Tuple_degree::()),
+            evaluates : (evaluates args --> \foundation::Tuple_degree()),
         )),
 
         heading::Tuple : (\Function : (
             returns : \@Heading,
             matches : (\@Tuple),
             implements : \@folder::"",
-            evaluates : (args --> \foundation::Tuple_heading::()),
+            evaluates : (evaluates args --> \foundation::Tuple_heading()),
         )),
 
         rename::Tuple : (\Function : (
@@ -3624,7 +3622,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Tuple, \@Renaming),
             implements : \@folder::"",
             accepts : (...),
-            evaluates : (args --> \foundation::Tuple_rename::()),
+            evaluates : (evaluates args --> \foundation::Tuple_rename()),
         )),
 
         on::Tuple : (\Function : (
@@ -3632,7 +3630,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Tuple, \@Heading),
             implements : \@folder::"",
             accepts : (args:.\0 @? args:.\1),
-            evaluates : (args --> \foundation::Tuple_on::()),
+            evaluates : (evaluates args --> \foundation::Tuple_on()),
         )),
 
         update::Tuple : (\Function : (
@@ -3640,7 +3638,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Tuple, \@Tuple),
             implements : \@folder::"",
             accepts : (args:.\0 @? args:.\1),
-            evaluates : (args --> \foundation::Tuple_update::()),
+            evaluates : (evaluates args --> \foundation::Tuple_update()),
         )),
 
         extend::Tuple : (\Function : (
@@ -3651,7 +3649,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             identity : (),
-            evaluates : (args --> \foundation::Tuple_extend::()),
+            evaluates : (evaluates args --> \foundation::Tuple_extend()),
         )),
 
         at::Tuple : (\Function : (
@@ -3672,8 +3670,7 @@ meta script 'Unicode 9.0 UTF-8'
         any_attrs : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple, \@Signature),
-            evaluates : ((args:.\0, Signature_to_Function_Call_But_0::(args:.\1))
-                --> \foundation::Tuple_any_attrs::()),
+            evaluates : (foundation::Tuple_any_attrs(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         none_of_attrs : (\Function : (
@@ -3693,27 +3690,26 @@ meta script 'Unicode 9.0 UTF-8'
         all_attr_assets : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple, \@Signature),
-            evaluates : (args:.\0 all_attrs \(args:.\1 <-- (args:.\0.\asset,))
-                \<-- (1 : Signature_to_Function_Call_But_0::(args:.\1))),
+            evaluates : (args:.\0 all_attrs \(evaluates args:.\1 <-- (args:.\0.\asset,))
+                <-- (1 : Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         attrs_where : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Signature),
-            evaluates : ((args:.\0, Signature_to_Function_Call_But_0::(args:.\1))
-                --> \foundation::Tuple_attrs_where::()),
+            evaluates : (foundation::Tuple_attrs_where(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         attrs_map : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Function_Call_But_0),
-            evaluates : (args --> \foundation::Tuple_attrs_map::()),
+            evaluates : (evaluates args --> \foundation::Tuple_attrs_map()),
         )),
 
         attrs_reduce : (\Function : (
             returns : \@Any,
             matches : (\@Tuple, \@Function_Call_But_0_1),
-            evaluates : (args --> \foundation::Tuple_attrs_reduce::()),
+            evaluates : (evaluates args --> \foundation::Tuple_attrs_reduce()),
         )),
 
 `#########################################################################`
@@ -3972,7 +3968,7 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             evaluates : (args:.\0 @? args:.\1
-                and_then guard |args:.\0 all \(args:.\0 %= @args:.\1 = args:.\1) \<-- (1 : args:.\1,)),
+                and_then guard |args:.\0 all \(args:.\0 %= @args:.\1 = args:.\1) <-- (1 : args:.\1,)),
         )),
 
         on::Relational : (\Function : (
@@ -4028,7 +4024,7 @@ meta script 'Unicode 9.0 UTF-8'
                         heading : \Heading::(),
                         body : [\Array::(), \all::( 1: \Tuple::() )],
                     ),
-                    \(args:.\0:.\body all \(@args:.\0 = args:.\1) \<-- (1: args:.\0:.\heading,)),
+                    \(args:.\0:.\body all \(@args:.\0 = args:.\1) <-- (1: args:.\0:.\heading,)),
                 ],
             )),
             default : (~%@()),
@@ -4078,7 +4074,7 @@ meta script 'Unicode 9.0 UTF-8'
                         heading : \Heading::(),
                         body : [\Set::(), \all::( 1: \Tuple::() )],
                     ),
-                    \(args:.\0:.\body all \(@args:.\0 = args:.\1) \<-- (1: args:.\0:.\heading,)),
+                    \(args:.\0:.\body all \(@args:.\0 = args:.\1) <-- (1: args:.\0:.\heading,)),
                 ],
             )),
             default : (?%@()),
@@ -4127,7 +4123,7 @@ meta script 'Unicode 9.0 UTF-8'
                         heading : \Heading::(),
                         body : [\Bag::(), \all::( 1: \Tuple::() )],
                     ),
-                    \(args:.\0:.\body all \(@args:.\0 = args:.\1) \<-- (1: args:.\0:.\heading,)),
+                    \(args:.\0:.\body all \(@args:.\0 = args:.\1) <-- (1: args:.\0:.\heading,)),
                 ],
             )),
             default : (+%@()),
@@ -4251,7 +4247,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Capsule : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Capsule::(),
+            evaluates : \foundation::is_a_Capsule(),
             default : (False : ()),
         )),
 
@@ -4259,38 +4255,38 @@ meta script 'Unicode 9.0 UTF-8'
 
         Handle : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Handle::(),
-            default : () --> \foundation::default_Handle::(),
+            evaluates : \foundation::is_a_Handle(),
+            default : foundation::default_Handle(),
         )),
 
         Variable : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Variable::(),
-            default : () --> \foundation::default_Variable::(),
+            evaluates : \foundation::is_a_Variable(),
+            default : foundation::default_Variable(),
         )),
 
         Process : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Process::(),
-            default : () --> \foundation::default_Process::(),
+            evaluates : \foundation::is_a_Process(),
+            default : foundation::default_Process(),
         )),
 
         Stream : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Stream::(),
-            default : () --> \foundation::default_Stream::(),
+            evaluates : \foundation::is_a_Stream(),
+            default : foundation::default_Stream(),
         )),
 
         External::"" : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_External::(),
-            default : () --> \foundation::default_External::(),
+            evaluates : \foundation::is_a_External(),
+            default : foundation::default_External(),
         )),
 
         External::call_function : (\Function : (
             returns : \@Any,
             matches : (\@Any),
-            evaluates : (\foundation::External_call_function::() <-- args),
+            evaluates : (evaluates \foundation::External_call_function() <-- args),
         )),
 
 `#########################################################################`
@@ -4825,19 +4821,25 @@ meta script 'Unicode 9.0 UTF-8'
                 args:.\0.0 ⊆@ \@(foundation,used,package)),
         )),
 
-        Function_Call : (\Function : (
+        Routine_Call : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
                 asset : (
-                    func : {\Local_Name::(), \Function::()},
+                    call : {\Local_Name::(), \Identity_Identifier::(), \Function::(), \Procedure::()},
                     args : \Tuple::(),
                 ),
             )),
-            default : (\@material : (
-                func : (\Function : (evaluates : (False))),
-                args : (),
-            )),
+            default : \foundation::False(),
+        )),
+
+        Function_Call : (\Function : (
+            is_type_definer : True,
+            evaluates : [
+                \Routine_Call::(),
+                \(args:.\0:>.\asset:.\call is_a {\Local_Name::(), \Identity_Identifier::(), \Function::()}),
+            ],
+            default : \(False),
         )),
 
         Function_Call_But_0 : (\Function : (
@@ -4852,19 +4854,13 @@ meta script 'Unicode 9.0 UTF-8'
                 args:.\0.\args disjoint_heading \@(0..1)),
         )),
 
-        Procedure_Call : (\Procedure : (
+        Procedure_Call : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
-                label : \@material,
-                asset : (
-                    proc : {\Local_Name::(), \Procedure::()},
-                    args : \Tuple::(),
-                ),
-            )),
-            default : (\@material : (
-                proc : (\Procedure : (performs : [])),
-                args : (),
-            )),
+            evaluates : [
+                \Routine_Call::(),
+                \(args:.\0:>.\asset:.\call is_a {\Local_Name::(), \Identity_Identifier::(), \Procedure::()}),
+            ],
+            default : \[],
         )),
 
         Key_Asset_Pair : (\Function : (
@@ -4872,6 +4868,23 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (Tuple args:.\0 and_then guard
                 @args:.\0 = \@(key,asset)),
         )),
+
+        with_args : (\Function : (
+            returns : \@Routine_Call,
+            matches : (\@Routine_Call, \@Tuple),
+            evaluates : (\@Routine_Call : (
+                call : args:.\0:>.\call,
+                args : args:.\0:>.\args %+ args:.\1,
+            ),
+        )),
+
+        "<--" : (\Alias : ( of : \@with_args )),
+
+        priming : (\Function : (
+            commutes : \@assuming,
+        )),
+
+        "-->" : (\Alias : ( of : \@priming )),
 
         Signature_to_Function_Call_But_0 : (\Function : (
             returns : \@Function_Call_But_0,
@@ -4888,13 +4901,13 @@ meta script 'Unicode 9.0 UTF-8'
                             returns empty::(conj_sig)
                                 or_else guard topic is_a first::(conj_sig)
                                 and_then guard topic is_a nonfirst::(conj_sig)
-                        ) \<-- (:sig,)
+                        ) <-- (:sig,)
                     else if Signature::Disjunction sig then guard
                         \(
                             topic    ::= args:.\0;
                             disj_sig ::= args:.\sig;
-                            returns disj_sig any \(args:.\topic is_a args:.\0) \<-- (:topic,)
-                        ) \<-- (:sig,)
+                            returns disj_sig any \(args:.\topic is_a args:.\0) <-- (:topic,)
+                        ) <-- (:sig,)
                     else if Signature::Tuple_Attrs_Match_Simple sig then guard
                         \(
                             topic     ::= args:.\0;
@@ -4907,8 +4920,8 @@ meta script 'Unicode 9.0 UTF-8'
                                         attr_sig ::= args:.\0:.\asset;
                                         topic    ::= args:.\topic;
                                         returns topic.name is_a attr_sig;
-                                    ) \<-- (:topic,)
-                        ) \<-- (:sig,)
+                                    ) <-- (:topic,)
+                        ) <-- (:sig,)
                     else if Signature::Tuple_Attrs_Match sig then guard
                         \(
                             topic     ::= args:.\0;
@@ -4926,8 +4939,8 @@ meta script 'Unicode 9.0 UTF-8'
                                             then guard topic.name is_a attr_sig
                                             else attr_sig.?\optional
                                         ;
-                                    ) \<-- (:topic,))
-                        ) \<-- (:sig,)
+                                    ) <-- (:topic,))
+                        ) <-- (:sig,)
                     else if Signature::Capsule_Match sig then guard
                         \(
                             topic       ::= args:.\0;
@@ -4935,7 +4948,7 @@ meta script 'Unicode 9.0 UTF-8'
                             returns Capsule topic
                                 and_then guard topic:< = capsule_sig:.\label
                                 and_then guard topic:> is_a capsule_sig:.\asset
-                        ) \<-- (:sig,)
+                        ) <-- (:sig,)
                     else
                         fail  `We should never get here.`
                     ;
