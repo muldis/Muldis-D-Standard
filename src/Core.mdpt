@@ -4562,6 +4562,9 @@ meta script 'Unicode 9.0 UTF-8'
                 \@Guard,
                 \@Factorization,
                 \@Expansion,
+                \@Vars,
+                \@New,
+                \@Current,
             },
             default : (\@Literal : (False,)),
         )),
@@ -4684,18 +4687,56 @@ meta script 'Unicode 9.0 UTF-8'
             default : (\@material : (factor : \"",)),
         )),
 
+        Vars : (\Function : (
+            is_type_definer : True,
+            constant : \@material,
+        )),
+
+        New : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                asset : (
+                    0 : \Expression::(),
+                )
+            )),
+            default : (\@material : ((\@Literal : (False,)),)),
+        )),
+
+        Current : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                asset : (
+                    0 : \Expression::(),
+                ),
+            )),
+            default : (\@material : ((\@New : ((\@Literal : (False,)),)),)),
+        )),
+
         Statement : (\Function : (
             is_type_definer : True,
             evaluates : {
+                \@Declare,
                 \@Performs,
                 \@If_Then_Else_Stmt,
                 \@Given_When_Default_Stmt,
                 \@Block,
                 \@Leave,
                 \@Iterate,
-                \@Declare,
             },
             default : (\@Block : ([],)),
+        )),
+
+        Declare : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                asset : (
+                    vars : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
+                ),
+            )),
+            default : (\@material : (vars : (),)),
         )),
 
         Performs : (\Function : (
@@ -4772,17 +4813,6 @@ meta script 'Unicode 9.0 UTF-8'
                 ),)),
             )),
             default : (\@material : ()),
-        )),
-
-        Declare : (\Function : (
-            is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
-                label : \@material,
-                asset : (
-                    0 : \Attr_Name::(),
-                ),
-            )),
-            default : (\@material : (\"",)),
         )),
 
         Heading : (\Function : (
@@ -4875,7 +4905,7 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (\@Routine_Call : (
                 call : args:.\0:>.\call,
                 args : args:.\0:>.\args %+ args:.\1,
-            ),
+            )),
         )),
 
         "<--" : (\Alias : ( of : \@with_args, )),
