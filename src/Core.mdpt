@@ -4550,6 +4550,11 @@ meta script 'Unicode 9.0 UTF-8'
                 \@Literal,
                 \@Args,
                 \@Evaluates,
+                \@Array_Selector,
+                \@Set_Selector,
+                \@Bag_Selector,
+                \@Tuple_Selector,
+                \@Capsule_Selector,
                 \@If_Then_Else_Expr,
                 \@And_Then,
                 \@Or_Else,
@@ -4589,6 +4594,72 @@ meta script 'Unicode 9.0 UTF-8'
                 ),
             )),
             default : (\@material : ...),
+        )),
+
+        Array_Selector : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                attrs : (
+                    0 : [\Array::(), \all::( 1: (
+                        0 : \Expression::(),  `member value`
+                        1 : \Expression::(),  `multiplicity`
+                    ) )],
+                ),
+            )),
+            default : (\@material : ([],)),
+        )),
+
+        Set_Selector : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                attrs : (
+                    0 : [\Bag::(), \all::( 1: (
+                        0 : \Expression::(),  `member value`
+                        1 : \Expression::(),  `multiplicity`
+                    ) )],
+                ),
+            )),
+            default : (\@material : ({0:0},)),
+        )),
+
+        Bag_Selector : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                attrs : (
+                    0 : [\Bag::(), \all::( 1: (
+                        0 : \Expression::(),  `member value`
+                        1 : \Expression::(),  `multiplicity`
+                    ) )],
+                ),
+            )),
+            default : (\@material : ({0:0},)),
+        )),
+
+        Tuple_Selector : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                attrs : (
+                    0 : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
+                ),
+            )),
+            default : (\@material : (())),
+        )),
+
+        Capsule_Selector : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \@material,
+                attrs : (
+                    0 : \Expression::(),  `label`
+                    1 : \Expression::(),  `attributes`
+                ),
+            )),
+            default : (\@material : ((\@folder::Literal : (\"",)),
+                (\@folder::Literal : ()))),
         )),
 
         If_Then_Else_Expr : (\Function : (
