@@ -64,7 +64,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Excuse,
-                asset : (
+                attrs : (
                     0 : \Any(),
                 ),
             )),
@@ -444,7 +444,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Round_Meth::Attr_Name(),
                 ),
             )),
@@ -1006,7 +1006,7 @@ meta script 'Unicode 9.0 UTF-8'
             provides_default_for : {\@Fractional},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Fraction,
-                asset : [
+                attrs : [
                     (
                         numerator : \Integer::(),
                         denominator : \Integer::P(),
@@ -1299,7 +1299,7 @@ meta script 'Unicode 9.0 UTF-8'
             provides_default_for : {\@Stringy},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Bits,
-                asset : (
+                attrs : (
                     bits : \String::Bits(),
                 ),
             )),
@@ -1394,7 +1394,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Stringy},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Blob,
-                asset : (
+                attrs : (
                     octets : \String::Octets(),
                 ),
             )),
@@ -1501,7 +1501,7 @@ meta script 'Unicode 9.0 UTF-8'
             provides_default_for : {\@Textual},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Text,
-                asset : (
+                attrs : (
                     maximal_chars : \String::Maximal_Chars(),
                 ),
             )),
@@ -2724,7 +2724,7 @@ meta script 'Unicode 9.0 UTF-8'
             provides_default_for : {\@Setty},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Set,
-                asset : (
+                attrs : (
                     members : [\Bag::(), \all_unique::()],
                 ),
             )),
@@ -4019,7 +4019,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Relational, \@Positional},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Tuple_Array,
-                asset : [
+                attrs : [
                     (
                         heading : \Heading::(),
                         body : [\Array::(), \all::( 1: \Tuple::() )],
@@ -4069,7 +4069,7 @@ meta script 'Unicode 9.0 UTF-8'
             provides_default_for : {\@Relational},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Relation,
-                asset : [
+                attrs : [
                     (
                         heading : \Heading::(),
                         body : [\Set::(), \all::( 1: \Tuple::() )],
@@ -4118,7 +4118,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Relational, \@Discrete},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Tuple_Bag,
-                asset : [
+                attrs : [
                     (
                         heading : \Heading::(),
                         body : [\Bag::(), \all::( 1: \Tuple::() )],
@@ -4175,7 +4175,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Intervalish, \@Setty},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Interval,
-                asset : \Interval::Attrs(),
+                attrs : \Interval::Attrs(),
             )),
             default : (Excuse::Before_All_Others()..Excuse::After_All_Others()),
         )),
@@ -4200,7 +4200,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Unionable_Intervalish, \@Setty},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Interval_Set,
-                asset : (
+                attrs : (
                     members : [\Interval_Bag::(), \all_unique::()],
                 ),
             )),
@@ -4214,7 +4214,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Unionable_Intervalish},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Interval_Bag,
-                asset : (
+                attrs : (
                     members : [\Tuple_Bag::(), ...],
                 ),
             )),
@@ -4236,7 +4236,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Quantitative},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Quantity,
-                asset : (
+                attrs : (
                     0 : [\Relation::(), ...],
                 ),
             )),
@@ -4290,7 +4290,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Package,
-                asset : (
+                attrs : (
                     identity : \Package::Identity::(),
                     foundation : \Package::Foundation::(),
                     uses : \Package::Uses_Map::(),
@@ -4375,7 +4375,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Alias,
-                asset : (
+                attrs : (
                     of : \Identity_Identifier(),
                 ),
             )),
@@ -4471,7 +4471,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Procedure,
-                asset : (\@Signature::Tuple_Attrs_Match : (attrs : (
+                attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     virtual : (type : \Boolean::(), optional : True),
                     matches : (type : \Signature::Tuple_Attrs_Match_Simple(), optional : True),
                     implements : (type : ..., optional : True),
@@ -4516,7 +4516,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     attrs : [
                         \Tuple::(),
                         \all_attr_assets::( 1: \(
@@ -4540,7 +4540,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Any::(),
-                asset : \Signature::(),
+                attrs : \Signature::(),
             )),
         )),
 
@@ -4568,7 +4568,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Any::(),
                 ),
             )),
@@ -4584,7 +4584,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                 ),
             )),
@@ -4595,7 +4595,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                     1 : \Expression::(),
                     2 : \Expression::(),
@@ -4609,7 +4609,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                     1 : \Expression::(),
                 ),
@@ -4622,7 +4622,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                     1 : \Expression::(),
                 ),
@@ -4635,7 +4635,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                     1 : [\Set::(), \all::( 1: (
                         0 : \Expression::(),
@@ -4652,7 +4652,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                 ),
             )),
@@ -4663,7 +4663,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     factors : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
                     returns : \Expression::(),
                 ),
@@ -4675,7 +4675,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     factor : \Attr_Name::(),
                 ),
             )),
@@ -4691,7 +4691,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                 )
             )),
@@ -4702,7 +4702,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                 ),
             )),
@@ -4727,7 +4727,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     vars : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
                 ),
             )),
@@ -4738,7 +4738,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                 ),
             )),
@@ -4749,7 +4749,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                     1 : \Statement::(),
                     2 : \Statement::(),
@@ -4763,7 +4763,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     0 : \Expression::(),
                     1 : [\Set::(), \all::( 1: (
                         0 : \Expression::(),
@@ -4780,7 +4780,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (\@Signature::Tuple_Attrs_Match : (attrs : (
+                attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     0 : (type : [\Array::(), \all::( 1: \Statement::() )]),
                     label : (type : \Attr_Name::(), optional : True),
                 ),)),
@@ -4792,7 +4792,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (\@Signature::Tuple_Attrs_Match : (attrs : (
+                attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     label : (type : \Attr_Name::(), optional : True),
                 ),)),
             )),
@@ -4803,7 +4803,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (\@Signature::Tuple_Attrs_Match : (attrs : (
+                attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     label : (type : \Attr_Name::(), optional : True),
                 ),)),
             )),
@@ -4850,7 +4850,7 @@ meta script 'Unicode 9.0 UTF-8'
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
-                asset : (
+                attrs : (
                     call : {\Local_Name::(), \Identity_Identifier::(), \Function::(), \Procedure::()},
                     args : \Tuple::(),
                 ),
@@ -4972,7 +4972,7 @@ meta script 'Unicode 9.0 UTF-8'
                             capsule_sig ::= args:.\sig:>;
                             returns Capsule topic
                                 and_then guard topic:< = capsule_sig:.\label
-                                and_then guard topic:> is_a capsule_sig:.\asset
+                                and_then guard topic:> is_a capsule_sig:.\attrs
                         ) <-- (:sig,)
                     else
                         fail  `We should never get here.`
