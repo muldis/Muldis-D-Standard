@@ -226,7 +226,7 @@ meta script 'Unicode 9.0 UTF-8'
         nth_succ::"" : (\Function : (
             virtual : True,
             returns : {\@Successable, \@Excuse::After_All_Others},
-            matches : (\@Successable, \@Integer::NN),
+            matches : (\@Successable, \@Integer_NN),
         )),
 
 `#########################################################################`
@@ -247,7 +247,7 @@ meta script 'Unicode 9.0 UTF-8'
         nth_pred::"" : (\Function : (
             virtual : True,
             returns : {\@Bicessable, \@Excuse::Before_All_Others},
-            matches : (\@Bicessable, \@Integer::NN),
+            matches : (\@Bicessable, \@Integer_NN),
         )),
 
 `#########################################################################`
@@ -312,14 +312,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         nth_pred::Boolean : (\Function : (
             returns : {\@False, \@Excuse::Before_All_Others},
-            matches : (\@Boolean, \@Integer::NN),
+            matches : (\@Boolean, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and args:.\0 then False else Excuse::Before_All_Others()),
         )),
 
         nth_succ::Boolean : (\Function : (
             returns : {\@True, \@Excuse::After_All_Others},
-            matches : (\@Boolean, \@Integer::NN),
+            matches : (\@Boolean, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and !args:.\0 then True else Excuse::After_All_Others()),
         )),
@@ -440,18 +440,18 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Round_Meth::"" : (\Function : (
+        Round_Meth : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \@material,
                 attrs : (
-                    0 : \Round_Meth::Attr_Name(),
+                    0 : \Round_Meth_Attr_Name::(),
                 ),
             )),
             default : (\@material : (\To_Zero,)),
         )),
 
-        Round_Meth::Attr_Name : (\Function : (
+        Round_Meth_Attr_Name : (\Function : (
             is_type_definer : True,
             evaluates : [\Attr_Name::(), \"⊆@"::( 1:
                 \@(Down,Up,To_Zero,To_Inf
@@ -463,7 +463,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         RM : (\Function : (
             returns : \@Round_Meth,
-            matches : (\@Round_Meth::Attr_Name,),
+            matches : (\@Round_Meth_Attr_Name,),
             evaluates : ((\@Round_Meth : (args:.\0,))),
         )),
 
@@ -636,7 +636,7 @@ meta script 'Unicode 9.0 UTF-8'
         integral_nn_power::"" : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Excuse::Zero_To_The_Zero},
-            matches : (\@Numerical, \@Integral::NN),
+            matches : (\@Numerical, \@Integral_NN),
         )),
 
         power : (\Alias : ( of : \@integral_nn_power, )),
@@ -650,15 +650,15 @@ meta script 'Unicode 9.0 UTF-8'
             provides_default_for : {\@Bicessable, \@Numerical},
         )),
 
-        Integral::NN : (\Function : (
+        Integral_NN : (\Function : (
             is_type_definer : True,
             evaluates : (Integral args:.\0 and_then guard
                 args:.\0 >= zero::(args:.\0)),
         )),
 
-        Integral::P : (\Function : (
+        Integral_P : (\Function : (
             is_type_definer : True,
-            evaluates : (Integral::NN::(args:.\0) and_then guard
+            evaluates : (Integral_NN::(args:.\0) and_then guard
                 args:.\0 > zero::(args:.\0)),
             default : (succ::(Integral::())),
         )),
@@ -683,13 +683,13 @@ meta script 'Unicode 9.0 UTF-8'
 
         factorial::"" : (\Function : (
             virtual : True,
-            returns : \@Integral::P,
-            matches : (\@Integral::NN,),
+            returns : \@Integral_P,
+            matches : (\@Integral_NN,),
         )),
 
         gcd : (\Function : (
-            returns : \@Integral::P,
-            matches : (\@Integral::NN, \@Integral::NN),
+            returns : \@Integral_P,
+            matches : (\@Integral_NN, \@Integral_NN),
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -700,8 +700,8 @@ meta script 'Unicode 9.0 UTF-8'
         greatest_common_divisor : (\Alias : ( of : \@gcd, )),
 
         lcm : (\Function : (
-            returns : \@Integral::NN,
-            matches : (\@Integral::NN, \@Integral::NN),
+            returns : \@Integral_NN,
+            matches : (\@Integral_NN, \@Integral_NN),
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -727,14 +727,14 @@ meta script 'Unicode 9.0 UTF-8'
             default : 0,
         )),
 
-        Integer::NN : (\Function : (
+        Integer_NN : (\Function : (
             is_type_definer : True,
             evaluates : [\Integer::(), \">="::( 1: 0 )],
         )),
 
-        Integer::P : (\Function : (
+        Integer_P : (\Function : (
             is_type_definer : True,
-            evaluates : [\Integer::NN(), \">"::( 1: 0 )],
+            evaluates : [\Integer_NN::(), \">"::( 1: 0 )],
             default : 1,
         )),
 
@@ -754,14 +754,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         nth_pred::Integer : (\Function : (
             returns : \@Integer,
-            matches : (\@Integer, \@Integer::NN),
+            matches : (\@Integer, \@Integer_NN),
             implements : \@folder::Integral,
             evaluates : (args:.\0 - args:.\1),
         )),
 
         nth_succ::Integer : (\Function : (
             returns : \@Integer,
-            matches : (\@Integer, \@Integer::NN),
+            matches : (\@Integer, \@Integer_NN),
             implements : \@folder::Integral,
             repeater : \@plus::Integer,
             evaluates : (args:.\0 + args:.\1),
@@ -796,7 +796,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         modulus::Integer : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Integer,),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Integer_modulus()),
@@ -946,7 +946,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         integral_nn_power::Integer : (\Function : (
             returns : {\@Integer, \@Excuse::Zero_To_The_Zero},
-            matches : (\@Integer, \@Integer::NN),
+            matches : (\@Integer, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 = 0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
                 else guard evaluates args --> \foundation::Integer_nn_power()),
@@ -960,8 +960,8 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         factorial::Integer : (\Function : (
-            returns : \@Integer::P,
-            matches : (\@Integer::NN,),
+            returns : \@Integer_P,
+            matches : (\@Integer_NN,),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Integer_factorial()),
         )),
@@ -974,7 +974,7 @@ meta script 'Unicode 9.0 UTF-8'
             composes : {\@Orderable, \@Numerical},
         )),
 
-        Fractional::NN : (\Function : (
+        Fractional_NN : (\Function : (
             is_type_definer : True,
             evaluates : (Fractional args:.\0 and_then guard
                 args:.\0 >= zero::(args:.\0)),
@@ -994,7 +994,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         denominator::"" : (\Function : (
             virtual : True,
-            returns : \@Integral::P,
+            returns : \@Integral_P,
             matches : (\@Fractional,),
         )),
 
@@ -1009,7 +1009,7 @@ meta script 'Unicode 9.0 UTF-8'
                 attrs : [
                     (
                         numerator : \Integer::(),
-                        denominator : \Integer::P(),
+                        denominator : \Integer_P::(),
                     ),
                     \(args:.\0:.\numerator coprime args:.\0:.\denominator),
                 ],
@@ -1017,7 +1017,7 @@ meta script 'Unicode 9.0 UTF-8'
             default : 0.0,
         )),
 
-        Fraction::NN : (\Function : (
+        Fraction_NN : (\Function : (
             is_type_definer : True,
             evaluates : [\Fraction::(), \">="::( 1: 0.0 )],
         )),
@@ -1070,7 +1070,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         modulus::Fraction : (\Function : (
-            returns : \@Fraction::NN,
+            returns : \@Fraction_NN,
             matches : (\@Fraction,),
             implements : \@folder::"",
             evaluates : (abs::(numerator args:.\0) / (denominator args:.\0)),
@@ -1165,7 +1165,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         integral_nn_power::Fraction : (\Function : (
             returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
-            matches : (\@Fraction, \@Integer::NN),
+            matches : (\@Fraction, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 = 0.0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
                 else guard ((numerator args:.\0) ** args:.\1) / ((denominator args:.\0) ** args:.\1)),
@@ -1185,7 +1185,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         denominator::Fraction : (\Function : (
-            returns : \@Integer::P,
+            returns : \@Integer_P,
             matches : (\@Fraction,),
             evaluates : (args:.\0:>.\denominator),
         )),
@@ -1286,7 +1286,7 @@ meta script 'Unicode 9.0 UTF-8'
         replicate::"" : (\Function : (
             virtual : True,
             returns : \@Stringy,
-            matches : (\@Stringy, \@Integer::NN),
+            matches : (\@Stringy, \@Integer_NN),
         )),
 
         "~#" : (\Alias : ( of : \@replicate, )),
@@ -1370,7 +1370,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         replicate::Bits : (\Function : (
             returns : \@Bits,
-            matches : (\@Bits, \@Integer::NN),
+            matches : (\@Bits, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (Bits_from_String_Bits::((Bits_to_String_Bits args:.\0) ~# args:.\1)),
         )),
@@ -1462,7 +1462,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         replicate::Blob : (\Function : (
             returns : \@Blob,
-            matches : (\@Blob, \@Integer::NN),
+            matches : (\@Blob, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (Blob_from_Octets::((Blob_to_Octets args:.\0) ~# args:.\1)),
         )),
@@ -1593,7 +1593,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         replicate::Text : (\Function : (
             returns : \@Text,
-            matches : (\@Text, \@Integer::NN),
+            matches : (\@Text, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (Text_from_Maximal_Chars::((Text_to_Maximal_Chars args:.\0) ~# args:.\1)),
         )),
@@ -1866,12 +1866,12 @@ meta script 'Unicode 9.0 UTF-8'
         has_n::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
-            matches : (\@Homogeneous, \@Any, \@Integer::NN),
+            matches : (\@Homogeneous, \@Any, \@Integer_NN),
         )),
 
         multiplicity::"" : (\Function : (
             virtual : True,
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Homogeneous, \@Any),
         )),
 
@@ -2023,7 +2023,7 @@ meta script 'Unicode 9.0 UTF-8'
         insert_n::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
-            matches : (\@Unionable, \@Any, \@Integer::NN),
+            matches : (\@Unionable, \@Any, \@Integer_NN),
         )),
 
         remove : (\Function : (
@@ -2035,7 +2035,7 @@ meta script 'Unicode 9.0 UTF-8'
         remove_n::"" : (\Function : (
             virtual : True,
             returns : \@Unionable,
-            matches : (\@Unionable, \@Any, \@Integer::NN),
+            matches : (\@Unionable, \@Any, \@Integer_NN),
         )),
 
         member_plus::"" : (\Function : (
@@ -2153,7 +2153,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         count::"" : (\Function : (
             virtual : True,
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Discrete,),
         )),
 
@@ -2162,7 +2162,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         unique_count::"" : (\Function : (
             virtual : True,
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Discrete,),
         )),
 
@@ -2247,7 +2247,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         unique_count::Positional : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Positional,),
             implements : \@folder::"",
             evaluates : (count::(to_Set args:.\0)),
@@ -2430,7 +2430,7 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Array::"" : (\Function : (
+        Array : (\Function : (
             is_type_definer : True,
             composes : {\@Positional},
             provides_default_for : {\@Positional},
@@ -2443,12 +2443,12 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : [\Array::(), \all::( 1: \Integer::() )],
         )),
 
-        Array::Empty : (\Function : (
+        Array_C0 : (\Function : (
             is_type_definer : True,
             constant : [],
         )),
 
-        Unicode_Aliases::"~∅" : (\Alias : ( of : \@Array::Empty, )),
+        Unicode_Aliases::"~∅" : (\Alias : ( of : \@Array_C0, )),
 
         in_order::Array : (\Function : (
             returns : \@Boolean,
@@ -2518,20 +2518,20 @@ meta script 'Unicode 9.0 UTF-8'
 
         replicate::Array : (\Function : (
             returns : \@Array,
-            matches : (\@Array, \@Integer::NN),
+            matches : (\@Array, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Array_replicate()),
         )),
 
         has_n::Array : (\Function : (
             returns : \@Boolean,
-            matches : (\@Array, \@Any, \@Integer::NN),
+            matches : (\@Array, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Array_has_n()),
         )),
 
         multiplicity::Array : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Array, \@Any),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Array_multiplicity()),
@@ -2560,14 +2560,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         insert_n::Array : (\Function : (
             returns : \@Array,
-            matches : (\@Array, \@Any, \@Integer::NN),
+            matches : (\@Array, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Array_insert_n()),
         )),
 
         remove_n::Array : (\Function : (
             returns : \@Array,
-            matches : (\@Array, \@Any, \@Integer::NN),
+            matches : (\@Array, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Array_remove_n()),
         )),
@@ -2658,7 +2658,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         count::Array : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Array,),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Array_count()),
@@ -2673,7 +2673,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         at::Array : (\Function : (
             returns : \@Any,
-            matches : (\@Array, \@Integer::NN),
+            matches : (\@Array, \@Integer_NN),
             implements : \@folder::"",
             accepts : (args:.\0 .? args:.\1),
             evaluates : (evaluates args --> \foundation::Array_at()),
@@ -2687,7 +2687,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         first_possible_ord_pos::Array : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Array,),
             implements : \@folder::"",
             evaluates : (0),
@@ -2702,7 +2702,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         ord_pos_succ_all_matches::Array : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Array, \@Array),
             implements : \@folder::"",
             is_commutative : True,
@@ -2718,7 +2718,7 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Set::"" : (\Function : (
+        Set : (\Function : (
             is_type_definer : True,
             composes : {\@Discrete, \@Setty},
             provides_default_for : {\@Setty},
@@ -2731,12 +2731,12 @@ meta script 'Unicode 9.0 UTF-8'
             default : {},
         )),
 
-        Set::Empty : (\Function : (
+        Set_C0 : (\Function : (
             is_type_definer : True,
             constant : {},
         )),
 
-        Unicode_Aliases::"?∅" : (\Alias : ( of : \@Set::Empty, )),
+        Unicode_Aliases::"?∅" : (\Alias : ( of : \@Set_C0, )),
 
         to_Boolean::Set : (\Function : (
             returns : \@Boolean,
@@ -2769,13 +2769,13 @@ meta script 'Unicode 9.0 UTF-8'
 
         has_n::Set : (\Function : (
             returns : \@Boolean,
-            matches : (\@Set, \@Any, \@Integer::NN),
+            matches : (\@Set, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (has_n::(args:.\0:>.\members, args:.\1, args:.\2)),
         )),
 
         multiplicity::Set : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Set, \@Any),
             implements : \@folder::"",
             evaluates : (args:.\0:>.\members multiplicity args:.\1),
@@ -2835,7 +2835,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         insert_n::Set : (\Function : (
             returns : \@Set,
-            matches : (\@Set, \@Any, \@Integer::NN),
+            matches : (\@Set, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 has args:.\1 or args:.\2 = 0 then args:.\0
                 else (\Set : (members : insert_n::(args:.\0:>.\members, args:.\1, 1),))),
@@ -2843,7 +2843,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         remove_n::Set : (\Function : (
             returns : \@Set,
-            matches : (\@Set, \@Any, \@Integer::NN),
+            matches : (\@Set, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : ((\Set : (members : remove_n::(args:.\0:>.\members, args:.\1, args:.\2),))),
         )),
@@ -2950,14 +2950,14 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         count::Set : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Set,),
             implements : \@folder::"",
             evaluates : (count args:.\0:>.\members),
         )),
 
         unique_count::Set : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Set,),
             implements : \@folder::"",
             evaluates : (count args:.\0),
@@ -2972,19 +2972,19 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Bag::"" : (\Function : (
+        Bag : (\Function : (
             is_type_definer : True,
             composes : {\@Discrete},
             evaluates : \foundation::is_a_Bag(),
             default : {0:0},
         )),
 
-        Bag::Empty : (\Function : (
+        Bag_C0 : (\Function : (
             is_type_definer : True,
             constant : {0:0},
         )),
 
-        Unicode_Aliases::"+∅" : (\Alias : ( of : \@Bag::Empty, )),
+        Unicode_Aliases::"+∅" : (\Alias : ( of : \@Bag_C0, )),
 
         to_Boolean::Bag : (\Function : (
             returns : \@Boolean,
@@ -3017,13 +3017,13 @@ meta script 'Unicode 9.0 UTF-8'
 
         has_n::Bag : (\Function : (
             returns : \@Boolean,
-            matches : (\@Bag, \@Any, \@Integer::NN),
+            matches : (\@Bag, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Bag_has_n()),
         )),
 
         multiplicity::Bag : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Bag, \@Any),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Bag_multiplicity()),
@@ -3083,14 +3083,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         insert_n::Bag : (\Function : (
             returns : \@Bag,
-            matches : (\@Bag, \@Any, \@Integer::NN),
+            matches : (\@Bag, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Bag_insert_n()),
         )),
 
         remove_n::Bag : (\Function : (
             returns : \@Bag,
-            matches : (\@Bag, \@Any, \@Integer::NN),
+            matches : (\@Bag, \@Any, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Bag_remove_n()),
         )),
@@ -3196,14 +3196,14 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         count::Bag : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Bag,),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Bag_count()),
         )),
 
         unique_count::Bag : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Bag,),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Bag_unique_count()),
@@ -3261,7 +3261,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         degree::"" : (\Function : (
             virtual : True,
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Attributive,),
         )),
 
@@ -3565,19 +3565,19 @@ meta script 'Unicode 9.0 UTF-8'
             default : (),
         )),
 
-        Tuple::D0 : (\Function : (
+        Tuple_D0 : (\Function : (
             is_type_definer : True,
             constant : (),
         )),
 
-        Tuple::D1 : (\Function : (
+        Tuple_D1 : (\Function : (
             is_type_definer : True,
             evaluates : [\Tuple::(), \is_unary::()],
             default : (False,),
         )),
 
         D1 : (\Function : (
-            returns : \@Tuple::D1,
+            returns : \@Tuple_D1,
             matches : (\@Attr_Name, \@Any),
             evaluates : (evaluates args --> \foundation::Tuple_D1_select()),
         )),
@@ -3604,7 +3604,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         degree::Tuple : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Tuple,),
             implements : \@folder::"",
             evaluates : (evaluates args --> \foundation::Tuple_degree()),
@@ -3751,14 +3751,14 @@ meta script 'Unicode 9.0 UTF-8'
 
         has_n::Relational : (\Function : (
             returns : {\@Boolean, \@Excuse::Not_Same_Heading},
-            matches : (\@Relational, \@Structural, \@Integer::NN),
+            matches : (\@Relational, \@Structural, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard has_n::(|args:.\0, args:.\1, args:.\2)
                 else Excuse::Not_Same_Heading),
         )),
 
         multiplicity::Relational : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Relational, \@Structural),
             implements : \@folder::"",
             evaluates : (|args:.\0 multiplicity args:.\1),
@@ -3822,7 +3822,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         insert_n::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
-            matches : (\@Relational, \@Structural, \@Integer::NN),
+            matches : (\@Relational, \@Structural, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: insert_n::(|args:.\0, args:.\1, args:.\2) )
@@ -3831,7 +3831,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         remove_n::Relational : (\Function : (
             returns : {\@Relational, \@Excuse::Not_Same_Heading},
-            matches : (\@Relational, \@Structural, \@Integer::NN),
+            matches : (\@Relational, \@Structural, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: remove_n::(|args:.\0, args:.\1, args:.\2) )
@@ -3948,7 +3948,7 @@ meta script 'Unicode 9.0 UTF-8'
         )),
 
         degree::Relational : (\Function : (
-            returns : \@Integer::NN,
+            returns : \@Integer_NN,
             matches : (\@Relational,),
             implements : \@folder::"",
             evaluates : (degree @args:.\0),
@@ -4014,7 +4014,7 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Tuple_Array::"" : (\Function : (
+        Tuple_Array : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Positional},
             evaluates : (\@Signature::Capsule_Match : (
@@ -4030,12 +4030,12 @@ meta script 'Unicode 9.0 UTF-8'
             default : (~%@()),
         )),
 
-        Tuple_Array::D0C0 : (\Function : (
+        Tuple_Array_D0C0 : (\Function : (
             is_type_definer : True,
             constant : ~%@(),
         )),
 
-        Tuple_Array::D0C1 : (\Function : (
+        Tuple_Array_D0C1 : (\Function : (
             is_type_definer : True,
             constant : ~%[()],
         )),
@@ -4063,7 +4063,7 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Relation::"" : (\Function : (
+        Relation : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Discrete, \@Setty},
             provides_default_for : {\@Relational},
@@ -4080,12 +4080,12 @@ meta script 'Unicode 9.0 UTF-8'
             default : (?%@()),
         )),
 
-        Relation::D0C0 : (\Function : (
+        Relation_D0C0 : (\Function : (
             is_type_definer : True,
             constant : ?%@(),
         )),
 
-        Relation::D0C1 : (\Function : (
+        Relation_D0C1 : (\Function : (
             is_type_definer : True,
             constant : ?%{()},
         )),
@@ -4113,7 +4113,7 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Tuple_Bag::"" : (\Function : (
+        Tuple_Bag : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Discrete},
             evaluates : (\@Signature::Capsule_Match : (
@@ -4129,12 +4129,12 @@ meta script 'Unicode 9.0 UTF-8'
             default : (+%@()),
         )),
 
-        Tuple_Bag::D0C0 : (\Function : (
+        Tuple_Bag_D0C0 : (\Function : (
             is_type_definer : True,
             constant : +%@(),
         )),
 
-        Tuple_Bag::D0C1 : (\Function : (
+        Tuple_Bag_D0C1 : (\Function : (
             is_type_definer : True,
             constant : +%{()},
         )),
@@ -4170,17 +4170,17 @@ meta script 'Unicode 9.0 UTF-8'
 
 `#########################################################################`
 
-        Interval::"" : (\Function : (
+        Interval : (\Function : (
             is_type_definer : True,
             composes : {\@Intervalish, \@Setty},
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Interval,
-                attrs : \Interval::Attrs(),
+                attrs : \Interval_Attrs::(),
             )),
             default : (Excuse::Before_All_Others()..Excuse::After_All_Others()),
         )),
 
-        Interval::Attrs : (\Function : (
+        Interval_Attrs : (\Function : (
             is_type_definer : True,
             evaluates : [\Tuple::(), ...],
         )),
