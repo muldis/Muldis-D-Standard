@@ -4883,7 +4883,7 @@ meta script 'Unicode 9.0 UTF-8'
 
         Heading : (\Function : (
             is_type_definer : True,
-            evaluates : [\Tuple::(), \all_attr_assets::( 1: \False::() )],
+            evaluates : [\Tuple::(), \all_attr_assets::( 1: \True::() )],
         )),
 
         Attr_Name : (\Function : (
