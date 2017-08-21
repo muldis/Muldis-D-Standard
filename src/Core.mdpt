@@ -1,5 +1,5 @@
 Muldis_D Plain_Text 'http://muldis.com' '0.201.0.-9'
-meta script 'Unicode 9.0 UTF-8'
+meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 `#########################################################################`
@@ -1502,23 +1502,17 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Text,
                 attrs : (
-                    maximal_chars : \String::Maximal_Chars(),
+                    unicode_codes : \String::Unicode_Codes(),
                 ),
             )),
             default : '',
         )),
 
-        String::Maximal_Chars : (\Alias : ( of : \@String, )),
-
-        Text::Unicode : (\Function : (
-            is_type_definer : True,
-            evaluates : (Text args:.\0 and_then guard
-                String::Unicode_Codes::(Text_from_Maximal_Chars args:.\0)),
-        )),
+        Text::Unicode : (\Alias : ( of : \@Text, )),
 
         String::Unicode_Codes : (\Function : (
             is_type_definer : True,
-            evaluates : [\String::Maximal_Chars(),
+            evaluates : [\String::(),
                 \all::( 1: \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} ) )],
         )),
 
@@ -1537,7 +1531,7 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Text, \@Text),
             implements : \@folder::"",
-            evaluates : ((Text_to_Maximal_Chars args:.\0) in_order (Text_to_Maximal_Chars args:.\1)),
+            evaluates : ((Text_to_Unicode_Codes args:.\0) in_order (Text_to_Unicode_Codes args:.\1)),
         )),
 
         to_Boolean::Text : (\Function : (
@@ -1558,8 +1552,8 @@ meta script 'Unicode 9.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Text, \@Text),
             implements : \@folder::"",
-            evaluates : ((Text_to_Maximal_Chars args:.\0)
-                substring_of (Text_to_Maximal_Chars args:.\1)),
+            evaluates : ((Text_to_Unicode_Codes args:.\0)
+                substring_of (Text_to_Unicode_Codes args:.\1)),
         )),
 
         overlaps_string::Text : (\Function : (
@@ -1567,8 +1561,8 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Text, \@Text),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : ((Text_to_Maximal_Chars args:.\0)
-                overlaps_string (Text_to_Maximal_Chars args:.\1)),
+            evaluates : ((Text_to_Unicode_Codes args:.\0)
+                overlaps_string (Text_to_Unicode_Codes args:.\1)),
         )),
 
         disjoint_string::Text : (\Function : (
@@ -1576,8 +1570,8 @@ meta script 'Unicode 9.0 UTF-8'
             matches : (\@Text, \@Text),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : ((Text_to_Maximal_Chars args:.\0)
-                disjoint_string (Text_to_Maximal_Chars args:.\1)),
+            evaluates : ((Text_to_Unicode_Codes args:.\0)
+                disjoint_string (Text_to_Unicode_Codes args:.\1)),
         )),
 
         catenate::Text : (\Function : (
@@ -1587,15 +1581,15 @@ meta script 'Unicode 9.0 UTF-8'
             is_associative : True,
             identity : '',
             repeater : \@replicate::Text,
-            evaluates : (Text_from_Maximal_Chars::((Text_to_Maximal_Chars args:.\0)
-                ~ (Text_to_Maximal_Chars args:.\1))),
+            evaluates : (Text_from_Unicode_Codes::((Text_to_Unicode_Codes args:.\0)
+                ~ (Text_to_Unicode_Codes args:.\1))),
         )),
 
         replicate::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text, \@Integer_NN),
             implements : \@folder::"",
-            evaluates : (Text_from_Maximal_Chars::((Text_to_Maximal_Chars args:.\0) ~# args:.\1)),
+            evaluates : (Text_from_Unicode_Codes::((Text_to_Unicode_Codes args:.\0) ~# args:.\1)),
         )),
 
         to_Text::Text : (\Function : (
@@ -1605,28 +1599,16 @@ meta script 'Unicode 9.0 UTF-8'
             evaluates : (args:.\0),
         )),
 
-        Text_from_Maximal_Chars : (\Function : (
-            returns : \@Text,
-            matches : (\@String::Maximal_Chars,),
-            evaluates : ((\Text : (maximal_chars : args:.\0,))),
-        )),
-
-        Text_to_Maximal_Chars : (\Function : (
-            returns : \@String::Maximal_Chars,
-            matches : (\@Text,),
-            evaluates : (args:.\0:>.\maximal_chars),
-        )),
-
         Text_from_Unicode_Codes : (\Function : (
-            returns : \@Text::Unicode,
+            returns : \@Text,
             matches : (\@String::Unicode_Codes,),
-            evaluates : (Text_from_Maximal_Chars args:.\0),
+            evaluates : ((\Text : (unicode_codes : args:.\0,))),
         )),
 
         Text_to_Unicode_Codes : (\Function : (
             returns : \@String::Unicode_Codes,
-            matches : (\@Text::Unicode,),
-            evaluates : (Text_to_Maximal_Chars args:.\0),
+            matches : (\@Text,),
+            evaluates : (args:.\0:>.\unicode_codes),
         )),
 
         Text_from_ASCII_Chars : (\Function : (
