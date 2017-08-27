@@ -1247,14 +1247,14 @@ meta script 'Unicode 10.0 UTF-8'
 
         proper_substring_or_superstring : (\Function : (
             returns : \@Boolean,
-            matches : (\@String, \@String),
+            matches : (\@Stringy, \@Stringy),
             is_commutative : True,
             evaluates : (args:.\0 != args:.\1 and (args:.\0 substring_or_superstring args:.\1)),
         )),
 
         substring_or_superstring : (\Function : (
             returns : \@Boolean,
-            matches : (\@String, \@String),
+            matches : (\@Stringy, \@Stringy),
             is_commutative : True,
             evaluates : ((args:.\0 substring_of args:.\1) or (args:.\0 superstring_of args:.\1)),
         )),
@@ -1262,14 +1262,14 @@ meta script 'Unicode 10.0 UTF-8'
         overlaps_string::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
-            matches : (\@String, \@String),
+            matches : (\@Stringy, \@Stringy),
             is_commutative : True,
         )),
 
         disjoint_string::"" : (\Function : (
             virtual : True,
             returns : \@Boolean,
-            matches : (\@String, \@String),
+            matches : (\@Stringy, \@Stringy),
             is_commutative : True,
         )),
 
@@ -1300,22 +1300,22 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Bits,
                 attrs : (
-                    bits : \String::Bits(),
+                    bits : \Array::Bits(),
                 ),
             )),
             default : \~?'',
         )),
 
-        String::Bits : (\Function : (
+        Array::Bits : (\Function : (
             is_type_definer : True,
-            evaluates : [\String::(), \all::( 1: \in::( 1: 0..1 ) )],
+            evaluates : [\Array::(), \all::( 1: \in::( 1: 0..1 ) )],
         )),
 
         in_order::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
-            evaluates : ((Bits_to_String_Bits args:.\0) in_order (Bits_to_String_Bits args:.\1)),
+            evaluates : ((Bits_to_Array_Bits args:.\0) in_order (Bits_to_Array_Bits args:.\1)),
         )),
 
         to_Boolean::Bits : (\Function : (
@@ -1336,7 +1336,7 @@ meta script 'Unicode 10.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
-            evaluates : ((Bits_to_String_Bits args:.\0) substring_of (Bits_to_String_Bits args:.\1)),
+            evaluates : ((Bits_to_Array_Bits args:.\0) substring_of (Bits_to_Array_Bits args:.\1)),
         )),
 
         overlaps_string::Bits : (\Function : (
@@ -1344,8 +1344,8 @@ meta script 'Unicode 10.0 UTF-8'
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : ((Bits_to_String_Bits args:.\0)
-                overlaps_string (Bits_to_String_Bits args:.\1)),
+            evaluates : ((Bits_to_Array_Bits args:.\0)
+                overlaps_string (Bits_to_Array_Bits args:.\1)),
         )),
 
         disjoint_string::Bits : (\Function : (
@@ -1353,8 +1353,8 @@ meta script 'Unicode 10.0 UTF-8'
             matches : (\@Bits, \@Bits),
             implements : \@folder::"",
             is_commutative : True,
-            evaluates : ((Bits_to_String_Bits args:.\0)
-                disjoint_string (Bits_to_String_Bits args:.\1)),
+            evaluates : ((Bits_to_Array_Bits args:.\0)
+                disjoint_string (Bits_to_Array_Bits args:.\1)),
         )),
 
         catenate::Bits : (\Function : (
@@ -1364,25 +1364,25 @@ meta script 'Unicode 10.0 UTF-8'
             is_associative : True,
             identity : \~?'',
             repeater : \@replicate::Bits,
-            evaluates : (Bits_from_String_Bits::((Bits_to_String_Bits args:.\0)
-                ~ (Bits_to_String_Bits args:.\1))),
+            evaluates : (Bits_from_Array_Bits::((Bits_to_Array_Bits args:.\0)
+                ~ (Bits_to_Array_Bits args:.\1))),
         )),
 
         replicate::Bits : (\Function : (
             returns : \@Bits,
             matches : (\@Bits, \@Integer_NN),
             implements : \@folder::"",
-            evaluates : (Bits_from_String_Bits::((Bits_to_String_Bits args:.\0) ~# args:.\1)),
+            evaluates : (Bits_from_Array_Bits::((Bits_to_Array_Bits args:.\0) ~# args:.\1)),
         )),
 
-        Bits_from_String_Bits : (\Function : (
+        Bits_from_Array_Bits : (\Function : (
             returns : \@Bits,
-            matches : (\@String::Bits,),
+            matches : (\@Array::Bits,),
             evaluates : ((\Bits : (bits : args:.\0,))),
         )),
 
-        Bits_to_String_Bits : (\Function : (
-            returns : \@String::Bits,
+        Bits_to_Array_Bits : (\Function : (
+            returns : \@Array::Bits,
             matches : (\@Bits,),
             evaluates : (args:.\0:>.\bits),
         )),
@@ -1395,15 +1395,15 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Blob,
                 attrs : (
-                    octets : \String::Octets(),
+                    octets : \Array::Octets(),
                 ),
             )),
             default : \~+'',
         )),
 
-        String::Octets : (\Function : (
+        Array::Octets : (\Function : (
             is_type_definer : True,
-            evaluates : [\String::(), \all::( 1: \in::( 1: 0..255 ) )],
+            evaluates : [\Array::(), \all::( 1: \in::( 1: 0..255 ) )],
         )),
 
         in_order::Blob : (\Function : (
@@ -1469,12 +1469,12 @@ meta script 'Unicode 10.0 UTF-8'
 
         Blob_from_Octets : (\Function : (
             returns : \@Blob,
-            matches : (\@String::Octets,),
+            matches : (\@Array::Octets,),
             evaluates : ((\Blob : (octets : args:.\0,))),
         )),
 
         Blob_to_Octets : (\Function : (
-            returns : \@String::Octets,
+            returns : \@Array::Octets,
             matches : (\@Blob,),
             evaluates : (args:.\0:>.\octets),
         )),
@@ -1502,7 +1502,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Text,
                 attrs : (
-                    unicode_codes : \String::Unicode_Codes(),
+                    unicode_codes : \Array::Unicode_Codes(),
                 ),
             )),
             default : '',
@@ -1510,21 +1510,21 @@ meta script 'Unicode 10.0 UTF-8'
 
         Text::Unicode : (\Alias : ( of : \@Text, )),
 
-        String::Unicode_Codes : (\Function : (
+        Array::Unicode_Codes : (\Function : (
             is_type_definer : True,
-            evaluates : [\String::(),
+            evaluates : [\Array::(),
                 \all::( 1: \in::( 1: ?..{0..0xD7FF,0xE000..0x10FFFF} ) )],
         )),
 
         Text::ASCII : (\Function : (
             is_type_definer : True,
             evaluates : (Text::Unicode::(args:.\0) and_then guard
-                String::ASCII_Chars::(Text_from_Unicode_Codes args:.\0)),
+                Array::ASCII_Chars::(Text_from_Unicode_Codes args:.\0)),
         )),
 
-        String::ASCII_Chars : (\Function : (
+        Array::ASCII_Chars : (\Function : (
             is_type_definer : True,
-            evaluates : [\String::Unicode_Codes(), \all::( 1: \in::( 1: 0..127 ) )],
+            evaluates : [\Array::Unicode_Codes(), \all::( 1: \in::( 1: 0..127 ) )],
         )),
 
         in_order::Text : (\Function : (
@@ -1601,24 +1601,24 @@ meta script 'Unicode 10.0 UTF-8'
 
         Text_from_Unicode_Codes : (\Function : (
             returns : \@Text,
-            matches : (\@String::Unicode_Codes,),
+            matches : (\@Array::Unicode_Codes,),
             evaluates : ((\Text : (unicode_codes : args:.\0,))),
         )),
 
         Text_to_Unicode_Codes : (\Function : (
-            returns : \@String::Unicode_Codes,
+            returns : \@Array::Unicode_Codes,
             matches : (\@Text,),
             evaluates : (args:.\0:>.\unicode_codes),
         )),
 
         Text_from_ASCII_Chars : (\Function : (
             returns : \@Text::ASCII,
-            matches : (\@String::ASCII_Chars,),
+            matches : (\@Array::ASCII_Chars,),
             evaluates : (Text_from_Unicode_Codes args:.\0),
         )),
 
         Text_to_ASCII_Chars : (\Function : (
-            returns : \@String::ASCII_Chars,
+            returns : \@Array::ASCII_Chars,
             matches : (\@Text::ASCII,),
             evaluates : (Text_to_Unicode_Codes args:.\0),
         )),
@@ -1656,7 +1656,7 @@ meta script 'Unicode 10.0 UTF-8'
         Blob_is_ASCII : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob,),
-            evaluates : (String::ASCII_Chars(Blob_to_Octets args:.\0)),
+            evaluates : (Array::ASCII_Chars(Blob_to_Octets args:.\0)),
         )),
 
         Text_from_ASCII_Blob : (\Function : (
@@ -1664,7 +1664,7 @@ meta script 'Unicode 10.0 UTF-8'
             matches : (\@Blob,),
             evaluates : (
                 octets ::= Blob_to_Octets args:.\0;
-                returns if String::ASCII_Chars(octets)
+                returns if Array::ASCII_Chars(octets)
                     then guard Text_from_ASCII_Chars octets
                     else Excuse::ASCII::High_Bit_Not_Zero();
             ),
@@ -2412,17 +2412,12 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Array : (\Function : (
+        Array::"" : (\Function : (
             is_type_definer : True,
             composes : {\@Positional},
             provides_default_for : {\@Positional},
             evaluates : \foundation::is_a_Array(),
             default : [],
-        )),
-
-        String::"" : (\Function : (
-            is_type_definer : True,
-            evaluates : [\Array::(), \all::( 1: \Integer::() )],
         )),
 
         Array_C0 : (\Function : (
