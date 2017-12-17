@@ -3922,17 +3922,17 @@ meta script 'Unicode 10.0 UTF-8'
                     \(args:.\0:.\body all \(@args:.\0 = args:.\1) <-- (1: args:.\0:.\heading,)),
                 ],
             )),
-            default : (~%@()),
+            default : \~%(),
         )),
 
         Tuple_Array_D0C0 : (\Function : (
             is_type_definer : True,
-            constant : ~%@(),
+            constant : \~%(),
         )),
 
         Tuple_Array_D0C1 : (\Function : (
             is_type_definer : True,
-            constant : ~%[()],
+            constant : \~%[()],
         )),
 
         heading::Tuple_Array : (\Function : (
@@ -3972,17 +3972,17 @@ meta script 'Unicode 10.0 UTF-8'
                     \(args:.\0:.\body all \(@args:.\0 = args:.\1) <-- (1: args:.\0:.\heading,)),
                 ],
             )),
-            default : (?%@()),
+            default : \?%(),
         )),
 
         Relation_D0C0 : (\Function : (
             is_type_definer : True,
-            constant : ?%@(),
+            constant : \?%(),
         )),
 
         Relation_D0C1 : (\Function : (
             is_type_definer : True,
-            constant : ?%{()},
+            constant : \?%{()},
         )),
 
         heading::Relation : (\Function : (
@@ -4021,17 +4021,17 @@ meta script 'Unicode 10.0 UTF-8'
                     \(args:.\0:.\body all \(@args:.\0 = args:.\1) <-- (1: args:.\0:.\heading,)),
                 ],
             )),
-            default : (+%@()),
+            default : \+%(),
         )),
 
         Tuple_Bag_D0C0 : (\Function : (
             is_type_definer : True,
-            constant : +%@(),
+            constant : \+%(),
         )),
 
         Tuple_Bag_D0C1 : (\Function : (
             is_type_definer : True,
-            constant : +%{()},
+            constant : \+%{()},
         )),
 
         heading::Tuple_Bag : (\Function : (
