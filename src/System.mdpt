@@ -34,7 +34,7 @@ meta script 'Unicode 10.0 UTF-8'
             returns : \@Boolean,
             matches : (\@Any, \@Any),
             is_commutative : True,
-            evaluates : (evaluates args --> \foundation::same()),
+            evaluates : (evaluates args --> \foundation::Any_same()),
         )),
 
         "=" : (\Alias : ( of : \@same, )),
@@ -226,7 +226,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_type_definer : True,
             composes : {\@Bicessable, \@Boolable},
             provides_default_for : {\@Boolable},
-            evaluates : \foundation::is_a_Boolean(),
+            evaluates : \foundation::Boolean(),
             default : False,
         )),
 
@@ -661,7 +661,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_type_definer : True,
             composes : {\@Integral},
             provides_default_for : {\@Integral},
-            evaluates : \foundation::is_a_Integer(),
+            evaluates : \foundation::Integer(),
             default : 0,
         )),
 
@@ -2344,7 +2344,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_type_definer : True,
             composes : {\@Positional},
             provides_default_for : {\@Positional},
-            evaluates : \foundation::is_a_Array(),
+            evaluates : \foundation::Array(),
             default : [],
         )),
 
@@ -2880,7 +2880,7 @@ meta script 'Unicode 10.0 UTF-8'
         Bag : (\Function : (
             is_type_definer : True,
             composes : {\@Discrete},
-            evaluates : \foundation::is_a_Bag(),
+            evaluates : \foundation::Bag(),
             default : {0:0},
         )),
 
@@ -3456,7 +3456,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_type_definer : True,
             composes : {\@Structural},
             provides_default_for : {\@Structural},
-            evaluates : \foundation::is_a_Tuple(),
+            evaluates : \foundation::Tuple(),
             default : (),
         )),
 
@@ -4142,7 +4142,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         Capsule : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Capsule(),
+            evaluates : \foundation::Capsule(),
             default : (False : ()),
         )),
 
@@ -4150,27 +4150,27 @@ meta script 'Unicode 10.0 UTF-8'
 
         Handle : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Handle(),
+            evaluates : \foundation::Handle(),
         )),
 
         Variable : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Variable(),
+            evaluates : \foundation::Variable(),
         )),
 
         Process : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Process(),
+            evaluates : \foundation::Process(),
         )),
 
         Stream : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_Stream(),
+            evaluates : \foundation::Stream(),
         )),
 
         External::"" : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::is_a_External(),
+            evaluates : \foundation::External(),
         )),
 
         External::call_function : (\Function : (
