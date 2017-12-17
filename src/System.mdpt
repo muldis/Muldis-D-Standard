@@ -60,61 +60,9 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Excuse::"" : (\Function : (
-            is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
-                label : \Excuse,
-                attrs : (
-                    0 : \Any(),
-                ),
-            )),
-            default : (\Excuse : (\@Excuse::No_Reason,)),
-        )),
-
-        Excuse::No_Reason : (\Function : (
-            is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
-        )),
-
-        coalesce : (\Function : (
-            returns : \@Any,
-            matches : (\@Any, \@Any),
-            is_associative : True,
-            is_idempotent : True,
-            left_identity : (Excuse::No_Reason()),
-            evaluates : (if Excuse args:.\0 then args:.\1 else args:.\0),
-        )),
-
-        "??" : (\Alias : ( of : \@coalesce, )),
-
-        anticoalesce : (\Function : (
-            returns : \@Any,
-            matches : (\@Any, \@Any),
-            is_associative : True,
-            is_idempotent : True,
-            left_identity : True,
-            evaluates : (if Excuse args:.\0 then args:.\0 else args:.\1),
-        )),
-
-        "!!" : (\Alias : ( of : \@anticoalesce, )),
-
-`#########################################################################`
-
         Orderable::"" : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-        )),
-
-        Excuse::Before_All_Others : (\Function : (
-            is_type_definer : True,
-            composes : {\@Orderable},
-            constant : (\Excuse : (\@material,)),
-        )),
-
-        Excuse::After_All_Others : (\Function : (
-            is_type_definer : True,
-            composes : {\@Orderable},
-            constant : (\Excuse : (\@material,)),
         )),
 
         in_order::"" : (\Function : (
@@ -473,16 +421,6 @@ meta script 'Unicode 10.0 UTF-8'
             is_type_definer : True,
             is_generalization : True,
             composes : {\@Boolable},
-        )),
-
-        Excuse::Div_By_Zero : (\Function : (
-            is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
-        )),
-
-        Excuse::Zero_To_The_Zero : (\Function : (
-            is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
         )),
 
         to_Boolean::Numerical : (\Function : (
@@ -1196,11 +1134,6 @@ meta script 'Unicode 10.0 UTF-8'
             is_type_definer : True,
             is_generalization : True,
             composes : {\@Boolable},
-        )),
-
-        Excuse::No_Empty_Value : (\Function : (
-            is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
         )),
 
         to_Boolean::Emptyable : (\Function : (
@@ -2167,11 +2100,6 @@ meta script 'Unicode 10.0 UTF-8'
             is_generalization : True,
             composes : {\@Stringy, \@Discrete, \@Accessible},
             provides_default_for : {\@Discrete},
-        )),
-
-        Excuse::No_Such_Ord_Pos : (\Function : (
-            is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
         )),
 
         singular::Positional : (\Function : (
@@ -3198,16 +3126,6 @@ meta script 'Unicode 10.0 UTF-8'
         Attributive : (\Function : (
             is_type_definer : True,
             is_generalization : True,
-        )),
-
-        Excuse::No_Such_Attr_Name : (\Function : (
-            is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
-        )),
-
-        Excuse::Not_Same_Heading : (\Function : (
-            is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
         )),
 
         has_any_attrs::"" : (\Function : (
@@ -4260,6 +4178,88 @@ meta script 'Unicode 10.0 UTF-8'
             matches : (\@Any,),
             evaluates : (evaluates \foundation::External_call_function() <-- args),
         )),
+
+`#########################################################################`
+
+        Excuse::"" : (\Function : (
+            is_type_definer : True,
+            evaluates : (\@Signature::Capsule_Match : (
+                label : \Excuse,
+                attrs : (
+                    0 : \Any(),
+                ),
+            )),
+            default : (\Excuse : (\@Excuse::No_Reason,)),
+        )),
+
+        Excuse::No_Reason : (\Function : (
+            is_type_definer : True,
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::Before_All_Others : (\Function : (
+            is_type_definer : True,
+            composes : {\@Orderable},
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::After_All_Others : (\Function : (
+            is_type_definer : True,
+            composes : {\@Orderable},
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::Div_By_Zero : (\Function : (
+            is_type_definer : True,
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::Zero_To_The_Zero : (\Function : (
+            is_type_definer : True,
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::No_Empty_Value : (\Function : (
+            is_type_definer : True,
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::No_Such_Ord_Pos : (\Function : (
+            is_type_definer : True,
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::No_Such_Attr_Name : (\Function : (
+            is_type_definer : True,
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        Excuse::Not_Same_Heading : (\Function : (
+            is_type_definer : True,
+            constant : (\Excuse : (\@material,)),
+        )),
+
+        coalesce : (\Function : (
+            returns : \@Any,
+            matches : (\@Any, \@Any),
+            is_associative : True,
+            is_idempotent : True,
+            left_identity : (Excuse::No_Reason()),
+            evaluates : (if Excuse args:.\0 then args:.\1 else args:.\0),
+        )),
+
+        "??" : (\Alias : ( of : \@coalesce, )),
+
+        anticoalesce : (\Function : (
+            returns : \@Any,
+            matches : (\@Any, \@Any),
+            is_associative : True,
+            is_idempotent : True,
+            left_identity : True,
+            evaluates : (if Excuse args:.\0 then args:.\0 else args:.\1),
+        )),
+
+        "!!" : (\Alias : ( of : \@anticoalesce, )),
 
 `#########################################################################`
 
