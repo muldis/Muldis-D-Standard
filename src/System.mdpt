@@ -6,7 +6,7 @@ meta script 'Unicode 10.0 UTF-8'
 
 (\Package : (
     identity : (
-        package_base_name : [\Core],
+        package_base_name : [\System],
         authority : 'http://muldis.com',
         version_number : '0.201.0.-9',
     ),
