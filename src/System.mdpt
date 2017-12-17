@@ -73,28 +73,28 @@ meta script 'Unicode 10.0 UTF-8'
 
         in_order::Before_All_Others_L : (\Function : (
             returns : \@Boolean,
-            matches : (\@Excuse::Before_All_Others, \@Orderable),
+            matches : (\@Before_All_Others, \@Orderable),
             implements : \@folder::"",
             evaluates : (True),
         )),
 
         in_order::Before_All_Others_R : (\Function : (
             returns : \@Boolean,
-            matches : (\@Orderable, \@Excuse::Before_All_Others),
+            matches : (\@Orderable, \@Before_All_Others),
             implements : \@folder::"",
             evaluates : (args:.\0 = args:.\1),
         )),
 
         in_order::After_All_Others_L : (\Function : (
             returns : \@Boolean,
-            matches : (\@Excuse::After_All_Others, \@Orderable),
+            matches : (\@After_All_Others, \@Orderable),
             implements : \@folder::"",
             evaluates : (args:.\0 = args:.\1),
         )),
 
         in_order::After_All_Others_R : (\Function : (
             returns : \@Boolean,
-            matches : (\@Orderable, \@Excuse::After_All_Others),
+            matches : (\@Orderable, \@After_All_Others),
             implements : \@folder::"",
             evaluates : (True),
         )),
@@ -131,7 +131,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            identity : (Excuse::After_All_Others()),
+            identity : \!After_All_Others,
             evaluates : (if args:.\0 in_order args:.\1 then args:.\0 else args:.\1),
         )),
 
@@ -141,7 +141,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
-            identity : (Excuse::Before_All_Others()),
+            identity : \!Before_All_Others,
             evaluates : (if args:.\0 in_order args:.\1 then args:.\1 else args:.\0),
         )),
 
@@ -166,14 +166,14 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         succ : (\Function : (
-            returns : {\@Successable, \@Excuse::After_All_Others},
+            returns : {\@Successable, \@After_All_Others},
             matches : (\@Successable,),
             evaluates : (args:.\0 nth_succ 1),
         )),
 
         nth_succ::"" : (\Function : (
             virtual : True,
-            returns : {\@Successable, \@Excuse::After_All_Others},
+            returns : {\@Successable, \@After_All_Others},
             matches : (\@Successable, \@Integer_NN),
         )),
 
@@ -187,14 +187,14 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         pred : (\Function : (
-            returns : {\@Bicessable, \@Excuse::Before_All_Others},
+            returns : {\@Bicessable, \@Before_All_Others},
             matches : (\@Bicessable,),
             evaluates : (args:.\0 nth_pred 1),
         )),
 
         nth_pred::"" : (\Function : (
             virtual : True,
-            returns : {\@Bicessable, \@Excuse::Before_All_Others},
+            returns : {\@Bicessable, \@Before_All_Others},
             matches : (\@Bicessable, \@Integer_NN),
         )),
 
@@ -259,17 +259,17 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         nth_pred::Boolean : (\Function : (
-            returns : {\@False, \@Excuse::Before_All_Others},
+            returns : {\@False, \@Before_All_Others},
             matches : (\@Boolean, \@Integer_NN),
             implements : \@folder::"",
-            evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and args:.\0 then False else Excuse::Before_All_Others()),
+            evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and args:.\0 then False else \!Before_All_Others),
         )),
 
         nth_succ::Boolean : (\Function : (
-            returns : {\@True, \@Excuse::After_All_Others},
+            returns : {\@True, \@After_All_Others},
             matches : (\@Boolean, \@Integer_NN),
             implements : \@folder::"",
-            evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and !args:.\0 then True else Excuse::After_All_Others()),
+            evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and !args:.\0 then True else \!After_All_Others),
         )),
 
         to_Boolean::Boolean : (\Function : (
@@ -450,7 +450,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         reciprocal::"" : (\Function : (
             virtual : True,
-            returns : {\@Numerical, \@Excuse::Div_By_Zero},
+            returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical,),
         )),
 
@@ -516,14 +516,14 @@ meta script 'Unicode 10.0 UTF-8'
 
         multiple_of::"" : (\Function : (
             virtual : True,
-            returns : {\@Boolean, \@Excuse::Div_By_Zero},
+            returns : {\@Boolean, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical),
         )),
 
         nearest_multiple_of : (\Function : (
-            returns : {\@Numerical, \@Excuse::Div_By_Zero},
+            returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
-            evaluates : (if is_zero args:.\1 then Excuse::Div_By_Zero()
+            evaluates : (if is_zero args:.\1 then \!Div_By_Zero
                 else guard args:.\1 * (args:.\0 div args:.\1)),
         )),
 
@@ -531,7 +531,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         fractional_divided_by::"" : (\Function : (
             virtual : True,
-            returns : {\@Numerical, \@Excuse::Div_By_Zero},
+            returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical),
         )),
 
@@ -542,30 +542,30 @@ meta script 'Unicode 10.0 UTF-8'
 
         integral_divided_by::"" : (\Function : (
             virtual : True,
-            returns : {\@Numerical, \@Excuse::Div_By_Zero},
+            returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
         )),
 
         div : (\Alias : ( of : \@integral_divided_by, )),
 
         modulo : (\Function : (
-            returns : {\@Numerical, \@Excuse::Div_By_Zero},
+            returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
-            evaluates : (if is_zero args:.\1 then Excuse::Div_By_Zero()
+            evaluates : (if is_zero args:.\1 then \!Div_By_Zero
                 else guard args:.\0 - (args:.\0 nearest_multiple_of args:.\1)),
         )),
 
         mod : (\Alias : ( of : \@modulo, )),
 
         divided_by_and_modulo::"" : (\Function : (
-            returns : ({Numerical, Excuse::Div_By_Zero}, {Numerical, Excuse::Div_By_Zero}),
+            returns : ({\@Numerical, \@Div_By_Zero}, {\@Numerical, \@Div_By_Zero}),
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
             evaluates : ((args:.\0 div args:.\1, args:.\0 mod args:.\1)),
         )),
 
         integral_power::"" : (\Function : (
             virtual : True,
-            returns : {\@Numerical, \@Excuse::Zero_To_The_Zero},
+            returns : {\@Numerical, \@Zero_To_The_Zero},
             matches : (\@Numerical, \@Integral),
         )),
 
@@ -573,7 +573,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         integral_nn_power::"" : (\Function : (
             virtual : True,
-            returns : {\@Numerical, \@Excuse::Zero_To_The_Zero},
+            returns : {\@Numerical, \@Zero_To_The_Zero},
             matches : (\@Numerical, \@Integral_NN),
         )),
 
@@ -602,13 +602,13 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         "--" : (\Function : (
-            returns : {\@Integral, \@Excuse::Before_All_Others},
+            returns : {\@Integral, \@Before_All_Others},
             matches : (\@Integral,),
             evaluates : (pred args:.\0),
         )),
 
         "++" : (\Function : (
-            returns : {\@Integral, \@Excuse::After_All_Others},
+            returns : {\@Integral, \@After_All_Others},
             matches : (\@Integral,),
             evaluates : (succ args:.\0),
         )),
@@ -727,7 +727,7 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         reciprocal::Integer : (\Function : (
-            returns : {\@Fraction, \@Excuse::Div_By_Zero},
+            returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Integer,),
             implements : \@folder::"",
             evaluates : (1 / args:.\0),
@@ -771,15 +771,15 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         multiple_of::Integer : (\Function : (
-            returns : {\@Boolean, \@Excuse::Div_By_Zero},
+            returns : {\@Boolean, \@Div_By_Zero},
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
-            evaluates : (if args:.\1 = 0 then Excuse::Div_By_Zero()
+            evaluates : (if args:.\1 = 0 then \!Div_By_Zero
                 else guard evaluates args --> \foundation::Integer_multiple_of()),
         )),
 
         fractional_divided_by::Integer : (\Function : (
-            returns : {\@Fraction, \@Excuse::Div_By_Zero},
+            returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
             right_identity : 1,
@@ -787,7 +787,7 @@ meta script 'Unicode 10.0 UTF-8'
                 n ::= args:.\0;
                 d ::= args:.\1;
 
-                returns if d = 0 then Excuse::Div_By_Zero() else guard q;
+                returns if d = 0 then \!Div_By_Zero else guard q;
 
                 q ::= (\Fraction : (
                     numerator   : div::((if d > 0 then n else -n), gcd, RM::(\To_Zero)),
@@ -799,7 +799,7 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         integral_divided_by::Integer : (\Function : (
-            returns : {\@Integer, \@Excuse::Div_By_Zero},
+            returns : {\@Integer, \@Div_By_Zero},
             matches : (\@Integer, \@Integer, \@Round_Meth),
             implements : \@folder::"",
             right_identity : 1,
@@ -808,7 +808,7 @@ meta script 'Unicode 10.0 UTF-8'
                 divisor    ::= args:.\1;
                 round_meth ::= args:.\2;
 
-                returns if divisor = 0 then Excuse::Div_By_Zero() else guard e1;
+                returns if divisor = 0 then \!Div_By_Zero else guard e1;
 
                 e1 note 'This is the case where we are dividing by a non-zero.';
 
@@ -875,18 +875,18 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         integral_power::Integer : (\Function : (
-            returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
+            returns : {\@Fraction, \@Zero_To_The_Zero},
             matches : (\@Integer, \@Integer),
             implements : \@folder::"",
-            evaluates : (if args:.\0 = 0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
+            evaluates : (if args:.\0 = 0 and args:.\1 = 0 then \!Zero_To_The_Zero
                 else guard args:.\0 / 1 ** args:.\1),
         )),
 
         integral_nn_power::Integer : (\Function : (
-            returns : {\@Integer, \@Excuse::Zero_To_The_Zero},
+            returns : {\@Integer, \@Zero_To_The_Zero},
             matches : (\@Integer, \@Integer_NN),
             implements : \@folder::"",
-            evaluates : (if args:.\0 = 0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
+            evaluates : (if args:.\0 = 0 and args:.\1 = 0 then \!Zero_To_The_Zero
                 else guard evaluates args --> \foundation::Integer_nn_power()),
         )),
 
@@ -1000,10 +1000,10 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         reciprocal::Fraction : (\Function : (
-            returns : {\@Fraction, \@Excuse::Div_By_Zero},
+            returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Fraction,),
             implements : \@folder::"",
-            evaluates : (if args:.\0 = 0.0 then Excuse::Div_By_Zero()
+            evaluates : (if args:.\0 = 0.0 then \!Div_By_Zero
                 else guard (denominator args:.\0) / (numerator args:.\0)),
         )),
 
@@ -1063,24 +1063,24 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         multiple_of::Fraction : (\Function : (
-            returns : {\@Boolean, \@Excuse::Div_By_Zero},
+            returns : {\@Boolean, \@Div_By_Zero},
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
-            evaluates : (if args:.\1 = 0.0 then Excuse::Div_By_Zero()
+            evaluates : (if args:.\1 = 0.0 then \!Div_By_Zero
                 else guard (args:.\0 mod args:.\1) = 0.0),
         )),
 
         fractional_divided_by::Fraction : (\Function : (
-            returns : {\@Fraction, \@Excuse::Div_By_Zero},
+            returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Fraction, \@Fraction),
             implements : \@folder::"",
             right_identity : 1.0,
-            evaluates : (if args:.\1 = 0.0 then Excuse::Div_By_Zero()
+            evaluates : (if args:.\1 = 0.0 then \!Div_By_Zero
                 else guard args:.\0 * reciprocal::(args:.\1)),
         )),
 
         integral_divided_by::Fraction : (\Function : (
-            returns : {\@Fraction, \@Excuse::Div_By_Zero},
+            returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Fraction, \@Fraction, \@Round_Meth),
             implements : \@folder::"",
             right_identity : 1.0,
@@ -1088,13 +1088,13 @@ meta script 'Unicode 10.0 UTF-8'
                 d ::= lcm::(denominator args:.\0, denominator args:.\1);
                 n0 ::= (numerator args:.\0) * div::(d, denominator args:.\0, RM::(\To_Zero));
                 n1 ::= (numerator args:.\1) * div::(d, denominator args:.\1, RM::(\To_Zero));
-                returns if args:.\1 = 0.0 then Excuse::Div_By_Zero()
+                returns if args:.\1 = 0.0 then \!Div_By_Zero
                     else guard div::(n0 * d, n1 * d, args:.\2) / 1;
             ),
         )),
 
         integral_power::Fraction : (\Function : (
-            returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
+            returns : {\@Fraction, \@Zero_To_The_Zero},
             matches : (\@Fraction, \@Integer),
             implements : \@folder::"",
             evaluates : (evaluates \integral_nn_power::()
@@ -1102,10 +1102,10 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         integral_nn_power::Fraction : (\Function : (
-            returns : {\@Fraction, \@Excuse::Zero_To_The_Zero},
+            returns : {\@Fraction, \@Zero_To_The_Zero},
             matches : (\@Fraction, \@Integer_NN),
             implements : \@folder::"",
-            evaluates : (if args:.\0 = 0.0 and args:.\1 = 0 then Excuse::Zero_To_The_Zero()
+            evaluates : (if args:.\0 = 0.0 and args:.\1 = 0 then \!Zero_To_The_Zero
                 else guard ((numerator args:.\0) ** args:.\1) / ((denominator args:.\0) ** args:.\1)),
         )),
 
@@ -1153,7 +1153,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         empty::"" : (\Function : (
             virtual : True,
-            returns : {\@Emptyable, \@Excuse::No_Empty_Value},
+            returns : {\@Emptyable, \@No_Empty_Value},
             matches : (\@Emptyable,),
         )),
 
@@ -1563,7 +1563,7 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         Text_from_UTF_8_Blob : (\Function : (
-            returns : {\@Text::Unicode, \@Excuse::Unicode::..., ...},
+            returns : {\@Text::Unicode, \@Unicode::..., ...},
             matches : (\@Blob,),
             evaluates : (...),
         )),
@@ -1593,13 +1593,13 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         Text_from_ASCII_Blob : (\Function : (
-            returns : {\@Text::ASCII, \@Excuse::ASCII::High_Bit_Not_Zero},
+            returns : {\@Text::ASCII, \@ASCII::High_Bit_Not_Zero},
             matches : (\@Blob,),
             evaluates : (
                 octets ::= Blob_to_Octets args:.\0;
                 returns if Array::ASCII_Chars(octets)
                     then guard Text_from_ASCII_Chars octets
-                    else Excuse::ASCII::High_Bit_Not_Zero();
+                    else ASCII::High_Bit_Not_Zero();
             ),
         )),
 
@@ -2190,7 +2190,7 @@ meta script 'Unicode 10.0 UTF-8'
             returns : \@Any,
             matches : (\@Positional, \@Integer),
             implements : \@folder::"",
-            evaluates : (if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else Excuse::No_Such_Ord_Pos()),
+            evaluates : (if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else \!No_Such_Ord_Pos),
         )),
 
         replace_at::Positional : (\Function : (
@@ -3401,7 +3401,7 @@ meta script 'Unicode 10.0 UTF-8'
             returns : \@Any,
             matches : (\@Structural, \@Attr_Name),
             implements : \@folder::"",
-            evaluates : (if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else Excuse::No_Such_Attr_Name()),
+            evaluates : (if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else \!No_Such_Attr_Name),
         )),
 
         replace_at::Structure : (\Function : (
@@ -3645,11 +3645,11 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         has_n::Relational : (\Function : (
-            returns : {\@Boolean, \@Excuse::Not_Same_Heading},
+            returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard has_n::(|args:.\0, args:.\1, args:.\2)
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         multiplicity::Relational : (\Function : (
@@ -3674,38 +3674,38 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         subset_of::Relational : (\Function : (
-            returns : {\@Boolean, \@Excuse::Not_Same_Heading},
+            returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 subset_of |args:.\1
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         same_members::Relational : (\Function : (
-            returns : {\@Boolean, \@Excuse::Not_Same_Heading},
+            returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 same_members |args:.\1
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         overlaps_members::Relational : (\Function : (
-            returns : {\@Boolean, \@Excuse::Not_Same_Heading},
+            returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 overlaps_members |args:.\1
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         disjoint_members::Relational : (\Function : (
-            returns : {\@Boolean, \@Excuse::Not_Same_Heading},
+            returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 disjoint_members |args:.\1
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         any::Relational : (\Function : (
@@ -3716,72 +3716,72 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         insert_n::Relational : (\Function : (
-            returns : {\@Relational, \@Excuse::Not_Same_Heading},
+            returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: insert_n::(|args:.\0, args:.\1, args:.\2) )
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         remove_n::Relational : (\Function : (
-            returns : {\@Relational, \@Excuse::Not_Same_Heading},
+            returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer_NN),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: remove_n::(|args:.\0, args:.\1, args:.\2) )
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         member_plus::Relational : (\Function : (
-            returns : {\@Relational, \@Excuse::Not_Same_Heading},
+            returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_associative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 member_plus |args:.\1 )
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         except::Relational : (\Function : (
-            returns : {\@Relational, \@Excuse::Not_Same_Heading},
+            returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 except |args:.\1 )
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         intersect::Relational : (\Function : (
-            returns : {\@Relational, \@Excuse::Not_Same_Heading},
+            returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_associative : True,
             is_idempotent : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 intersect |args:.\1 )
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         union::Relational : (\Function : (
-            returns : {\@Relational, \@Excuse::Not_Same_Heading},
+            returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_idempotent : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 union |args:.\1 )
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         exclusive::Relational : (\Function : (
-            returns : {\@Relational, \@Excuse::Not_Same_Heading},
+            returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
             implements : \@folder::"",
             is_associative : True,
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 exclusive |args:.\1 )
-                else Excuse::Not_Same_Heading),
+                else \!Not_Same_Heading),
         )),
 
         nest::Relational : (\Function : (
@@ -3903,7 +3903,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         select_Relational::"" : (\Function : (
             virtual : True,
-            returns : {\@Relational, \@Excuse::...},
+            returns : {\@Relational, \@...},
             matches : (like : \@Relational, heading : \@Heading, body : \@Unionable),
         )),
 
@@ -3950,7 +3950,7 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         select_Relational::Tuple_Array : (\Function : (
-            returns : {\@Relational, \@Excuse::...},
+            returns : {\@Relational, \@...},
             matches : (like : \@Tuple_Array, heading : \@Heading, body : \@Array),
             implements : \@folder::"",
             evaluates : ((\Tuple_Array : (args %= \@(heading,body)))),
@@ -4000,7 +4000,7 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         select_Relational::Relation : (\Function : (
-            returns : {\@Relational, \@Excuse::...},
+            returns : {\@Relational, \@...},
             matches : (like : \@Relation, heading : \@Heading, body : \@Set),
             implements : \@folder::"",
             evaluates : ((\Relation : (args %= \@(heading,body)))),
@@ -4049,7 +4049,7 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         select_Relational::Tuple_Bag : (\Function : (
-            returns : {\@Relational, \@Excuse::...},
+            returns : {\@Relational, \@...},
             matches : (like : \@Tuple_Bag, heading : \@Heading, body : \@Bag),
             implements : \@folder::"",
             evaluates : ((\Tuple_Bag : (args %= \@(heading,body)))),
@@ -4072,7 +4072,7 @@ meta script 'Unicode 10.0 UTF-8'
                 label : \Interval,
                 attrs : \Interval_Attrs::(),
             )),
-            default : (Excuse::Before_All_Others()..Excuse::After_All_Others()),
+            default : (\!Before_All_Others..\!After_All_Others),
         )),
 
         Interval_Attrs : (\Function : (
@@ -4181,7 +4181,7 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Excuse::"" : (\Function : (
+        Excuse : (\Function : (
             is_type_definer : True,
             evaluates : (\@Signature::Capsule_Match : (
                 label : \Excuse,
@@ -4189,54 +4189,54 @@ meta script 'Unicode 10.0 UTF-8'
                     0 : \Any(),
                 ),
             )),
-            default : (\Excuse : (\@Excuse::No_Reason,)),
+            default : \!No_Reason,
         )),
 
-        Excuse::No_Reason : (\Function : (
+        No_Reason : (\Function : (
             is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
+            constant : \!No_Reason,
         )),
 
-        Excuse::Before_All_Others : (\Function : (
-            is_type_definer : True,
-            composes : {\@Orderable},
-            constant : (\Excuse : (\@material,)),
-        )),
-
-        Excuse::After_All_Others : (\Function : (
+        Before_All_Others : (\Function : (
             is_type_definer : True,
             composes : {\@Orderable},
-            constant : (\Excuse : (\@material,)),
+            constant : \!Before_All_Others,
         )),
 
-        Excuse::Div_By_Zero : (\Function : (
+        After_All_Others : (\Function : (
             is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
+            composes : {\@Orderable},
+            constant : \!After_All_Others,
         )),
 
-        Excuse::Zero_To_The_Zero : (\Function : (
+        Div_By_Zero : (\Function : (
             is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
+            constant : \!Div_By_Zero,
         )),
 
-        Excuse::No_Empty_Value : (\Function : (
+        Zero_To_The_Zero : (\Function : (
             is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
+            constant : \!Zero_To_The_Zero,
         )),
 
-        Excuse::No_Such_Ord_Pos : (\Function : (
+        No_Empty_Value : (\Function : (
             is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
+            constant : \!No_Empty_Value,
         )),
 
-        Excuse::No_Such_Attr_Name : (\Function : (
+        No_Such_Ord_Pos : (\Function : (
             is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
+            constant : \!No_Such_Ord_Pos,
         )),
 
-        Excuse::Not_Same_Heading : (\Function : (
+        No_Such_Attr_Name : (\Function : (
             is_type_definer : True,
-            constant : (\Excuse : (\@material,)),
+            constant : \!No_Such_Attr_Name,
+        )),
+
+        Not_Same_Heading : (\Function : (
+            is_type_definer : True,
+            constant : \!Not_Same_Heading,
         )),
 
         coalesce : (\Function : (
@@ -4244,7 +4244,7 @@ meta script 'Unicode 10.0 UTF-8'
             matches : (\@Any, \@Any),
             is_associative : True,
             is_idempotent : True,
-            left_identity : (Excuse::No_Reason()),
+            left_identity : \!No_Reason,
             evaluates : (if Excuse args:.\0 then args:.\1 else args:.\0),
         )),
 
