@@ -1,5 +1,5 @@
-Muldis_D Plain_Text 'http://muldis.com' '0.201.0.-9'
-meta script 'Unicode 10.0 UTF-8'
+Muldis_D Plain_Text "http://muldis.com" "0.201.0.-9"
+meta script "Unicode 10.0 UTF-8"
 
 `#########################################################################`
 `#########################################################################`
@@ -7,12 +7,12 @@ meta script 'Unicode 10.0 UTF-8'
 (\Package : (
     identity : (
         package_base_name : [\System],
-        authority : 'http://muldis.com',
-        version_number : '0.201.0.-9',
+        authority : "http://muldis.com",
+        version_number : "0.201.0.-9",
     ),
     foundation : (
-        authority : 'http://muldis.com',
-        version_number : '0.201.0.-9',
+        authority : "http://muldis.com",
+        version_number : "0.201.0.-9",
     ),
     floating : {\@package},
     materials : (
@@ -37,16 +37,16 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (evaluates args --> \foundation::Any_same()),
         )),
 
-        "=" : (\Alias : ( of : \@same, )),
+        '=' : (\Alias : ( of : \@same, )),
 
         not_same : (\Function : (
             negates : \@same,
             is_commutative : True,
         )),
 
-        "!=" : (\Alias : ( of : \@not_same, )),
+        '!=' : (\Alias : ( of : \@not_same, )),
 
-        Unicode_Aliases::"≠" : (\Alias : ( of : \@not_same, )),
+        Unicode_Aliases::'≠' : (\Alias : ( of : \@not_same, )),
 
         is_a : (\Function : (
             returns : \@Boolean,
@@ -60,12 +60,12 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Orderable::"" : (\Function : (
+        Orderable::'' : (\Function : (
             is_type_definer : True,
             is_generalization : True,
         )),
 
-        in_order::"" : (\Function : (
+        in_order::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Orderable, \@Orderable),
@@ -74,28 +74,28 @@ meta script 'Unicode 10.0 UTF-8'
         in_order::Before_All_Others_L : (\Function : (
             returns : \@Boolean,
             matches : (\@Before_All_Others, \@Orderable),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (True),
         )),
 
         in_order::Before_All_Others_R : (\Function : (
             returns : \@Boolean,
             matches : (\@Orderable, \@Before_All_Others),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 = args:.\1),
         )),
 
         in_order::After_All_Others_L : (\Function : (
             returns : \@Boolean,
             matches : (\@After_All_Others, \@Orderable),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 = args:.\1),
         )),
 
         in_order::After_All_Others_R : (\Function : (
             returns : \@Boolean,
             matches : (\@Orderable, \@After_All_Others),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (True),
         )),
 
@@ -103,27 +103,27 @@ meta script 'Unicode 10.0 UTF-8'
             commutes : \@after,
         )),
 
-        "<" : (\Alias : ( of : \@before, )),
+        '<' : (\Alias : ( of : \@before, )),
 
         after : (\Function : (
             negates : \@before_or_same,
         )),
 
-        ">" : (\Alias : ( of : \@after, )),
+        '>' : (\Alias : ( of : \@after, )),
 
         before_or_same : (\Alias : ( of : \@in_order, )),
 
-        "<=" : (\Alias : ( of : \@before_or_same, )),
+        '<=' : (\Alias : ( of : \@before_or_same, )),
 
-        Unicode_Aliases::"≤" : (\Alias : ( of : \@before_or_same, )),
+        Unicode_Aliases::'≤' : (\Alias : ( of : \@before_or_same, )),
 
         after_or_same : (\Function : (
             commutes : \@before_or_same,
         )),
 
-        ">=" : (\Alias : ( of : \@after_or_same, )),
+        '>=' : (\Alias : ( of : \@after_or_same, )),
 
-        Unicode_Aliases::"≥" : (\Alias : ( of : \@after_or_same, )),
+        Unicode_Aliases::'≥' : (\Alias : ( of : \@after_or_same, )),
 
         min : (\Function : (
             returns : \@Orderable,
@@ -159,7 +159,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_generalization : True,
         )),
 
-        asset::"" : (\Function : (
+        asset::'' : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Successable,),
@@ -171,7 +171,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 nth_succ 1),
         )),
 
-        nth_succ::"" : (\Function : (
+        nth_succ::'' : (\Function : (
             virtual : True,
             returns : {\@Successable, \@After_All_Others},
             matches : (\@Successable, \@Integer_NN),
@@ -192,7 +192,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 nth_pred 1),
         )),
 
-        nth_pred::"" : (\Function : (
+        nth_pred::'' : (\Function : (
             virtual : True,
             returns : {\@Bicessable, \@Before_All_Others},
             matches : (\@Bicessable, \@Integer_NN),
@@ -205,20 +205,20 @@ meta script 'Unicode 10.0 UTF-8'
             is_generalization : True,
         )),
 
-        to_Boolean::"" : (\Function : (
+        to_Boolean::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Boolable,),
         )),
 
         so  : (\Alias : ( of : \@to_Boolean, )),
-        "?" : (\Alias : ( of : \@to_Boolean, )),
+        '?' : (\Alias : ( of : \@to_Boolean, )),
 
         not_so : (\Function : (
             negates : \@to_Boolean,
         )),
 
-        "!?" : (\Alias : ( of : \@not_so, )),
+        '!?' : (\Alias : ( of : \@not_so, )),
 
 `#########################################################################`
 
@@ -235,47 +235,47 @@ meta script 'Unicode 10.0 UTF-8'
             constant : False,
         )),
 
-        Unicode_Aliases::"⊥" : (\Alias : ( of : \@False, )),
+        Unicode_Aliases::'⊥' : (\Alias : ( of : \@False, )),
 
         True : (\Function : (
             is_type_definer : True,
             constant : True,
         )),
 
-        Unicode_Aliases::"⊤" : (\Alias : ( of : \@True, )),
+        Unicode_Aliases::'⊤' : (\Alias : ( of : \@True, )),
 
         in_order::Boolean : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean, \@Boolean),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (!args:.\0 or args:.\1),
         )),
 
         asset::Boolean : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
         nth_pred::Boolean : (\Function : (
             returns : {\@False, \@Before_All_Others},
             matches : (\@Boolean, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and args:.\0 then False else \!Before_All_Others),
         )),
 
         nth_succ::Boolean : (\Function : (
             returns : {\@True, \@After_All_Others},
             matches : (\@Boolean, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\1 = 0 then args:.\0 else if args:.\1 = 1 and !args:.\0 then True else \!After_All_Others),
         )),
 
         to_Boolean::Boolean : (\Function : (
             returns : \@Boolean,
             matches : (\@Boolean,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
@@ -283,9 +283,9 @@ meta script 'Unicode 10.0 UTF-8'
             negates : \@to_Boolean::Boolean,
         )),
 
-        "!" : (\Alias : ( of : \@not, )),
+        '!' : (\Alias : ( of : \@not, )),
 
-        Unicode_Aliases::"¬" : (\Alias : ( of : \@not, )),
+        Unicode_Aliases::'¬' : (\Alias : ( of : \@not, )),
 
         and : (\Function : (
             returns : \@Boolean,
@@ -297,7 +297,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 and_then args:.\1),
         )),
 
-        Unicode_Aliases::"∧" : (\Alias : ( of : \@and, )),
+        Unicode_Aliases::'∧' : (\Alias : ( of : \@and, )),
 
         nand : (\Function : (
             negates : \@and,
@@ -306,8 +306,8 @@ meta script 'Unicode 10.0 UTF-8'
 
         not_and : (\Alias : ( of : \@nand, )),
 
-        Unicode_Aliases::"⊼" : (\Alias : ( of : \@nand, )),
-        Unicode_Aliases::"↑" : (\Alias : ( of : \@nand, )),
+        Unicode_Aliases::'⊼' : (\Alias : ( of : \@nand, )),
+        Unicode_Aliases::'↑' : (\Alias : ( of : \@nand, )),
 
         or : (\Function : (
             returns : \@Boolean,
@@ -319,7 +319,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 or_else args:.\1),
         )),
 
-        Unicode_Aliases::"∨" : (\Alias : ( of : \@or, )),
+        Unicode_Aliases::'∨' : (\Alias : ( of : \@or, )),
 
         nor : (\Function : (
             negates : \@or,
@@ -328,8 +328,8 @@ meta script 'Unicode 10.0 UTF-8'
 
         not_or : (\Alias : ( of : \@nor, )),
 
-        Unicode_Aliases::"⊽" : (\Alias : ( of : \@nor, )),
-        Unicode_Aliases::"↓" : (\Alias : ( of : \@nor, )),
+        Unicode_Aliases::'⊽' : (\Alias : ( of : \@nor, )),
+        Unicode_Aliases::'↓' : (\Alias : ( of : \@nor, )),
 
         xnor : (\Function : (
             returns : \@Boolean,
@@ -342,7 +342,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         iff : (\Alias : ( of : \@xnor, )),
 
-        Unicode_Aliases::"↔" : (\Alias : ( of : \@xnor, )),
+        Unicode_Aliases::'↔' : (\Alias : ( of : \@xnor, )),
 
         xor : (\Function : (
             negates : \@xnor,
@@ -351,8 +351,8 @@ meta script 'Unicode 10.0 UTF-8'
             identity : False,
         )),
 
-        Unicode_Aliases::"⊻" : (\Alias : ( of : \@xor, )),
-        Unicode_Aliases::"↮" : (\Alias : ( of : \@xor, )),
+        Unicode_Aliases::'⊻' : (\Alias : ( of : \@xor, )),
+        Unicode_Aliases::'↮' : (\Alias : ( of : \@xor, )),
 
         imp : (\Function : (
             returns : \@Boolean,
@@ -362,7 +362,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         implies : (\Alias : ( of : \@imp, )),
 
-        Unicode_Aliases::"→" : (\Alias : ( of : \@imp, )),
+        Unicode_Aliases::'→' : (\Alias : ( of : \@imp, )),
 
         nimp : (\Function : (
             negates : \@imp,
@@ -370,13 +370,13 @@ meta script 'Unicode 10.0 UTF-8'
 
         not_implies : (\Alias : ( of : \@nimp, )),
 
-        Unicode_Aliases::"↛" : (\Alias : ( of : \@nimp, )),
+        Unicode_Aliases::'↛' : (\Alias : ( of : \@nimp, )),
 
         if : (\Function : (
             commutes : \@imp,
         )),
 
-        Unicode_Aliases::"←" : (\Alias : ( of : \@if, )),
+        Unicode_Aliases::'←' : (\Alias : ( of : \@if, )),
 
         nif : (\Function : (
             commutes : \@nimp,
@@ -384,7 +384,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         not_if : (\Alias : ( of : \@nif, )),
 
-        Unicode_Aliases::"↚" : (\Alias : ( of : \@nif, )),
+        Unicode_Aliases::'↚' : (\Alias : ( of : \@nif, )),
 
 `#########################################################################`
 
@@ -401,7 +401,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         Round_Meth_Attr_Name : (\Function : (
             is_type_definer : True,
-            evaluates : [\Attr_Name::(), \"⊆@"::( 1:
+            evaluates : [\Attr_Name::(), \'⊆@'::( 1:
                 \@(Down,Up,To_Zero,To_Inf
                 ,Half_Down,Half_Up,Half_To_Zero,Half_To_Inf
                 ,Half_Even,Half_Odd)
@@ -427,20 +427,20 @@ meta script 'Unicode 10.0 UTF-8'
             virtual : True,
             returns : \@Boolean,
             matches : (\@Numerical,),
-            implements : \@folder::"",
+            implements : \@folder::'',
         )),
 
         is_zero : (\Function : (
             negates : \@to_Boolean::Numerical,
         )),
 
-        zero::"" : (\Function : (
+        zero::'' : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical,),
         )),
 
-        opposite::"" : (\Function : (
+        opposite::'' : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical,),
@@ -448,7 +448,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         additive_inverse : (\Alias : ( of : \@opposite, )),
 
-        reciprocal::"" : (\Function : (
+        reciprocal::'' : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical,),
@@ -456,7 +456,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         multiplicative_inverse : (\Alias : ( of : \@reciprocal, )),
 
-        modulus::"" : (\Function : (
+        modulus::'' : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical,),
@@ -464,7 +464,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         abs : (\Alias : ( of : \@modulus, )),
 
-        plus::"" : (\Function : (
+        plus::'' : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
@@ -473,21 +473,21 @@ meta script 'Unicode 10.0 UTF-8'
             repeater : \@times,
         )),
 
-        "+" : (\Alias : ( of : \@plus, )),
+        '+' : (\Alias : ( of : \@plus, )),
 
-        minus::"" : (\Function : (
+        minus::'' : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
         )),
 
-        "-" : (\Function : (
+        '-' : (\Function : (
             returns : \@Numerical,
             matches : {(\@Numerical), (\@Numerical, \@Numerical)},
             evaluates : (evaluates args --> (if degree::(args) = 1 then \opposite::() else \minus::())),
         )),
 
-        Unicode_Aliases::"−" : (\Alias : ( of : "-" )),
+        Unicode_Aliases::'−' : (\Alias : ( of : '-' )),
 
         modulus_minus : (\Function : (
             returns : \@Numerical,
@@ -497,11 +497,11 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         abs_minus : (\Alias : ( of : \@modulus_minus, )),
-        "|-|"     : (\Alias : ( of : \@modulus_minus, )),
+        '|-|'     : (\Alias : ( of : \@modulus_minus, )),
 
-        Unicode_Aliases::"|−|" : (\Alias : ( of : \@modulus_minus, )),
+        Unicode_Aliases::'|−|' : (\Alias : ( of : \@modulus_minus, )),
 
-        times::"" : (\Function : (
+        times::'' : (\Function : (
             virtual : True,
             returns : \@Numerical,
             matches : (\@Numerical, \@Numerical),
@@ -510,11 +510,11 @@ meta script 'Unicode 10.0 UTF-8'
             repeater : \@integral_nn_power,
         )),
 
-        "*" : (\Alias : ( of : \@times, )),
+        '*' : (\Alias : ( of : \@times, )),
 
-        Unicode_Aliases::"×" : (\Alias : ( of : \@times, )),
+        Unicode_Aliases::'×' : (\Alias : ( of : \@times, )),
 
-        multiple_of::"" : (\Function : (
+        multiple_of::'' : (\Function : (
             virtual : True,
             returns : {\@Boolean, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical),
@@ -529,18 +529,18 @@ meta script 'Unicode 10.0 UTF-8'
 
         round : (\Alias : ( of : \@nearest_multiple_of, )),
 
-        fractional_divided_by::"" : (\Function : (
+        fractional_divided_by::'' : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical),
         )),
 
-        "/" : (\Alias : ( of : \@fractional_divided_by, )),
+        '/' : (\Alias : ( of : \@fractional_divided_by, )),
 
-        Unicode_Aliases::"÷" : (\Alias : ( of : \@fractional_divided_by, )),
-        Unicode_Aliases::"∕" : (\Alias : ( of : \@fractional_divided_by, )),
+        Unicode_Aliases::'÷' : (\Alias : ( of : \@fractional_divided_by, )),
+        Unicode_Aliases::'∕' : (\Alias : ( of : \@fractional_divided_by, )),
 
-        integral_divided_by::"" : (\Function : (
+        integral_divided_by::'' : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Div_By_Zero},
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
@@ -557,21 +557,21 @@ meta script 'Unicode 10.0 UTF-8'
 
         mod : (\Alias : ( of : \@modulo, )),
 
-        divided_by_and_modulo::"" : (\Function : (
+        divided_by_and_modulo::'' : (\Function : (
             returns : ({\@Numerical, \@Div_By_Zero}, {\@Numerical, \@Div_By_Zero}),
             matches : (\@Numerical, \@Numerical, \@Round_Meth),
             evaluates : ((args:.\0 div args:.\1, args:.\0 mod args:.\1)),
         )),
 
-        integral_power::"" : (\Function : (
+        integral_power::'' : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Zero_To_The_Zero},
             matches : (\@Numerical, \@Integral),
         )),
 
-        "**" : (\Alias : ( of : \@integral_power, )),
+        '**' : (\Alias : ( of : \@integral_power, )),
 
-        integral_nn_power::"" : (\Function : (
+        integral_nn_power::'' : (\Function : (
             virtual : True,
             returns : {\@Numerical, \@Zero_To_The_Zero},
             matches : (\@Numerical, \@Integral_NN),
@@ -581,7 +581,7 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Integral::"" : (\Function : (
+        Integral::'' : (\Function : (
             is_type_definer : True,
             is_generalization : True,
             composes : {\@Bicessable, \@Numerical},
@@ -601,25 +601,25 @@ meta script 'Unicode 10.0 UTF-8'
             default : (succ::(Integral::())),
         )),
 
-        "--" : (\Function : (
+        '--' : (\Function : (
             returns : {\@Integral, \@Before_All_Others},
             matches : (\@Integral,),
             evaluates : (pred args:.\0),
         )),
 
-        "++" : (\Function : (
+        '++' : (\Function : (
             returns : {\@Integral, \@After_All_Others},
             matches : (\@Integral,),
             evaluates : (succ args:.\0),
         )),
 
-        to_Integer::"" : (\Function : (
+        to_Integer::'' : (\Function : (
             virtual : True,
             returns : \@Integer,
             matches : (\@Integral,),
         )),
 
-        factorial::"" : (\Function : (
+        factorial::'' : (\Function : (
             virtual : True,
             returns : \@Integral_P,
             matches : (\@Integral_NN,),
@@ -632,7 +632,7 @@ meta script 'Unicode 10.0 UTF-8'
             is_commutative : True,
             is_idempotent : True,
             evaluates : ((if is_zero args:.\1 then args:.\0 else guard material::(args:.\1, mod::(args:.\0, args:.\1, RM::(\To_Zero))))
-                note 'Calculate using the Euclidean algorithm.'),
+                note "Calculate using the Euclidean algorithm."),
         )),
 
         greatest_common_divisor : (\Alias : ( of : \@gcd, )),
@@ -657,7 +657,7 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Integer::"" : (\Function : (
+        Integer::'' : (\Function : (
             is_type_definer : True,
             composes : {\@Integral},
             provides_default_for : {\@Integral},
@@ -667,26 +667,26 @@ meta script 'Unicode 10.0 UTF-8'
 
         Integer_NN : (\Function : (
             is_type_definer : True,
-            evaluates : [\Integer::(), \">="::( 1: 0 )],
+            evaluates : [\Integer::(), \'>='::( 1: 0 )],
         )),
 
         Integer_P : (\Function : (
             is_type_definer : True,
-            evaluates : [\Integer_NN::(), \">"::( 1: 0 )],
+            evaluates : [\Integer_NN::(), \'>'::( 1: 0 )],
             default : 1,
         )),
 
         in_order::Integer : (\Function : (
             returns : \@Boolean,
             matches : (\@Integer, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Integer_in_order()),
         )),
 
         asset::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
@@ -708,42 +708,42 @@ meta script 'Unicode 10.0 UTF-8'
         to_Boolean::Integer : (\Function : (
             returns : \@Boolean,
             matches : (\@Integer,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 != 0),
         )),
 
         zero::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (0),
         )),
 
         opposite::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Integer_opposite()),
         )),
 
         reciprocal::Integer : (\Function : (
             returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Integer,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (1 / args:.\0),
         )),
 
         modulus::Integer : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Integer,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Integer_modulus()),
         )),
 
         plus::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             identity : 0,
@@ -754,7 +754,7 @@ meta script 'Unicode 10.0 UTF-8'
         minus::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : 0,
             evaluates : (evaluates args --> \foundation::Integer_minus()),
         )),
@@ -762,7 +762,7 @@ meta script 'Unicode 10.0 UTF-8'
         times::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             identity : 1,
@@ -773,7 +773,7 @@ meta script 'Unicode 10.0 UTF-8'
         multiple_of::Integer : (\Function : (
             returns : {\@Boolean, \@Div_By_Zero},
             matches : (\@Integer, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\1 = 0 then \!Div_By_Zero
                 else guard evaluates args --> \foundation::Integer_multiple_of()),
         )),
@@ -781,7 +781,7 @@ meta script 'Unicode 10.0 UTF-8'
         fractional_divided_by::Integer : (\Function : (
             returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Integer, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : 1,
             evaluates : (
                 n ::= args:.\0;
@@ -801,7 +801,7 @@ meta script 'Unicode 10.0 UTF-8'
         integral_divided_by::Integer : (\Function : (
             returns : {\@Integer, \@Div_By_Zero},
             matches : (\@Integer, \@Integer, \@Round_Meth),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : 1,
             evaluates : (
                 dividend   ::= args:.\0;
@@ -810,7 +810,7 @@ meta script 'Unicode 10.0 UTF-8'
 
                 returns if divisor = 0 then \!Div_By_Zero else guard e1;
 
-                e1 note 'This is the case where we are dividing by a non-zero.';
+                e1 note "This is the case where we are dividing by a non-zero.";
 
                 e1 ::=   if dividend = 0       then 0
                     else if divisor  = 1       then dividend
@@ -819,8 +819,8 @@ meta script 'Unicode 10.0 UTF-8'
                     else                            e2
                 ;
 
-                e2 note 'This is the case where the divisor and dividend do not'
-                    ' equal each other and neither of them is a zero or a one.';
+                e2 note "This is the case where the divisor and dividend do not"
+                    " equal each other and neither of them is a zero or a one.";
 
                 e2 ::= (
                     real_q_is_neg ::= dividend < 0 xor divisor < 0;
@@ -830,9 +830,9 @@ meta script 'Unicode 10.0 UTF-8'
                     returns if rtz_remainder = 0 then rtz_quotient else e3;
                 );
 
-                e3 note 'This is the case where the divisor does not divide the'
-                    ' dividend evenly and the real number division result would'
-                    ' have a fractional part, so we decide how to round that.';
+                e3 note "This is the case where the divisor does not divide the"
+                    " dividend evenly and the real number division result would"
+                    " have a fractional part, so we decide how to round that.";
 
                 e3 ::= (
                     rti_quotient ::= rtz_quotient + (if real_q_is_neg then -1 else 1);
@@ -851,8 +851,8 @@ meta script 'Unicode 10.0 UTF-8'
                     ;
                 );
 
-                e4 note 'This is the case where real division remainder is'
-                    ' exactly one-half so we decide how to round that.';
+                e4 note "This is the case where real division remainder is"
+                    " exactly one-half so we decide how to round that.";
 
                 e4 ::= (
                     q ::= foundation::Integer_divided_by_rtz(abs::(rtz_quotient),2)
@@ -877,7 +877,7 @@ meta script 'Unicode 10.0 UTF-8'
         integral_power::Integer : (\Function : (
             returns : {\@Fraction, \@Zero_To_The_Zero},
             matches : (\@Integer, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 = 0 and args:.\1 = 0 then \!Zero_To_The_Zero
                 else guard args:.\0 / 1 ** args:.\1),
         )),
@@ -885,7 +885,7 @@ meta script 'Unicode 10.0 UTF-8'
         integral_nn_power::Integer : (\Function : (
             returns : {\@Integer, \@Zero_To_The_Zero},
             matches : (\@Integer, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 = 0 and args:.\1 = 0 then \!Zero_To_The_Zero
                 else guard evaluates args --> \foundation::Integer_nn_power()),
         )),
@@ -893,20 +893,20 @@ meta script 'Unicode 10.0 UTF-8'
         to_Integer::Integer : (\Function : (
             returns : \@Integer,
             matches : (\@Integer,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
         factorial::Integer : (\Function : (
             returns : \@Integer_P,
             matches : (\@Integer_NN,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Integer_factorial()),
         )),
 
 `#########################################################################`
 
-        Fractional::"" : (\Function : (
+        Fractional::'' : (\Function : (
             is_type_definer : True,
             is_generalization : True,
             composes : {\@Orderable, \@Numerical},
@@ -918,19 +918,19 @@ meta script 'Unicode 10.0 UTF-8'
                 args:.\0 >= zero::(args:.\0)),
         )),
 
-        to_Fraction::"" : (\Function : (
+        to_Fraction::'' : (\Function : (
             virtual : True,
             returns : \@Fraction,
             matches : (\@Fractional,),
         )),
 
-        numerator::"" : (\Function : (
+        numerator::'' : (\Function : (
             virtual : True,
             returns : \@Integral,
             matches : (\@Fractional,),
         )),
 
-        denominator::"" : (\Function : (
+        denominator::'' : (\Function : (
             virtual : True,
             returns : \@Integral_P,
             matches : (\@Fractional,),
@@ -938,7 +938,7 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Fraction::"" : (\Function : (
+        Fraction::'' : (\Function : (
             is_type_definer : True,
             composes : {\@Fractional},
             provides_default_for : {\@Fractional},
@@ -957,13 +957,13 @@ meta script 'Unicode 10.0 UTF-8'
 
         Fraction_NN : (\Function : (
             is_type_definer : True,
-            evaluates : [\Fraction::(), \">="::( 1: 0.0 )],
+            evaluates : [\Fraction::(), \'>='::( 1: 0.0 )],
         )),
 
         in_order::Fraction : (\Function : (
             returns : \@Boolean,
             matches : (\@Fraction, \@Fraction),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (
                 if (denominator args:.\0) = (denominator args:.\1)
                     then in_order::(numerator args:.\0, numerator args:.\1)
@@ -981,28 +981,28 @@ meta script 'Unicode 10.0 UTF-8'
         to_Boolean::Fraction : (\Function : (
             returns : \@Boolean,
             matches : (\@Fraction,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 != 0.0),
         )),
 
         zero::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (0.0),
         )),
 
         opposite::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (-(numerator args:.\0) / (denominator args:.\0)),
         )),
 
         reciprocal::Fraction : (\Function : (
             returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Fraction,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 = 0.0 then \!Div_By_Zero
                 else guard (denominator args:.\0) / (numerator args:.\0)),
         )),
@@ -1010,14 +1010,14 @@ meta script 'Unicode 10.0 UTF-8'
         modulus::Fraction : (\Function : (
             returns : \@Fraction_NN,
             matches : (\@Fraction,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (abs::(numerator args:.\0) / (denominator args:.\0)),
         )),
 
         plus::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             identity : 0.0,
@@ -1038,7 +1038,7 @@ meta script 'Unicode 10.0 UTF-8'
         minus::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : 0.0,
             evaluates : (args:.\0 + -args:.\1),
         )),
@@ -1046,7 +1046,7 @@ meta script 'Unicode 10.0 UTF-8'
         times::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Fraction),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             identity : 1.0,
@@ -1058,14 +1058,14 @@ meta script 'Unicode 10.0 UTF-8'
         times::Fraction_Integer : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (((numerator args:.\0) * args:.\1) / (denominator args:.\0)),
         )),
 
         multiple_of::Fraction : (\Function : (
             returns : {\@Boolean, \@Div_By_Zero},
             matches : (\@Fraction, \@Fraction),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\1 = 0.0 then \!Div_By_Zero
                 else guard (args:.\0 mod args:.\1) = 0.0),
         )),
@@ -1073,7 +1073,7 @@ meta script 'Unicode 10.0 UTF-8'
         fractional_divided_by::Fraction : (\Function : (
             returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Fraction, \@Fraction),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : 1.0,
             evaluates : (if args:.\1 = 0.0 then \!Div_By_Zero
                 else guard args:.\0 * reciprocal::(args:.\1)),
@@ -1082,7 +1082,7 @@ meta script 'Unicode 10.0 UTF-8'
         integral_divided_by::Fraction : (\Function : (
             returns : {\@Fraction, \@Div_By_Zero},
             matches : (\@Fraction, \@Fraction, \@Round_Meth),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : 1.0,
             evaluates : (
                 d ::= lcm::(denominator args:.\0, denominator args:.\1);
@@ -1096,7 +1096,7 @@ meta script 'Unicode 10.0 UTF-8'
         integral_power::Fraction : (\Function : (
             returns : {\@Fraction, \@Zero_To_The_Zero},
             matches : (\@Fraction, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates \integral_nn_power::()
                 <-- (if args:.\1 >= 0 then args else (reciprocal::(args:.\0), -args:.\1))),
         )),
@@ -1104,7 +1104,7 @@ meta script 'Unicode 10.0 UTF-8'
         integral_nn_power::Fraction : (\Function : (
             returns : {\@Fraction, \@Zero_To_The_Zero},
             matches : (\@Fraction, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 = 0.0 and args:.\1 = 0 then \!Zero_To_The_Zero
                 else guard ((numerator args:.\0) ** args:.\1) / ((denominator args:.\0) ** args:.\1)),
         )),
@@ -1112,7 +1112,7 @@ meta script 'Unicode 10.0 UTF-8'
         to_Fraction::Fraction : (\Function : (
             returns : \@Fraction,
             matches : (\@Fraction,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
@@ -1140,7 +1140,7 @@ meta script 'Unicode 10.0 UTF-8'
             virtual : True,
             returns : \@Boolean,
             matches : (\@Emptyable,),
-            implements : \@folder::"",
+            implements : \@folder::'',
         )),
 
         has_any_members : (\Alias : ( of : \@to_Boolean::Emptyable, )),
@@ -1149,15 +1149,15 @@ meta script 'Unicode 10.0 UTF-8'
             negates : \@to_Boolean::Emptyable,
         )),
 
-        Unicode_Aliases::"∅?" : (\Alias : ( of : \@is_empty, )),
+        Unicode_Aliases::'∅?' : (\Alias : ( of : \@is_empty, )),
 
-        empty::"" : (\Function : (
+        empty::'' : (\Function : (
             virtual : True,
             returns : {\@Emptyable, \@No_Empty_Value},
             matches : (\@Emptyable,),
         )),
 
-        Unicode_Aliases::"∅" : (\Alias : ( of : \@empty, )),
+        Unicode_Aliases::'∅' : (\Alias : ( of : \@empty, )),
 
 `#########################################################################`
 
@@ -1168,7 +1168,7 @@ meta script 'Unicode 10.0 UTF-8'
             provides_default_for : {\@Emptyable},
         )),
 
-        substring_of::"" : (\Function : (
+        substring_of::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Stringy, \@Stringy),
@@ -1192,21 +1192,21 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : ((args:.\0 substring_of args:.\1) or (args:.\0 superstring_of args:.\1)),
         )),
 
-        overlaps_string::"" : (\Function : (
+        overlaps_string::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Stringy, \@Stringy),
             is_commutative : True,
         )),
 
-        disjoint_string::"" : (\Function : (
+        disjoint_string::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Stringy, \@Stringy),
             is_commutative : True,
         )),
 
-        catenate::"" : (\Function : (
+        catenate::'' : (\Function : (
             virtual : True,
             returns : \@Stringy,
             matches : (\@Stringy, \@Stringy),
@@ -1214,15 +1214,15 @@ meta script 'Unicode 10.0 UTF-8'
             repeater : \@replicate,
         )),
 
-        "~" : (\Alias : ( of : \@catenate, )),
+        '~' : (\Alias : ( of : \@catenate, )),
 
-        replicate::"" : (\Function : (
+        replicate::'' : (\Function : (
             virtual : True,
             returns : \@Stringy,
             matches : (\@Stringy, \@Integer_NN),
         )),
 
-        "~#" : (\Alias : ( of : \@replicate, )),
+        '~#' : (\Alias : ( of : \@replicate, )),
 
 `#########################################################################`
 
@@ -1236,7 +1236,7 @@ meta script 'Unicode 10.0 UTF-8'
                     bits : \Array::Bits(),
                 ),
             )),
-            default : \~?'',
+            default : \~?"",
         )),
 
         Array::Bits : (\Function : (
@@ -1247,35 +1247,35 @@ meta script 'Unicode 10.0 UTF-8'
         in_order::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((Bits_to_Array_Bits args:.\0) in_order (Bits_to_Array_Bits args:.\1)),
         )),
 
         to_Boolean::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits,),
-            implements : \@folder::"",
-            evaluates : (args:.\0 != \~?''),
+            implements : \@folder::'',
+            evaluates : (args:.\0 != \~?""),
         )),
 
         empty::Bits : (\Function : (
             returns : \@Bits,
             matches : (\@Bits,),
-            implements : \@folder::"",
-            evaluates : (\~?''),
+            implements : \@folder::'',
+            evaluates : (\~?""),
         )),
 
         substring_of::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((Bits_to_Array_Bits args:.\0) substring_of (Bits_to_Array_Bits args:.\1)),
         )),
 
         overlaps_string::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((Bits_to_Array_Bits args:.\0)
                 overlaps_string (Bits_to_Array_Bits args:.\1)),
@@ -1284,7 +1284,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_string::Bits : (\Function : (
             returns : \@Boolean,
             matches : (\@Bits, \@Bits),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((Bits_to_Array_Bits args:.\0)
                 disjoint_string (Bits_to_Array_Bits args:.\1)),
@@ -1293,9 +1293,9 @@ meta script 'Unicode 10.0 UTF-8'
         catenate::Bits : (\Function : (
             returns : \@Bits,
             matches : (\@Bits, \@Bits),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
-            identity : \~?'',
+            identity : \~?"",
             repeater : \@replicate::Bits,
             evaluates : (Bits_from_Array_Bits::((Bits_to_Array_Bits args:.\0)
                 ~ (Bits_to_Array_Bits args:.\1))),
@@ -1304,7 +1304,7 @@ meta script 'Unicode 10.0 UTF-8'
         replicate::Bits : (\Function : (
             returns : \@Bits,
             matches : (\@Bits, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (Bits_from_Array_Bits::((Bits_to_Array_Bits args:.\0) ~# args:.\1)),
         )),
 
@@ -1331,7 +1331,7 @@ meta script 'Unicode 10.0 UTF-8'
                     octets : \Array::Octets(),
                 ),
             )),
-            default : \~+'',
+            default : \~+"",
         )),
 
         Array::Octets : (\Function : (
@@ -1342,35 +1342,35 @@ meta script 'Unicode 10.0 UTF-8'
         in_order::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((Blob_to_Octets args:.\0) in_order (Blob_to_Octets args:.\1)),
         )),
 
         to_Boolean::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob,),
-            implements : \@folder::"",
-            evaluates : (args:.\0 != \~+''),
+            implements : \@folder::'',
+            evaluates : (args:.\0 != \~+""),
         )),
 
         empty::Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Blob,),
-            implements : \@folder::"",
-            evaluates : (\~+''),
+            implements : \@folder::'',
+            evaluates : (\~+""),
         )),
 
         substring_of::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((Blob_to_Octets args:.\0) substring_of (Blob_to_Octets args:.\1)),
         )),
 
         overlaps_string::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((Blob_to_Octets args:.\0) overlaps_string (Blob_to_Octets args:.\1)),
         )),
@@ -1378,7 +1378,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_string::Blob : (\Function : (
             returns : \@Boolean,
             matches : (\@Blob, \@Blob),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((Blob_to_Octets args:.\0) disjoint_string (Blob_to_Octets args:.\1)),
         )),
@@ -1386,9 +1386,9 @@ meta script 'Unicode 10.0 UTF-8'
         catenate::Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Blob, \@Blob),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
-            identity : \~+'',
+            identity : \~+"",
             repeater : \@replicate::Blob,
             evaluates : (Blob_from_Octets::((Blob_to_Octets args:.\0) ~ (Blob_to_Octets args:.\1))),
         )),
@@ -1396,7 +1396,7 @@ meta script 'Unicode 10.0 UTF-8'
         replicate::Blob : (\Function : (
             returns : \@Blob,
             matches : (\@Blob, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (Blob_from_Octets::((Blob_to_Octets args:.\0) ~# args:.\1)),
         )),
 
@@ -1420,7 +1420,7 @@ meta script 'Unicode 10.0 UTF-8'
             composes : {\@Stringy},
         )),
 
-        to_Text::"" : (\Function : (
+        to_Text::'' : (\Function : (
             virtual : True,
             returns : \@Text,
             matches : (\@Textual,),
@@ -1428,7 +1428,7 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Text::"" : (\Function : (
+        Text::'' : (\Function : (
             is_type_definer : True,
             composes : {\@Textual},
             provides_default_for : {\@Textual},
@@ -1438,7 +1438,7 @@ meta script 'Unicode 10.0 UTF-8'
                     unicode_codes : \Array::Unicode_Codes(),
                 ),
             )),
-            default : '',
+            default : "",
         )),
 
         Text::Unicode : (\Alias : ( of : \@Text, )),
@@ -1463,28 +1463,28 @@ meta script 'Unicode 10.0 UTF-8'
         in_order::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((Text_to_Unicode_Codes args:.\0) in_order (Text_to_Unicode_Codes args:.\1)),
         )),
 
         to_Boolean::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text,),
-            implements : \@folder::"",
-            evaluates : (args:.\0 != ''),
+            implements : \@folder::'',
+            evaluates : (args:.\0 != ""),
         )),
 
         empty::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text,),
-            implements : \@folder::"",
-            evaluates : (''),
+            implements : \@folder::'',
+            evaluates : (""),
         )),
 
         substring_of::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((Text_to_Unicode_Codes args:.\0)
                 substring_of (Text_to_Unicode_Codes args:.\1)),
         )),
@@ -1492,7 +1492,7 @@ meta script 'Unicode 10.0 UTF-8'
         overlaps_string::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((Text_to_Unicode_Codes args:.\0)
                 overlaps_string (Text_to_Unicode_Codes args:.\1)),
@@ -1501,7 +1501,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_string::Text : (\Function : (
             returns : \@Boolean,
             matches : (\@Text, \@Text),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((Text_to_Unicode_Codes args:.\0)
                 disjoint_string (Text_to_Unicode_Codes args:.\1)),
@@ -1510,9 +1510,9 @@ meta script 'Unicode 10.0 UTF-8'
         catenate::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text, \@Text),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
-            identity : '',
+            identity : "",
             repeater : \@replicate::Text,
             evaluates : (Text_from_Unicode_Codes::((Text_to_Unicode_Codes args:.\0)
                 ~ (Text_to_Unicode_Codes args:.\1))),
@@ -1521,14 +1521,14 @@ meta script 'Unicode 10.0 UTF-8'
         replicate::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (Text_from_Unicode_Codes::((Text_to_Unicode_Codes args:.\0) ~# args:.\1)),
         )),
 
         to_Text::Text : (\Function : (
             returns : \@Text,
             matches : (\@Text,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
@@ -1577,7 +1577,7 @@ meta script 'Unicode 10.0 UTF-8'
         Text_from_UTF_8_Blob_with_repl_char : (\Function : (
             returns : \@Text::Unicode,
             matches : (\@Blob,),
-            evaluates : (Text_from_UTF_8_Blob_with_repl_Text::(args:.\0,'\\c<0xFFFD>')),
+            evaluates : (Text_from_UTF_8_Blob_with_repl_Text::(args:.\0,"\\c<0xFFFD>")),
         )),
 
         Text_to_UTF_8_Blob : (\Function : (
@@ -1640,96 +1640,96 @@ meta script 'Unicode 10.0 UTF-8'
             is_generalization : True,
         )),
 
-        has_any_at::"" : (\Function : (
+        has_any_at::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Accessible, \@Any),
         )),
 
-        ".?" : (\Alias : ( of : \@has_any_at, )),
+        '.?' : (\Alias : ( of : \@has_any_at, )),
 
         not_has_any_at : (\Function : (
             negates : \@has_any_at,
         )),
 
-        ".!?" : (\Alias : ( of : \@not_has_any_at, )),
+        '.!?' : (\Alias : ( of : \@not_has_any_at, )),
 
-        has_mapping_at::"" : (\Function : (
+        has_mapping_at::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (Accessible, (Any, Any)),
         )),
 
-        ".:?" : (\Alias : ( of : \@has_mapping_at, )),
+        '.:?' : (\Alias : ( of : \@has_mapping_at, )),
 
-        mapping_at::"" : (\Function : (
+        mapping_at::'' : (\Function : (
             virtual : True,
             returns : (\@Any, \@Any),
             matches : (\@Accessible, \@Any),
             accepts : (args:.\0 .? args:.\1),
         )),
 
-        ".:" : (\Alias : ( of : \@mapping_at, )),
+        '.:' : (\Alias : ( of : \@mapping_at, )),
 
-        at::"" : (\Function : (
+        at::'' : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Accessible, \@Any),
             accepts : (args:.\0 .? args:.\1),
         )),
 
-        "." : (\Alias : ( of : \@at, )),
+        '.' : (\Alias : ( of : \@at, )),
 
-        maybe_at::"" : (\Function : (
+        maybe_at::'' : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Accessible, \@Any),
         )),
 
-        ".!" : (\Alias : ( of : \@maybe_at, )),
+        '.!' : (\Alias : ( of : \@maybe_at, )),
 
-        replace_at::"" : (\Function : (
+        replace_at::'' : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (Accessible, (Any, Any)),
             accepts : (args:.\0 .? (args:.\1.\0)),
         )),
 
-        ".:=" : (\Alias : ( of : \@replace_at, )),
+        '.:=' : (\Alias : ( of : \@replace_at, )),
 
-        shiftless_insert_at::"" : (\Function : (
+        shiftless_insert_at::'' : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (Accessible, (Any, Any)),
             accepts : (not args:.\0 .? (args:.\1.\0)),
         )),
 
-        ".+" : (\Alias : ( of : \@shiftless_insert_at, )),
+        '.+' : (\Alias : ( of : \@shiftless_insert_at, )),
 
-        shiftless_remove_at::"" : (\Function : (
+        shiftless_remove_at::'' : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (\@Accessible, \@Any),
             accepts : (args:.\0 .? args:.\1),
         )),
 
-        ".-" : (\Alias : ( of : \@shiftless_remove_at, )),
+        '.-' : (\Alias : ( of : \@shiftless_remove_at, )),
 
-        replace_or_insert_at::"" : (\Function : (
+        replace_or_insert_at::'' : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (Accessible, (Any, Any)),
         )),
 
-        ".=+" : (\Alias : ( of : \@replace_or_insert_at, )),
+        '.=+' : (\Alias : ( of : \@replace_or_insert_at, )),
 
-        shiftless_maybe_remove_at::"" : (\Function : (
+        shiftless_maybe_remove_at::'' : (\Function : (
             virtual : True,
             returns : \@Accessible,
             matches : (\@Accessible, \@Any),
         )),
 
-        ".?-" : (\Alias : ( of : \@shiftless_maybe_remove_at, )),
+        '.?-' : (\Alias : ( of : \@shiftless_maybe_remove_at, )),
 
 `#########################################################################`
 
@@ -1739,13 +1739,13 @@ meta script 'Unicode 10.0 UTF-8'
             composes : {\@Emptyable},
         )),
 
-        singular::"" : (\Function : (
+        singular::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous,),
         )),
 
-        only_member::"" : (\Function : (
+        only_member::'' : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Homogeneous,),
@@ -1756,13 +1756,13 @@ meta script 'Unicode 10.0 UTF-8'
             commutes : \@has,
         )),
 
-        Unicode_Aliases::"∈" : (\Alias : ( of : \@in, )),
+        Unicode_Aliases::'∈' : (\Alias : ( of : \@in, )),
 
         not_in : (\Function : (
             commutes : \@not_has,
         )),
 
-        Unicode_Aliases::"∉" : (\Alias : ( of : \@not_in, )),
+        Unicode_Aliases::'∉' : (\Alias : ( of : \@not_in, )),
 
         has : (\Function : (
             returns : \@Boolean,
@@ -1770,33 +1770,33 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (has_n::(args:.\0, args:.\1, 1)),
         )),
 
-        Unicode_Aliases::"∋" : (\Alias : ( of : \@has, )),
+        Unicode_Aliases::'∋' : (\Alias : ( of : \@has, )),
 
         not_has : (\Function : (
             negates : \@has,
         )),
 
-        Unicode_Aliases::"∌" : (\Alias : ( of : \@not_has, )),
+        Unicode_Aliases::'∌' : (\Alias : ( of : \@not_has, )),
 
-        has_n::"" : (\Function : (
+        has_n::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Any, \@Integer_NN),
         )),
 
-        multiplicity::"" : (\Function : (
+        multiplicity::'' : (\Function : (
             virtual : True,
             returns : \@Integer_NN,
             matches : (\@Homogeneous, \@Any),
         )),
 
-        all_unique::"" : (\Function : (
+        all_unique::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous,),
         )),
 
-        unique::"" : (\Function : (
+        unique::'' : (\Function : (
             virtual : True,
             returns : \@Homogeneous,
             matches : (\@Homogeneous,),
@@ -1808,53 +1808,53 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 != args:.\1 and (args:.\0 subset_of args:.\1)),
         )),
 
-        Unicode_Aliases::"⊂" : (\Alias : ( of : \@proper_subset_of, )),
+        Unicode_Aliases::'⊂' : (\Alias : ( of : \@proper_subset_of, )),
 
         not_proper_subset_of : (\Function : (
             negates : \@proper_subset_of,
         )),
 
-        Unicode_Aliases::"⊄" : (\Alias : ( of : \@not_proper_subset_of, )),
+        Unicode_Aliases::'⊄' : (\Alias : ( of : \@not_proper_subset_of, )),
 
         proper_superset_of : (\Function : (
             commutes : \@proper_subset_of,
         )),
 
-        Unicode_Aliases::"⊃" : (\Alias : ( of : \@proper_superset_of, )),
+        Unicode_Aliases::'⊃' : (\Alias : ( of : \@proper_superset_of, )),
 
         not_proper_superset_of : (\Function : (
             negates : \@proper_superset_of,
         )),
 
-        Unicode_Aliases::"⊅" : (\Alias : ( of : \@not_proper_superset_of, )),
+        Unicode_Aliases::'⊅' : (\Alias : ( of : \@not_proper_superset_of, )),
 
-        subset_of::"" : (\Function : (
+        subset_of::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
         )),
 
-        Unicode_Aliases::"⊆" : (\Alias : ( of : \@subset_of, )),
+        Unicode_Aliases::'⊆' : (\Alias : ( of : \@subset_of, )),
 
         not_subset_of : (\Function : (
             negates : \@subset_of,
         )),
 
-        Unicode_Aliases::"⊈" : (\Alias : ( of : \@not_subset_of, )),
+        Unicode_Aliases::'⊈' : (\Alias : ( of : \@not_subset_of, )),
 
         superset_of : (\Function : (
             commutes : \@subset_of,
         )),
 
-        Unicode_Aliases::"⊇" : (\Alias : ( of : \@superset_of, )),
+        Unicode_Aliases::'⊇' : (\Alias : ( of : \@superset_of, )),
 
         not_superset_of : (\Function : (
             negates : \@superset_of,
         )),
 
-        Unicode_Aliases::"⊉" : (\Alias : ( of : \@not_superset_of, )),
+        Unicode_Aliases::'⊉' : (\Alias : ( of : \@not_superset_of, )),
 
-        same_members::"" : (\Function : (
+        same_members::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
@@ -1875,21 +1875,21 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : ((args:.\0 subset_of args:.\1) or (args:.\0 superset_of args:.\1)),
         )),
 
-        overlaps_members::"" : (\Function : (
+        overlaps_members::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             is_commutative : True,
         )),
 
-        disjoint_members::"" : (\Function : (
+        disjoint_members::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Homogeneous),
             is_commutative : True,
         )),
 
-        any::"" : (\Function : (
+        any::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Homogeneous, \@Signature),
@@ -1897,7 +1897,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         there_exists : (\Alias : ( of : \@any, )),
 
-        Unicode_Aliases::"∃" : (\Alias : ( of : \@any, )),
+        Unicode_Aliases::'∃' : (\Alias : ( of : \@any, )),
 
         none : (\Function : (
             negates : \@any,
@@ -1905,7 +1905,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         there_does_not_exist : (\Alias : ( of : \@none, )),
 
-        Unicode_Aliases::"∄" : (\Alias : ( of : \@none, )),
+        Unicode_Aliases::'∄' : (\Alias : ( of : \@none, )),
 
         all : (\Function : (
             returns : \@Boolean,
@@ -1915,7 +1915,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         for_all : (\Alias : ( of : \@all, )),
 
-        Unicode_Aliases::"∀" : (\Alias : ( of : \@all, )),
+        Unicode_Aliases::'∀' : (\Alias : ( of : \@all, )),
 
         not_all : (\Function : (
             negates : \@all,
@@ -1935,7 +1935,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (insert_n::(args:.\0, args:.\1, 1)),
         )),
 
-        insert_n::"" : (\Function : (
+        insert_n::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Any, \@Integer_NN),
@@ -1947,30 +1947,30 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (remove_n::(args:.\0, args:.\1, 1)),
         )),
 
-        remove_n::"" : (\Function : (
+        remove_n::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Any, \@Integer_NN),
         )),
 
-        member_plus::"" : (\Function : (
+        member_plus::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
             is_associative : True,
         )),
 
-        Unicode_Aliases::"⊎" : (\Alias : ( of : \@member_plus, )),
+        Unicode_Aliases::'⊎' : (\Alias : ( of : \@member_plus, )),
 
-        except::"" : (\Function : (
+        except::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
         )),
 
-        Unicode_Aliases::"∖" : (\Alias : ( of : \@except, )),
+        Unicode_Aliases::'∖' : (\Alias : ( of : \@except, )),
 
-        intersect::"" : (\Function : (
+        intersect::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
@@ -1978,18 +1978,18 @@ meta script 'Unicode 10.0 UTF-8'
             is_idempotent : True,
         )),
 
-        Unicode_Aliases::"∩" : (\Alias : ( of : \@intersect, )),
+        Unicode_Aliases::'∩' : (\Alias : ( of : \@intersect, )),
 
-        union::"" : (\Function : (
+        union::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
             is_idempotent : True,
         )),
 
-        Unicode_Aliases::"∪" : (\Alias : ( of : \@union, )),
+        Unicode_Aliases::'∪' : (\Alias : ( of : \@union, )),
 
-        exclusive::"" : (\Function : (
+        exclusive::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Unionable),
@@ -1997,9 +1997,9 @@ meta script 'Unicode 10.0 UTF-8'
 
         symm_diff : (\Alias : ( of : \@exclusive, )),
 
-        Unicode_Aliases::"∆" : (\Alias : ( of : \@exclusive, )),
+        Unicode_Aliases::'∆' : (\Alias : ( of : \@exclusive, )),
 
-        nest::"" : (\Function : (
+        nest::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable,),
@@ -2008,7 +2008,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         group : (\Alias : ( of : \@nest, )),
 
-        unnest::"" : (\Function : (
+        unnest::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable,),
@@ -2017,25 +2017,25 @@ meta script 'Unicode 10.0 UTF-8'
 
         ungroup : (\Alias : ( of : \@unnest, )),
 
-        where::"" : (\Function : (
+        where::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Signature),
         )),
 
-        Unicode_Aliases::"σ" : (\Alias : ( of : \@where, )),
+        Unicode_Aliases::'σ' : (\Alias : ( of : \@where, )),
 
         filtering : (\Function : (
             commutes : \@where,
         )),
 
-        map::"" : (\Function : (
+        map::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Unionable, \@Function_Call_But_0),
         )),
 
-        reduce::"" : (\Function : (
+        reduce::'' : (\Function : (
             virtual : True,
             returns : \@Any,
             matches : (\@Unionable, \@Function_Call_But_0_1),
@@ -2050,32 +2050,32 @@ meta script 'Unicode 10.0 UTF-8'
             provides_default_for : {\@Unionable},
         )),
 
-        to_Set::"" : (\Function : (
+        to_Set::'' : (\Function : (
             virtual : True,
             returns : \@Set,
             matches : (\@Discrete,),
         )),
 
-        "?|" : (\Alias : ( of : \@to_Set, )),
+        '?|' : (\Alias : ( of : \@to_Set, )),
 
-        to_Bag::"" : (\Function : (
+        to_Bag::'' : (\Function : (
             virtual : True,
             returns : \@Bag,
             matches : (\@Discrete,),
         )),
 
-        "+|" : (\Alias : ( of : \@to_Bag, )),
+        '+|' : (\Alias : ( of : \@to_Bag, )),
 
-        count::"" : (\Function : (
+        count::'' : (\Function : (
             virtual : True,
             returns : \@Integer_NN,
             matches : (\@Discrete,),
         )),
 
         cardinality : (\Alias : ( of : \@count, )),
-        "#"         : (\Alias : ( of : \@count, )),
+        '#'         : (\Alias : ( of : \@count, )),
 
-        unique_count::"" : (\Function : (
+        unique_count::'' : (\Function : (
             virtual : True,
             returns : \@Integer_NN,
             matches : (\@Discrete,),
@@ -2087,7 +2087,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 order_using \in_order::()),
         )),
 
-        order_using::"" : (\Function : (
+        order_using::'' : (\Function : (
             virtual : True,
             returns : \@Positional,
             matches : (\@Discrete, \@Function_Call_But_0_1),
@@ -2105,14 +2105,14 @@ meta script 'Unicode 10.0 UTF-8'
         singular::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((unique_count args:.\0) = 1),
         )),
 
         only_member::Positional : (\Function : (
             returns : \@Any,
             matches : (\@Positional,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (singular args:.\0),
             evaluates : (first args:.\0),
         )),
@@ -2120,14 +2120,14 @@ meta script 'Unicode 10.0 UTF-8'
         subset_of::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((to_Bag args:.\0) subset_of (to_Bag args:.\1)),
         )),
 
         same_members::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((to_Bag args:.\0) same_members (to_Bag args:.\1)),
         )),
@@ -2135,7 +2135,7 @@ meta script 'Unicode 10.0 UTF-8'
         overlaps_members::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((to_Bag args:.\0) overlaps_members (to_Bag args:.\1)),
         )),
@@ -2143,7 +2143,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_members::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Positional),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : ((to_Bag args:.\0) disjoint_members (to_Bag args:.\1)),
         )),
@@ -2151,7 +2151,7 @@ meta script 'Unicode 10.0 UTF-8'
         member_plus::Positional : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Positional),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             evaluates : (args:.\0 ~ args:.\1),
         )),
@@ -2159,14 +2159,14 @@ meta script 'Unicode 10.0 UTF-8'
         unique_count::Positional : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Positional,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (count::(to_Set args:.\0)),
         )),
 
         has_any_at::Positional : (\Function : (
             returns : \@Boolean,
             matches : (\@Positional, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\1 >= first_possible_ord_pos::(args:.\0)
                 and args:.\1 < first_unused_ord_pos::(args:.\0)),
         )),
@@ -2174,14 +2174,14 @@ meta script 'Unicode 10.0 UTF-8'
         has_mapping_at::Positional : (\Function : (
             returns : \@Boolean,
             matches : (Positional, (Integer, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 .? (args:.\1.\0) and_then guard args:.\0.(args:.\1.\0) = (args:.\1.\1)),
         )),
 
         mapping_at::Positional : (\Function : (
             returns : (\@Integer, \@Any),
             matches : (\@Positional, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 .? args:.\1),
             evaluates : ((args:.\1, args:.\0.args:.\1)),
         )),
@@ -2189,14 +2189,14 @@ meta script 'Unicode 10.0 UTF-8'
         maybe_at::Positional : (\Function : (
             returns : \@Any,
             matches : (\@Positional, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else \!No_Such_Ord_Pos),
         )),
 
         replace_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 .? (args:.\1.\0)),
             evaluates : (
                 src ::= args:.\0;
@@ -2214,7 +2214,7 @@ meta script 'Unicode 10.0 UTF-8'
         shiftless_insert_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\1.\0 = first_unused_ord_pos::(args:.\0)),
             evaluates : (args:.\0 insert args:.\1.\1),
         )),
@@ -2222,7 +2222,7 @@ meta script 'Unicode 10.0 UTF-8'
         shiftless_remove_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\1 >= first_possible_ord_pos::(args:.\0)
                 and args:.\1 = --first_unused_ord_pos::(args:.\0)),
             evaluates : (nonlast args:.\0),
@@ -2231,7 +2231,7 @@ meta script 'Unicode 10.0 UTF-8'
         replace_or_insert_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (Positional, (Integer, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\1 >= first_possible_ord_pos::(args:.\0)
                 and args:.\1 <= first_unused_ord_pos::(args:.\0)),
             evaluates : (if args:.\0 .? (args:.\1.\0) then guard args:.\0 .:= (args:.\1.\0) else guard args:.\0 .+ (args:.\1.\0)),
@@ -2240,19 +2240,19 @@ meta script 'Unicode 10.0 UTF-8'
         shiftless_maybe_remove_at::Positional : (\Function : (
             returns : \@Positional,
             matches : (\@Positional, \@Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\1 >= first_possible_ord_pos::(args:.\0)
                 and args:.\1 >= --first_unused_ord_pos::(args:.\0)),
             evaluates : (if args:.\1 = --first_unused_ord_pos::(args:.\0) then guard nonlast args:.\0 else args:.\0),
         )),
 
-        to_Array::"" : (\Function : (
+        to_Array::'' : (\Function : (
             virtual : True,
             returns : \@Array,
             matches : (\@Positional,),
         )),
 
-        "~|" : (\Alias : ( of : \@to_Array, )),
+        '~|' : (\Alias : ( of : \@to_Array, )),
 
         squish : (\Function : (
             returns : \@Positional,
@@ -2261,7 +2261,7 @@ meta script 'Unicode 10.0 UTF-8'
                 pipe nest map \(args:.\0.\group)),
         )),
 
-        first_possible_ord_pos::"" : (\Function : (
+        first_possible_ord_pos::'' : (\Function : (
             virtual : True,
             returns : \@Integer,
             matches : (\@Positional,),
@@ -2287,7 +2287,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (--first_unused_ord_pos::(args:.\0)),
         )),
 
-        slice_n::"" : (\Function : (
+        slice_n::'' : (\Function : (
             virtual : True,
             returns : \@Positional,
             matches : (\@Positional, \@Integer, \@NN_Integer),
@@ -2331,7 +2331,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (slice_range::(args:.\0, first_ord_pos::(args:.\0), --last_ord_pos::(args:.\0))),
         )),
 
-        ord_pos_succ_all_matches::"" : (\Function : (
+        ord_pos_succ_all_matches::'' : (\Function : (
             virtual : True,
             returns : \@Integer,
             matches : (\@Positional, \@Positional),
@@ -2340,7 +2340,7 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Array::"" : (\Function : (
+        Array::'' : (\Function : (
             is_type_definer : True,
             composes : {\@Positional},
             provides_default_for : {\@Positional},
@@ -2353,12 +2353,12 @@ meta script 'Unicode 10.0 UTF-8'
             constant : [],
         )),
 
-        Unicode_Aliases::"~∅" : (\Alias : ( of : \@Array_C0, )),
+        Unicode_Aliases::'~∅' : (\Alias : ( of : \@Array_C0, )),
 
         in_order::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (
                 i ::= args:.\0 ord_pos_succ_all_matches args:.\1;
               returns
@@ -2369,36 +2369,36 @@ meta script 'Unicode 10.0 UTF-8'
                 else guard
                     e2 ::= args:.\0.i in_order args:.\1.i;
 
-                e1 note 'This is the case where LHS is a leading subsequence of or is equal to RHS.';
-                e2 note 'This will succeed iff in_order() is defined for the member type.';
+                e1 note "This is the case where LHS is a leading subsequence of or is equal to RHS.";
+                e2 note "This will succeed iff in_order() is defined for the member type.";
             ),
         )),
 
         to_Boolean::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 != []),
         )),
 
         empty::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ([]),
         )),
 
         substring_of::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_substring_of()),
         )),
 
         overlaps_string::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (evaluates args --> \foundation::Array_overlaps_string()),
         )),
@@ -2406,7 +2406,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_string::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (evaluates args --> \foundation::Array_disjoint_string()),
         )),
@@ -2414,7 +2414,7 @@ meta script 'Unicode 10.0 UTF-8'
         catenate::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             identity : [],
             repeater : \@replicate::Array,
@@ -2424,63 +2424,63 @@ meta script 'Unicode 10.0 UTF-8'
         replicate::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_replicate()),
         )),
 
         has_n::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_has_n()),
         )),
 
         multiplicity::Array : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Array, \@Any),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_multiplicity()),
         )),
 
         all_unique::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_all_unique()),
         )),
 
         unique::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_unique()),
         )),
 
         any::Array : (\Function : (
             returns : \@Boolean,
             matches : (\@Array, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (foundation::Array_any(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         insert_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_insert_n()),
         )),
 
         remove_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_remove_n()),
         )),
 
         except::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : [],
             evaluates : (evaluates args --> \foundation::Array_except()),
         )),
@@ -2488,7 +2488,7 @@ meta script 'Unicode 10.0 UTF-8'
         intersect::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_idempotent : True,
             evaluates : (evaluates args --> \foundation::Array_intersect()),
@@ -2497,7 +2497,7 @@ meta script 'Unicode 10.0 UTF-8'
         union::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_idempotent : True,
             identity : [],
             evaluates : (evaluates args --> \foundation::Array_union()),
@@ -2506,7 +2506,7 @@ meta script 'Unicode 10.0 UTF-8'
         exclusive::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             identity : [],
             evaluates : (evaluates args --> \foundation::Array_exclusive()),
         )),
@@ -2514,7 +2514,7 @@ meta script 'Unicode 10.0 UTF-8'
         nest::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (evaluates args --> \foundation::Array_nest()),
         )),
@@ -2522,7 +2522,7 @@ meta script 'Unicode 10.0 UTF-8'
         unnest::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (evaluates args --> \foundation::Array_unnest()),
         )),
@@ -2530,56 +2530,56 @@ meta script 'Unicode 10.0 UTF-8'
         where::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (foundation::Array_where(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         map::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_map()),
         )),
 
         reduce::Array : (\Function : (
             returns : \@Any,
             matches : (\@Array, \@Function_Call_But_0_1),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_reduce()),
         )),
 
         to_Set::Array : (\Function : (
             returns : \@Set,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (to_Set::(to_Bag args:.\0)),
         )),
 
         to_Bag::Array : (\Function : (
             returns : \@Bag,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_to_Bag()),
         )),
 
         count::Array : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_count()),
         )),
 
         order_using::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@Function_Call_But_0_1),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Array_order_using()),
         )),
 
         at::Array : (\Function : (
             returns : \@Any,
             matches : (\@Array, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 .? args:.\1),
             evaluates : (evaluates args --> \foundation::Array_at()),
         )),
@@ -2587,21 +2587,21 @@ meta script 'Unicode 10.0 UTF-8'
         to_Array::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
         first_possible_ord_pos::Array : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (0),
         )),
 
         slice_n::Array : (\Function : (
             returns : \@Array,
             matches : (\@Array, \@NN_Integer, \@NN_Integer),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\1 + args:.\2 <= #args:.\0),
             evaluates : (evaluates args --> \foundation::Array_slice_n()),
         )),
@@ -2609,7 +2609,7 @@ meta script 'Unicode 10.0 UTF-8'
         ord_pos_succ_all_matches::Array : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Array, \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (evaluates args --> \foundation::Array_ord_pos_succ_all_matches()),
         )),
@@ -2641,33 +2641,33 @@ meta script 'Unicode 10.0 UTF-8'
             constant : {},
         )),
 
-        Unicode_Aliases::"?∅" : (\Alias : ( of : \@Set_C0, )),
+        Unicode_Aliases::'?∅' : (\Alias : ( of : \@Set_C0, )),
 
         to_Boolean::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 != {}),
         )),
 
         empty::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ({}),
         )),
 
         singular::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (singular args:.\0:>.\members),
         )),
 
         only_member::Set : (\Function : (
             returns : \@Any,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (singular args:.\0),
             evaluates : (only_member args:.\0:>.\members),
         )),
@@ -2675,42 +2675,42 @@ meta script 'Unicode 10.0 UTF-8'
         has_n::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (has_n::(args:.\0:>.\members, args:.\1, args:.\2)),
         )),
 
         multiplicity::Set : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Set, \@Any),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\members multiplicity args:.\1),
         )),
 
         all_unique::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (True),
         )),
 
         unique::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
         subset_of::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\members subset_of args:.\1:>.\members),
         )),
 
         same_members::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (args:.\0 = args:.\1),
         )),
@@ -2718,7 +2718,7 @@ meta script 'Unicode 10.0 UTF-8'
         overlaps_members::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (args:.\0:>.\members overlaps_members args:.\1:>.\members),
         )),
@@ -2726,7 +2726,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_members::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (args:.\0:>.\members disjoint_members args:.\1:>.\members),
         )),
@@ -2734,14 +2734,14 @@ meta script 'Unicode 10.0 UTF-8'
         any::Set : (\Function : (
             returns : \@Boolean,
             matches : (\@Set, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\members any args:.\1),
         )),
 
         insert_n::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 has args:.\1 or args:.\2 = 0 then args:.\0
                 else (\Set : (members : insert_n::(args:.\0:>.\members, args:.\1, 1),))),
         )),
@@ -2749,14 +2749,14 @@ meta script 'Unicode 10.0 UTF-8'
         remove_n::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Set : (members : remove_n::(args:.\0:>.\members, args:.\1, args:.\2),))),
         )),
 
         member_plus::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -2767,7 +2767,7 @@ meta script 'Unicode 10.0 UTF-8'
         except::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : {},
             evaluates : ((\Set : (members : args:.\0:>.\members except args:.\1:>.\members,))),
         )),
@@ -2775,7 +2775,7 @@ meta script 'Unicode 10.0 UTF-8'
         intersect::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -2785,7 +2785,7 @@ meta script 'Unicode 10.0 UTF-8'
         union::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -2796,7 +2796,7 @@ meta script 'Unicode 10.0 UTF-8'
         exclusive::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             identity : {},
@@ -2806,7 +2806,7 @@ meta script 'Unicode 10.0 UTF-8'
         nest::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : ((\Set : (members : nest args:.\0:>.\members,))),
         )),
@@ -2814,7 +2814,7 @@ meta script 'Unicode 10.0 UTF-8'
         unnest::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : ((\Set : (members : unnest args:.\0:>.\members,))),
         )),
@@ -2822,56 +2822,56 @@ meta script 'Unicode 10.0 UTF-8'
         where::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Set : (members : args:.\0:>.\members where args:.\1,))),
         )),
 
         map::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set, \@Function_Call_But_0),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Set : (members : args:.\0:>.\members map args:.\1,))),
         )),
 
         reduce::Set : (\Function : (
             returns : \@Any,
             matches : (\@Set, \@Function_Call_But_0_1),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Set : (members : args:.\0:>.\members reduce args:.\1,))),
         )),
 
         to_Set::Set : (\Function : (
             returns : \@Set,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
         to_Bag::Set : (\Function : (
             returns : \@Bag,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\members),
         )),
 
         count::Set : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (count args:.\0:>.\members),
         )),
 
         unique_count::Set : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Set,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (count args:.\0),
         )),
 
         order_using::Set : (\Function : (
             returns : \@Array,
             matches : (\@Set, \@Function_Call_But_0_1),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\members order_using args:.\1),
         )),
 
@@ -2889,33 +2889,33 @@ meta script 'Unicode 10.0 UTF-8'
             constant : {0:0},
         )),
 
-        Unicode_Aliases::"+∅" : (\Alias : ( of : \@Bag_C0, )),
+        Unicode_Aliases::'+∅' : (\Alias : ( of : \@Bag_C0, )),
 
         to_Boolean::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 != {0:0}),
         )),
 
         empty::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ({0:0}),
         )),
 
         singular::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_singular()),
         )),
 
         only_member::Bag : (\Function : (
             returns : \@Any,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (singular args:.\0),
             evaluates : (evaluates args --> \foundation::Bag_only_member()),
         )),
@@ -2923,42 +2923,42 @@ meta script 'Unicode 10.0 UTF-8'
         has_n::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_has_n()),
         )),
 
         multiplicity::Bag : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Bag, \@Any),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_multiplicity()),
         )),
 
         all_unique::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_all_unique()),
         )),
 
         unique::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_unique()),
         )),
 
         subset_of::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_subset_of()),
         )),
 
         same_members::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (args:.\0 = args:.\1),
         )),
@@ -2966,7 +2966,7 @@ meta script 'Unicode 10.0 UTF-8'
         overlaps_members::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (evaluates args --> \foundation::Bag_overlaps_members()),
         )),
@@ -2974,7 +2974,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_members::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (evaluates args --> \foundation::Bag_disjoint_members()),
         )),
@@ -2982,28 +2982,28 @@ meta script 'Unicode 10.0 UTF-8'
         any::Bag : (\Function : (
             returns : \@Boolean,
             matches : (\@Bag, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (foundation::Bag_any(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         insert_n::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_insert_n()),
         )),
 
         remove_n::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Any, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_remove_n()),
         )),
 
         member_plus::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             identity : {0:0},
@@ -3013,7 +3013,7 @@ meta script 'Unicode 10.0 UTF-8'
         except::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             right_identity : {0:0},
             evaluates : (evaluates args --> \foundation::Bag_except()),
         )),
@@ -3021,7 +3021,7 @@ meta script 'Unicode 10.0 UTF-8'
         intersect::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -3031,7 +3031,7 @@ meta script 'Unicode 10.0 UTF-8'
         union::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             is_idempotent : True,
@@ -3042,7 +3042,7 @@ meta script 'Unicode 10.0 UTF-8'
         exclusive::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             identity : {0:0},
@@ -3052,7 +3052,7 @@ meta script 'Unicode 10.0 UTF-8'
         nest::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (evaluates args --> \foundation::Bag_nest()),
         )),
@@ -3060,7 +3060,7 @@ meta script 'Unicode 10.0 UTF-8'
         unnest::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (evaluates args --> \foundation::Bag_unnest()),
         )),
@@ -3068,56 +3068,56 @@ meta script 'Unicode 10.0 UTF-8'
         where::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (foundation::Bag_where(args:.\0, Signature_to_Function_Call_But_0::(args:.\1))),
         )),
 
         map::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag, \@Function_Call_But_0),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_map()),
         )),
 
         reduce::Bag : (\Function : (
             returns : \@Any,
             matches : (\@Bag, \@Function_Call_But_0_1),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_reduce()),
         )),
 
         to_Set::Bag : (\Function : (
             returns : \@Set,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Set : (members : unique args:.\0,))),
         )),
 
         to_Bag::Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
         count::Bag : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_count()),
         )),
 
         unique_count::Bag : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_unique_count()),
         )),
 
         order_using::Bag : (\Function : (
             returns : \@Array,
             matches : (\@Bag, \@Function_Call_But_0_1),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Bag_order_using()),
         )),
 
@@ -3128,47 +3128,47 @@ meta script 'Unicode 10.0 UTF-8'
             is_generalization : True,
         )),
 
-        has_any_attrs::"" : (\Function : (
+        has_any_attrs::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Attributive,),
         )),
 
-        "?@" : (\Alias : ( of : \@has_any_attrs, )),
+        '?@' : (\Alias : ( of : \@has_any_attrs, )),
 
         is_nullary : (\Function : (
             negates : \@has_any_attrs,
         )),
 
-        "!?@" : (\Alias : ( of : \@is_nullary, )),
+        '!?@' : (\Alias : ( of : \@is_nullary, )),
 
-        nullary::"" : (\Function : (
+        nullary::'' : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive,),
         )),
 
-        is_unary::"" : (\Function : (
+        is_unary::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Attributive,),
         )),
 
-        degree::"" : (\Function : (
+        degree::'' : (\Function : (
             virtual : True,
             returns : \@Integer_NN,
             matches : (\@Attributive,),
         )),
 
-        "#@" : (\Alias : ( of : \@degree, )),
+        '#@' : (\Alias : ( of : \@degree, )),
 
-        heading::"" : (\Function : (
+        heading::'' : (\Function : (
             virtual : True,
             returns : \@Heading,
             matches : (\@Attributive,),
         )),
 
-        "@" : (\Alias : ( of : \@heading, )),
+        '@' : (\Alias : ( of : \@heading, )),
 
         subheading_of : (\Function : (
             returns : \@Boolean,
@@ -3176,16 +3176,16 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (foundation::Tuple_subheading_of(@args:.\0, @args:.\1)),
         )),
 
-        Unicode_Aliases::"⊆@" : (\Alias : ( of : \@subheading_of, )),
+        Unicode_Aliases::'⊆@' : (\Alias : ( of : \@subheading_of, )),
 
         superheading_of : (\Function : (
             commutes : \@subheading_of,
         )),
 
         has_subheading : (\Alias : ( of : \@superheading_of, )),
-        "@?"           : (\Alias : ( of : \@superheading_of, )),
+        '@?'           : (\Alias : ( of : \@superheading_of, )),
 
-        Unicode_Aliases::"⊇@" : (\Alias : ( of : \@superheading_of, )),
+        Unicode_Aliases::'⊇@' : (\Alias : ( of : \@superheading_of, )),
 
         same_heading : (\Function : (
             returns : \@Boolean,
@@ -3194,7 +3194,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (@args:.\0 = @args:.\1),
         )),
 
-        "=@" : (\Alias : ( of : \@same_heading, )),
+        '=@' : (\Alias : ( of : \@same_heading, )),
 
         proper_subheading_or_superheading : (\Function : (
             returns : \@Boolean,
@@ -3230,7 +3230,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (foundation::Tuple_except_heading(@args:.\0, @args:.\1)),
         )),
 
-        Unicode_Aliases::"∖@" : (\Alias : ( of : \@except_heading, )),
+        Unicode_Aliases::'∖@' : (\Alias : ( of : \@except_heading, )),
 
         intersect_heading : (\Function : (
             returns : \@Heading,
@@ -3241,7 +3241,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (foundation::Tuple_intersect_heading(@args:.\0, @args:.\1)),
         )),
 
-        Unicode_Aliases::"∩@" : (\Alias : ( of : \@intersect_heading, )),
+        Unicode_Aliases::'∩@' : (\Alias : ( of : \@intersect_heading, )),
 
         union_heading : (\Function : (
             returns : \@Heading,
@@ -3253,7 +3253,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (foundation::Tuple_union_heading(@args:.\0, @args:.\1)),
         )),
 
-        Unicode_Aliases::"∪@" : (\Alias : ( of : \@union_heading, )),
+        Unicode_Aliases::'∪@' : (\Alias : ( of : \@union_heading, )),
 
         exclusive : (\Function : (
             returns : \@Heading,
@@ -3266,32 +3266,32 @@ meta script 'Unicode 10.0 UTF-8'
 
         symm_diff_heading : (\Alias : ( of : \@exclusive_heading, )),
 
-        Unicode_Aliases::"∆@" : (\Alias : ( of : \@exclusive_heading, )),
+        Unicode_Aliases::'∆@' : (\Alias : ( of : \@exclusive_heading, )),
 
-        rename::"" : (\Function : (
+        rename::'' : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Renaming),
             accepts : (...),
         )),
 
-        "@:=" : (\Alias : ( of : \@rename, )),
+        '@:=' : (\Alias : ( of : \@rename, )),
 
-        Unicode_Aliases::"ρ" : (\Alias : ( of : \@rename, )),
+        Unicode_Aliases::'ρ' : (\Alias : ( of : \@rename, )),
 
         renaming : (\Function : (
             commutes : \@rename,
         )),
 
-        can_project_matching::"" : (\Function : (
+        can_project_matching::'' : (\Function : (
             virtual : True,
             returns : \@Boolean,
             matches : (\@Attributive, \@Structural),
         )),
 
-        "%=?" : (\Alias : ( of : \@can_project_matching, )),
+        '%=?' : (\Alias : ( of : \@can_project_matching, )),
 
-        on::"" : (\Function : (
+        on::'' : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Heading),
@@ -3299,9 +3299,9 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         project : (\Alias : ( of : \@on, )),
-        "%="    : (\Alias : ( of : \@on, )),
+        '%='    : (\Alias : ( of : \@on, )),
 
-        Unicode_Aliases::"π" : (\Alias : ( of : \@on, )),
+        Unicode_Aliases::'π' : (\Alias : ( of : \@on, )),
 
         from : (\Function : (
             commutes : \@on,
@@ -3313,25 +3313,25 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 on (args:.\0 intersect_heading args:.\1)),
         )),
 
-        "%!" : (\Alias : ( of : \@maybe_on, )),
+        '%!' : (\Alias : ( of : \@maybe_on, )),
 
-        update::"" : (\Function : (
+        update::'' : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Structural),
             accepts : (args:.\0 @? args:.\1),
         )),
 
-        "%:=" : (\Alias : ( of : \@update, )),
+        '%:=' : (\Alias : ( of : \@update, )),
 
-        extend::"" : (\Function : (
+        extend::'' : (\Function : (
             virtual : True,
             returns : \@Attributive,
             matches : (\@Attributive, \@Structural),
             accepts : (args:.\0 disjoint_heading args:.\1),
         )),
 
-        "%+" : (\Alias : ( of : \@extend, )),
+        '%+' : (\Alias : ( of : \@extend, )),
 
         but : (\Function : (
             returns : \@Attributive,
@@ -3341,7 +3341,7 @@ meta script 'Unicode 10.0 UTF-8'
         )),
 
         project_all_but : (\Alias : ( of : \@but, )),
-        "%-"            : (\Alias : ( of : \@but, )),
+        '%-'            : (\Alias : ( of : \@but, )),
 
         update_or_extend : (\Function : (
             returns : \@Attributive,
@@ -3349,7 +3349,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 on (args:.\0 except_heading args:.\1) extend args:.\1),
         )),
 
-        "%=+" : (\Alias : ( of : \@update_or_extend, )),
+        '%=+' : (\Alias : ( of : \@update_or_extend, )),
 
         maybe_but : (\Function : (
             returns : \@Attributive,
@@ -3357,7 +3357,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (args:.\0 but (args:.\0 intersect_heading args:.\1)),
         )),
 
-        "%?-" : (\Alias : ( of : \@maybe_but, )),
+        '%?-' : (\Alias : ( of : \@maybe_but, )),
 
 `#########################################################################`
 
@@ -3371,28 +3371,28 @@ meta script 'Unicode 10.0 UTF-8'
         can_project_matching::Structural : (\Function : (
             returns : \@Boolean,
             matches : (\@Structural, \@Structural),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 @? args:.\1 and_then guard args:.\0 %= @args:.\1 = args:.\1),
         )),
 
         has_any_at::Structure : (\Function : (
             returns : \@Boolean,
             matches : (\@Structure, \@Attr_Name),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 @? args:.\1),
         )),
 
         has_mapping_at::Structural : (\Function : (
             returns : \@Boolean,
             matches : (Structural, (Attr_Name, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 .? (args:.\1.\0) and_then guard args:.\0.(args:.\1.\0) = (args:.\1.\1)),
         )),
 
         mapping_at::Structural : (\Function : (
             returns : (\@Attr_Name, \@Any),
             matches : (\@Structural, \@Attr_Name),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 .? args:.\1),
             evaluates : ((args:.\1, args:.\0.args:.\1)),
         )),
@@ -3400,14 +3400,14 @@ meta script 'Unicode 10.0 UTF-8'
         maybe_at::Structural : (\Function : (
             returns : \@Any,
             matches : (\@Structural, \@Attr_Name),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 .? args:.\1 then guard args:.\0.args:.\1 else \!No_Such_Attr_Name),
         )),
 
         replace_at::Structure : (\Function : (
             returns : \@Structure,
             matches : (Structure, (Attr_Name, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 .? (args:.\1.\0)),
             evaluates : (args:.\0 update D1::(args:.\1)),
         )),
@@ -3415,7 +3415,7 @@ meta script 'Unicode 10.0 UTF-8'
         shiftless_insert_at::Structure : (\Function : (
             returns : \@Structure,
             matches : (Structure, (Attr_Name, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (not args:.\0 .? (args:.\1.\0)),
             evaluates : (args:.\0 extend D1::(args:.\1)),
         )),
@@ -3423,7 +3423,7 @@ meta script 'Unicode 10.0 UTF-8'
         shiftless_remove_at::Structure : (\Function : (
             returns : \@Structure,
             matches : (\@Structure, \@Attr_Name),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 .? args:.\1),
             evaluates : (args:.\0 but args:.\1),
         )),
@@ -3431,28 +3431,28 @@ meta script 'Unicode 10.0 UTF-8'
         replace_or_insert_at::Structural : (\Function : (
             returns : \@Structural,
             matches : (Structural, (Attr_Name, Any)),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 update_or_extend D1::(args:.\1)),
         )),
 
         shiftless_maybe_remove_at::Structural : (\Function : (
             returns : \@Structural,
             matches : (\@Structural, \@Attr_Name),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 maybe_but args:.\1),
         )),
 
-        to_Tuple::"" : (\Function : (
+        to_Tuple::'' : (\Function : (
             virtual : True,
             returns : \@Tuple,
             matches : (\@Structural,),
         )),
 
-        "%" : (\Alias : ( of : \@to_Tuple, )),
+        '%' : (\Alias : ( of : \@to_Tuple, )),
 
 `#########################################################################`
 
-        Tuple::"" : (\Function : (
+        Tuple::'' : (\Function : (
             is_type_definer : True,
             composes : {\@Structural},
             provides_default_for : {\@Structural},
@@ -3480,42 +3480,42 @@ meta script 'Unicode 10.0 UTF-8'
         has_any_attrs::Tuple : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 != ()),
         )),
 
         nullary::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (()),
         )),
 
         is_unary::Tuple : (\Function : (
             returns : \@Boolean,
             matches : (\@Tuple,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (degree::(args:.\0) = 1),
         )),
 
         degree::Tuple : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Tuple,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Tuple_degree()),
         )),
 
         heading::Tuple : (\Function : (
             returns : \@Heading,
             matches : (\@Tuple,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (evaluates args --> \foundation::Tuple_heading()),
         )),
 
         rename::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Renaming),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (evaluates args --> \foundation::Tuple_rename()),
         )),
@@ -3523,7 +3523,7 @@ meta script 'Unicode 10.0 UTF-8'
         on::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Heading),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 @? args:.\1),
             evaluates : (evaluates args --> \foundation::Tuple_on()),
         )),
@@ -3531,7 +3531,7 @@ meta script 'Unicode 10.0 UTF-8'
         update::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Tuple),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 @? args:.\1),
             evaluates : (evaluates args --> \foundation::Tuple_update()),
         )),
@@ -3539,7 +3539,7 @@ meta script 'Unicode 10.0 UTF-8'
         extend::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple, \@Tuple),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 disjoint_heading args:.\1),
             is_associative : True,
             is_commutative : True,
@@ -3550,7 +3550,7 @@ meta script 'Unicode 10.0 UTF-8'
         at::Tuple : (\Function : (
             returns : \@Any,
             matches : (\@Tuple, \@Attr_Name),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 .? args:.\1),
             evaluates : (args:.\0 :. (args:.\1)),
         )),
@@ -3558,7 +3558,7 @@ meta script 'Unicode 10.0 UTF-8'
         to_Tuple::Tuple : (\Function : (
             returns : \@Tuple,
             matches : (\@Tuple,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0),
         )),
 
@@ -3618,28 +3618,28 @@ meta script 'Unicode 10.0 UTF-8'
         to_Boolean::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (? |args:.\0),
         )),
 
         empty::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (select_Relational::( like: args:.\0, heading: @args:.\0, body: empty |args:.\0 )),
         )),
 
         singular::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (singular |args:.\0),
         )),
 
         only_member::Relational : (\Function : (
             returns : \@Structural,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (singular args:.\0),
             evaluates : (only_member |args:.\0),
         )),
@@ -3647,7 +3647,7 @@ meta script 'Unicode 10.0 UTF-8'
         has_n::Relational : (\Function : (
             returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 =@ args:.\1 then guard has_n::(|args:.\0, args:.\1, args:.\2)
                 else \!Not_Same_Heading),
         )),
@@ -3655,28 +3655,28 @@ meta script 'Unicode 10.0 UTF-8'
         multiplicity::Relational : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Relational, \@Structural),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (|args:.\0 multiplicity args:.\1),
         )),
 
         all_unique::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (all_unique |args:.\0),
         )),
 
         unique::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (select_Relational::( like: args:.\0, heading: @args:.\0, body: unique |args:.\0 )),
         )),
 
         subset_of::Relational : (\Function : (
             returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 subset_of |args:.\1
                 else \!Not_Same_Heading),
         )),
@@ -3684,7 +3684,7 @@ meta script 'Unicode 10.0 UTF-8'
         same_members::Relational : (\Function : (
             returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 same_members |args:.\1
                 else \!Not_Same_Heading),
@@ -3693,7 +3693,7 @@ meta script 'Unicode 10.0 UTF-8'
         overlaps_members::Relational : (\Function : (
             returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 overlaps_members |args:.\1
                 else \!Not_Same_Heading),
@@ -3702,7 +3702,7 @@ meta script 'Unicode 10.0 UTF-8'
         disjoint_members::Relational : (\Function : (
             returns : {\@Boolean, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard |args:.\0 disjoint_members |args:.\1
                 else \!Not_Same_Heading),
@@ -3711,14 +3711,14 @@ meta script 'Unicode 10.0 UTF-8'
         any::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (|args:.\0 any args:.\1),
         )),
 
         insert_n::Relational : (\Function : (
             returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: insert_n::(|args:.\0, args:.\1, args:.\2) )
                 else \!Not_Same_Heading),
@@ -3727,7 +3727,7 @@ meta script 'Unicode 10.0 UTF-8'
         remove_n::Relational : (\Function : (
             returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Structural, \@Integer_NN),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: remove_n::(|args:.\0, args:.\1, args:.\2) )
                 else \!Not_Same_Heading),
@@ -3736,7 +3736,7 @@ meta script 'Unicode 10.0 UTF-8'
         member_plus::Relational : (\Function : (
             returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 member_plus |args:.\1 )
@@ -3746,7 +3746,7 @@ meta script 'Unicode 10.0 UTF-8'
         except::Relational : (\Function : (
             returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 except |args:.\1 )
                 else \!Not_Same_Heading),
@@ -3755,7 +3755,7 @@ meta script 'Unicode 10.0 UTF-8'
         intersect::Relational : (\Function : (
             returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_idempotent : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
@@ -3766,7 +3766,7 @@ meta script 'Unicode 10.0 UTF-8'
         union::Relational : (\Function : (
             returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_idempotent : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
                     ( like: args:.\0, heading: @args:.\0, body: |args:.\0 union |args:.\1 )
@@ -3776,7 +3776,7 @@ meta script 'Unicode 10.0 UTF-8'
         exclusive::Relational : (\Function : (
             returns : {\@Relational, \@Not_Same_Heading},
             matches : (\@Relational, \@Relational),
-            implements : \@folder::"",
+            implements : \@folder::'',
             is_associative : True,
             is_commutative : True,
             evaluates : (if args:.\0 =@ args:.\1 then guard select_Relational::
@@ -3787,7 +3787,7 @@ meta script 'Unicode 10.0 UTF-8'
         nest::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (...),
         )),
@@ -3795,7 +3795,7 @@ meta script 'Unicode 10.0 UTF-8'
         unnest::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (...),
         )),
@@ -3803,56 +3803,56 @@ meta script 'Unicode 10.0 UTF-8'
         where::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Signature),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (select_Relational::( like: args:.\0, heading: @args:.\0, body: |args:.\0 where args:.\1 )),
         )),
 
         map::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Function_Call_But_0),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (...),
         )),
 
         reduce::Relational : (\Function : (
             returns : \@Any,
             matches : (\@Relational, \@Function_Call_But_0_1),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (|args:.\0 reduce args:.\1),
         )),
 
         has_any_attrs::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (@args:.\0 != ()),
         )),
 
         nullary::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 on ()),
         )),
 
         is_unary::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (is_unary @args:.\0),
         )),
 
         degree::Relational : (\Function : (
             returns : \@Integer_NN,
             matches : (\@Relational,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (degree @args:.\0),
         )),
 
         rename::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Renaming),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (...),
             evaluates : (select_Relational::( like: args:.\0, heading: @args:.\0 rename args:.\1,
                 body: |args:.\0 map \rename::( 1: args:.\1 ) )),
@@ -3861,7 +3861,7 @@ meta script 'Unicode 10.0 UTF-8'
         can_project_matching::Relational : (\Function : (
             returns : \@Boolean,
             matches : (\@Relational, \@Structural),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0 @? args:.\1
                 and_then guard |args:.\0 all \(args:.\0 %= @args:.\1 = args:.\1) <-- (1 : args:.\1,)),
         )),
@@ -3869,7 +3869,7 @@ meta script 'Unicode 10.0 UTF-8'
         on::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Heading),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 @? args:.\1),
             evaluates : (select_Relational::( like: args:.\0, heading: @args:.\0 on args:.\1,
                 body: |args:.\0 map \on::( 1: args:.\1 ) )),
@@ -3878,7 +3878,7 @@ meta script 'Unicode 10.0 UTF-8'
         update::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Structural),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 @? args:.\1),
             evaluates : (select_Relational::( like: args:.\0, heading: @args:.\0,
                 body: |args:.\0 map \update::( 1: args:.\1 ) )),
@@ -3887,21 +3887,21 @@ meta script 'Unicode 10.0 UTF-8'
         extend::Relational : (\Function : (
             returns : \@Relational,
             matches : (\@Relational, \@Structural),
-            implements : \@folder::"",
+            implements : \@folder::'',
             accepts : (args:.\0 disjoint_heading args:.\1),
             evaluates : (select_Relational::( like: args:.\0, heading: @args:.\0 extend args:.\1,
                 body: |args:.\0 map \extend::( 1: args:.\1 ) )),
         )),
 
-        body::"" : (\Function : (
+        body::'' : (\Function : (
             virtual : True,
             returns : \@Unionable,
             matches : (\@Relational,),
         )),
 
-        "|" : (\Alias : ( of : \@body, )),
+        '|' : (\Alias : ( of : \@body, )),
 
-        select_Relational::"" : (\Function : (
+        select_Relational::'' : (\Function : (
             virtual : True,
             returns : {\@Relational, \@...},
             matches : (like : \@Relational, heading : \@Heading, body : \@Unionable),
@@ -3938,21 +3938,21 @@ meta script 'Unicode 10.0 UTF-8'
         heading::Tuple_Array : (\Function : (
             returns : \@Heading,
             matches : (\@Tuple_Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\heading),
         )),
 
         body::Tuple_Array : (\Function : (
             returns : \@Array,
             matches : (\@Tuple_Array,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\body),
         )),
 
         select_Relational::Tuple_Array : (\Function : (
             returns : {\@Relational, \@...},
             matches : (like : \@Tuple_Array, heading : \@Heading, body : \@Array),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Tuple_Array : (args %= \@(heading,body)))),
         )),
 
@@ -3988,21 +3988,21 @@ meta script 'Unicode 10.0 UTF-8'
         heading::Relation : (\Function : (
             returns : \@Heading,
             matches : (\@Relation,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\heading),
         )),
 
         body::Relation : (\Function : (
             returns : \@Set,
             matches : (\@Relation,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\body),
         )),
 
         select_Relational::Relation : (\Function : (
             returns : {\@Relational, \@...},
             matches : (like : \@Relation, heading : \@Heading, body : \@Set),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Relation : (args %= \@(heading,body)))),
         )),
 
@@ -4037,21 +4037,21 @@ meta script 'Unicode 10.0 UTF-8'
         heading::Tuple_Bag : (\Function : (
             returns : \@Heading,
             matches : (\@Tuple_Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\heading),
         )),
 
         body::Tuple_Bag : (\Function : (
             returns : \@Bag,
             matches : (\@Tuple_Bag,),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : (args:.\0:>.\body),
         )),
 
         select_Relational::Tuple_Bag : (\Function : (
             returns : {\@Relational, \@...},
             matches : (like : \@Tuple_Bag, heading : \@Heading, body : \@Bag),
-            implements : \@folder::"",
+            implements : \@folder::'',
             evaluates : ((\Tuple_Bag : (args %= \@(heading,body)))),
         )),
 
@@ -4168,7 +4168,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : \foundation::Stream(),
         )),
 
-        External::"" : (\Function : (
+        External::'' : (\Function : (
             is_type_definer : True,
             evaluates : \foundation::External(),
         )),
@@ -4248,7 +4248,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (if Excuse args:.\0 then args:.\1 else args:.\0),
         )),
 
-        "??" : (\Alias : ( of : \@coalesce, )),
+        '??' : (\Alias : ( of : \@coalesce, )),
 
         anticoalesce : (\Function : (
             returns : \@Any,
@@ -4259,7 +4259,7 @@ meta script 'Unicode 10.0 UTF-8'
             evaluates : (if Excuse args:.\0 then args:.\0 else args:.\1),
         )),
 
-        "!!" : (\Alias : ( of : \@anticoalesce, )),
+        '!!' : (\Alias : ( of : \@anticoalesce, )),
 
 `#########################################################################`
 
@@ -4298,7 +4298,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         Package::Base_Name : (\Function : (
             is_type_definer : True,
-            evaluates : [\Attr_Name_List::(), \so::(), \"∌"::( 1: \"" )],
+            evaluates : [\Attr_Name_List::(), \so::(), \'∌'::( 1: \'' )],
         )),
 
         Package::Canon_Authority : (\Function : (
@@ -4313,7 +4313,7 @@ meta script 'Unicode 10.0 UTF-8'
 
         Package::Uses_Map : (\Function : (
             is_type_definer : True,
-            evaluates : [\Tuple::(), \".!?"::( 1: \"" ),
+            evaluates : [\Tuple::(), \'.!?'::( 1: \'' ),
                 \all_attr_assets::( 1: \Package::Uses_Item() )],
         )),
 
@@ -4461,7 +4461,7 @@ meta script 'Unicode 10.0 UTF-8'
             default : ...,
         )),
 
-        Signature::"" : (\Function : (
+        Signature::'' : (\Function : (
             is_type_definer : True,
             evaluates : {
                 \@Function_Call_But_0,
@@ -4635,7 +4635,7 @@ meta script 'Unicode 10.0 UTF-8'
                     1 : \Expression::(),  `attributes`
                 ),
             )),
-            default : (\@material : ((\@folder::Literal : (\"",)),
+            default : (\@material : ((\@folder::Literal : (\'',)),
                 (\@folder::Literal : ()))),
         )),
 
@@ -4727,7 +4727,7 @@ meta script 'Unicode 10.0 UTF-8'
                     factor : \Attr_Name::(),
                 ),
             )),
-            default : (\@material : (factor : \"",)),
+            default : (\@material : (factor : \'',)),
         )),
 
         Vars : (\Function : (
@@ -4951,13 +4951,13 @@ meta script 'Unicode 10.0 UTF-8'
             )),
         )),
 
-        "<--" : (\Alias : ( of : \@with_args, )),
+        '<--' : (\Alias : ( of : \@with_args, )),
 
         priming : (\Function : (
             commutes : \@assuming,
         )),
 
-        "-->" : (\Alias : ( of : \@priming, )),
+        '-->' : (\Alias : ( of : \@priming, )),
 
         Signature_to_Function_Call_But_0 : (\Function : (
             returns : \@Function_Call_But_0,
@@ -5030,14 +5030,14 @@ meta script 'Unicode 10.0 UTF-8'
 
 `#########################################################################`
 
-        Annotation::"" : (\Function : (
+        Annotation::'' : (\Function : (
             is_type_definer : True,
             is_generalization : True,
         )),
 
 `#########################################################################`
 
-        Decoration::"" : (\Function : (
+        Decoration::'' : (\Function : (
             is_type_definer : True,
             is_generalization : True,
         )),
