@@ -249,7 +249,7 @@ MDLL.Universal.slice ::= function
     first_index ::= first(*range);
     last_index ::= second(*range);
     <-- is_empty(*nonfirst(*list)) ?? list
-     !! is_zero(*first_index) ?? prepend(*\*:[first(*list), 
+     !! is_zero(*first_index) ?? prepend(*\*:[first(*list),
         0(*\*:[nonfirst(*list),\*:[first_index,pred(*last_index)]])])
      !! 0(*\*:[nonfirst(*list),\*:[pred(*first_index),pred(*last_index)]]);
 );

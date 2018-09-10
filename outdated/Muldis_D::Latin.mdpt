@@ -3,12 +3,12 @@
 7-bit ASCII, which is in the Muldis D core, and it doesn't cover Unicode,
 which has its own module, except that because the core Text is intended to
 be identical to Unicode where they overlap, this Latin package will need to
-know just enough Unicode to map between Unicode codepoints for the same
+know just enough Unicode to map between Unicode code points for the same
 characters as the 8-bit Latin/etc repertoires it handles.  Also remember
 that core is non-normalized Unicode, so multiple distinct core Text values
 may map to the same Latin value.`
 
-`TODO: Check if Latin1 octets and Latin codepoints match exactly for
+`TODO: Check if Latin1 octets and Latin code points match exactly for
 all same 256 characters, or not.`
 
 Latin.Text.Latin1_Char ::= type of Integer where ...;

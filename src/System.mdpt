@@ -1,5 +1,9 @@
-Muldis_D Plain_Text "http://muldis.com" "0.201.0.-9"
-meta script "Unicode 10.0 UTF-8"
+`Muldis_Content_Predicate
+MCP version http://muldis.com 0.201.0 MCP
+MCP script Unicode 2.1 UTF-8 MCP
+MCP syntax Muldis_D_Plain_Text http://muldis.com 0.201.0 MCP
+MCP model Muldis_Data_Language http://muldis.com 0.201.0 MCP
+Muldis_Content_Predicate`
 
 `#########################################################################`
 `#########################################################################`
@@ -8,11 +12,11 @@ meta script "Unicode 10.0 UTF-8"
     identity : (
         package_base_name : [\System],
         authority : "http://muldis.com",
-        version_number : "0.201.0.-9",
+        version_number : "0.201.0",
     ),
     foundation : (
         authority : "http://muldis.com",
-        version_number : "0.201.0.-9",
+        version_number : "0.201.0",
     ),
     floating : {\@package},
     materials : (
@@ -390,7 +394,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Round_Meth : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Round_Meth_Attr_Name::(),
@@ -942,7 +946,7 @@ meta script "Unicode 10.0 UTF-8"
             is_type_definer : True,
             composes : {\@Fractional},
             provides_default_for : {\@Fractional},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Fraction,
                 attrs : [
                     (
@@ -1230,7 +1234,7 @@ meta script "Unicode 10.0 UTF-8"
             is_type_definer : True,
             composes : {\@Stringy},
             provides_default_for : {\@Stringy},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Bits,
                 attrs : (
                     bits : \Array::Bits(),
@@ -1325,7 +1329,7 @@ meta script "Unicode 10.0 UTF-8"
         Blob : (\Function : (
             is_type_definer : True,
             composes : {\@Stringy},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Blob,
                 attrs : (
                     octets : \Array::Octets(),
@@ -1432,7 +1436,7 @@ meta script "Unicode 10.0 UTF-8"
             is_type_definer : True,
             composes : {\@Textual},
             provides_default_for : {\@Textual},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Text,
                 attrs : (
                     unicode_codes : \Array::Unicode_Codes(),
@@ -2627,7 +2631,7 @@ meta script "Unicode 10.0 UTF-8"
             is_type_definer : True,
             composes : {\@Discrete, \@Setty},
             provides_default_for : {\@Setty},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Set,
                 attrs : (
                     members : [\Bag::(), \all_unique::()],
@@ -3912,7 +3916,7 @@ meta script "Unicode 10.0 UTF-8"
         Tuple_Array : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Positional},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Tuple_Array,
                 attrs : [
                     (
@@ -3962,7 +3966,7 @@ meta script "Unicode 10.0 UTF-8"
             is_type_definer : True,
             composes : {\@Relational, \@Discrete, \@Setty},
             provides_default_for : {\@Relational},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Relation,
                 attrs : [
                     (
@@ -4011,7 +4015,7 @@ meta script "Unicode 10.0 UTF-8"
         Tuple_Bag : (\Function : (
             is_type_definer : True,
             composes : {\@Relational, \@Discrete},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Tuple_Bag,
                 attrs : [
                     (
@@ -4068,7 +4072,7 @@ meta script "Unicode 10.0 UTF-8"
         Interval : (\Function : (
             is_type_definer : True,
             composes : {\@Intervalish, \@Setty},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Interval,
                 attrs : \Interval_Attrs::(),
             )),
@@ -4093,7 +4097,7 @@ meta script "Unicode 10.0 UTF-8"
         Interval_Set : (\Function : (
             is_type_definer : True,
             composes : {\@Unionable_Intervalish, \@Setty},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Interval_Set,
                 attrs : (
                     members : [\Interval_Bag::(), \all_unique::()],
@@ -4107,7 +4111,7 @@ meta script "Unicode 10.0 UTF-8"
         Interval_Bag : (\Function : (
             is_type_definer : True,
             composes : {\@Unionable_Intervalish},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Interval_Bag,
                 attrs : (
                     members : [\Tuple_Bag::(), ...],
@@ -4129,7 +4133,7 @@ meta script "Unicode 10.0 UTF-8"
         Quantity : (\Function : (
             is_type_definer : True,
             composes : {\@Quantitative},
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Quantity,
                 attrs : (
                     0 : [\Relation::(), ...],
@@ -4140,9 +4144,9 @@ meta script "Unicode 10.0 UTF-8"
 
 `#########################################################################`
 
-        Capsule : (\Function : (
+        Article : (\Function : (
             is_type_definer : True,
-            evaluates : \foundation::Capsule(),
+            evaluates : \foundation::Article(),
             default : (False : ()),
         )),
 
@@ -4183,7 +4187,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Excuse : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Excuse,
                 attrs : (
                     0 : \Any(),
@@ -4265,7 +4269,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Package : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Package,
                 attrs : (
                     identity : \Package::Identity::(),
@@ -4298,7 +4302,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Package::Base_Name : (\Function : (
             is_type_definer : True,
-            evaluates : [\Attr_Name_List::(), \so::(), \'∌'::( 1: \'' )],
+            evaluates : [\Nesting::(), \so::(), \'∌'::( 1: \'' )],
         )),
 
         Package::Canon_Authority : (\Function : (
@@ -4350,7 +4354,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Alias : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Alias,
                 attrs : (
                     of : \Identity_Identifier(),
@@ -4364,13 +4368,13 @@ meta script "Unicode 10.0 UTF-8"
             evaluates : (
                 function ::= args:.\0;
 
-                returns Capsule function
+                returns Article function
                     and_then guard function:< = \Function
-                    and_then guard when_well_formed_Capsule;
+                    and_then guard when_well_formed_Article;
 
                 traits ::= function:>;
 
-                when_well_formed_Capsule ::=
+                when_well_formed_Article ::=
                     if traits .:? (\is_type_definer, True) then
                         if traits .:? (\is_generalization, True) then
                             when_generalized_type_definer
@@ -4446,7 +4450,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Procedure : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Procedure,
                 attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     virtual : (type : \Boolean::(), optional : True),
@@ -4469,7 +4473,7 @@ meta script "Unicode 10.0 UTF-8"
                 \@Signature::Disjunction,
                 \@Signature::Tuple_Attrs_Match_Simple,
                 \@Signature::Tuple_Attrs_Match,
-                \@Signature::Capsule_Match,
+                \@Signature::Article_Match,
             },
             default : \Any::(),
         )),
@@ -4491,7 +4495,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Signature::Tuple_Attrs_Match : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     attrs : [
@@ -4513,9 +4517,9 @@ meta script "Unicode 10.0 UTF-8"
             )),
         )),
 
-        Signature::Capsule_Match : (\Function : (
+        Signature::Article_Match : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \Any::(),
                 attrs : \Signature::(),
             )),
@@ -4531,7 +4535,7 @@ meta script "Unicode 10.0 UTF-8"
                 \@Set_Selector,
                 \@Bag_Selector,
                 \@Tuple_Selector,
-                \@Capsule_Selector,
+                \@Article_Selector,
                 \@If_Then_Else_Expr,
                 \@And_Then,
                 \@Or_Else,
@@ -4548,7 +4552,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Literal : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Any::(),
@@ -4564,7 +4568,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Evaluates : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4575,7 +4579,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Array_Selector : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : [\Array::(), \all::( 1: (
@@ -4589,7 +4593,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Set_Selector : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : [\Bag::(), \all::( 1: (
@@ -4603,7 +4607,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Bag_Selector : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : [\Bag::(), \all::( 1: (
@@ -4617,7 +4621,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Tuple_Selector : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
@@ -4626,9 +4630,9 @@ meta script "Unicode 10.0 UTF-8"
             default : (\@material : (())),
         )),
 
-        Capsule_Selector : (\Function : (
+        Article_Selector : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),  `label`
@@ -4641,7 +4645,7 @@ meta script "Unicode 10.0 UTF-8"
 
         If_Then_Else_Expr : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4655,7 +4659,7 @@ meta script "Unicode 10.0 UTF-8"
 
         And_Then : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4668,7 +4672,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Or_Else : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4681,7 +4685,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Given_When_Default_Expr : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4698,7 +4702,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Guard : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4709,7 +4713,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Factorization : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     factors : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
@@ -4721,7 +4725,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Expansion : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     factor : \Attr_Name::(),
@@ -4737,7 +4741,7 @@ meta script "Unicode 10.0 UTF-8"
 
         New : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4748,7 +4752,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Current : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4773,7 +4777,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Declare : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     vars : [\Tuple::(), \all_attr_assets::( 1: \Expression::() )],
@@ -4784,7 +4788,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Performs : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4795,7 +4799,7 @@ meta script "Unicode 10.0 UTF-8"
 
         If_Then_Else_Stmt : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4809,7 +4813,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Given_When_Default_Stmt : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     0 : \Expression::(),
@@ -4826,7 +4830,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Block : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     0 : (type : [\Array::(), \all::( 1: \Statement::() )]),
@@ -4838,7 +4842,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Leave : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     label : (type : \Attr_Name::(), optional : True),
@@ -4849,7 +4853,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Iterate : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (\@Signature::Tuple_Attrs_Match : (attrs : (
                     label : (type : \Attr_Name::(), optional : True),
@@ -4868,14 +4872,14 @@ meta script "Unicode 10.0 UTF-8"
             evaluates : [\Heading::(), \is_unary::()],
         )),
 
-        Attr_Name_List : (\Function : (
+        Nesting : (\Function : (
             is_type_definer : True,
             evaluates : [\Array::(), \all::( 1: \Attr_Name::() )],
         )),
 
         Local_Name : (\Function : (
             is_type_definer : True,
-            evaluates : [\Attr_Name_List::(), \so::(), \(
+            evaluates : [\Nesting::(), \so::(), \(
                 given args:.\0.0
                     when \foundation then #args:.\0 = 2
                     when \used       then #args:.\0 ≥ 2  `elem 2 is pkg local alias`
@@ -4896,7 +4900,7 @@ meta script "Unicode 10.0 UTF-8"
 
         Routine_Call : (\Function : (
             is_type_definer : True,
-            evaluates : (\@Signature::Capsule_Match : (
+            evaluates : (\@Signature::Article_Match : (
                 label : \@material,
                 attrs : (
                     call : {\Local_Name::(), \Identity_Identifier::(), \Function::(), \Procedure::()},
@@ -5014,13 +5018,13 @@ meta script "Unicode 10.0 UTF-8"
                                         ;
                                     ) <-- (:topic,))
                         ) <-- (:sig,)
-                    else if Signature::Capsule_Match sig then guard
+                    else if Signature::Article_Match sig then guard
                         \(
                             topic       ::= args:.\0;
-                            capsule_sig ::= args:.\sig:>;
-                            returns Capsule topic
-                                and_then guard topic:< = capsule_sig:.\label
-                                and_then guard topic:> is_a capsule_sig:.\attrs
+                            article_sig ::= args:.\sig:>;
+                            returns Article topic
+                                and_then guard topic:< = article_sig:.\label
+                                and_then guard topic:> is_a article_sig:.\attrs
                         ) <-- (:sig,)
                     else
                         fail  `We should never get here.`
