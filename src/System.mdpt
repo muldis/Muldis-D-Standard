@@ -1,8 +1,8 @@
 `Muldis_Content_Predicate
-MCP version http://muldis.com 0.201.0 MCP
-MCP script Unicode 2.1 UTF-8 MCP
-MCP syntax Muldis_D_Plain_Text http://muldis.com 0.201.0 MCP
-MCP model Muldis_Data_Language http://muldis.com 0.201.0 MCP
+MCP version https://muldis.com 0.300.0 MCP
+MCP script text Unicode 2.1 UTF-8 MCP
+MCP syntax Muldis_D_Plain_Text https://muldis.com 0.300.0 MCP
+MCP model Muldis_Data_Language https://muldis.com 0.300.0 MCP
 Muldis_Content_Predicate`
 
 `#########################################################################`
@@ -11,12 +11,12 @@ Muldis_Content_Predicate`
 (\Package : (
     identity : (
         package_base_name : [\System],
-        authority : "http://muldis.com",
-        version_number : "0.201.0",
+        authority : "https://muldis.com",
+        version_number : "0.300.0",
     ),
     foundation : (
-        authority : "http://muldis.com",
-        version_number : "0.201.0",
+        authority : "https://muldis.com",
+        version_number : "0.300.0",
     ),
     floating : {\$package},
     materials : (

@@ -1,10 +1,10 @@
 `THIS FILE IS OBSOLETE, THE GRAMMAR SUBSUMES IT.`
 
-Muldis_D:Plain_Text:"http://muldis.com":"0.200";
+Muldis_D:Plain_Text:"https://muldis.com":"0.300";
 
 script ASCII;
 
-package MDLL ::= Muldis_D::Low_Level:"http://muldis.com":"0.200";
+package MDLL ::= Muldis_D::Low_Level:"https://muldis.com":"0.300";
 
 searching [MDLL];
 
